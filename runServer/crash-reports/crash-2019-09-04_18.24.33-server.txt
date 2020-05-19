@@ -1,0 +1,212 @@
+---- Minecraft Crash Report ----
+
+WARNING: coremods are present:
+  llibrary (llibrary-core-1.0.11-1.12.2.jar)
+  IELoadingPlugin (ImmersiveEngineering-core-0.12-89.jar)
+  CreativePatchingLoader (CreativeCore_v1.9.45_mc1.12.2.jar)
+  MekanismCoremod (Mekanism-1.12.2-9.8.0.381.jar)
+  SSLoadingPlugin (SereneSeasons-1.12.2-1.2.16-universal.jar)
+  MalisisCorePlugin (malisiscore-1.12.2-6.5.1.jar)
+  ItemPatchingLoader (ItemPhysic_Full_1.4.21_mc1.12.2.jar)
+  MovingWorldCore (movingworld-1.12-6.342-full.jar)
+  NWRTweak (redstonepaste-mc1.12-1.7.5.jar)
+  EnderCorePlugin (EnderCore-1.12.2-0.5.65-core.jar)
+Contact their authors BEFORE contacting forge
+
+// Shall we play a game?
+
+Time: 04/09/19 18:24
+Description: Exception in server tick loop
+
+java.lang.NoClassDefFoundError: net/minecraft/client/audio/MusicTicker
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Unknown Source)
+	at net.minecraftforge.fml.common.FMLModContainer.constructMod(FMLModContainer.java:541)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at com.google.common.eventbus.Subscriber.invokeSubscriberMethod(Subscriber.java:91)
+	at com.google.common.eventbus.Subscriber$SynchronizedSubscriber.invokeSubscriberMethod(Subscriber.java:150)
+	at com.google.common.eventbus.Subscriber$1.run(Subscriber.java:76)
+	at com.google.common.util.concurrent.MoreExecutors$DirectExecutor.execute(MoreExecutors.java:399)
+	at com.google.common.eventbus.Subscriber.dispatchEvent(Subscriber.java:71)
+	at com.google.common.eventbus.Dispatcher$PerThreadQueuedDispatcher.dispatch(Dispatcher.java:116)
+	at com.google.common.eventbus.EventBus.post(EventBus.java:217)
+	at net.minecraftforge.fml.common.LoadController.sendEventToModContainer(LoadController.java:219)
+	at net.minecraftforge.fml.common.LoadController.propogateStateMessage(LoadController.java:197)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at com.google.common.eventbus.Subscriber.invokeSubscriberMethod(Subscriber.java:91)
+	at com.google.common.eventbus.Subscriber$SynchronizedSubscriber.invokeSubscriberMethod(Subscriber.java:150)
+	at com.google.common.eventbus.Subscriber$1.run(Subscriber.java:76)
+	at com.google.common.util.concurrent.MoreExecutors$DirectExecutor.execute(MoreExecutors.java:399)
+	at com.google.common.eventbus.Subscriber.dispatchEvent(Subscriber.java:71)
+	at com.google.common.eventbus.Dispatcher$PerThreadQueuedDispatcher.dispatch(Dispatcher.java:116)
+	at com.google.common.eventbus.EventBus.post(EventBus.java:217)
+	at net.minecraftforge.fml.common.LoadController.distributeStateMessage(LoadController.java:136)
+	at net.minecraftforge.fml.common.Loader.loadMods(Loader.java:593)
+	at net.minecraftforge.fml.server.FMLServerHandler.beginServerLoading(FMLServerHandler.java:98)
+	at net.minecraftforge.fml.common.FMLCommonHandler.onServerStart(FMLCommonHandler.java:333)
+	at net.minecraft.server.dedicated.DedicatedServer.init(DedicatedServer.java:128)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:552)
+	at java.lang.Thread.run(Unknown Source)
+Caused by: java.lang.ClassNotFoundException: net.minecraft.client.audio.MusicTicker
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:191)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 34 more
+Caused by: net.minecraftforge.fml.common.asm.ASMTransformerWrapper$TransformerException: Exception in class transformer net.minecraftforge.fml.common.asm.transformers.SideTransformer@136ccbfe from coremod FMLCorePlugin
+	at net.minecraftforge.fml.common.asm.ASMTransformerWrapper$TransformerWrapper.transform(ASMTransformerWrapper.java:260)
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279)
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176)
+	... 36 more
+Caused by: java.lang.RuntimeException: Attempted to load class net/minecraft/client/audio/MusicTicker for invalid side SERVER
+	at net.minecraftforge.fml.common.asm.transformers.SideTransformer.transform(SideTransformer.java:62)
+	at net.minecraftforge.fml.common.asm.ASMTransformerWrapper$TransformerWrapper.transform(ASMTransformerWrapper.java:256)
+	... 38 more
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- System Details --
+Details:
+	Minecraft Version: 1.12.2
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_221, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 882220016 bytes (841 MB) / 1037959168 bytes (989 MB) up to 1037959168 bytes (989 MB)
+	JVM Flags: 3 total; -Xincgc -Xmx1024M -Xms1024M
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: MCP 9.42 Powered by Forge 14.23.5.2838 96 mods loaded, 96 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+
+	| State | ID                                           | Version                     | Source                                                    | Signature |
+	|:----- |:-------------------------------------------- |:--------------------------- |:--------------------------------------------------------- |:--------- |
+	| LC    | minecraft                                    | 1.12.2                      | minecraft.jar                                             | None      |
+	| LC    | mcp                                          | 9.42                        | minecraft.jar                                             | None      |
+	| LC    | FML                                          | 8.0.99.99                   | forgeSrc-1.12.2-14.23.5.2838.jar                          | None      |
+	| LC    | forge                                        | 14.23.5.2838                | forgeSrc-1.12.2-14.23.5.2838.jar                          | None      |
+	| LC    | creativecoredummy                            | 1.0.0                       | minecraft.jar                                             | None      |
+	| LC    | itemphysic                                   | 1.4.0                       | minecraft.jar                                             | None      |
+	| LC    | com.elytradev.movingworld.common.asm.coremod |                             | minecraft.jar                                             | None      |
+	| LC    | examplemod                                   | 1.0                         | bin                                                       | None      |
+	| LC    | morebiomes                                   | 1.0.0                       | MoreBiomes-1.12.2-1.0.jar                                 | None      |
+	| L     | ambience                                     | GRADLE:VERSION-GRADLE:BUILD | bin                                                       | None      |
+	| L     | jei                                          | 4.15.0.287                  | jei_1.12.2-4.15.0.287.jar                                 | None      |
+	| L     | buildcraftlib                                | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None      |
+	| L     | buildcraftcore                               | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None      |
+	| L     | buildcraftbuilders                           | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None      |
+	| L     | buildcraftenergy                             | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None      |
+	| L     | buildcraftfactory                            | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None      |
+	| L     | ic2                                          | 2.8.171-ex112               | industrialcraft-2-2.8.171-ex112.jar                       | None      |
+	| L     | forestry                                     | 5.8.2.387                   | forestry_1.12.2-5.8.2.387.jar                             | None      |
+	| L     | baubles                                      | 1.5.2                       | Baubles-1.12-1.5.2.jar                                    | None      |
+	| L     | thaumcraft                                   | 6.1.BETA26                  | Thaumcraft-1.12.2-6.1.BETA26.jar                          | None      |
+	| L     | railcraft                                    | 12.0.0                      | railcraft-12.0.0.jar                                      | None      |
+	| L     | endercore                                    | 1.12.2-0.5.65               | EnderCore-1.12.2-0.5.65.jar                               | None      |
+	| L     | enderio                                      | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None      |
+	| L     | enderiointegrationtic                        | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None      |
+	| L     | mantle                                       | 1.12-1.3.3.55               | Mantle-1.12-1.3.3.55.jar                                  | None      |
+	| L     | tconstruct                                   | 1.12.2-2.12.0.157           | TConstruct-1.12.2-2.12.0.157.jar                          | None      |
+	| L     | theoneprobe                                  | 1.4.28                      | theoneprobe-1.12-1.4.28.jar                               | None      |
+	| L     | immersiveengineering                         | 0.12-89                     | ImmersiveEngineering-0.12-89.jar                          | None      |
+	| L     | alternatingflux                              | 0.12.2-2                    | alternatingflux-0.12.2-2.jar                              | None      |
+	| L     | biomesoplenty                                | 7.0.1.2441                  | BiomesOPlenty-1.12.2-7.0.1.2441-universal.jar             | None      |
+	| L     | craftstudioapi                               | 1.0.0                       | CraftStudioAPI-universal-1.0.1.95-mc1.12-alpha.jar        | None      |
+	| L     | harvestcraft                                 | 1.12.2zb                    | Pam's+HarvestCraft+1.12.2zd+Surprise+for+Yogcast.jar      | None      |
+	| L     | animania                                     | 1.6.2                       | animania-1.12.2-1.6.2.jar                                 | None      |
+	| L     | appleskin                                    | 1.0.9                       | AppleSkin-mc1.12-1.0.9.jar                                | None      |
+	| L     | betternether                                 | 0.1.8.3                     | betternether-0.1.8.3.jar                                  | None      |
+	| L     | bibliocraft                                  | 2.4.5                       | BiblioCraft[v2.4.5][MC1.12.2].jar                         | None      |
+	| L     | buildcrafttransport                          | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None      |
+	| L     | buildcraftsilicon                            | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None      |
+	| L     | crafttweaker                                 | 4.1.19                      | CraftTweaker2-1.12-4.1.19.jar                             | None      |
+	| L     | buildcraftcompat                             | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None      |
+	| L     | buildcraftrobotics                           | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None      |
+	| L     | carryon                                      | 1.12.2                      | CarryOn+MC1.12.2+v1.12.2.jar                              | None      |
+	| L     | chiselsandbits                               | 14.33                       | chiselsandbits-14.33.jar                                  | None      |
+	| L     | cookingforblockheads                         | 6.4.71                      | CookingForBlockheads_1.12.2-6.4.71.jar                    | None      |
+	| L     | crafttweakerjei                              | 2.0.3                       | CraftTweaker2-1.12-4.1.19.jar                             | None      |
+	| L     | creativecore                                 | 1.9.9                       | CreativeCore_v1.9.45_mc1.12.2.jar                         | None      |
+	| L     | modcurrency                                  | 1.12-1.3.11                 | Currency-1.12.0-1.3.11.jar                                | None      |
+	| L     | customspawner                                | 3.11.4                      | Custom-Mob-Spawner-Mod-1.12.2.jar                         | None      |
+	| L     | movingworld                                  | 1.12-6.342                  | movingworld-1.12-6.342-full.jar                           | None      |
+	| L     | davincisvessels                              | @DVESSELSVER@               | davincisvessels-1.12-6.340-full.jar                       | None      |
+	| L     | mocreatures                                  | 12.0.5                      | DrZharks+MoCreatures+Mod-12.0.5.jar                       | None      |
+	| L     | dynamictrees                                 | 1.12.2-0.9.5                | DynamicTrees-1.12.2-0.9.5.jar                             | None      |
+	| L     | dynamictreesbop                              | 1.12.2-1.4.1e               | DynamicTreesBOP-1.12.2-1.4.1e.jar                         | None      |
+	| L     | enderiobase                                  | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None      |
+	| L     | enderioconduits                              | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None      |
+	| L     | enderioconduitsappliedenergistics            | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None      |
+	| L     | enderioconduitsopencomputers                 | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None      |
+	| L     | enderioconduitsrefinedstorage                | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None      |
+	| L     | enderiointegrationforestry                   | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None      |
+	| L     | enderiointegrationticlate                    | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None      |
+	| L     | enderiomachines                              | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None      |
+	| L     | enderiopowertools                            | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None      |
+	| L     | energyconverters                             | 1.3.0.15                    | energyconverters_1.12.2-1.3.0.15.jar                      | None      |
+	| L     | exoticbirds                                  | 1.0                         | Exotic+Birds+1.12.2-2.2.1.jar                             | None      |
+	| L     | fairylights                                  | 2.1.9                       | fairylights-2.1.9-1.12.2.jar                              | None      |
+	| L     | cfm                                          | 6.3.1                       | furniture-6.3.1-1.12.2.jar                                | None      |
+	| L     | minecraftfuture                              | 0.1.9                       | future-mc-0.1.10.jar                                      | None      |
+	| L     | gravestone                                   | 1.3.1                       | GraveStone-1.12.2-Graves-1.3.1.jar                        | None      |
+	| L     | gravestone-extended                          | 1.3.5.1                     | GraveStone-1.12.2-Extended-1.3.5.1.jar                    | None      |
+	| L     | immersivepetroleum                           | 1.1.9                       | immersivepetroleum-1.12.2-1.1.9.jar                       | None      |
+	| L     | immersiveposts                               | 0.1.2                       | ImmersivePosts-0.1.2.jar                                  | None      |
+	| L     | inspirations                                 | 1.12.2-0.2.6                | Inspirations-1.12.2-0.2.6.jar                             | None      |
+	| L     | journeymap                                   | 1.12.2-5.5.5b7              | journeymap-1.12.2-5.5.5b7.jar                             | None      |
+	| L     | earthenbounty                                | 2.1.6                       | just_a_few_more_ores-2.1.6.jar                            | None      |
+	| L     | jaff                                         | 1.7_for_1.12                | JustAFewFish-1.7_for_1.12.jar                             | None      |
+	| L     | justenoughbuttons                            | 1.12-1.2                    | justenoughbuttons-1.12.2-1.2.3.jar                        | None      |
+	| L     | justenoughdimensions                         | 1.6.0-dev.20190711.220109   | justenoughdimensions-1.12.2-1.6.0-dev.20190711.220109.jar | None      |
+	| L     | malisiscore                                  | 1.12.2-6.5.1-SNAPSHOT       | malisiscore-1.12.2-6.5.1.jar                              | None      |
+	| L     | malisisblocks                                | 1.12.2-6.1.0                | malisisblocks-1.12.2-6.1.0.jar                            | None      |
+	| L     | malisisdoors                                 | 1.12.2-7.3.0                | malisisdoors-1.12.2-7.3.0.jar                             | None      |
+	| L     | mcjtylib_ng                                  | 3.5.4                       | mcjtylib-1.12-3.5.4.jar                                   | None      |
+	| L     | mcmultipart                                  | 2.5.3                       | MCMultiPart-2.5.3.jar                                     | None      |
+	| L     | mekanism                                     | 1.12.2-9.8.0.381            | Mekanism-1.12.2-9.8.0.381.jar                             | None      |
+	| L     | llibrary                                     | 1.7.19                      | llibrary-1.7.19-1.12.2.jar                                | None      |
+	| L     | mowziesmobs                                  | 1.5.4                       | mowziesmobs-1.5.4.jar                                     | None      |
+	| L     | placeableitems                               | 3.3                         | placeableitems-3.3.jar                                    | None      |
+	| L     | redstonepaste                                | 1.7.5                       | redstonepaste-mc1.12-1.7.5.jar                            | None      |
+	| L     | rftools                                      | 7.72                        | rftools-1.12-7.72.jar                                     | None      |
+	| L     | roguelike                                    | 1.8.0                       | RoguelikeDungeons-1.12.2-1.8.0.jar                        | None      |
+	| L     | rustic                                       | 1.1.1                       | rustic-1.1.1.jar                                          | None      |
+	| L     | sereneseasons                                | 1.2.16                      | SereneSeasons-1.12.2-1.2.16-universal.jar                 | None      |
+	| L     | simpleportals                                | 1.12.2-1.5.1.1              | simpleportals-1.12.2-1.5.1.1.jar                          | None      |
+	| L     | tweakergui                                   | 0.5-beta                    | tweakergui-1.12.2-0.5-beta.jar                            | None      |
+	| L     | worldcontrol                                 | 1.0.31                      | WorldControl-1.0.31.jar                                   | None      |
+	| L     | worldedit                                    | 6.1.10-SNAPSHOT             | worldedit-forge-mc1.12.2-6.1.10-SNAPSHOT-dist.jar         | None      |
+	| L     | industrialwires                              | 1.7-36                      | IndustrialWires-1.7-36.jar                                | None      |
+
+	Loaded coremods (and transformers): 
+llibrary (llibrary-core-1.0.11-1.12.2.jar)
+  net.ilexiconn.llibrary.server.core.plugin.LLibraryTransformer
+  net.ilexiconn.llibrary.server.core.patcher.LLibraryRuntimePatcher
+IELoadingPlugin (ImmersiveEngineering-core-0.12-89.jar)
+  blusunrize.immersiveengineering.common.asm.IEClassTransformer
+CreativePatchingLoader (CreativeCore_v1.9.45_mc1.12.2.jar)
+  
+MekanismCoremod (Mekanism-1.12.2-9.8.0.381.jar)
+  mekanism.coremod.KeybindingMigrationHelper
+SSLoadingPlugin (SereneSeasons-1.12.2-1.2.16-universal.jar)
+  sereneseasons.asm.transformer.EntityRendererTransformer
+  sereneseasons.asm.transformer.WorldTransformer
+MalisisCorePlugin (malisiscore-1.12.2-6.5.1.jar)
+  
+ItemPatchingLoader (ItemPhysic_Full_1.4.21_mc1.12.2.jar)
+  com.creativemd.itemphysic.ItemTransformer
+MovingWorldCore (movingworld-1.12-6.342-full.jar)
+  
+NWRTweak (redstonepaste-mc1.12-1.7.5.jar)
+  net.fybertech.nwr.NWRTransformer
+EnderCorePlugin (EnderCore-1.12.2-0.5.65-core.jar)
+  com.enderio.core.common.transform.EnderCoreTransformer
+  com.enderio.core.common.transform.SimpleMixinPatcher
+	Profiler Position: N/A (disabled)
+	Is Modded: Definitely; Server brand changed to 'fml,forge'
+	Type: Dedicated Server (map_server.txt)

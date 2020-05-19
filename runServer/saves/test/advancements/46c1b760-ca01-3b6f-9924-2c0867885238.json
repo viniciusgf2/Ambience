@@ -1,0 +1,15 @@
+{
+  "minecraft:recipes/misc/bone_meal_from_bone": {
+    "criteria": {
+      "has_bone": "2019-08-08 13:58:47 -0300"
+    },
+    "done": true
+  },
+  "minecraft:adventure/adventuring_time": {
+    "criteria": {
+      "beaches": "2019-08-08 13:59:05 -0300",
+      "taiga_hills": "2019-08-08 13:59:00 -0300"
+    },
+    "done": false
+  }
+}

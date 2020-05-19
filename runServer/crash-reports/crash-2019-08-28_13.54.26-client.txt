@@ -1,0 +1,281 @@
+---- Minecraft Crash Report ----
+
+WARNING: coremods are present:
+  llibrary (llibrary-core-1.0.11-1.12.2.jar)
+  IELoadingPlugin (ImmersiveEngineering-core-0.12-89.jar)
+  CreativePatchingLoader (CreativeCore_v1.9.45_mc1.12.2.jar)
+  MekanismCoremod (Mekanism-1.12.2-9.8.0.381.jar)
+  SSLoadingPlugin (SereneSeasons-1.12.2-1.2.16-universal.jar)
+  MalisisCorePlugin (malisiscore-1.12.2-6.5.1.jar)
+  ItemPatchingLoader (ItemPhysic_Full_1.4.21_mc1.12.2.jar)
+  MovingWorldCore (movingworld-1.12-6.342-full.jar)
+  NWRTweak (redstonepaste-mc1.12-1.7.5.jar)
+  EnderCorePlugin (EnderCore-1.12.2-0.5.65-core.jar)
+Contact their authors BEFORE contacting forge
+
+// Quite honestly, I wouldn't worry myself about that.
+
+Time: 8/28/19 1:54 PM
+Description: Unexpected error
+
+java.lang.NullPointerException: Unexpected error
+	at vazkii.ambience.Ambience.onTick(Ambience.java:104)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_519_Ambience_onTick_ClientTickEvent.invoke(.dynamic)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:90)
+	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:182)
+	at net.minecraftforge.fml.common.FMLCommonHandler.onPostClientTick(FMLCommonHandler.java:349)
+	at net.minecraft.client.Minecraft.runTick(Minecraft.java:2038)
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1188)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:442)
+	at net.minecraft.client.main.Main.main(Main.java:118)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97)
+	at GradleStart.main(GradleStart.java:25)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Client thread
+Stacktrace:
+	at vazkii.ambience.Ambience.onTick(Ambience.java:104)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_519_Ambience_onTick_ClientTickEvent.invoke(.dynamic)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:90)
+	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:182)
+	at net.minecraftforge.fml.common.FMLCommonHandler.onPostClientTick(FMLCommonHandler.java:349)
+
+-- Affected level --
+Details:
+	Level name: MpServer
+	All players: 1 total; [EntityPlayerSP['Player750'/22835, l='MpServer', x=-1.04, y=78.00, z=136.75]]
+	Chunk stats: MultiplayerChunkCache: 625, 625
+	Level seed: 0
+	Level generator: ID 00 - default, ver 1. Features enabled: false
+	Level generator options: 
+	Level spawn location: World: (-10,88,-83), Chunk: (at 6,5,13 in -1,-6; contains blocks -16,0,-96 to -1,255,-81), Region: (-1,-1; contains chunks -32,-32 to -1,-1, blocks -512,0,-512 to -1,255,-1)
+	Level time: 55354650 game time, 409555 day time
+	Level dimension: 0
+	Level storage version: 0x00000 - Unknown?
+	Level weather: Rain time: 0 (now: false), thunder time: 0 (now: false)
+	Level game mode: Game mode: survival (ID 0). Hardcore: false. Cheats: false
+	Forced entities: 238 total; [EntitySowYorkshire['American Yorkshire Sow'/5632, l='MpServer', x=27.55, y=104.00, z=128.91], EntitySowYorkshire['American Yorkshire Sow'/5633, l='MpServer', x=29.24, y=101.00, z=129.02], EntitySkeleton['Skeleton'/26113, l='MpServer', x=-57.16, y=62.39, z=192.13], EntitySowYorkshire['American Yorkshire Sow'/5634, l='MpServer', x=27.55, y=103.00, z=136.55], MoCEntityFirefly['Firefly'/23042, l='MpServer', x=79.50, y=77.00, z=118.50], EntityArmorStand['Armor Stand'/23043, l='MpServer', x=95.50, y=59.00, z=137.50], EntitySowYorkshire['American Yorkshire Sow'/5635, l='MpServer', x=25.55, y=109.00, z=141.57], EntityArmorStand['Armor Stand'/23044, l='MpServer', x=88.50, y=66.00, z=140.50], EntitySowYorkshire['American Yorkshire Sow'/5636, l='MpServer', x=28.55, y=101.00, z=135.55], EntityCartBasic['entity.cart_basic.name'/23045, l='MpServer', x=83.49, y=66.06, z=137.50], EntitySowYorkshire['American Yorkshire Sow'/5637, l='MpServer', x=26.93, y=108.00, z=134.79], EntityCartBasic['entity.cart_basic.name'/23046, l='MpServer', x=84.77, y=66.06, z=137.50], EntityItem['item.item.string'/26118, l='MpServer', x=-17.01, y=42.00, z=174.16], EntityItemFrame['Item Frame'/23053, l='MpServer', x=89.50, y=65.50, z=146.03], EntityZombie['Zombie'/28685, l='MpServer', x=-45.26, y=20.00, z=210.74], EntityFishCod['Cod'/26126, l='MpServer', x=-33.75, y=52.20, z=122.64], EntityFishCod['Cod'/28686, l='MpServer', x=-43.14, y=59.87, z=97.34], EntityItemFrame['Item Frame'/23055, l='MpServer', x=95.97, y=65.50, z=146.50], EntityEweSuffolk['Suffolk Ewe'/5648, l='MpServer', x=25.50, y=111.00, z=145.50], MoCEntityCrab['Crab'/23065, l='MpServer', x=20.85, y=60.00, z=110.50], EntityFishClownfish['Clownfish'/28697, l='MpServer', x=-68.50, y=61.00, z=160.50], MoCEntityCrab['Crab'/23066, l='MpServer', x=20.15, y=60.00, z=111.50], EntityFishClownfish['Clownfish'/28698, l='MpServer', x=-63.50, y=59.01, z=161.59], EntityHeron['Heron'/23067, l='MpServer', x=29.43, y=65.00, z=98.79], EntityItem['item.item.string'/25115, l='MpServer', x=59.88, y=68.00, z=194.32], EntityFishClownfish['Clownfish'/28699, l='MpServer', x=-61.50, y=61.00, z=161.50], EntityHeron['Heron'/23068, l='MpServer', x=26.22, y=67.00, z=96.40], EntityItemFrame['Item Frame'/23583, l='MpServer', x=158.03, y=75.50, z=102.50], EntityItemFrame['Item Frame'/23584, l='MpServer', x=158.03, y=75.50, z=105.50], EntityItem['item.item.exoticbirds.crane_egg'/26145, l='MpServer', x=44.64, y=64.00, z=98.33], EntityFancyItemFrame['Fancy Item Frame'/23586, l='MpServer', x=158.03, y=77.50, z=105.50], MoCEntityCrab['Crab'/23075, l='MpServer', x=61.32, y=48.00, z=71.24], EntityFancyItemFrame['Fancy Item Frame'/23587, l='MpServer', x=158.03, y=77.50, z=104.50], EntityItem['item.item.exoticbirds.heron_egg'/25635, l='MpServer', x=7.96, y=70.00, z=99.13], MoCEntityFirefly['Firefly'/24100, l='MpServer', x=24.90, y=63.00, z=214.51], EntityFancyItemFrame['Golden Item Frame'/23588, l='MpServer', x=158.50, y=78.50, z=99.03], EntityPlayerSP['Player750'/22835, l='MpServer', x=-1.04, y=78.00, z=136.75], MoCEntityCrab['Crab'/23079, l='MpServer', x=67.15, y=61.00, z=59.85], EntitySowYorkshire['American Yorkshire Sow'/23081, l='MpServer', x=27.78, y=92.00, z=124.01], EntityRamSuffolk['Suffolk Ram'/23082, l='MpServer', x=26.60, y=101.00, z=127.40], EntityCrane['Crane'/23083, l='MpServer', x=36.51, y=65.00, z=100.50], EntityCrane['Crane'/23084, l='MpServer', x=44.40, y=64.00, z=98.62], EntityVampireBat['Vampire Bat'/28720, l='MpServer', x=-76.20, y=16.01, z=159.53], MoCEntityCrab['Crab'/24113, l='MpServer', x=-18.90, y=60.00, z=211.10], EntityFishCod['Cod'/27697, l='MpServer', x=-79.84, y=56.80, z=189.38], EntityFishPufferfish['Pufferfish'/28721, l='MpServer', x=-53.34, y=58.17, z=117.71], EntityFishPufferfish['Pufferfish'/28722, l='MpServer', x=-57.28, y=58.20, z=124.40], EntityFishPufferfish['Pufferfish'/28723, l='MpServer', x=-54.35, y=60.13, z=119.76], EntityFishPufferfish['Pufferfish'/28724, l='MpServer', x=-50.64, y=60.15, z=117.69], EntityPossessedArmor['Possessed Armor'/28213, l='MpServer', x=-24.50, y=23.00, z=212.50], EntityHogYorkshire['American Yorkshire Hog'/23095, l='MpServer', x=28.50, y=67.00, z=95.50], EntityCrane['Crane'/23096, l='MpServer', x=27.68, y=70.00, z=93.73], EntityFishCod['Cod'/26169, l='MpServer', x=-41.36, y=60.20, z=73.75], EntityFerretWhite['White Ferret'/23099, l='MpServer', x=27.38, y=97.00, z=87.38], EntityItem['item.item.exoticbirds.seagull_egg'/25158, l='MpServer', x=-4.67, y=94.00, z=114.44], EntitySkeleton['Skeleton'/28234, l='MpServer', x=-61.26, y=12.00, z=172.47], EntityEweSuffolk['Suffolk Ewe'/5206, l='MpServer', x=6.50, y=143.00, z=141.50], EntityEweSuffolk['Suffolk Ewe'/5207, l='MpServer', x=6.58, y=139.00, z=142.50], EntityEweSuffolk['Suffolk Ewe'/5208, l='MpServer', x=7.99, y=147.00, z=137.95], EntityEweSuffolk['Suffolk Ewe'/5209, l='MpServer', x=5.33, y=150.00, z=131.53], EntityFishCod['Cod'/28766, l='MpServer', x=71.38, y=59.00, z=69.88], EntityFishCod['Cod'/28767, l='MpServer', x=70.31, y=61.87, z=70.50], EntityItem['item.item.exoticbirds.crane_egg'/26734, l='MpServer', x=27.83, y=70.00, z=93.48], MoCEntityCrab['Crab'/23158, l='MpServer', x=44.50, y=57.38, z=151.85], MoCEntityCrab['Crab'/23159, l='MpServer', x=44.85, y=57.00, z=151.85], MoCEntityCrab['Crab'/23160, l='MpServer', x=44.50, y=59.00, z=157.26], EntitySowYorkshire['American Yorkshire Sow'/23161, l='MpServer', x=32.55, y=86.00, z=148.00], EntityHogYorkshire['American Yorkshire Hog'/23162, l='MpServer', x=39.95, y=89.00, z=153.25], MoCEntityGoldFish['GoldFish'/23163, l='MpServer', x=78.59, y=61.89, z=102.49], EntityItem['item.item.string'/25728, l='MpServer', x=31.99, y=66.00, z=117.32], EntityFishSalmon['Salmon'/26753, l='MpServer', x=-79.50, y=48.00, z=91.50], MoCEntityCrab['Crab'/23175, l='MpServer', x=42.50, y=59.40, z=161.15], MoCEntityFly['Fly'/23176, l='MpServer', x=37.50, y=76.00, z=171.90], MoCEntityCrab['Crab'/23177, l='MpServer', x=32.15, y=90.00, z=165.15], EntityHogYorkshire['American Yorkshire Hog'/23178, l='MpServer', x=32.85, y=90.00, z=165.97], EntityRabbitDoeCottontail['Cottontail Doe'/23179, l='MpServer', x=33.44, y=104.00, z=171.65], EntityRoosterPlymouthRock['Plymouth Rock Rooster'/23190, l='MpServer', x=34.70, y=35.00, z=178.70], MoCEntityCrab['Crab'/23191, l='MpServer', x=46.50, y=59.39, z=126.15], MoCEntityCrab['Crab'/23192, l='MpServer', x=47.50, y=59.00, z=126.15], MoCEntityCrab['Crab'/23193, l='MpServer', x=47.03, y=59.00, z=126.15], MoCEntityCrab['Crab'/23194, l='MpServer', x=62.15, y=61.39, z=104.15], EntityHogYorkshire['American Yorkshire Hog'/23195, l='MpServer', x=59.50, y=69.00, z=111.50], EntityRoosterPlymouthRock['Plymouth Rock Rooster'/23203, l='MpServer', x=37.70, y=23.00, z=136.30], EntityRoosterPlymouthRock['Plymouth Rock Rooster'/23204, l='MpServer', x=34.86, y=31.00, z=128.30], EntityVampireBat['Vampire Bat'/27812, l='MpServer', x=-80.27, y=30.93, z=202.68], MoCEntityCrab['Crab'/23205, l='MpServer', x=46.12, y=61.00, z=140.15], MoCEntityAnt['Ant'/23206, l='MpServer', x=43.98, y=63.00, z=137.25], EntityItem['item.item.bone'/27302, l='MpServer', x=-22.92, y=70.00, z=83.98], EntityHeron['Heron'/23207, l='MpServer', x=52.73, y=62.60, z=119.58], EntityCrane['Crane'/23208, l='MpServer', x=52.31, y=62.29, z=120.80], EntityFishCod['Cod'/27817, l='MpServer', x=-77.75, y=60.20, z=89.64], EntityRoosterLeghorn['Leghorn Rooster'/23213, l='MpServer', x=55.04, y=62.63, z=116.65], MoCEntityCrab['Crab'/23215, l='MpServer', x=69.48, y=59.00, z=100.85], EntitySpider['Spider'/28855, l='MpServer', x=-23.50, y=12.00, z=146.50], EntityFishCod['Cod'/28856, l='MpServer', x=-26.50, y=59.00, z=125.50], EntityFishCod['Cod'/28354, l='MpServer', x=-78.78, y=60.00, z=177.37], EntityVampireBat['Vampire Bat'/26839, l='MpServer', x=-54.75, y=14.10, z=211.75], EntityZombieVillager['Zombie Villager'/26844, l='MpServer', x=-66.50, y=27.00, z=190.50], EntityItem['item.item.string'/25314, l='MpServer', x=23.13, y=71.00, z=118.79], EntityFishSalmon['Salmon'/26344, l='MpServer', x=-69.50, y=52.00, z=128.50], EntityFishClownfish['Clownfish'/26355, l='MpServer', x=-67.50, y=54.00, z=100.50], EntityItem['item.item.string'/26358, l='MpServer', x=35.15, y=35.00, z=176.98], EntityCreeper['Creeper'/26364, l='MpServer', x=-41.50, y=28.00, z=177.50], EntityFishCod['Cod'/27392, l='MpServer', x=-71.50, y=58.80, z=126.80], EntityFishCod['Cod'/26886, l='MpServer', x=-41.41, y=60.72, z=81.50], EntityCreeper['Creeper'/27915, l='MpServer', x=65.50, y=27.00, z=169.50], EntityItem['item.item.exoticbirds.heron_egg'/27404, l='MpServer', x=51.88, y=62.00, z=119.85], EntityFishCod['Cod'/27918, l='MpServer', x=-78.32, y=40.82, z=184.77], EntityFishCod['Cod'/27919, l='MpServer', x=-79.62, y=40.00, z=190.17], EntityZombie['Zombie'/28437, l='MpServer', x=-62.50, y=15.00, z=166.50], EntityItemFrame['Item Frame'/4374, l='MpServer', x=79.50, y=64.50, z=31.03], EntityArmorStand['Armor Stand'/4888, l='MpServer', x=73.53, y=64.00, z=148.75], EntityVampireBat['Vampire Bat'/28440, l='MpServer', x=75.37, y=13.94, z=198.88], EntityItemFrame['Item Frame'/4377, l='MpServer', x=79.97, y=64.50, z=34.50], EntityItemFrame['Item Frame'/4378, l='MpServer', x=79.97, y=64.50, z=36.50], EntityItem['item.item.string'/27420, l='MpServer', x=-59.80, y=12.00, z=169.24], EntityItem['item.item.string'/24867, l='MpServer', x=-3.48, y=103.00, z=171.71], MoCEntityCrab['Crab'/4900, l='MpServer', x=52.50, y=60.37, z=167.15], MoCEntityCrab['Crab'/4901, l='MpServer', x=51.36, y=60.00, z=168.36], MoCEntityCrab['Crab'/4902, l='MpServer', x=48.72, y=60.00, z=165.81], EntityCreeper['Creeper'/27942, l='MpServer', x=-65.50, y=11.00, z=190.50], EntityFishCod['Cod'/26925, l='MpServer', x=-31.83, y=58.00, z=63.62], EntityFishCod['Cod'/24879, l='MpServer', x=-42.81, y=59.80, z=166.67], EntityFishCod['Cod'/26927, l='MpServer', x=-34.50, y=58.00, z=68.50], EntityItemFrame['Item Frame'/4401, l='MpServer', x=81.50, y=64.50, z=31.03], EntityItemFrame['Item Frame'/4402, l='MpServer', x=83.50, y=64.50, z=31.03], EntityItemFrame['Item Frame'/4403, l='MpServer', x=85.50, y=64.50, z=31.03], EntityItemFrame['Item Frame'/4406, l='MpServer', x=81.50, y=63.50, z=33.97], MoCEntityPiranha['Piranha'/22838, l='MpServer', x=-36.65, y=62.60, z=162.50], EntityZombie['Zombie'/27958, l='MpServer', x=-63.50, y=25.00, z=192.50], EntityItemFrame['Item Frame'/4407, l='MpServer', x=81.50, y=63.50, z=37.03], MoCEntityGoldFish['GoldFish'/22839, l='MpServer', x=-47.70, y=62.10, z=162.41], EntityItemFrame['Item Frame'/4408, l='MpServer', x=86.50, y=64.50, z=36.03], EntityItemFrame['Item Frame'/4409, l='MpServer', x=85.50, y=64.50, z=36.03], EntityItemFrame['Item Frame'/4410, l='MpServer', x=84.97, y=64.50, z=34.50], EntityItemFrame['Item Frame'/4411, l='MpServer', x=87.03, y=64.50, z=34.50], EntityItemFrame['Item Frame'/4412, l='MpServer', x=83.03, y=64.50, z=34.50], EntityItemFrame['Item Frame'/4413, l='MpServer', x=83.03, y=64.50, z=36.50], EntityCreeper['Creeper'/28480, l='MpServer', x=-66.50, y=25.00, z=191.50], EntitySowYorkshire['American Yorkshire Sow'/22852, l='MpServer', x=-5.50, y=95.00, z=128.45], EntitySowYorkshire['American Yorkshire Sow'/22853, l='MpServer', x=-5.90, y=92.00, z=134.99], MoCEntityAnt['Ant'/22855, l='MpServer', x=9.49, y=90.00, z=109.95], EntityRamSuffolk['Suffolk Ram'/22856, l='MpServer', x=14.37, y=103.00, z=117.78], EntityEweSuffolk['Suffolk Ewe'/22861, l='MpServer', x=13.68, y=112.00, z=119.36], EntitySowYorkshire['American Yorkshire Sow'/22862, l='MpServer', x=6.93, y=140.00, z=127.96], EntityFishCod['Cod'/26958, l='MpServer', x=-51.61, y=59.20, z=149.24], EntityFishCod['Cod'/26959, l='MpServer', x=-50.50, y=58.00, z=148.50], EntityHeron['Heron'/22865, l='MpServer', x=-32.54, y=62.43, z=176.22], EntityRabbitDoeCottontail['Cottontail Doe'/22877, l='MpServer', x=-23.65, y=83.00, z=172.65], EntityRoosterLeghorn['Leghorn Rooster'/22878, l='MpServer', x=-5.40, y=44.00, z=147.55], EntityRoosterLeghorn['Leghorn Rooster'/22879, l='MpServer', x=-11.63, y=46.00, z=153.51], EntityCreeper['Creeper'/25955, l='MpServer', x=-61.50, y=11.00, z=193.50], EntityItemFrame['Item Frame'/23397, l='MpServer', x=153.03, y=70.50, z=135.50], MoCEntityGoldFish['GoldFish'/22886, l='MpServer', x=-49.74, y=62.08, z=145.10], EntityArmorStand['Armor Stand'/23398, l='MpServer', x=156.50, y=65.00, z=134.50], EntityItemFrame['Item Frame'/23399, l='MpServer', x=154.50, y=65.50, z=139.97], EntitySeagull['Seagull'/22888, l='MpServer', x=-2.50, y=95.00, z=108.74], EntityArmorStand['Armor Stand'/23400, l='MpServer', x=153.50, y=69.00, z=138.50], EntityBuckPygmy['Pygmy Buck'/22889, l='MpServer', x=-11.21, y=96.00, z=104.72], EntitySeagull['Seagull'/22890, l='MpServer', x=-7.73, y=96.00, z=106.51], EntityFishCod['Cod'/28522, l='MpServer', x=-74.82, y=59.12, z=99.41], EntitySeagull['Seagull'/22891, l='MpServer', x=-3.35, y=96.00, z=107.50], EntityFishCod['Cod'/28523, l='MpServer', x=-80.50, y=58.00, z=99.50], MoCEntityPiranha['Piranha'/22896, l='MpServer', x=-36.83, y=61.54, z=158.73], MoCEntityPiranha['Piranha'/22897, l='MpServer', x=-34.88, y=62.62, z=156.00], MoCEntityAngelFish['AngelFish'/22898, l='MpServer', x=-40.91, y=61.20, z=159.17], EntitySkeleton['Skeleton'/28019, l='MpServer', x=-22.50, y=38.00, z=174.50], EntityHogYorkshire['American Yorkshire Hog'/22904, l='MpServer', x=-9.45, y=83.00, z=123.50], EntityHogYorkshire['American Yorkshire Hog'/22905, l='MpServer', x=-7.10, y=88.00, z=127.96], EntityDoePygmy['Pygmy Doe'/22906, l='MpServer', x=-7.29, y=96.00, z=118.39], EntityHogYorkshire['American Yorkshire Hog'/22911, l='MpServer', x=-6.01, y=112.00, z=121.13], EntityFishCod['Cod'/28543, l='MpServer', x=-56.44, y=49.88, z=129.85], EntityHeron['Heron'/22912, l='MpServer', x=6.40, y=70.00, z=100.40], EntityFishCod['Cod'/28544, l='MpServer', x=-59.50, y=48.00, z=129.50], EntityPelican['Pelican'/22913, l='MpServer', x=15.62, y=68.00, z=103.11], EntityFishCod['Cod'/28545, l='MpServer', x=-62.22, y=49.20, z=129.40], EntityDuck['Duck'/22914, l='MpServer', x=11.52, y=71.00, z=105.23], EntityFishCod['Cod'/28546, l='MpServer', x=-62.40, y=48.00, z=132.21], EntityRoosterPlymouthRock['Plymouth Rock Rooster'/22916, l='MpServer', x=14.62, y=68.00, z=102.48], MoCEntityAnt['Ant'/22917, l='MpServer', x=14.51, y=100.00, z=96.00], EntityFishCod['Cod'/28549, l='MpServer', x=-38.50, y=52.20, z=62.30], EntityFishCod['Cod'/28550, l='MpServer', x=-34.75, y=48.80, z=59.74], MoCEntityManderin['Manderin'/22922, l='MpServer', x=-73.28, y=61.97, z=134.18], MoCEntityManderin['Manderin'/22923, l='MpServer', x=-71.57, y=61.02, z=125.17], MoCEntityManderin['Manderin'/22924, l='MpServer', x=-41.85, y=61.02, z=118.24], EntityHogYorkshire['American Yorkshire Hog'/22928, l='MpServer', x=-9.03, y=134.00, z=78.84], EntityZombie['Zombie'/27539, l='MpServer', x=-15.50, y=42.00, z=174.50], EntityFishClownfish['Clownfish'/27028, l='MpServer', x=-78.50, y=52.00, z=200.50], EntityFishSalmon['Salmon'/28063, l='MpServer', x=-76.86, y=58.13, z=210.68], EntityCartChest['Chest Cart'/22946, l='MpServer', x=-83.50, y=20.00, z=175.50], EntityItem['item.item.bone'/27561, l='MpServer', x=-23.13, y=67.00, z=83.04], MoCEntityClownFish['ClownFish'/22956, l='MpServer', x=-32.40, y=62.00, z=102.25], MoCEntityCrab['Crab'/23980, l='MpServer', x=-53.50, y=60.00, z=200.15], EntityFishClownfish['Clownfish'/27564, l='MpServer', x=-27.35, y=59.00, z=72.35], EntityRoosterPlymouthRock['Plymouth Rock Rooster'/22957, l='MpServer', x=-14.77, y=95.00, z=81.51], EntityFishClownfish['Clownfish'/27565, l='MpServer', x=-25.56, y=56.80, z=69.56], EntitySowYorkshire['American Yorkshire Sow'/22958, l='MpServer', x=-12.79, y=116.00, z=81.45], EntityHogYorkshire['American Yorkshire Hog'/22959, l='MpServer', x=-11.50, y=135.00, z=83.50], EntityItem['item.item.exoticbirds.heron_egg'/25007, l='MpServer', x=30.25, y=65.00, z=98.44], EntityItem['item.item.exoticbirds.seagull_egg'/27567, l='MpServer', x=-7.01, y=70.00, z=193.00], EntityHogYorkshire['American Yorkshire Hog'/22960, l='MpServer', x=-12.95, y=135.00, z=94.89], MoCEntityAnt['Ant'/22961, l='MpServer', x=-12.46, y=133.00, z=85.00], EntityHogYorkshire['American Yorkshire Hog'/22962, l='MpServer', x=8.50, y=119.00, z=74.50], EntityEweSuffolk['Suffolk Ewe'/22963, l='MpServer', x=8.50, y=119.00, z=75.63], EntityEweSuffolk['Suffolk Ewe'/22964, l='MpServer', x=9.50, y=118.00, z=74.50], EntityEweSuffolk['Suffolk Ewe'/22965, l='MpServer', x=7.50, y=121.00, z=77.50], EntityHogYorkshire['American Yorkshire Hog'/22966, l='MpServer', x=8.63, y=119.00, z=75.52], MoCEntityFishy['Fishy'/22973, l='MpServer', x=-47.55, y=61.91, z=91.35], MoCEntityShark['Shark'/22974, l='MpServer', x=-54.85, y=57.44, z=66.89], EntityItem['item.item.string'/25022, l='MpServer', x=61.28, y=66.00, z=187.55], EntityItem['item.item.exoticbirds.heron_egg'/25027, l='MpServer', x=26.61, y=67.00, z=96.76], EntityCreeper['Creeper'/27589, l='MpServer', x=-63.50, y=20.00, z=202.50], MoCEntityAnchovy['Anchovy'/22983, l='MpServer', x=-57.50, y=62.57, z=80.09], EntityRoosterPlymouthRock['Plymouth Rock Rooster'/24007, l='MpServer', x=25.30, y=50.00, z=193.70], MoCEntityAnchovy['Anchovy'/22984, l='MpServer', x=-51.65, y=61.97, z=80.37], EntityRabbitBuckCottontail['Cottontail Buck'/24009, l='MpServer', x=24.52, y=99.00, z=193.37], MoCEntityCrab['Crab'/24012, l='MpServer', x=-9.85, y=61.40, z=199.85], MoCEntityFishy['Fishy'/22989, l='MpServer', x=-71.75, y=61.96, z=67.77], EntityRabbitDoeCottontail['Cottontail Doe'/24013, l='MpServer', x=-3.35, y=81.00, z=193.45], MoCEntityFishy['Fishy'/22990, l='MpServer', x=-74.68, y=62.14, z=76.96], EntitySkeleton['Skeleton'/28626, l='MpServer', x=34.75, y=20.00, z=163.50], MoCEntityManderin['Manderin'/22996, l='MpServer', x=-41.88, y=61.57, z=86.81], MoCEntityFishy['Fishy'/22997, l='MpServer', x=-22.15, y=61.06, z=65.03], EntityHogYorkshire['American Yorkshire Hog'/22998, l='MpServer', x=30.84, y=99.00, z=164.91], EntityEweSuffolk['Suffolk Ewe'/22999, l='MpServer', x=26.97, y=107.00, z=155.73], EntityEweSuffolk['Suffolk Ewe'/23000, l='MpServer', x=31.96, y=130.00, z=172.91], EntityKingfisher['Kingfisher'/23002, l='MpServer', x=-11.82, y=82.00, z=168.59], EntityHogYorkshire['American Yorkshire Hog'/23004, l='MpServer', x=14.50, y=121.00, z=145.50], EntitySkeleton['Skeleton'/28124, l='MpServer', x=-75.50, y=16.00, z=169.50], MoCEntityPetScorpion['PetScorpion'/5597, l='MpServer', x=31.97, y=63.00, z=152.08], EntitySeagull['Seagull'/23006, l='MpServer', x=-5.35, y=81.00, z=191.77], EntityVampireBat['Vampire Bat'/28126, l='MpServer', x=-82.43, y=28.94, z=210.43], MoCEntityAnt['Ant'/23007, l='MpServer', x=-6.49, y=86.00, z=190.51], EntityCreeper['Creeper'/27616, l='MpServer', x=-65.57, y=22.00, z=193.22], EntityItem['item.item.string'/24560, l='MpServer', x=51.33, y=63.00, z=160.88], EntityItem['item.item.string'/25584, l='MpServer', x=56.13, y=70.00, z=122.62], EntityItem['item.item.exoticbirds.crane_egg'/27121, l='MpServer', x=37.04, y=65.00, z=100.75], EntityItem['item.item.string'/25076, l='MpServer', x=28.19, y=139.00, z=171.43]]
+	Retry entities: 0 total; []
+	Server brand: fml,forge
+	Server type: Non-integrated multiplayer server
+Stacktrace:
+	at net.minecraft.client.multiplayer.WorldClient.addWorldInfoToCrashReport(WorldClient.java:461)
+	at net.minecraft.client.Minecraft.addGraphicsAndWorldToCrashReport(Minecraft.java:2889)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:471)
+	at net.minecraft.client.main.Main.main(Main.java:118)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97)
+	at GradleStart.main(GradleStart.java:25)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.12.2
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_221, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 2561713696 bytes (2443 MB) / 6229393408 bytes (5940 MB) up to 6229393408 bytes (5940 MB)
+	JVM Flags: 3 total; -Xincgc -Xmx6024M -Xms6024M
+	IntCache: cache: 0, tcache: 0, allocated: 15, tallocated: 95
+	FML: MCP 9.42 Powered by Forge 14.23.5.2838 98 mods loaded, 98 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+
+	| State  | ID                                           | Version                     | Source                                                    | Signature                                |
+	|:------ |:-------------------------------------------- |:--------------------------- |:--------------------------------------------------------- |:---------------------------------------- |
+	| LCHIJA | minecraft                                    | 1.12.2                      | minecraft.jar                                             | None                                     |
+	| LCHIJA | mcp                                          | 9.42                        | minecraft.jar                                             | None                                     |
+	| LCHIJA | FML                                          | 8.0.99.99                   | forgeSrc-1.12.2-14.23.5.2838.jar                          | None                                     |
+	| LCHIJA | forge                                        | 14.23.5.2838                | forgeSrc-1.12.2-14.23.5.2838.jar                          | None                                     |
+	| LCHIJA | creativecoredummy                            | 1.0.0                       | minecraft.jar                                             | None                                     |
+	| LCHIJA | itemphysic                                   | 1.4.0                       | minecraft.jar                                             | None                                     |
+	| LCHIJA | com.elytradev.movingworld.common.asm.coremod |                             | minecraft.jar                                             | None                                     |
+	| LCHIJA | examplemod                                   | 1.0                         | bin                                                       | None                                     |
+	| LCHIJA | morebiomes                                   | 1.0.0                       | MoreBiomes-1.12.2-1.0.jar                                 | None                                     |
+	| LCHIJA | ambience                                     | GRADLE:VERSION-GRADLE:BUILD | bin                                                       | None                                     |
+	| LCHIJA | jei                                          | 4.15.0.287                  | jei_1.12.2-4.15.0.287.jar                                 | None                                     |
+	| LCHIJA | buildcraftlib                                | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None                                     |
+	| LCHIJA | buildcraftcore                               | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None                                     |
+	| LCHIJA | buildcraftbuilders                           | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None                                     |
+	| LCHIJA | buildcraftenergy                             | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None                                     |
+	| LCHIJA | buildcraftfactory                            | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None                                     |
+	| LCHIJA | ic2                                          | 2.8.171-ex112               | industrialcraft-2-2.8.171-ex112.jar                       | de041f9f6187debbc77034a344134053277aa3b0 |
+	| LCHIJA | forestry                                     | 5.8.2.387                   | forestry_1.12.2-5.8.2.387.jar                             | None                                     |
+	| LCHIJA | baubles                                      | 1.5.2                       | Baubles-1.12-1.5.2.jar                                    | None                                     |
+	| LCHIJA | thaumcraft                                   | 6.1.BETA26                  | Thaumcraft-1.12.2-6.1.BETA26.jar                          | None                                     |
+	| LCHIJA | railcraft                                    | 12.0.0                      | railcraft-12.0.0.jar                                      | a0c255ac501b2749537d5824bb0f0588bf0320fa |
+	| LCHIJA | endercore                                    | 1.12.2-0.5.65               | EnderCore-1.12.2-0.5.65.jar                               | None                                     |
+	| LCHIJA | enderio                                      | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None                                     |
+	| LCHIJA | enderiointegrationtic                        | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None                                     |
+	| LCHIJA | mantle                                       | 1.12-1.3.3.55               | Mantle-1.12-1.3.3.55.jar                                  | None                                     |
+	| LCHIJA | tconstruct                                   | 1.12.2-2.12.0.157           | TConstruct-1.12.2-2.12.0.157.jar                          | None                                     |
+	| LCHIJA | theoneprobe                                  | 1.4.28                      | theoneprobe-1.12-1.4.28.jar                               | None                                     |
+	| LCHIJA | immersiveengineering                         | 0.12-89                     | ImmersiveEngineering-0.12-89.jar                          | 4cb49fcde3b43048c9889e0a3d083225da926334 |
+	| LCHIJA | alternatingflux                              | 0.12.2-2                    | alternatingflux-0.12.2-2.jar                              | None                                     |
+	| LCHIJA | biomesoplenty                                | 7.0.1.2441                  | BiomesOPlenty-1.12.2-7.0.1.2441-universal.jar             | None                                     |
+	| LCHIJA | craftstudioapi                               | 1.0.0                       | CraftStudioAPI-universal-1.0.1.95-mc1.12-alpha.jar        | None                                     |
+	| LCHIJA | harvestcraft                                 | 1.12.2zb                    | Pam's+HarvestCraft+1.12.2zd+Surprise+for+Yogcast.jar      | None                                     |
+	| LCHIJA | animania                                     | 1.6.2                       | animania-1.12.2-1.6.2.jar                                 | None                                     |
+	| LCHIJA | appleskin                                    | 1.0.9                       | AppleSkin-mc1.12-1.0.9.jar                                | None                                     |
+	| LCHIJA | betternether                                 | 0.1.8.3                     | betternether-0.1.8.3.jar                                  | None                                     |
+	| LCHIJA | bibliocraft                                  | 2.4.5                       | BiblioCraft[v2.4.5][MC1.12.2].jar                         | None                                     |
+	| LCHIJA | buildcrafttransport                          | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None                                     |
+	| LCHIJA | buildcraftsilicon                            | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None                                     |
+	| LCHIJA | crafttweaker                                 | 4.1.19                      | CraftTweaker2-1.12-4.1.19.jar                             | None                                     |
+	| LCHIJA | buildcraftcompat                             | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None                                     |
+	| LCHIJA | buildcraftrobotics                           | 7.99.24.2                   | buildcraft-all-7.99.24.2.jar                              | None                                     |
+	| LCHIJA | carryon                                      | 1.12.2                      | CarryOn+MC1.12.2+v1.12.2.jar                              | 55e88f24d04398481ae6f1ce76f65fd776f14227 |
+	| LCHIJA | chiselsandbits                               | 14.33                       | chiselsandbits-14.33.jar                                  | None                                     |
+	| LCHIJA | cookingforblockheads                         | 6.4.71                      | CookingForBlockheads_1.12.2-6.4.71.jar                    | None                                     |
+	| LCHIJA | ctgui                                        | 1.0.0                       | CraftTweaker2-1.12-4.1.19.jar                             | None                                     |
+	| LCHIJA | crafttweakerjei                              | 2.0.3                       | CraftTweaker2-1.12-4.1.19.jar                             | None                                     |
+	| LCHIJA | creativecore                                 | 1.9.9                       | CreativeCore_v1.9.45_mc1.12.2.jar                         | None                                     |
+	| LCHIJA | modcurrency                                  | 1.12-1.3.11                 | Currency-1.12.0-1.3.11.jar                                | None                                     |
+	| LCHIJA | customspawner                                | 3.11.4                      | Custom-Mob-Spawner-Mod-1.12.2.jar                         | None                                     |
+	| LCHIJA | movingworld                                  | 1.12-6.342                  | movingworld-1.12-6.342-full.jar                           | None                                     |
+	| LCHIJA | davincisvessels                              | @DVESSELSVER@               | davincisvessels-1.12-6.340-full.jar                       | None                                     |
+	| LCHIJA | mocreatures                                  | 12.0.5                      | DrZharks+MoCreatures+Mod-12.0.5.jar                       | None                                     |
+	| LCHIJA | dynamictrees                                 | 1.12.2-0.9.5                | DynamicTrees-1.12.2-0.9.5.jar                             | None                                     |
+	| LCHIJA | dynamictreesbop                              | 1.12.2-1.4.1e               | DynamicTreesBOP-1.12.2-1.4.1e.jar                         | None                                     |
+	| LCHIJA | enderiobase                                  | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None                                     |
+	| LCHIJA | enderioconduits                              | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None                                     |
+	| LCHIJA | enderioconduitsappliedenergistics            | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None                                     |
+	| LCHIJA | enderioconduitsopencomputers                 | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None                                     |
+	| LCHIJA | enderioconduitsrefinedstorage                | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None                                     |
+	| LCHIJA | enderiointegrationforestry                   | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None                                     |
+	| LCHIJA | enderiointegrationticlate                    | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None                                     |
+	| LCHIJA | enderiomachines                              | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None                                     |
+	| LCHIJA | enderiopowertools                            | 5.0.46                      | EnderIO-1.12.2-5.0.46.jar                                 | None                                     |
+	| LCHIJA | energyconverters                             | 1.3.0.15                    | energyconverters_1.12.2-1.3.0.15.jar                      | None                                     |
+	| LCHIJA | exoticbirds                                  | 1.0                         | Exotic+Birds+1.12.2-2.2.1.jar                             | None                                     |
+	| LCHIJA | fairylights                                  | 2.1.9                       | fairylights-2.1.9-1.12.2.jar                              | None                                     |
+	| LCHIJA | cfm                                          | 6.3.1                       | furniture-6.3.1-1.12.2.jar                                | None                                     |
+	| LCHIJA | minecraftfuture                              | 0.1.9                       | future-mc-0.1.10.jar                                      | None                                     |
+	| LCHIJA | gravestone                                   | 1.3.1                       | GraveStone-1.12.2-Graves-1.3.1.jar                        | None                                     |
+	| LCHIJA | gravestone-extended                          | 1.3.5.1                     | GraveStone-1.12.2-Extended-1.3.5.1.jar                    | None                                     |
+	| LCHIJA | immersivepetroleum                           | 1.1.9                       | immersivepetroleum-1.12.2-1.1.9.jar                       | None                                     |
+	| LCHIJA | immersiveposts                               | 0.1.2                       | ImmersivePosts-0.1.2.jar                                  | 0ba25d8c0ec23537afc6db926e1ea764335a33b1 |
+	| LCHIJA | inspirations                                 | 1.12.2-0.2.6                | Inspirations-1.12.2-0.2.6.jar                             | None                                     |
+	| LCHIJA | journeymap                                   | 1.12.2-5.5.5b7              | journeymap-1.12.2-5.5.5b7.jar                             | None                                     |
+	| LCHIJA | earthenbounty                                | 2.1.6                       | just_a_few_more_ores-2.1.6.jar                            | None                                     |
+	| LCHIJA | jaff                                         | 1.7_for_1.12                | JustAFewFish-1.7_for_1.12.jar                             | None                                     |
+	| LCHIJA | justenoughbuttons                            | 1.12-1.2                    | justenoughbuttons-1.12.2-1.2.3.jar                        | None                                     |
+	| LCHIJA | justenoughdimensions                         | 1.6.0-dev.20190711.220109   | justenoughdimensions-1.12.2-1.6.0-dev.20190711.220109.jar | 2b03e1423915a189b8094816baa18f239d576dff |
+	| LCHIJA | jeresources                                  | 0.9.2.60                    | JustEnoughResources-1.12.2-0.9.2.60.jar                   | None                                     |
+	| LCHIJA | malisiscore                                  | 1.12.2-6.5.1-SNAPSHOT       | malisiscore-1.12.2-6.5.1.jar                              | None                                     |
+	| LCHIJA | malisisblocks                                | 1.12.2-6.1.0                | malisisblocks-1.12.2-6.1.0.jar                            | None                                     |
+	| LCHIJA | malisisdoors                                 | 1.12.2-7.3.0                | malisisdoors-1.12.2-7.3.0.jar                             | None                                     |
+	| LCHIJA | mcjtylib_ng                                  | 3.5.4                       | mcjtylib-1.12-3.5.4.jar                                   | None                                     |
+	| LCHIJA | mcmultipart                                  | 2.5.3                       | MCMultiPart-2.5.3.jar                                     | None                                     |
+	| LCHIJA | mekanism                                     | 1.12.2-9.8.0.381            | Mekanism-1.12.2-9.8.0.381.jar                             | None                                     |
+	| LCHIJA | llibrary                                     | 1.7.19                      | llibrary-1.7.19-1.12.2.jar                                | b9f30a813bee3b9dd5652c460310cfcd54f6b7ec |
+	| LCHIJA | mowziesmobs                                  | 1.5.4                       | mowziesmobs-1.5.4.jar                                     | None                                     |
+	| LCHIJA | placeableitems                               | 3.3                         | placeableitems-3.3.jar                                    | None                                     |
+	| LCHIJA | redstonepaste                                | 1.7.5                       | redstonepaste-mc1.12-1.7.5.jar                            | None                                     |
+	| LCHIJA | rftools                                      | 7.72                        | rftools-1.12-7.72.jar                                     | None                                     |
+	| LCHIJA | roguelike                                    | 1.8.0                       | RoguelikeDungeons-1.12.2-1.8.0.jar                        | None                                     |
+	| LCHIJA | rustic                                       | 1.1.1                       | rustic-1.1.1.jar                                          | None                                     |
+	| LCHIJA | sereneseasons                                | 1.2.16                      | SereneSeasons-1.12.2-1.2.16-universal.jar                 | None                                     |
+	| LCHIJA | simpleportals                                | 1.12.2-1.5.1.1              | simpleportals-1.12.2-1.5.1.1.jar                          | None                                     |
+	| LCHIJA | tweakergui                                   | 0.5-beta                    | tweakergui-1.12.2-0.5-beta.jar                            | None                                     |
+	| LCHIJA | worldcontrol                                 | 1.0.31                      | WorldControl-1.0.31.jar                                   | None                                     |
+	| LCHIJA | worldedit                                    | 6.1.10-SNAPSHOT             | worldedit-forge-mc1.12.2-6.1.10-SNAPSHOT-dist.jar         | None                                     |
+	| LCHIJA | industrialwires                              | 1.7-36                      | IndustrialWires-1.7-36.jar                                | 7e11c175d1e24007afec7498a1616bef0000027d |
+
+	Loaded coremods (and transformers): 
+llibrary (llibrary-core-1.0.11-1.12.2.jar)
+  net.ilexiconn.llibrary.server.core.plugin.LLibraryTransformer
+  net.ilexiconn.llibrary.server.core.patcher.LLibraryRuntimePatcher
+IELoadingPlugin (ImmersiveEngineering-core-0.12-89.jar)
+  blusunrize.immersiveengineering.common.asm.IEClassTransformer
+CreativePatchingLoader (CreativeCore_v1.9.45_mc1.12.2.jar)
+  
+MekanismCoremod (Mekanism-1.12.2-9.8.0.381.jar)
+  mekanism.coremod.KeybindingMigrationHelper
+SSLoadingPlugin (SereneSeasons-1.12.2-1.2.16-universal.jar)
+  sereneseasons.asm.transformer.EntityRendererTransformer
+  sereneseasons.asm.transformer.WorldTransformer
+MalisisCorePlugin (malisiscore-1.12.2-6.5.1.jar)
+  
+ItemPatchingLoader (ItemPhysic_Full_1.4.21_mc1.12.2.jar)
+  com.creativemd.itemphysic.ItemTransformer
+MovingWorldCore (movingworld-1.12-6.342-full.jar)
+  
+NWRTweak (redstonepaste-mc1.12-1.7.5.jar)
+  net.fybertech.nwr.NWRTransformer
+EnderCorePlugin (EnderCore-1.12.2-0.5.65-core.jar)
+  com.enderio.core.common.transform.EnderCoreTransformer
+  com.enderio.core.common.transform.SimpleMixinPatcher
+	GL info: ' Vendor: 'NVIDIA Corporation' Version: '4.6.0 NVIDIA 419.67' Renderer: 'GeForce GTX 1070/PCIe/SSE2'
+	Pulsar/tconstruct loaded Pulses: 
+		- TinkerCommons (Enabled/Forced)
+		- TinkerWorld (Enabled/Not Forced)
+		- TinkerTools (Enabled/Not Forced)
+		- TinkerHarvestTools (Enabled/Forced)
+		- TinkerMeleeWeapons (Enabled/Forced)
+		- TinkerRangedWeapons (Enabled/Forced)
+		- TinkerModifiers (Enabled/Forced)
+		- TinkerSmeltery (Enabled/Not Forced)
+		- TinkerGadgets (Enabled/Not Forced)
+		- TinkerOredict (Enabled/Forced)
+		- TinkerIntegration (Enabled/Forced)
+		- TinkerFluids (Enabled/Forced)
+		- TinkerMaterials (Enabled/Forced)
+		- TinkerModelRegister (Enabled/Forced)
+		- chiselsandbitsIntegration (Enabled/Not Forced)
+		- theoneprobeIntegration (Enabled/Not Forced)
+
+	Pulsar/inspirations loaded Pulses: 
+		- InspirationsShared (Enabled/Forced)
+		- InspirationsBuilding (Enabled/Not Forced)
+		- InspirationsUtility (Enabled/Not Forced)
+		- InspirationsTools (Enabled/Not Forced)
+		- InspirationsRecipes (Enabled/Not Forced)
+		- InspirationsTweaks (Enabled/Not Forced)
+		- InspirationsShared (Enabled/Forced)
+		- TheOneProbePlugin (Enabled/Not Forced)
+
+	Ender IO: No known problems detected.
+
+	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	!!!You are looking at the diagnostics information, not at the crash.       !!!
+	!!!Scroll up until you see the line with '---- Minecraft Crash Report ----'!!!
+	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	Launched Version: 1.12.2
+	LWJGL: 2.9.4
+	OpenGL: GeForce GTX 1070/PCIe/SSE2 GL version 4.6.0 NVIDIA 419.67, NVIDIA Corporation
+	GL Caps: Using GL 1.3 multitexturing.
+Using GL 1.3 texture combiners.
+Using framebuffer objects because OpenGL 3.0 is supported and separate blending is supported.
+Shaders are available because OpenGL 2.1 is supported.
+VBOs are available because OpenGL 1.5 is supported.
+
+	Using VBOs: Yes
+	Is Modded: Definitely; Client brand changed to 'fml,forge'
+	Type: Client (map_client.txt)
+	Resource Packs: 
+	Current Language: English (US)
+	Profiler Position: N/A (disabled)
+	CPU: 12x AMD Ryzen 5 1600 Six-Core Processor 

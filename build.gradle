@@ -1,210 +1,78 @@
 buildscript {
     repositories {
-        mavenCentral()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
-
-repositories {
-    maven {
-        name = "chickenbones"
-        url = "http://chickenbones.net/maven/"
-    }
-}
-
 apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'maven'
-apply plugin: 'eclipse'
+//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
 
-ext.configFile = file('build.properties')
+version = "1.12.2-1.2"
+group = "com.titanium.ambience" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "Ambience"
 
-ext.config = parseConfig(configFile)
-//ext.priv = parseConfig(file('private.properties'))
-
-version = "${config.version}-${config.build_number}"
-group = "vazkii.ambience" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = config.mod_name
+sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
 
 minecraft {
-    version = "${config.mc_version}-${config.forge_version}"
-    runDir = "eclipse/assets"
-    mappings = config.mc_mappings
-
-    //This, does the token replacement.
-    //Though, I reccomend this to be replaced with a token such as @VERSION@
-    replace 'GRADLE:BUILD', config.build_number
-    replace 'GRADLE:VERSION', config.version
-
-    replaceIn 'LibMisc.java' //I may have missed another file, though I can only find it in here.
-}
-
-repositories {
-    mavenCentral()
+    version = "1.12.2-14.23.5.2838"
+    runDir = "run"
+    
+    // the mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   snapshot are built nightly.
+    // stable_#            stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not always work.
+    // simply re-run your setup task after changing the mappings to update your workspace.
+    mappings = "snapshot_20171003"
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
 dependencies {
+	compile files("./libs/MoreBiomes-1.12.2-1.0.jar")
+    // you may put jars on which you depend on in ./libs
+    // or you may define them like so..
+    //compile "some.group:artifact:version:classifier"
+    //compile "some.group:artifact:version"
+      
+    // real examples
+    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+
+    // the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
+    //provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+
+    // the deobf configurations:  'deobfCompile' and 'deobfProvided' are the same as the normal compile and provided,
+    // except that these dependencies get remapped to your current MCP mappings
+    //deobfCompile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+    //deobfProvided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
 }
 
 processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-
+                
         // replace version and mcversion
-        expand 'version': project.version, 'mcversion': project.minecraft.version
+        expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-
-    // copy everything else, thats not the mcmod.info
+        
+    // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info', '**/psd/**'
+        exclude 'mcmod.info'
     }
 }
-
-/**
- * These, go outside of the processResources {}* Though, this was added with the NEI intergation commit (8bf4680)
- */
-task deobfJar(type: Jar) {
-    from(sourceSets.main.output)
-    archiveName = "${baseName} ${version}-deobf.${extension}"
-}
-
-artifacts {
-    archives deobfJar
-}
-/**
- * Increments the buildnumber in your config file, and saves it
- */
-task incrementBuildNumber {
-    config.build_number = (config.build_number.toString().toInteger()) + 1
-    configFile.withWriter {
-        config.toProperties().store(it, "")
-    }
-
-    //file('web/versions.ini').append("\n${version}=${minecraft.version}")
-    //file("${config.dir_repo}/version/${minecraft.version}.txt").write("${version}")
-}
-
-// I have no idea what I'm doing
-task wtfGradle2(type: Copy) {
-    from(jar.destinationDir)
-    into file("${config.dir_output}/wtf")
-}
-
-// Seriously, I'm desperate to make this work
-task wtfGradle1(type: Delete) {
-    dependsOn "wtfGradle2"
-    delete "${config.dir_output}/wtf/${deobfJar.archiveName}"
-}
-
-task output(type: Copy) {
-    dependsOn "wtfGradle1"
-    from(jar.destinationDir)
-    into file(config.dir_output)
-}
-
-task outputDeobf(type: Copy) {
-    dependsOn "output"
-    from(config.dir_output) {
-        include deobfJar.archiveName
-    }
-    into file("${config.dir_output}/deobf")
-}
-
-/*task forgecraft(type: Copy) {
-    dependsOn "outputDeobf"
-    from "${config.dir_output}/wtf"
-    into file(config.dir_forgecraft)
-}*/
-
-task sort(type: Delete) {
-    dependsOn /*"forgecraft"*/ "outputDeobf"
-    delete "${config.dir_output}/${deobfJar.archiveName}", "${config.dir_output}/wtf"
-}
-
-/**
- * This is the upload task from the build.xml
- */
-/*task upload(dependsOn: 'reobf') << {
-    ftp(action: 'mkdir', remotedir: '/files')
-    ftp(action: 'send', remotedir: '/files') {
-        fileset(file: jar.archivePath)
-    }
-    
-     ftp(action: 'send', remotedir: '/files/deobf') {
-        fileset(file: deobfJar.archivePath)
-    }
-
-    ftp(action: 'send', remotedir: '.') {
-        fileset(file: 'web/changelog.txt')
-        fileset(file: 'web/versions.ini')
-    }
-}*/
-
-/**
- * This is deply_web task
- */
-task deployWeb << {
-    ftp(action: 'send', remotedir: '.') {
-        fileset(dir: 'web') //everything from the web directory
-    }
-}
-
-//simple function that we can use
-//Got this from: http://svn.codehaus.org/gradle/website/build.gradle
-/*void ftp(Map args, Closure antFileset = {}) {
-    ant {
-        taskdef(name: 'ftp',
-                classname: 'org.apache.tools.ant.taskdefs.optional.net.FTP',
-                classpath: configurations.ftpAntTask.asPath)
-        Map ftpArgs = args + [ //some default options
-                               verbose : 'yes',
-                               server  : priv.host,
-                               userid  : priv.user,
-                               password: priv.pass
-        ]
-        delegate.ftp(ftpArgs) {
-            antFileset.delegate = delegate
-            antFileset()
-        }
-    }
-}*/
-
-def parseConfig(File config) {
-    config.withReader {
-        def prop = new Properties()
-        prop.load(it)
-        return (new ConfigSlurper().parse(prop))
-    }
-}
-
-jar {
-    //rename the default output, for some better... sanity with scipts
-    archiveName = "${baseName} ${version}.${extension}"
-}
-
-/*curse {
-    apiKey = priv.cfkey
-    projectId = "225643"
-    changelog = """
-        See http://vazkii.us/mod/Botania/changelog.php#${version}
-    """
-    releaseType = "release"
-}*/
-
-//change this so it only increments on upload
-//upload.dependsOn tasks.incrementBuildNumber
-defaultTasks 'clean', 'build', 'sort', 'incrementBuildNumber'/*, 'forgecraft', 'curse', 'upload'*/ //remove clean if you want faster builds, this will stop rare inconsistancies. 

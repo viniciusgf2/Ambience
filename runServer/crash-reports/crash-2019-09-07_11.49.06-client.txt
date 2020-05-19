@@ -1,0 +1,95 @@
+---- Minecraft Crash Report ----
+// Who set us up the TNT?
+
+Time: 9/7/19 11:49 AM
+Description: There was a severe problem during mod loading that has caused the game to fail
+
+net.minecraftforge.fml.common.LoaderExceptionModCrash: Caught exception from Ambience Mod (ambience)
+Caused by: java.lang.RuntimeException: java.lang.InstantiationException: vaskii.ambience.network.MessageSaveArea
+	at net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper.instantiate(SimpleNetworkWrapper.java:170)
+	at net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper.registerMessage(SimpleNetworkWrapper.java:159)
+	at vaskii.ambience.network.NetworkHandler.init(NetworkHandler.java:15)
+	at vazkii.ambience.Ambience.preInit(Ambience.java:82)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraftforge.fml.common.FMLModContainer.handleModStateEvent(FMLModContainer.java:639)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at com.google.common.eventbus.Subscriber.invokeSubscriberMethod(Subscriber.java:91)
+	at com.google.common.eventbus.Subscriber$SynchronizedSubscriber.invokeSubscriberMethod(Subscriber.java:150)
+	at com.google.common.eventbus.Subscriber$1.run(Subscriber.java:76)
+	at com.google.common.util.concurrent.MoreExecutors$DirectExecutor.execute(MoreExecutors.java:399)
+	at com.google.common.eventbus.Subscriber.dispatchEvent(Subscriber.java:71)
+	at com.google.common.eventbus.Dispatcher$PerThreadQueuedDispatcher.dispatch(Dispatcher.java:116)
+	at com.google.common.eventbus.EventBus.post(EventBus.java:217)
+	at net.minecraftforge.fml.common.LoadController.sendEventToModContainer(LoadController.java:219)
+	at net.minecraftforge.fml.common.LoadController.propogateStateMessage(LoadController.java:197)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at com.google.common.eventbus.Subscriber.invokeSubscriberMethod(Subscriber.java:91)
+	at com.google.common.eventbus.Subscriber$SynchronizedSubscriber.invokeSubscriberMethod(Subscriber.java:150)
+	at com.google.common.eventbus.Subscriber$1.run(Subscriber.java:76)
+	at com.google.common.util.concurrent.MoreExecutors$DirectExecutor.execute(MoreExecutors.java:399)
+	at com.google.common.eventbus.Subscriber.dispatchEvent(Subscriber.java:71)
+	at com.google.common.eventbus.Dispatcher$PerThreadQueuedDispatcher.dispatch(Dispatcher.java:116)
+	at com.google.common.eventbus.EventBus.post(EventBus.java:217)
+	at net.minecraftforge.fml.common.LoadController.distributeStateMessage(LoadController.java:136)
+	at net.minecraftforge.fml.common.Loader.preinitializeMods(Loader.java:627)
+	at net.minecraftforge.fml.client.FMLClientHandler.beginMinecraftLoading(FMLClientHandler.java:252)
+	at net.minecraft.client.Minecraft.init(Minecraft.java:514)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:422)
+	at net.minecraft.client.main.Main.main(Main.java:118)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97)
+	at GradleStart.main(GradleStart.java:25)
+Caused by: java.lang.InstantiationException: vaskii.ambience.network.MessageSaveArea
+	at java.lang.Class.newInstance(Unknown Source)
+	at net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper.instantiate(SimpleNetworkWrapper.java:166)
+	... 50 more
+Caused by: java.lang.NoSuchMethodException: vaskii.ambience.network.MessageSaveArea.<init>()
+	at java.lang.Class.getConstructor0(Unknown Source)
+	... 52 more
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- System Details --
+Details:
+	Minecraft Version: 1.12.2
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_221, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 6066097544 bytes (5785 MB) / 6229393408 bytes (5940 MB) up to 6229393408 bytes (5940 MB)
+	JVM Flags: 3 total; -Xincgc -Xmx6024M -Xms6024M
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: MCP 9.42 Powered by Forge 14.23.5.2838 7 mods loaded, 7 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+
+	| State | ID         | Version                     | Source                                            | Signature |
+	|:----- |:---------- |:--------------------------- |:------------------------------------------------- |:--------- |
+	| LCH   | minecraft  | 1.12.2                      | minecraft.jar                                     | None      |
+	| LCH   | mcp        | 9.42                        | minecraft.jar                                     | None      |
+	| LCH   | FML        | 8.0.99.99                   | forgeSrc-1.12.2-14.23.5.2838.jar                  | None      |
+	| LCH   | forge      | 14.23.5.2838                | forgeSrc-1.12.2-14.23.5.2838.jar                  | None      |
+	| LCH   | morebiomes | 1.0.0                       | MoreBiomes-1.12.2-1.0.jar                         | None      |
+	| LCE   | ambience   | GRADLE:VERSION-GRADLE:BUILD | bin                                               | None      |
+	| LC    | worldedit  | 6.1.10-SNAPSHOT             | worldedit-forge-mc1.12.2-6.1.10-SNAPSHOT-dist.jar | None      |
+
+	Loaded coremods (and transformers): 
+	GL info: ' Vendor: 'NVIDIA Corporation' Version: '4.6.0 NVIDIA 419.67' Renderer: 'GeForce GTX 1070/PCIe/SSE2'

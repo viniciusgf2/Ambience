@@ -1,0 +1,47 @@
+{
+    "secret": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:secret",
+                "stream": false
+            }
+        ]
+    },
+    "gas": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:gas",
+                "stream": false
+            }
+        ]
+    },
+     "engine": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:engine",
+                "stream": false
+            }
+        ]
+    },
+     "bell1": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:bell_use01",
+                "stream": false
+            }
+        ]
+    },
+     "bell2": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:bell_use02",
+                "stream": false
+            }
+        ]
+    }
+}

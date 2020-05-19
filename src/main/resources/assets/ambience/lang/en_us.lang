@@ -1,0 +1,23 @@
+item.soundnizer.name=Soundnizer
+
+GUI.ConfirmButton=Confirm
+GUI.DeleteButton=Delete Region
+GUI.SaveButton=Save Region
+GUI.ShowArea=Show Region
+GUI.AreaNameLbl=Region Name:
+GUI.AreaNameField=Name
+GUI.InstantPlayChk=Instant Play?
+GUI.SelectSoundLbl=Select Sound:
+GUI.anoite=Play at night?
+
+Soundnizer.Position=Position
+Soundnizer.Alert=You must be inside a selected region to create!
+Soundnizer.Desc=Configures a region to play a sound.
+
+Speaker.Desc=Plays a sound when activated by redstone
+Bell.Desc=Sacred bell from the Consil of WaterSheep
+
+tile.speaker.name=Speaker
+tile.bell.name=Bell of Consil of WaterSheep
+
+Options.Reload=Reload the configs from Ambience

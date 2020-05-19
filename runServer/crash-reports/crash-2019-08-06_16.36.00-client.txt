@@ -1,0 +1,136 @@
+---- Minecraft Crash Report ----
+
+WARNING: coremods are present:
+  llibrary (llibrary-core-1.0.8-1.12.2.jar)
+Contact their authors BEFORE contacting forge
+
+// Hey, that tickles! Hehehe!
+
+Time: 8/6/19 4:36 PM
+Description: Unexpected error
+
+java.lang.NullPointerException: Unexpected error
+	at vazkii.ambience.SongPicker.getSongs(SongPicker.java:140)
+	at vazkii.ambience.SongPicker.getSongsString(SongPicker.java:318)
+	at vazkii.ambience.Ambience.onTick(Ambience.java:93)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_50_Ambience_onTick_ClientTickEvent.invoke(.dynamic)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:90)
+	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:182)
+	at net.minecraftforge.fml.common.FMLCommonHandler.onPostClientTick(FMLCommonHandler.java:349)
+	at net.minecraft.client.Minecraft.runTick(Minecraft.java:2037)
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1187)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:441)
+	at net.minecraft.client.main.Main.main(Main.java:118)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97)
+	at GradleStart.main(GradleStart.java:25)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Client thread
+Stacktrace:
+	at vazkii.ambience.SongPicker.getSongs(SongPicker.java:140)
+	at vazkii.ambience.SongPicker.getSongsString(SongPicker.java:318)
+	at vazkii.ambience.Ambience.onTick(Ambience.java:93)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_50_Ambience_onTick_ClientTickEvent.invoke(.dynamic)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:90)
+	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:182)
+	at net.minecraftforge.fml.common.FMLCommonHandler.onPostClientTick(FMLCommonHandler.java:349)
+
+-- Affected level --
+Details:
+	Level name: MpServer
+	All players: 1 total; [EntityPlayerSP['Player99'/387, l='MpServer', x=8.50, y=65.00, z=8.50]]
+	Chunk stats: MultiplayerChunkCache: 0, 0
+	Level seed: 0
+	Level generator: ID 00 - default, ver 1. Features enabled: false
+	Level generator options: 
+	Level spawn location: World: (8,64,8), Chunk: (at 8,4,8 in 0,0; contains blocks 0,0,0 to 15,255,15), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+	Level time: 0 game time, 0 day time
+	Level dimension: 0
+	Level storage version: 0x00000 - Unknown?
+	Level weather: Rain time: 0 (now: false), thunder time: 0 (now: false)
+	Level game mode: Game mode: survival (ID 0). Hardcore: false. Cheats: false
+	Forced entities: 1 total; [EntityPlayerSP['Player99'/387, l='MpServer', x=8.50, y=65.00, z=8.50]]
+	Retry entities: 0 total; []
+	Server brand: fml,forge
+	Server type: Integrated singleplayer server
+Stacktrace:
+	at net.minecraft.client.multiplayer.WorldClient.addWorldInfoToCrashReport(WorldClient.java:461)
+	at net.minecraft.client.Minecraft.addGraphicsAndWorldToCrashReport(Minecraft.java:2888)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:470)
+	at net.minecraft.client.main.Main.main(Main.java:118)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97)
+	at GradleStart.main(GradleStart.java:25)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.12.2
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_221, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 802789392 bytes (765 MB) / 1037959168 bytes (989 MB) up to 1037959168 bytes (989 MB)
+	JVM Flags: 3 total; -Xincgc -Xmx1024M -Xms1024M
+	IntCache: cache: 0, tcache: 0, allocated: 12, tallocated: 94
+	FML: MCP 9.42 Powered by Forge 14.23.5.2768 13 mods loaded, 13 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+
+	| State     | ID                | Version                     | Source                                                       | Signature                                |
+	|:--------- |:----------------- |:--------------------------- |:------------------------------------------------------------ |:---------------------------------------- |
+	| UCHIJAAAA | minecraft         | 1.12.2                      | minecraft.jar                                                | None                                     |
+	| UCHIJAAAA | mcp               | 9.42                        | minecraft.jar                                                | None                                     |
+	| UCHIJAAAA | FML               | 8.0.99.99                   | forgeSrc-1.12.2-14.23.5.2768.jar                             | None                                     |
+	| UCHIJAAAA | forge             | 14.23.5.2768                | forgeSrc-1.12.2-14.23.5.2768.jar                             | None                                     |
+	| UCHIJAAAA | examplemod        | 1.0                         | bin                                                          | None                                     |
+	| UCHIJAAAA | ambience          | GRADLE:VERSION-GRADLE:BUILD | bin                                                          | None                                     |
+	| UCHIJAAAA | biomeborderviewer | 1.3.0.0                     | Biome+Border+Viewer-1.3.0.0-1.12.2.jar                       | None                                     |
+	| UCHIJAAAA | llibrary          | 1.7.15                      | llibrary-1.7.15-1.12.2.jar                                   | b9f30a813bee3b9dd5652c460310cfcd54f6b7ec |
+	| UCHIJAAAA | mowziesmobs       | 1.5.1                       | mowziesmobs-1.5.1.jar                                        | None                                     |
+	| UCHIJAAAA | multimob          | 1.0.5                       | multimob-1.0.5.jar                                           | None                                     |
+	| UCHIJAAAA | primitivemobs     | 1.2.3a                      | primitivemobs-1.2.3a.jar                                     | None                                     |
+	| UCHIJAAAA | worldedit         | 6.1.10-SNAPSHOT             | worldedit-forge-mc1.12.2-6.1.10-SNAPSHOT-dist.jar            | None                                     |
+	| UCHIJAAAA | worldeditcuife2   | 2.1.2-mf-1.12-14.21.1.2387  | WorldEdit+CUI+Forge+Edition+2-2.1.2-mf-1.12-14.21.1.2387.jar | None                                     |
+
+	Loaded coremods (and transformers): 
+llibrary (llibrary-core-1.0.8-1.12.2.jar)
+  net.ilexiconn.llibrary.server.core.plugin.LLibraryTransformer
+  net.ilexiconn.llibrary.server.core.patcher.LLibraryRuntimePatcher
+	GL info: ' Vendor: 'NVIDIA Corporation' Version: '4.6.0 NVIDIA 419.67' Renderer: 'GeForce GTX 1070/PCIe/SSE2'
+	Launched Version: 1.12.2
+	LWJGL: 2.9.4
+	OpenGL: GeForce GTX 1070/PCIe/SSE2 GL version 4.6.0 NVIDIA 419.67, NVIDIA Corporation
+	GL Caps: Using GL 1.3 multitexturing.
+Using GL 1.3 texture combiners.
+Using framebuffer objects because OpenGL 3.0 is supported and separate blending is supported.
+Shaders are available because OpenGL 2.1 is supported.
+VBOs are available because OpenGL 1.5 is supported.
+
+	Using VBOs: Yes
+	Is Modded: Definitely; Client brand changed to 'fml,forge'
+	Type: Client (map_client.txt)
+	Resource Packs: 
+	Current Language: English (US)
+	Profiler Position: N/A (disabled)
+	CPU: 12x AMD Ryzen 5 1600 Six-Core Processor 

@@ -1,0 +1,23 @@
+item.soundnizer.name=Soundnizer
+
+GUI.ConfirmButton=Confirmar
+GUI.DeleteButton=Deletar Regiao
+GUI.SaveButton=Salvar Regiao
+GUI.ShowArea=Mostrar Regiao
+GUI.AreaNameLbl=Nome da Regiao:
+GUI.AreaNameField=Nome
+GUI.InstantPlayChk=Tocar Instantaneamente?
+GUI.SelectSoundLbl=Selecionar Som:
+GUI.anoite=Tocar a noite?
+
+Soundnizer.Position=Posicao
+Soundnizer.Alert=Voce deve estar dentro de uma regiao selecionada para criar uma nova!
+Soundnizer.Desc=Configura uma regiao para tocar um som.
+
+Speaker.Desc=Toca um som quando ativado por redstone
+Bell.Desc=Sino sagrado do Conselho das Ovelhas
+
+tile.speaker.name=Caixa de Som
+tile.bell.name=Sino Cerimonial
+
+Options.Reload=Recarrega as configs de músicas

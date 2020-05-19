@@ -1,0 +1,14 @@
+{
+  "minecraft:adventure/root": {
+    "criteria": {
+      "killed_by_something": "2019-08-06 17:00:23 -0300"
+    },
+    "done": true
+  },
+  "minecraft:adventure/adventuring_time": {
+    "criteria": {
+      "taiga": "2019-08-06 17:00:02 -0300"
+    },
+    "done": false
+  }
+}

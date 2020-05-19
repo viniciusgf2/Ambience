@@ -1,16 +1,15 @@
 [
 {
   "modid": "ambience",
-  "name": "Ambience",
-  "description": "Your soundtracks music in minecraft",
+  "name": "Ambience Mod",
+  "description": "Add music to your world",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "logoFile": "",
-  "url": "http://www.vazkii.us",
+  "url": "",
   "updateUrl": "",
-  "authorList": ["Vazkii"],
-  "credits": "",
-  "parent": "",
+  "authorList": ["ExampleDude"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
   "screenshots": [],
   "dependencies": []
 }

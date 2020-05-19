@@ -1,10 +1,12 @@
 package vazkii.ambience;
 
 import java.io.File;
-import java.util.Random;
+import java.rmi.registry.Registry;
+import java.rmi.registry.RegistryHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
@@ -12,21 +14,30 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import vaskii.ambience.GUI.GuiHandler;
+import vaskii.ambience.network4.ClientHandler;
+import vaskii.ambience.network4.MyMessage4;
+import vaskii.ambience.network4.NetworkHandler4;
+import vazkii.ambience.Util.WorldData;
+import vazkii.ambience.Util.Handlers.EventHandlers;
+import vazkii.ambience.Util.Handlers.ServerTickHandler;
+import vazkii.ambience.World.Biomes.Area;
+import vazkii.ambience.proxy.ClientProxy;
+import vazkii.ambience.proxy.CommonProxy;
 
-@Mod(modid = Ambience.MOD_ID, name = Ambience.MOD_NAME, version = Ambience.VERSION, dependencies = Ambience.DEPENDENCIES)
+@Mod(modid = Reference.MOD_ID , name = Reference.MOD_NAME , version = Reference.VERSION , dependencies = Reference.DEPENDENCIES )
 public class Ambience {
-
-	public static final String MOD_ID = "ambience";
-	public static final String MOD_NAME = MOD_ID;
-	public static final String BUILD = "GRADLE:BUILD";
-	public static final String VERSION = "GRADLE:VERSION-" + BUILD;
-	public static final String DEPENDENCIES = "";
 
 	private static final int WAIT_DURATION = 40;
 	public static final int FADE_DURATION = 40;
@@ -37,40 +48,112 @@ public class Ambience {
 
 	public static PlayerThread thread;
 	
-	String currentSong;
-	String nextSong;
-	int waitTick = WAIT_DURATION;
-	int fadeOutTicks = FADE_DURATION;
-	int fadeInTicks = 0;
-	int silenceTicks = 0;
+	public static Boolean attacked=false;
+	public static Boolean forcePlay=false;
+	
+	public String currentSong;
+	public String nextSong;
+	public static int waitTick = WAIT_DURATION;
+	public static int fadeOutTicks = FADE_DURATION;
+	public int fadeInTicks = 0;
+	public static int silenceTicks = 0;
+	public static File  ambienceDir;
+	
+	public static Area selectedArea=new Area("Area1");
+	public static int multiArea=0;
+	
+	private static WorldData worldData=new WorldData();
+	
+	public static boolean sync=false;
+	
+	public static boolean instantPlaying=false;
+	
+	public static WorldData getWorldData() {
+		return worldData;
+	}
+
+	public static void setWorldData(WorldData worldData) {
+		Ambience.worldData = worldData;
+	}
+
+	@Instance
+	public static Ambience instance;
+	
+	@SidedProxy(clientSide = Reference.CLIENT , serverSide= Reference.COMMON)
+	public static CommonProxy proxy;
+	
+	
+	@SideOnly(Side.CLIENT)
+	public static ClientProxy proxyClient;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		
+		//Registra os Biomas
+		//RegistryHandler.otherRegistries();
+
+		NetworkHandler4.init();
+		NetworkHandler4.INSTANCE.registerMessage(ClientHandler.class, MyMessage4.class, 2, Side.CLIENT);
+		
+
+		
+		
+		//Registra a GUI
+		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
+		
+		//SyncHandler.init();
+		
+		proxy.preInit(event);
+		proxy.registerTileEntities();
+		
+		File configDir = event.getSuggestedConfigurationFile().getParentFile();
+		ambienceDir = new File(configDir.getParentFile(), "ambience_music");
+		if(!ambienceDir.exists())
+			ambienceDir.mkdir();		
+		
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) return;
+		
+		EventHandlers eventHand=new EventHandlers(this);
+
+		FMLCommonHandler.instance().bus().register(eventHand);
+		MinecraftForge.EVENT_BUS.register(eventHand);
 
 		FMLCommonHandler.instance().bus().register(this);
 		MinecraftForge.EVENT_BUS.register(this);
 		
-		File configDir = event.getSuggestedConfigurationFile().getParentFile();
-		File ambienceDir = new File(configDir.getParentFile(), "ambience_music");
-		if(!ambienceDir.exists())
-			ambienceDir.mkdir();
+		//proxy.preInit(event);
+		//proxyClient= new ClientProxy();
+		//proxyClient.preInit(event);
 		
-		SongLoader.loadFrom(ambienceDir);
+				
 		
-		if(SongLoader.enabled)
-			thread = new PlayerThread();
+
+		//SongLoader.loadFrom(ambienceDir);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+
+		//Server Tick
+		FMLCommonHandler.instance().bus().register(new ServerTickHandler());
+				
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) return;
+		else
+		{			
+			SongLoader.loadFrom(ambienceDir);
+						
+			
+			if(SongLoader.enabled)
+				thread = new PlayerThread();
+			
+			proxy.init(event);
+		}
 
 		Minecraft mc = Minecraft.getMinecraft();
 		MusicTicker ticker = new NilMusicTicker(mc);
 		ReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, OBF_MC_MUSIC_TICKER);
 	}
-	
+		
 	@SubscribeEvent
 	public void onTick(ClientTickEvent event) {
 		if(thread == null)

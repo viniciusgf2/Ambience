@@ -1,28 +1,22 @@
-*.mp3
-Thumbs.db
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
 
-## gradle
-/.gradle
-/build
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
 
-## ForgeGradle
-/run
+# gradle
+build
+.gradle
 
-## eclipse
-/.settings
-/.metadata
-/.classpath
-/.project
-/bin
-
-## intellij
-/out
-/.idea
-/atlassian-ide-plugin.xml
-
-## Private Stuffs
-/private.properties
-
-## Jars
-*.jar
-!/gradle/wrapper/gradle-wrapper.jar
+# other
+eclipse
+run

@@ -1,0 +1,64 @@
+---- Minecraft Crash Report ----
+// You should try our sister game, Minceraft!
+
+Time: 12/09/19 23:13
+Description: Exception in server tick loop
+
+java.lang.NoClassDefFoundError: vazkii/ambience/Util/Handlers/SoundHandler
+	at vazkii.ambience.Util.Handlers.RegistryHandler.onSoundRegister(RegistryHandler.java:26)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_7_RegistryHandler_onSoundRegister_Register.invoke(.dynamic)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:90)
+	at net.minecraftforge.fml.common.eventhandler.EventBus$1.invoke(EventBus.java:144)
+	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:182)
+	at net.minecraftforge.registries.GameData.fireRegistryEvents(GameData.java:859)
+	at net.minecraftforge.fml.common.Loader.preinitializeMods(Loader.java:628)
+	at net.minecraftforge.fml.server.FMLServerHandler.beginServerLoading(FMLServerHandler.java:99)
+	at net.minecraftforge.fml.common.FMLCommonHandler.onServerStart(FMLCommonHandler.java:333)
+	at net.minecraft.server.dedicated.DedicatedServer.init(DedicatedServer.java:128)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:552)
+	at java.lang.Thread.run(Unknown Source)
+Caused by: java.lang.ClassNotFoundException: vazkii.ambience.Util.Handlers.SoundHandler
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:191)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 12 more
+Caused by: net.minecraftforge.fml.common.asm.ASMTransformerWrapper$TransformerException: Exception in class transformer net.minecraftforge.fml.common.asm.transformers.SideTransformer@36baa049 from coremod FMLCorePlugin
+	at net.minecraftforge.fml.common.asm.ASMTransformerWrapper$TransformerWrapper.transform(ASMTransformerWrapper.java:260)
+	at net.minecraft.launchwrapper.LaunchClassLoader.runTransformers(LaunchClassLoader.java:279)
+	at net.minecraft.launchwrapper.LaunchClassLoader.findClass(LaunchClassLoader.java:176)
+	... 14 more
+Caused by: java.lang.RuntimeException: Attempted to load class vazkii/ambience/Util/Handlers/SoundHandler for invalid side SERVER
+	at net.minecraftforge.fml.common.asm.transformers.SideTransformer.transform(SideTransformer.java:62)
+	at net.minecraftforge.fml.common.asm.ASMTransformerWrapper$TransformerWrapper.transform(ASMTransformerWrapper.java:256)
+	... 16 more
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- System Details --
+Details:
+	Minecraft Version: 1.12.2
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_221, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 937354080 bytes (893 MB) / 1037959168 bytes (989 MB) up to 1037959168 bytes (989 MB)
+	JVM Flags: 3 total; -Xincgc -Xmx1024M -Xms1024M
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: MCP 9.42 Powered by Forge 14.23.5.2838 7 mods loaded, 7 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+
+	| State | ID         | Version                     | Source                                            | Signature |
+	|:----- |:---------- |:--------------------------- |:------------------------------------------------- |:--------- |
+	| LCH   | minecraft  | 1.12.2                      | minecraft.jar                                     | None      |
+	| LCH   | mcp        | 9.42                        | minecraft.jar                                     | None      |
+	| LCH   | FML        | 8.0.99.99                   | forgeSrc-1.12.2-14.23.5.2838.jar                  | None      |
+	| LCH   | forge      | 14.23.5.2838                | forgeSrc-1.12.2-14.23.5.2838.jar                  | None      |
+	| LCH   | morebiomes | 1.0.0                       | MoreBiomes-1.12.2-1.0.jar                         | None      |
+	| LCH   | ambience   | GRADLE:VERSION-GRADLE:BUILD | bin                                               | None      |
+	| LCH   | worldedit  | 6.1.10-SNAPSHOT             | worldedit-forge-mc1.12.2-6.1.10-SNAPSHOT-dist.jar | None      |
+
+	Loaded coremods (and transformers): 
+	Profiler Position: N/A (disabled)
+	Is Modded: Definitely; Server brand changed to 'fml,forge'
+	Type: Dedicated Server (map_server.txt)
