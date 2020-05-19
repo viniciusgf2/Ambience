@@ -1,58 +1,58 @@
 # Ambience Config
 
-# You may specify multiple songs for a single event using a comma as a separator
-# e.g. event.underground=Song1,Song2,Song3,Song4
-# NOTE: Make sure you are not using any song names that contain the exact name of another song name as this will cause conflicts
-# This feature is not available in 1.10 versions of the mod, or older.
-
 enabled=true
 
 # === Events - Highest Priority
 # Any non covered events will be ignored
 # e.g. If you don't want a "high up" song, don't include event.highUp
 
-event.mainMenu=ScapeTheme
-event.boss=AttackII
-event.underground=ScapeCave
-event.deepUnderground=CaveBackground
-event.highUp=MilesAway
-event.village=TheTradeParade
-event.underwater=Zealot
-event.minecart=DwarfTheme
-event.boat=SeaShantyII
-event.horse=FluteSalad
-event.pig=GoblinVillage
-event.night=Nightfall
-event.rain=Quest
-event.dying=Forbidden
-event.fishing=SeaShantyI
-event.pumpkinHead=DanceOfDeath
+event.mainMenu=MenuTheme
+event.boss=Boss,Boss1,Boss2,Boss3
+event.underground=cavern
+event.deepUnderground=DeepUnderground
+event.village=village
+event.underwater=underwater
+event.night=night,night2
+event.rain=rain
+event.fishing=fishing
+event.boat=boat
+event.horde=battle,battle2
+event.horse=horse
+event.highUp=thesky
+event.attacked=battle,battle2
+event.generic=field
 
-# Note: you MUST have a song attributed to this event to prevent cases where there's 
-# no song to play and a song for an event that no longer applies is still playing.
-# If you don't have a song here you also risk potential crashes.
-event.generic=AutumnVoyage
-
-#event.villageNight=
-#event.credits=
-#event.horde=
-#event.nether=
-#event.end=
-#event.bossWither=
-#event.bossDragon=
-
-# You can add songs for custom bosses. If there's a mod that adds a boss with ID
-# GolemBoss for example, you can use event.bossGolemBoss=
+#Bosses
+event.foliaath=Boss
+event.ferrous_wroughtnaut=Boss
+event.barakoaya=Boss
+event.barako=Boss
+event.frostmaw=Boss
+event.naga=Boss
 
 # === Events End
+
+# === Specific Areas with the Sondnizer Tool - Highest Priority
+# Areas names have spaces replaced with +
+
+area.Airharbor=harbor
+area.Elevador=elevator
+area.Dungeon=dungeon
+area.Laboratorio=laboratory
 
 # === Specific Biomes - High Priority
 # Biomes names have spaces replaced with +
 
-biome.Sunflower+Plains=Parade
-biome.Flower+Forest=Parade
-biome.Roofed+Forest=Start
-biome.Deep+Ocean=LongWayHome
+biome.Sunflower+Plains=field
+biome.Flower+Forest=forest
+biome.Roofed+Forest=wood
+biome.Deep+Ocean=ocean
+biome.The+Void=silent
+biome.The+End=ender
+biome.Hell=nether
+biome.House=house,house1,house2
+biome.Shop=shop
+
 
 # === Specific Biomes End
 
@@ -63,26 +63,26 @@ biome.Deep+Ocean=LongWayHome
 # https://github.com/MinecraftForge/MinecraftForge/blob/master/src/main/java/net/minecraftforge/common/BiomeDictionary.java
 
 # Medium priority
-primarytag.spooky=UnknownLand
-primarytag.dead=Spooky
-primarytag.lush=Expanse
-primarytag.nether=Moody
-primarytag.end=Wonder
-primarytag.mushroom=Wander
-primarytag.magical=Vision
-primarytag.ocean=NewbieMelody
-primarytag.river=Greatness
+primarytag.nether=nether
+primarytag.end=ender
+primarytag.ocean=ocean
+primarytag.river=river
+
 
 # Low
-secondarytag.mesa=Barbarianism
-secondarytag.forest=Dream
-secondarytag.plains=Harmony
-secondarytag.mountain=Adventure
-secondarytag.hills=Medieval
-secondarytag.swamp=Yesteryear
-secondarytag.sandy=AlKharid
-secondarytag.snowy=Starlight
-secondarytag.wasteland=Forever
-secondarytag.beach=Attention
+secondarytag.mesa=MesaBiomeTheme
+secondarytag.forest=forest
+secondarytag.plains=field
+secondarytag.moutain=mountain
+secondarytag.hills=mountain
+secondarytag.swamp=swampland
+secondarytag.sandy=desert
+secondarytag.snowy=ice
+secondarytag.wasteland=field
+secondarytag.beach=beach
 
 # === Biome Tags End
+
+# === Speaker Sounds
+#sounds list, put the .ogg files in the ambience_music/sounds folders and add the file name to this list without the file extension
+speaker= secret,gas,engine,bell1,bell2,demoniachorus,railroadbel
