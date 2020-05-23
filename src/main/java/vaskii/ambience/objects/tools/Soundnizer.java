@@ -14,6 +14,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -61,7 +62,7 @@ public class Soundnizer extends ItemBase {
 									+ ((int) Position2.getBlockPos().getZ()))),
 							(true));
 
-					Ambience.selectedArea.setPos2(Position2.getBlockPos());
+					Ambience.selectedArea.setPos2(new Vec3d(Position2.getBlockPos().getX(),Position2.getBlockPos().getY(),Position2.getBlockPos().getZ()));
 					Ambience.selectedArea.setDimension(playerIn.dimension);
 				} else {
 					if (Ambience.selectedArea != null)
@@ -78,10 +79,9 @@ public class Soundnizer extends ItemBase {
 						// Check if player is inside the selected area before creating
 						if (Ambience.selectedArea.getPos1() != null & Ambience.selectedArea.getPos2() != null) {
 
-							Border border = new Border(Ambience.selectedArea.getPos1(),
-									Ambience.selectedArea.getPos2());
+							Border border = new Border(Ambience.selectedArea.getPos1(),Ambience.selectedArea.getPos2());
 
-							if (border.contains(playerIn.getPosition())) {
+							if (border.contains(playerIn.getPositionVector())) {
 
 								//Create AREA
 								playerIn.openGui(Ambience.instance, 5, worldIn, MathHelper.floor(playerIn.posX),
@@ -101,6 +101,7 @@ public class Soundnizer extends ItemBase {
 				} else {
 					//Clear selected Area
 						Ambience.selectedArea = new Area("Area1");
+						Ambience.previewArea = new Area("Area1");
 				}
 			}
 		}
@@ -139,7 +140,7 @@ public class Soundnizer extends ItemBase {
 							(true));
 				}
 				// Defines the selected area Pos 1
-				Ambience.selectedArea.setPos1(Position1.getBlockPos());
+				Ambience.selectedArea.setPos1(new Vec3d(Position1.getBlockPos().getX(),Position1.getBlockPos().getY(),Position1.getBlockPos().getZ()));
 			}
 		}
 		return super.onEntitySwing(entityLiving, stack);

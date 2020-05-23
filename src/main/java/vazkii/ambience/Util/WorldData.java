@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
@@ -189,7 +190,7 @@ public class WorldData extends WorldSavedData {
 			Area area = new Area(areaCompound.getString("Name"));
 			area.setDimension(areaCompound.getInteger("D"));
 			area.setID(areaCompound.getInteger("ID"));
-			area.setInstantPlay(areaCompound.getBoolean("playNight"));
+			area.setPlayAtNight(areaCompound.getBoolean("playNight"));
 			area.setInstantPlay(areaCompound.getBoolean("instP"));
 			
 			listAreas.add(area);
@@ -198,12 +199,12 @@ public class WorldData extends WorldSavedData {
 			Iterator<NBTBase> iterator2 = tagListPos.iterator();
 			while (iterator2.hasNext()) {
 				NBTTagCompound posCompound = (NBTTagCompound) iterator2.next();
-				BlockPos pos1 = new BlockPos(posCompound.getInteger("x1"), posCompound.getInteger("y1"),
-						posCompound.getInteger("z1"));
+				Vec3d pos1 = new Vec3d(posCompound.getDouble("x1"), posCompound.getDouble("y1"),
+						posCompound.getDouble("z1"));
 				area.setPos1(pos1);
 
-				BlockPos pos2 = new BlockPos(posCompound.getInteger("x2"), posCompound.getInteger("y2"),
-						posCompound.getInteger("z2"));
+				Vec3d pos2 = new Vec3d(posCompound.getDouble("x2"), posCompound.getDouble("y2"),
+						posCompound.getDouble("z2"));
 				area.setPos2(pos2);
 			}
 		}

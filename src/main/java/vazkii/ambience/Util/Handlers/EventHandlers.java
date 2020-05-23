@@ -206,6 +206,11 @@ public class EventHandlers {
 		Ambience.silenceTicks = Ambience.SILENCE_DURATION;
 		Ambience.waitTick = 0;
 		Ambience.instantPlaying=true;
+			
+		Ambience.thread.setGain(PlayerThread.fadeGains[0]);	
+		Ambience.fadeIn=false;
+		
+		
 		//Ambience.instance.fadeInTicks = Ambience.FADE_DURATION;
 		//Ambience.instance.silenceTicks = Ambience.SILENCE_DURATION;
 		//Ambience.instance.waitTick = 0;

@@ -39,9 +39,9 @@ import vazkii.ambience.proxy.CommonProxy;
 @Mod(modid = Reference.MOD_ID , name = Reference.MOD_NAME , version = Reference.VERSION , dependencies = Reference.DEPENDENCIES )
 public class Ambience {
 
-	private static final int WAIT_DURATION = 40;
-	public static final int FADE_DURATION = 40;
-	public static final int SILENCE_DURATION = 20;
+	private static final int WAIT_DURATION = 25;
+	public static final int FADE_DURATION = 25;
+	public static final int SILENCE_DURATION = 5;
 
 	public static final String[] OBF_MC_MUSIC_TICKER = { "aM", "field_147126_aw", "mcMusicTicker" };
 	public static final String[] OBF_MAP_BOSS_INFOS = { "g", "field_184060_g", "mapBossInfos" };
@@ -55,11 +55,13 @@ public class Ambience {
 	public String nextSong;
 	public static int waitTick = WAIT_DURATION;
 	public static int fadeOutTicks = FADE_DURATION;
-	public int fadeInTicks = 0;
+	public static int fadeInTicks = FADE_DURATION-1;
+	public static boolean fadeIn = false;
 	public static int silenceTicks = 0;
 	public static File  ambienceDir;
 	
 	public static Area selectedArea=new Area("Area1");
+	public static Area previewArea=new Area("Area1");
 	public static int multiArea=0;
 	
 	private static WorldData worldData=new WorldData();
@@ -172,9 +174,22 @@ public class Ambience {
 					song = nextSong;
 			}
 			
+			//Fade In gain***************
+			if(fadeIn) {
+				thread.setGain(PlayerThread.fadeGains[fadeInTicks]);				
+			}			
+			if(thread.gain<thread.MAX_GAIN & fadeInTicks>0 & fadeIn) {			
+				fadeInTicks--;
+				fadeIn=true;
+			}else {
+				fadeIn=false;
+				fadeInTicks= FADE_DURATION-1;		
+			}
+			//***************
+			
 			if(songs != null && (!songs.equals(PlayerThread.currentSongChoices) || (song == null && PlayerThread.currentSong != null) || !thread.playing)) {
 				if(nextSong != null && nextSong.equals(song))
-					waitTick--;
+					waitTick--;				
 				
 				if (!song.equals(currentSong)) {
 					if (currentSong != null && PlayerThread.currentSong != null && !PlayerThread.currentSong.equals(song) && songs.equals(PlayerThread.currentSongChoices))
@@ -210,7 +225,7 @@ public class Ambience {
 				}
 			} else {
 				nextSong = null;
-				thread.setGain(PlayerThread.fadeGains[0]);
+				//thread.setGain(PlayerThread.fadeGains[0]);
 				silenceTicks = 0;
 				fadeOutTicks = 0;
 				waitTick = WAIT_DURATION;
@@ -235,6 +250,9 @@ public class Ambience {
 			String name = "Next Song: " + SongPicker.getSongName(nextSong);
 			event.getRight().add(name);
 		}
+		
+	//	String name = "Gain: " + thread.realGain;
+	//	event.getRight().add(name);
 	}
 	
 	@SubscribeEvent
@@ -248,8 +266,14 @@ public class Ambience {
 	}
 	
 	public void changeSongTo(String song) {
-		currentSong = song;
-		thread.play(song);
+		
+		currentSong = song;	
+		thread.play(song);		
+		thread.setGain(PlayerThread.fadeGains[fadeInTicks]);	
+		if(!attacked) {
+			fadeInTicks= FADE_DURATION-1;		
+			fadeIn=true;
+		}
 	}
 	
 }

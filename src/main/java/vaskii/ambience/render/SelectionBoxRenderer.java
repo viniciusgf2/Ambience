@@ -12,7 +12,7 @@ import vazkii.ambience.Util.Border;
 
 public class SelectionBoxRenderer {
 
-	public static void drawBoundingBox(Vec3d player_pos, BlockPos posA, BlockPos posB, boolean smooth, float width) {
+	public static void drawBoundingBox(Vec3d player_pos, Vec3d posA, Vec3d posB, boolean smooth, float width) {
 
 		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
 		GL11.glDisable(GL11.GL_CULL_FACE);
@@ -32,210 +32,234 @@ public class SelectionBoxRenderer {
 		
 		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
 
-		double dx = Math.abs(posA.getX() - posB.getX());
-		double dy = Math.abs(posA.getY() - posB.getY());
-		double dz = Math.abs(posA.getZ() - posB.getZ());
+		//double dx = Math.abs(posA.x - posB.x);
+		//double dy = Math.abs(posA.y - posB.y);
+		//double dz = Math.abs(posA.z - posB.z);
 		double margin=-0.01;
 				
-		Border border = new Border(posA, posB);
+
+		Vec3d pA=new Vec3d(posA.x-1,posA.y,posA.z);
+		Vec3d pB=new Vec3d(posB.x,posB.y,posB.z-1);
+		
+		if(posA.x >= posB.x & posA.z >= posB.z) {
+			pA=new Vec3d(posA.x-1,posA.y,posA.z-1);
+			pB=new Vec3d(posB.x,posB.y,posB.z);
+		}			
+
+		if(posA.x <= posB.x & posA.z <= posB.z) {
+			pA=new Vec3d(posA.x,posA.y,posA.z);
+			pB=new Vec3d(posB.x-1,posB.y,posB.z-1);
+		}
+			
+		if(posA.x <= posB.x & posA.z >= posB.z) {
+			pA=new Vec3d(posA.x,posA.y,posA.z-1);
+			pB=new Vec3d(posB.x-1,posB.y,posB.z);
+		}
+		
+		if(posA.x >= posB.x & posA.z <= posB.z) {
+			pA=new Vec3d(posA.x-1,posA.y,posA.z);
+			pB=new Vec3d(posB.x,posB.y,posB.z-1);
+		}
+		
+		Border border = new Border(pA, pB);
 		 
 		//Bottom
 				// AB
-				bufferBuilder.pos(border.p1.getX(), border.p1.getY() + margin, border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
-				bufferBuilder.pos(border.p2.getX()+1, border.p1.getY() + margin, border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
+				bufferBuilder.pos(border.p1.x, border.p1.y + margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
+				bufferBuilder.pos(border.p2.x+1, border.p1.y + margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
 				// BC
-				bufferBuilder.pos(border.p2.getX()+1, border.p1.getY() + margin, border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-				bufferBuilder.pos(border.p2.getX()+1, border.p1.getY() + margin, border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
+				bufferBuilder.pos(border.p2.x+1, border.p1.y + margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
+				bufferBuilder.pos(border.p2.x+1, border.p1.y + margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
 				// CD
-				bufferBuilder.pos(border.p2.getX()+1, border.p1.getY() + margin, border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
-				bufferBuilder.pos(border.p1.getX(), border.p1.getY() + margin, border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
+				bufferBuilder.pos(border.p2.x+1, border.p1.y + margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
+				bufferBuilder.pos(border.p1.x, border.p1.y + margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
 				// DA
-				bufferBuilder.pos(border.p1.getX(), border.p1.getY() + margin, border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
-				bufferBuilder.pos(border.p1.getX(), border.p1.getY() + margin, border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
+				bufferBuilder.pos(border.p1.x, border.p1.y + margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
+				bufferBuilder.pos(border.p1.x, border.p1.y + margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
 		
 		//Top
 				// EF
-				bufferBuilder.pos(border.p1.getX(), border.p2.getY()+1 - margin, border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
-				bufferBuilder.pos(border.p2.getX()+1, border.p2.getY()+1 - margin, border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
+				bufferBuilder.pos(border.p1.x, border.p2.y+1 - margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1 - margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
 				// FG
-				bufferBuilder.pos(border.p2.getX()+1, border.p2.getY()+1 - margin, border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
-				bufferBuilder.pos(border.p2.getX()+1, border.p2.getY()+1 - margin, border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1 - margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1 - margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
 				// GH
-				bufferBuilder.pos(border.p2.getX()+1, border.p2.getY()+1 - margin, border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
-				bufferBuilder.pos(border.p1.getX(), border.p2.getY()+1 - margin, border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1 - margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
+				bufferBuilder.pos(border.p1.x, border.p2.y+1 - margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
 				// HE
-				bufferBuilder.pos(border.p1.getX(), border.p2.getY()+1 - margin, border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); //H
-				bufferBuilder.pos(border.p1.getX(), border.p2.getY()+1 - margin, border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
+				bufferBuilder.pos(border.p1.x, border.p2.y+1 - margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); //H
+				bufferBuilder.pos(border.p1.x, border.p2.y+1 - margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
 		
 		//Oeste
 				//AE
-				bufferBuilder.pos(border.p1.getX(), border.p1.getY(), border.p1.getZ() - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A				
-				bufferBuilder.pos(border.p1.getX(), border.p2.getY()+1, border.p1.getZ() - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
+				bufferBuilder.pos(border.p1.x, border.p1.y, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A				
+				bufferBuilder.pos(border.p1.x, border.p2.y+1, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
 				
 				//EF
-				bufferBuilder.pos(border.p1.getX(), border.p2.getY()+1, border.p1.getZ() - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
-				bufferBuilder.pos(border.p2.getX()+1, border.p2.getY()+1, border.p1.getZ() - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F		
+				bufferBuilder.pos(border.p1.x, border.p2.y+1, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F		
 			
 				//FB
-				bufferBuilder.pos(border.p2.getX()+1, border.p2.getY()+1, border.p1.getZ() - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
-				bufferBuilder.pos(border.p2.getX()+1, border.p1.getY(), border.p1.getZ() - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
+				bufferBuilder.pos(border.p2.x+1, border.p1.y, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
 			
 				//BA				
-				bufferBuilder.pos(border.p2.getX()+1, border.p1.getY(), border.p1.getZ() - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-				bufferBuilder.pos(border.p1.getX(), border.p1.getY(), border.p1.getZ() - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
+				bufferBuilder.pos(border.p2.x+1, border.p1.y, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
+				bufferBuilder.pos(border.p1.x, border.p1.y, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
 			
 	     
 	   //Leste
 				//CD
-				bufferBuilder.pos(border.p2.getX()+1, border.p1.getY(), border.p2.getZ()+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
-				bufferBuilder.pos(border.p1.getX(), border.p1.getY(), border.p2.getZ()+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
+				bufferBuilder.pos(border.p2.x+1, border.p1.y, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
+				bufferBuilder.pos(border.p1.x, border.p1.y, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
 				//DH
-				bufferBuilder.pos(border.p1.getX(), border.p1.getY(), border.p2.getZ()+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
-				bufferBuilder.pos(border.p1.getX(), border.p2.getY()+1, border.p2.getZ()+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); //H
+				bufferBuilder.pos(border.p1.x, border.p1.y, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
+				bufferBuilder.pos(border.p1.x, border.p2.y+1, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); //H
 				
 				//HG
-				bufferBuilder.pos(border.p1.getX(), border.p2.getY()+1, border.p2.getZ()+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); //H
-				bufferBuilder.pos(border.p2.getX()+1, border.p2.getY()+1, border.p2.getZ()+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
+				bufferBuilder.pos(border.p1.x, border.p2.y+1, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); //H
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
 				
 				//GC
-				bufferBuilder.pos(border.p2.getX()+1, border.p2.getY()+1, border.p2.getZ()+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
-				bufferBuilder.pos(border.p2.getX()+1, border.p1.getY(), border.p2.getZ()+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
+				bufferBuilder.pos(border.p2.x+1, border.p1.y, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
 			
 	     
 	   //Norte
 				//AD				
-		     	bufferBuilder.pos(border.p1.getX() - margin, border.p1.getY(), border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A 
-		     	bufferBuilder.pos(border.p1.getX() - margin, border.p1.getY(), border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D 
+		     	bufferBuilder.pos(border.p1.x - margin, border.p1.y, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A 
+		     	bufferBuilder.pos(border.p1.x - margin, border.p1.y, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D 
 				
 				//DH
-		     	bufferBuilder.pos(border.p1.getX() - margin, border.p1.getY(), border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D 
-		     	bufferBuilder.pos(border.p1.getX() - margin, border.p2.getY()+1, border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); //H 
+		     	bufferBuilder.pos(border.p1.x - margin, border.p1.y, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D 
+		     	bufferBuilder.pos(border.p1.x - margin, border.p2.y+1, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); //H 
 				
 				//HE
-		     	bufferBuilder.pos(border.p1.getX() - margin, border.p2.getY()+1, border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); //H 
-		     	bufferBuilder.pos(border.p1.getX() - margin, border.p2.getY()+1, border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E 
+		     	bufferBuilder.pos(border.p1.x - margin, border.p2.y+1, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); //H 
+		     	bufferBuilder.pos(border.p1.x - margin, border.p2.y+1, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E 
 				
 				//EA
-		     	bufferBuilder.pos(border.p1.getX() - margin, border.p2.getY()+1, border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
-				bufferBuilder.pos(border.p1.getX() - margin, border.p1.getY(), border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A 
+		     	bufferBuilder.pos(border.p1.x - margin, border.p2.y+1, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
+				bufferBuilder.pos(border.p1.x - margin, border.p1.y, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A 
 			
 		//Sul
 				//BC
-				bufferBuilder.pos(border.p2.getX()+1 + margin, border.p1.getY(), border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-				bufferBuilder.pos(border.p2.getX()+1 + margin, border.p1.getY(), border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p1.y, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p1.y, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
 
 				//CG
-				bufferBuilder.pos(border.p2.getX()+1 + margin, border.p1.getY(), border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
-				bufferBuilder.pos(border.p2.getX()+1 + margin, border.p2.getY()+1, border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G				
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p1.y, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p2.y+1, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G				
 						
 				//GF
-				bufferBuilder.pos(border.p2.getX()+1 + margin, border.p2.getY()+1, border.p2.getZ()+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G	
-				bufferBuilder.pos(border.p2.getX()+1 + margin, border.p2.getY()+1, border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p2.y+1, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G	
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p2.y+1, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
 				
 				//FB
-				bufferBuilder.pos(border.p2.getX()+1 + margin, border.p2.getY()+1, border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
-				bufferBuilder.pos(border.p2.getX()+1 + margin, border.p1.getY(), border.p1.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p2.y+1, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p1.y, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
 	     
 		/*
 		//Bottom
 		// AB
-		bufferBuilder.pos(posA.getX(), posA.getY() + margin, posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
-		bufferBuilder.pos(posA.getX(), posA.getY() + margin, posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
+		bufferBuilder.pos(posA.x, posA.y + margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
+		bufferBuilder.pos(posA.x, posA.y + margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
 		// BC
-		bufferBuilder.pos(posA.getX(), posA.getY() + margin, posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-		bufferBuilder.pos(posA.getX() + dx, posA.getY() + margin, posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
+		bufferBuilder.pos(posA.x, posA.y + margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
+		bufferBuilder.pos(posA.x + dx, posA.y + margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
 		// CD
-		bufferBuilder.pos(posA.getX() + dx, posA.getY() + margin, posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
-		bufferBuilder.pos(posA.getX() + dx, posA.getY() + margin, posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
+		bufferBuilder.pos(posA.x + dx, posA.y + margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
+		bufferBuilder.pos(posA.x + dx, posA.y + margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
 		// DA
-		bufferBuilder.pos(posA.getX() + dx, posA.getY() + margin, posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
-		bufferBuilder.pos(posA.getX(), posA.getY() + margin, posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
+		bufferBuilder.pos(posA.x + dx, posA.y + margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
+		bufferBuilder.pos(posA.x, posA.y + margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
 		
 		//Top
 		// EF
-		bufferBuilder.pos(posA.getX(), posA.getY() + dy - margin, posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
-		bufferBuilder.pos(posA.getX(), posA.getY() + dy - margin, posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F		
+		bufferBuilder.pos(posA.x, posA.y + dy - margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
+		bufferBuilder.pos(posA.x, posA.y + dy - margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F		
 		// FG
-		bufferBuilder.pos(posA.getX(), posA.getY() + dy - margin, posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
-		bufferBuilder.pos(posA.getX() + dx, posA.getY() + dy - margin, posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
+		bufferBuilder.pos(posA.x, posA.y + dy - margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
+		bufferBuilder.pos(posA.x + dx, posA.y + dy - margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
 		// GH
-		bufferBuilder.pos(posA.getX() + dx, posA.getY() + dy - margin, posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
-		bufferBuilder.pos(posA.getX() + dx, posA.getY() + dy - margin, posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
+		bufferBuilder.pos(posA.x + dx, posA.y + dy - margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
+		bufferBuilder.pos(posA.x + dx, posA.y + dy - margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
 		// HE
-		bufferBuilder.pos(posA.getX() + dx, posA.getY() + dy - margin, posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
-		bufferBuilder.pos(posA.getX(), posA.getY() + dy - margin, posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
+		bufferBuilder.pos(posA.x + dx, posA.y + dy - margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
+		bufferBuilder.pos(posA.x, posA.y + dy - margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
 		
 		
 		//Leste
 		// AE
-		bufferBuilder.pos(posA.getX()- margin, posA.getY(), posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
-		bufferBuilder.pos(posA.getX()- margin, posA.getY() + dy, posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
+		bufferBuilder.pos(posA.x- margin, posA.y, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
+		bufferBuilder.pos(posA.x- margin, posA.y + dy, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
 		
 		// EF
-		bufferBuilder.pos(posA.getX()- margin, posA.getY() + dy, posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
-		bufferBuilder.pos(posA.getX()- margin, posA.getY() + dy, posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F		
+		bufferBuilder.pos(posA.x- margin, posA.y + dy, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
+		bufferBuilder.pos(posA.x- margin, posA.y + dy, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F		
 	
 		//FB
-		bufferBuilder.pos(posA.getX()- margin, posA.getY() + dy, posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
-		bufferBuilder.pos(posA.getX()- margin, posA.getY(), posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
+		bufferBuilder.pos(posA.x- margin, posA.y + dy, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
+		bufferBuilder.pos(posA.x- margin, posA.y, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
 	
 		//BA				
-		bufferBuilder.pos(posA.getX()- margin, posA.getY(), posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-		bufferBuilder.pos(posA.getX()- margin, posA.getY(), posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
+		bufferBuilder.pos(posA.x- margin, posA.y, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
+		bufferBuilder.pos(posA.x- margin, posA.y, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
 			
 		//Norte
 		//AD				
-		bufferBuilder.pos(posA.getX(), posA.getY(), posA.getZ()- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
-		bufferBuilder.pos(posA.getX() + dx, posA.getY(), posA.getZ()- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
+		bufferBuilder.pos(posA.x, posA.y, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
+		bufferBuilder.pos(posA.x + dx, posA.y, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
 		
 		//DH
-		bufferBuilder.pos(posA.getX() + dx, posA.getY(), posA.getZ()- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
-		bufferBuilder.pos(posA.getX() + dx, posA.getY() + dy, posA.getZ()- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
+		bufferBuilder.pos(posA.x + dx, posA.y, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
+		bufferBuilder.pos(posA.x + dx, posA.y + dy, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
 		
 		//HE
-		bufferBuilder.pos(posA.getX() + dx, posA.getY() + dy, posA.getZ()- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
-		bufferBuilder.pos(posA.getX(), posA.getY() + dy, posA.getZ()- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
+		bufferBuilder.pos(posA.x + dx, posA.y + dy, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
+		bufferBuilder.pos(posA.x, posA.y + dy, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
 		
 		//EA
-		bufferBuilder.pos(posA.getX(), posA.getY() + dy, posA.getZ()- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
-		bufferBuilder.pos(posA.getX(), posA.getY(), posA.getZ()- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
+		bufferBuilder.pos(posA.x, posA.y + dy, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
+		bufferBuilder.pos(posA.x, posA.y, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
 		
 		
 		
 		//Sul
 		//BC
-		bufferBuilder.pos(posA.getX(), posA.getY(), posA.getZ() + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-		bufferBuilder.pos(posA.getX() + dx, posA.getY(), posA.getZ() + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C	
+		bufferBuilder.pos(posA.x, posA.y, posA.z + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
+		bufferBuilder.pos(posA.x + dx, posA.y, posA.z + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C	
 
 		//CG
-		bufferBuilder.pos(posA.getX() + dx, posA.getY(), posA.getZ() + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
-		bufferBuilder.pos(posA.getX() + dx, posA.getY() + dy, posA.getZ() + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
+		bufferBuilder.pos(posA.x + dx, posA.y, posA.z + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
+		bufferBuilder.pos(posA.x + dx, posA.y + dy, posA.z + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
 				
 		//GF
-		bufferBuilder.pos(posA.getX() + dx, posA.getY() + dy, posA.getZ() + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
-		bufferBuilder.pos(posA.getX(), posA.getY() + dy, posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
+		bufferBuilder.pos(posA.x + dx, posA.y + dy, posA.z + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
+		bufferBuilder.pos(posA.x, posA.y + dy, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
 		
 		//FB
-		bufferBuilder.pos(posA.getX(), posA.getY() + dy, posA.getZ() + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
-		bufferBuilder.pos(posA.getX(), posA.getY(), posA.getZ() + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
+		bufferBuilder.pos(posA.x, posA.y + dy, posA.z + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
+		bufferBuilder.pos(posA.x, posA.y, posA.z + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
 		
 		
 		//Oeste
 		//CD
-		bufferBuilder.pos(posA.getX() + dx + margin, posA.getY(), posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
-		bufferBuilder.pos(posA.getX() + dx + margin, posA.getY(), posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
+		bufferBuilder.pos(posA.x + dx + margin, posA.y, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
+		bufferBuilder.pos(posA.x + dx + margin, posA.y, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
 		
 		//DH
-		bufferBuilder.pos(posA.getX() + dx + margin, posA.getY(), posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
-		bufferBuilder.pos(posA.getX() + dx + margin, posA.getY() + dy, posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
+		bufferBuilder.pos(posA.x + dx + margin, posA.y, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
+		bufferBuilder.pos(posA.x + dx + margin, posA.y + dy, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
 		
 		//HG
-		bufferBuilder.pos(posA.getX() + dx + margin, posA.getY() + dy, posA.getZ()).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
-		bufferBuilder.pos(posA.getX() + dx + margin, posA.getY() + dy, posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
+		bufferBuilder.pos(posA.x + dx + margin, posA.y + dy, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
+		bufferBuilder.pos(posA.x + dx + margin, posA.y + dy, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
 		
 		//GC
-		bufferBuilder.pos(posA.getX() + dx + margin, posA.getY() + dy, posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
-		bufferBuilder.pos(posA.getX() + dx + margin, posA.getY(), posA.getZ() + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
+		bufferBuilder.pos(posA.x + dx + margin, posA.y + dy, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
+		bufferBuilder.pos(posA.x + dx + margin, posA.y, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
 		*/
 		
 		

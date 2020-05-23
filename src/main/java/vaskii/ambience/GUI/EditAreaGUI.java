@@ -203,11 +203,17 @@ public class EditAreaGUI extends GuiScreen {
 				}
 			}
 			if (button.id == 3) {
+
+				if(Ambience.previewArea == currentArea)
+					Ambience.previewArea=new Area("Area1");
+				else {
 				
-				if(Ambience.selectedArea.getPos1()==null & Ambience.selectedArea.getPos2()==null)
-					Ambience.selectedArea=currentArea;
-				else
-					Ambience.selectedArea=new Area("Area1");
+					if(Ambience.selectedArea.getPos1()==null & Ambience.selectedArea.getPos2()==null)
+						Ambience.previewArea=currentArea;
+					else
+						Ambience.previewArea=new Area("Area1");
+				}
+					
 				
 				this.mc.player.closeScreen();
 			}

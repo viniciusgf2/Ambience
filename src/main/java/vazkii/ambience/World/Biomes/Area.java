@@ -13,6 +13,7 @@ import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.Util.Border;
@@ -42,15 +43,15 @@ public class Area implements Comparator<Area>{
 		return instantPlay;
 	}
 	
-	public void setPlayAtNight(boolean instantPlay) {
-		this.playAtNight = instantPlay;
+	public void setPlayAtNight(boolean playAtNight) {
+		this.playAtNight = playAtNight;
 	}
 
 	public void setInstantPlay(boolean instantPlay) {
 		this.instantPlay = instantPlay;
 	}
 
-	private BlockPos pos1, pos2;
+	private Vec3d pos1, pos2;
 	
 	public Operation getOperation() {
 		return operation;
@@ -88,19 +89,19 @@ public class Area implements Comparator<Area>{
 		return name;
 	}
 
-	public BlockPos getPos1() {
+	public Vec3d getPos1() {
 		return pos1;
 	}
 
-	public void setPos1(BlockPos pos1) {
+	public void setPos1(Vec3d pos1) {
 		this.pos1 = pos1;
 	}
 
-	public BlockPos getPos2() {
+	public Vec3d getPos2() {
 		return pos2;
 	}
 
-	public void setPos2(BlockPos pos2) {
+	public void setPos2(Vec3d pos2) {
 		this.pos2 = pos2;
 	}
 
@@ -133,12 +134,12 @@ public class Area implements Comparator<Area>{
 		NBTTagList tagList = new NBTTagList();
 
 		NBTTagCompound posCompound = new NBTTagCompound();
-		posCompound.setInteger("x1", pos1.getX());
-		posCompound.setInteger("y1", pos1.getY());
-		posCompound.setInteger("z1", pos1.getZ());
-		posCompound.setInteger("x2", pos2.getX());
-		posCompound.setInteger("y2", pos2.getY());
-		posCompound.setInteger("z2", pos2.getZ());
+		posCompound.setDouble("x1", pos1.x);
+		posCompound.setDouble("y1", pos1.y);
+		posCompound.setDouble("z1", pos1.z);
+		posCompound.setDouble("x2", pos2.x);
+		posCompound.setDouble("y2", pos2.y);
+		posCompound.setDouble("z2", pos2.z);
 		tagList.appendTag(posCompound);
 
 		return tagList;
@@ -178,7 +179,7 @@ public class Area implements Comparator<Area>{
 				if (area.getDimension() == player.dimension) {
 					Border border = new Border(area.getPos1(), area.getPos2());
 					if (border.p1 != null & border.p2 != null)
-						if (border.contains(player.getPosition())) {
+						if (border.contains(player.getPositionVector())) {
 							
 							//player.sendStatusMessage(new TextComponentString(""+border.getCubicArea()), true);
 							area.getCubicArea();
@@ -196,8 +197,8 @@ public class Area implements Comparator<Area>{
 				if (area.getDimension() == player.dimension) {
 					Border border = new Border(area.getPos1(), area.getPos2());
 					if (border.p1 != null & border.p2 != null)
-						if (border.contains(player.getPosition())) {
-							
+						if (border.contains(player.getPositionVector())) {
+							String test=player.getPositionVector().toString();
 							//player.sendStatusMessage(new TextComponentString(""+border.getCubicArea()), true);
 							area.getCubicArea();
 							Areas.add(area);
@@ -228,11 +229,11 @@ public class Area implements Comparator<Area>{
 	}
 	
 	public void getCubicArea() {
-		int lenght=Math.abs(pos1.getX() - pos2.getX())+1;
-		int width=Math.abs(pos1.getZ() - pos2.getZ())+1;
-		int height=Math.abs(pos1.getY() - pos2.getY()-1);
+		double lenght=Math.abs(pos1.x - pos2.x)+1;
+		double width=Math.abs(pos1.z - pos2.z)+1;
+		double height=Math.abs(pos1.y - pos2.y-1);
 			
-		cubicArea= lenght*width*height;
+		cubicArea= (int) (lenght*width*height);
 	}
 
 	public NBTTagCompound SerializeThis() {
@@ -281,12 +282,12 @@ public class Area implements Comparator<Area>{
 		Iterator<NBTBase> iterator2 = tagListPos.iterator();
 		while (iterator2.hasNext()) {
 			NBTTagCompound posCompound = (NBTTagCompound) iterator2.next();
-			BlockPos pos1 = new BlockPos(posCompound.getInteger("x1"), posCompound.getInteger("y1"),
-					posCompound.getInteger("z1"));
+			Vec3d pos1 = new Vec3d(posCompound.getDouble("x1"), posCompound.getDouble("y1"),
+					posCompound.getDouble("z1"));
 			area.setPos1(pos1);
 
-			BlockPos pos2 = new BlockPos(posCompound.getInteger("x2"), posCompound.getInteger("y2"),
-					posCompound.getInteger("z2"));
+			Vec3d pos2 = new Vec3d(posCompound.getDouble("x2"), posCompound.getDouble("y2"),
+					posCompound.getDouble("z2"));
 			area.setPos2(pos2);
 		}
 
@@ -312,12 +313,12 @@ public class Area implements Comparator<Area>{
 			Iterator<NBTBase> iterator2 = tagListPos.iterator();
 			while (iterator2.hasNext()) {
 				NBTTagCompound posCompound = (NBTTagCompound) iterator2.next();
-				BlockPos pos1 = new BlockPos(posCompound.getInteger("x1"), posCompound.getInteger("y1"),
-						posCompound.getInteger("z1"));
+				Vec3d pos1 = new Vec3d(posCompound.getDouble("x1"), posCompound.getDouble("y1"),
+						posCompound.getDouble("z1"));
 				area.setPos1(pos1);
 
-				BlockPos pos2 = new BlockPos(posCompound.getInteger("x2"), posCompound.getInteger("y2"),
-						posCompound.getInteger("z2"));
+				Vec3d pos2 = new Vec3d(posCompound.getDouble("x2"), posCompound.getDouble("y2"),
+						posCompound.getDouble("z2"));
 				area.setPos2(pos2);
 			}
 		}

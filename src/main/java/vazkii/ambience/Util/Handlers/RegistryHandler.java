@@ -68,9 +68,9 @@ public class RegistryHandler {
 	public static void onWorldRenderLast(RenderWorldLastEvent event) {
 		EntityPlayerSP currentplayer = Minecraft.getMinecraft().player;
 
-		if (Ambience.selectedArea != null)
-			if (Ambience.selectedArea.getPos1() != null & Ambience.selectedArea.getPos2() != null) {
-				SelectionBoxRenderer.drawBoundingBox(currentplayer.getPositionVector(), Ambience.selectedArea.getPos1(),Ambience.selectedArea.getPos2(), true, 2);
+		if (Ambience.previewArea != null)
+			if (Ambience.previewArea.getPos1() != null & Ambience.previewArea.getPos2() != null) {
+				SelectionBoxRenderer.drawBoundingBox(currentplayer.getPositionVector(), Ambience.previewArea.getPos1(),Ambience.previewArea.getPos2(), true, 2);
 			}
 	}	
 }

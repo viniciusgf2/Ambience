@@ -132,7 +132,7 @@ public class PlayerThread extends Thread {
 	public void setRealGain() {
 		GameSettings settings = Minecraft.getMinecraft().gameSettings;
 		float musicGain = settings.getSoundLevel(SoundCategory.MUSIC) * settings.getSoundLevel(SoundCategory.MASTER);
-		float realGain = MIN_GAIN + (MAX_GAIN - MIN_GAIN) * musicGain;
+		float realGain = (MIN_GAIN + (this.gain - MIN_GAIN) * musicGain);//this.gain*musicGain;//
 		
 		this.realGain = realGain;
 		if(player != null) {
