@@ -1,23 +1,15 @@
 package vazkii.ambience.Util.Handlers;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 import vaskii.ambience.network4.MyMessage4;
 import vaskii.ambience.network4.NetworkHandler4;
-import vaskii.ambience.objects.blocks.Speaker;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.World.Biomes.Area;

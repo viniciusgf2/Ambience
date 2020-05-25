@@ -264,6 +264,12 @@
     "bypassesPlayerLimit": false
   },
   {
+    "uuid": "4aee401f-639e-3eed-a2fe-2b876770093d",
+    "name": "Player960",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
     "uuid": "4ef2c8ae-f327-362c-9965-7aefe13435d8",
     "name": "Player40",
     "level": 4,

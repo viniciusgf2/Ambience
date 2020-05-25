@@ -6,7 +6,6 @@ import org.lwjgl.util.Color;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import vazkii.ambience.Util.Border;
 

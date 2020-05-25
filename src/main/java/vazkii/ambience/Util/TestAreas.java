@@ -1,18 +1,11 @@
 package vazkii.ambience.Util;
 
-import java.util.Iterator;
-
-import com.google.gson.annotations.Expose;
-
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.config.Config.Ignore;
-import vazkii.ambience.Ambience;
 import vazkii.ambience.Reference;
-import vazkii.ambience.World.Biomes.Area;
 
 public class TestAreas extends WorldSavedData {
 	private static final String DATA_NAME = Reference.MOD_ID + "_AreaData";

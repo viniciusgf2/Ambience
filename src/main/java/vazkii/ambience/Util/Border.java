@@ -1,6 +1,5 @@
 package vazkii.ambience.Util;
 
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 public class Border {

@@ -82,7 +82,3 @@ secondarytag.wasteland=field
 secondarytag.beach=beach
 
 # === Biome Tags End
-
-# === Speaker Sounds
-#sounds list, put the .ogg files in the ambience_music/sounds folders and add the file name to this list without the file extension
-speaker= secret,gas,engine,bell1,bell2,demoniachorus,railroadbel

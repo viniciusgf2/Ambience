@@ -39,7 +39,6 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import vazkii.ambience.Util.Border;
 import vazkii.ambience.Util.Handlers.EventHandlers;
 import vazkii.ambience.World.Biomes.Area;
 

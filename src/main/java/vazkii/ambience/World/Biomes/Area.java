@@ -7,17 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextComponentString;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.Util.Border;
-import vazkii.ambience.World.Biomes.Area.Operation;
 
 public class Area implements Comparator<Area>{
 

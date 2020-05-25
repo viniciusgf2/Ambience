@@ -7,8 +7,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.primitives.Ints;
-import com.ibm.icu.text.DecimalFormat;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -25,10 +25,10 @@ import net.minecraftforge.fml.client.GuiScrollingList;
 import net.minecraftforge.fml.client.config.GuiCheckBox;
 import net.minecraftforge.fml.client.config.GuiSlider;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import vaskii.ambience.GUI.Utils.ImageButtom;
 import vaskii.ambience.network4.MyMessage4;
 import vaskii.ambience.network4.NetworkHandler4;
 import vaskii.ambience.objects.blocks.Speaker;
-import vaskii.ambience.objects.blocks.SpeakerTileEntity;
 import vazkii.ambience.Util.Handlers.SoundHandler;
 
 public class SpeakerEditGUI extends GuiScreen {
@@ -37,7 +37,7 @@ public class SpeakerEditGUI extends GuiScreen {
 	public static HashMap guiinventory = new HashMap();
 	public static String SelectedItem;
 	public static int SelectedItemIndex = 0;
-
+	
 	public SpeakerEditGUI() {
 
 	}
@@ -90,6 +90,8 @@ public class SpeakerEditGUI extends GuiScreen {
 			this.xSize = 232;
 			this.ySize = 230;
 
+			getListSelectedIndex();
+			
 			pos = new BlockPos(x, y, z);
 		}
 
@@ -98,11 +100,15 @@ public class SpeakerEditGUI extends GuiScreen {
 
 		@Override
 		public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+			try {
 			this.drawDefaultBackground();
 			super.drawScreen(mouseX, mouseY, partialTicks);
-			this.renderHoveredToolTip(mouseX, mouseY);
-
-			soundList.drawScreen(mouseX, mouseY, partialTicks);			
+			//this.renderHoveredToolTip(mouseX, mouseY);
+				soundList.drawScreen(mouseX, mouseY, partialTicks);			
+			}
+			catch(Exception e) {
+				
+			}
 		}
 
 		@Override
@@ -161,13 +167,13 @@ public class SpeakerEditGUI extends GuiScreen {
 		public void onGuiClosed() {
 			super.onGuiClosed();
 			Keyboard.enableRepeatEvents(false);
-		}
-
+		}				
+		
 		GuiCheckBox check;
 		GuiSlider distance;
 		@Override
 		public void initGui() {
-			super.initGui();
+			super.initGui();			
 			this.guiLeft = (this.width - 176) / 2;
 			this.guiTop = (this.height - 166) / 2;
 			Keyboard.enableRepeatEvents(true);
@@ -186,10 +192,7 @@ public class SpeakerEditGUI extends GuiScreen {
 			distance= new GuiSlider(3, this.guiLeft + 25, this.guiTop + 124, 169, 15, "", "", 0, 10, Speaker.Distance, true, true);			
 			this.buttonList.add(distance);
 			
-			
-			getListSelectedIndex();
-			soundList = new GuiScrollingList(this.mc, 212, 0, this.guiTop ,
-					this.height - this.guiTop - 48, this.guiLeft - 18, 14) {
+			soundList = new GuiScrollingList(this.mc, 212, 0, this.guiTop ,	this.height - this.guiTop - 48, this.guiLeft - 18, 14) {
 
 				List<String> strings = SoundHandler.SOUNDS;
 
@@ -224,6 +227,9 @@ public class SpeakerEditGUI extends GuiScreen {
 				}
 			};
 
+
+			
+
 		}
 
 		private void getListSelectedIndex() {
@@ -250,9 +256,9 @@ public class SpeakerEditGUI extends GuiScreen {
 					
 					int Delay=0;
 					if(DelayTime.getText() == null | DelayTime.getText().isEmpty()) {						
-						Delay=10;
-					}else if(Integer.parseInt(DelayTime.getText())<10) {
-						Delay=10;
+						Delay=0;
+					//}else if(Integer.parseInt(DelayTime.getText())<10) {
+					//	Delay=0;
 					}else {
 						Delay=Integer.parseInt(DelayTime.getText());
 					}
@@ -269,10 +275,8 @@ public class SpeakerEditGUI extends GuiScreen {
 					nbt.setBoolean("loop",check.isChecked());
 					nbt.setFloat("distance",Float.parseFloat(convertedFloat));
 					
-					System.out.println(convertedFloat);
-
-					
-					
+					//System.out.println(convertedFloat);
+				
 					NetworkHandler4.sendToServer(new MyMessage4(nbt));
 
 					this.mc.player.closeScreen();

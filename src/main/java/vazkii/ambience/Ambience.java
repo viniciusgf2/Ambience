@@ -1,12 +1,9 @@
 package vazkii.ambience;
 
 import java.io.File;
-import java.rmi.registry.Registry;
-import java.rmi.registry.RegistryHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
@@ -29,6 +26,8 @@ import vaskii.ambience.GUI.GuiHandler;
 import vaskii.ambience.network4.ClientHandler;
 import vaskii.ambience.network4.MyMessage4;
 import vaskii.ambience.network4.NetworkHandler4;
+import vaskii.ambience.objects.blocks.Speaker;
+import vaskii.ambience.objects.blocks.SpeakerTileEntity;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.Util.Handlers.EventHandlers;
 import vazkii.ambience.Util.Handlers.ServerTickHandler;
@@ -58,7 +57,8 @@ public class Ambience {
 	public static int fadeInTicks = FADE_DURATION-1;
 	public static boolean fadeIn = false;
 	public static int silenceTicks = 0;
-	public static File  ambienceDir;
+	public static File ambienceDir;
+	public static File resourcesDir;
 	
 	public static Area selectedArea=new Area("Area1");
 	public static Area previewArea=new Area("Area1");
@@ -111,7 +111,9 @@ public class Ambience {
 		File configDir = event.getSuggestedConfigurationFile().getParentFile();
 		ambienceDir = new File(configDir.getParentFile(), "ambience_music");
 		if(!ambienceDir.exists())
-			ambienceDir.mkdir();		
+			ambienceDir.mkdir();
+		
+		resourcesDir = new File(configDir.getParentFile(), "resourcepacks\\AmbienceSounds\\assets\\ambience");
 		
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) return;
 		
@@ -250,7 +252,8 @@ public class Ambience {
 			String name = "Next Song: " + SongPicker.getSongName(nextSong);
 			event.getRight().add(name);
 		}
-		
+		String name = "Cooldown: " + SpeakerTileEntity.testCooldown;
+		event.getRight().add(name);
 	//	String name = "Gain: " + thread.realGain;
 	//	event.getRight().add(name);
 	}

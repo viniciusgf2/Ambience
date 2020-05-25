@@ -1,25 +1,18 @@
 package vazkii.ambience.Util;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
-import vazkii.ambience.Ambience;
 import vazkii.ambience.Reference;
 import vazkii.ambience.World.Biomes.Area;
 
@@ -34,7 +27,7 @@ public class WorldData extends WorldSavedData {
 	}
 
 	public WorldData() {
-		super(key);
+		super(key);		
 		// TODO Auto-generated constructor stub
 	}
 
@@ -46,7 +39,7 @@ public class WorldData extends WorldSavedData {
 		listAreas.add(parArea);
 		markDirty();
 	}
-
+	
 	public void removeArea(Area parArea) {
 		
 		//listAreas.remove(parArea);

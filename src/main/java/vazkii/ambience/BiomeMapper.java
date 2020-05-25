@@ -2,6 +2,7 @@ package vazkii.ambience;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;

@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.item.Item;
-import vaskii.ambience.objects.items.ItemBase;
 import vaskii.ambience.objects.tools.Soundnizer;
-import vazkii.ambience.Ambience;
 
 public class ItemInit {
 

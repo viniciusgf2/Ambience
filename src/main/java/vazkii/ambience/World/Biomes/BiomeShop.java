@@ -5,8 +5,6 @@ import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 public class BiomeShop extends Biome 
 {	

@@ -154,12 +154,12 @@ public class Speaker extends BlockBase implements ITileEntityProvider {
 			}
 		}
 	}
-
+		
 	// Abre a tela de seleção do som no bloco do speaker
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer entity, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
-		
+				
 		if (FMLCommonHandler.instance().getSide().isServer() | !world.isRemote) {
 		
 			NBTTagCompound tagCompound = new NBTTagCompound();

@@ -26,14 +26,11 @@ public class MyMessageHandler4 implements IMessageHandler<MyMessage4, IMessage> 
 		// Save the speaker gui configs
 		if (EventSound.getString("SoundEvent") != null & !EventSound.getString("SoundEvent").isEmpty()) {
 
-			BlockPos pos = new BlockPos(EventSound.getInteger("x"), EventSound.getInteger("y"),
-					EventSound.getInteger("z"));
+			BlockPos pos = new BlockPos(EventSound.getInteger("x"), EventSound.getInteger("y"),	EventSound.getInteger("z"));
 
 			serverPlayer.getServerWorld().addScheduledTask(() -> {
-				((SpeakerTileEntity) ctx.getServerHandler().player.world.getTileEntity(pos)).selectedSound = EventSound
-						.getString("SoundEvent");
-				((SpeakerTileEntity) ctx.getServerHandler().player.world.getTileEntity(pos)).delay = EventSound
-						.getInteger("delay");
+				((SpeakerTileEntity) ctx.getServerHandler().player.world.getTileEntity(pos)).selectedSound = EventSound.getString("SoundEvent");
+				((SpeakerTileEntity) ctx.getServerHandler().player.world.getTileEntity(pos)).delay = EventSound.getInteger("delay");
 				((SpeakerTileEntity) ctx.getServerHandler().player.world.getTileEntity(pos)).loop = EventSound.getBoolean("loop");
 				((SpeakerTileEntity) ctx.getServerHandler().player.world.getTileEntity(pos)).distance = EventSound.getFloat("distance");
 				((SpeakerTileEntity) ctx.getServerHandler().player.world.getTileEntity(pos)).countPlay = 0;

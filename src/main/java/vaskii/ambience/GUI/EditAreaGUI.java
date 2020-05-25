@@ -1,8 +1,19 @@
 package vaskii.ambience.GUI;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.input.Keyboard;
+import java.util.HashMap;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.client.config.GuiCheckBox;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import vaskii.ambience.GUI.Utils.ImageButtom;
@@ -11,19 +22,6 @@ import vaskii.ambience.network4.NetworkHandler4;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.World.Biomes.Area.Operation;
-import net.minecraft.world.World;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.inventory.Container;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiButtonImage;
-import net.minecraft.client.gui.GuiScreen;
-
-import java.util.HashMap;
 
 public class EditAreaGUI extends GuiScreen {
 
