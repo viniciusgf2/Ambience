@@ -15,7 +15,11 @@ out
 
 # gradle
 build
+.gradle
 
 # other
-#eclipse
+eclipse
 run
+*.gz
+*.log
+runServer/world/stats/*
