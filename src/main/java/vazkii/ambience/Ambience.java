@@ -254,8 +254,6 @@ public class Ambience {
 		}
 		String name = "Cooldown: " + SpeakerTileEntity.testCooldown;
 		event.getRight().add(name);
-	//	String name = "Gain: " + thread.realGain;
-	//	event.getRight().add(name);
 	}
 	
 	@SubscribeEvent

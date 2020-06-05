@@ -35,6 +35,8 @@ public class MyMessageHandler4 implements IMessageHandler<MyMessage4, IMessage> 
 				((SpeakerTileEntity) ctx.getServerHandler().player.world.getTileEntity(pos)).distance = EventSound.getFloat("distance");
 				((SpeakerTileEntity) ctx.getServerHandler().player.world.getTileEntity(pos)).countPlay = 0;
 				((SpeakerTileEntity) ctx.getServerHandler().player.world.getTileEntity(pos)).sync = true;
+				
+				//serverPlayer.closeScreen();
 			});
 
 			return null;

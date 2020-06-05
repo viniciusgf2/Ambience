@@ -25,12 +25,15 @@ import net.minecraftforge.fml.client.GuiScrollingList;
 import net.minecraftforge.fml.client.config.GuiCheckBox;
 import net.minecraftforge.fml.client.config.GuiSlider;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vaskii.ambience.GUI.Utils.ImageButtom;
 import vaskii.ambience.network4.MyMessage4;
 import vaskii.ambience.network4.NetworkHandler4;
 import vaskii.ambience.objects.blocks.Speaker;
 import vazkii.ambience.Util.Handlers.SoundHandler;
 
+@SideOnly(Side.CLIENT)
 public class SpeakerEditGUI extends GuiScreen {
 
 	public static int GUIID = 3;
@@ -58,6 +61,8 @@ public class SpeakerEditGUI extends GuiScreen {
 			if (!FMLCommonHandler.instance().getEffectiveSide().isServer()) {
 				// Localization
 				I18n.format("GUI.ConfirmButton");
+				I18n.format("GUI.SelectSoundLbl");
+
 			}
 		}
 
@@ -73,6 +78,7 @@ public class SpeakerEditGUI extends GuiScreen {
 
 	public static class GuiWindow extends GuiContainer {
 
+		boolean closeScreen=false;
 		World world;
 		int x, y, z;
 		EntityPlayer entity;
@@ -90,34 +96,43 @@ public class SpeakerEditGUI extends GuiScreen {
 			this.xSize = 232;
 			this.ySize = 230;
 
-			getListSelectedIndex();
+			//getListSelectedIndex();
 			
 			pos = new BlockPos(x, y, z);
 		}
 
-		private static final ResourceLocation texture = new ResourceLocation(
-				"ambience:textures/gui/edit_window_back.png");
+		private static final ResourceLocation texture = new ResourceLocation("ambience:textures/gui/edit_window_back.png");
 
+		
+		int count=0;
 		@Override
-		public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-			try {
-			this.drawDefaultBackground();
+		public void drawScreen(int mouseX, int mouseY, float partialTicks) {			
+			count++;
+			
+			//this.drawDefaultBackground();
 			super.drawScreen(mouseX, mouseY, partialTicks);
 			//this.renderHoveredToolTip(mouseX, mouseY);
-				soundList.drawScreen(mouseX, mouseY, partialTicks);			
-			}
-			catch(Exception e) {
-				
+			
+			if(count>10)
+			soundList.drawScreen(mouseX, mouseY, partialTicks);	
+			
+			if(closeScreen) {			
+				closeScreen=false;
+				this.mc.player.closeScreen();				
 			}
 		}
+		
+		
 
 		@Override
 		protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			this.mc.renderEngine.bindTexture(texture);
-			int k = (this.width - this.xSize) / 2;
-			int l = (this.height - this.ySize) / 2;
-			this.drawModalRectWithCustomSizedTexture(k, l, 0, 0, this.xSize, this.ySize, this.xSize, this.ySize);
+			if(!closeScreen) {		
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+				this.mc.renderEngine.bindTexture(texture);
+				int k = (this.width - this.xSize) / 2;
+				int l = (this.height - this.ySize) / 2;
+				this.drawModalRectWithCustomSizedTexture(k, l, 0, 0, this.xSize, this.ySize, this.xSize, this.ySize);
+			}
 		}
 
 		@Override
@@ -129,11 +144,11 @@ public class SpeakerEditGUI extends GuiScreen {
 			}
 		}
 
-		@Override
+		/*@Override
 		public void updateScreen() {
 			super.updateScreen();
 			DelayTime.updateCursorCounter();
-		}
+		}*/
 
 		@Override
 		protected void keyTyped(char typedChar, int keyCode) {
@@ -156,30 +171,32 @@ public class SpeakerEditGUI extends GuiScreen {
 
 		@Override
 		protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-			this.fontRenderer.drawString(I18n.format("GUI.SelectSoundLbl"), 59, -18, -1);
-			this.fontRenderer.drawString(I18n.format("Volume:"), -14, 128, -1);
-			this.fontRenderer.drawString(I18n.format("Delay:"), -14, 148, -1);
-
-			DelayTime.drawTextBox();
+			if(!closeScreen) {		
+				this.fontRenderer.drawString(I18n.format("GUI.SelectSoundLbl"), 59, -18, -1);
+				this.fontRenderer.drawString("Volume:", -14, 128, -1);
+				this.fontRenderer.drawString("Delay:", -14, 148, -1);
+	
+				DelayTime.drawTextBox();
+			}
 		}
 
-		@Override
+	/*	@Override
 		public void onGuiClosed() {
 			super.onGuiClosed();
 			Keyboard.enableRepeatEvents(false);
-		}				
+		}	*/		
 		
 		GuiCheckBox check;
 		GuiSlider distance;
 		@Override
 		public void initGui() {
-			super.initGui();			
+			super.initGui();	
+			count=0;
 			this.guiLeft = (this.width - 176) / 2;
 			this.guiTop = (this.height - 166) / 2;
 			Keyboard.enableRepeatEvents(true);
 			this.buttonList.clear();
-			this.buttonList.add(
-					new GuiButton(0, this.guiLeft + 39, this.guiTop + 170, 98, 20, I18n.format("GUI.ConfirmButton")));
+			this.buttonList.add(new GuiButton(0, this.guiLeft + 39, this.guiTop + 170, 98, 20, I18n.format("GUI.ConfirmButton")));
 
 			DelayTime = new GuiTextField(1, this.fontRenderer, 20, 143, 120, 20);
 			DelayTime.setMaxStringLength(5);
@@ -232,7 +249,7 @@ public class SpeakerEditGUI extends GuiScreen {
 
 		}
 
-		private void getListSelectedIndex() {
+		/*private void getListSelectedIndex() {
 			String selected_sound = Speaker.selectedSound;
 
 			SelectedItemIndex = 0;
@@ -245,7 +262,8 @@ public class SpeakerEditGUI extends GuiScreen {
 					SelectedItemIndex++;
 				}
 		}
-
+*/
+		
 		@Override
 		protected void actionPerformed(GuiButton button) {
 
@@ -274,19 +292,17 @@ public class SpeakerEditGUI extends GuiScreen {
 					nbt.setInteger("delay",Delay);
 					nbt.setBoolean("loop",check.isChecked());
 					nbt.setFloat("distance",Float.parseFloat(convertedFloat));
-					
-					//System.out.println(convertedFloat);
-				
+									
 					NetworkHandler4.sendToServer(new MyMessage4(nbt));
 
-					this.mc.player.closeScreen();
+					closeScreen=true;
 				}
 			}
 		}
 
-		@Override
+		/*@Override
 		public boolean doesGuiPauseGame() {
 			return true;
-		}
+		}*/
 	}
 }

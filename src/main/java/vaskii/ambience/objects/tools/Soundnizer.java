@@ -19,6 +19,9 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import vaskii.ambience.GUI.EditAreaGUI;
+import vaskii.ambience.objects.blocks.BlockBase;
+import vaskii.ambience.objects.blocks.Speaker;
+import vaskii.ambience.objects.blocks.SpeakerTileEntity;
 import vaskii.ambience.objects.items.ItemBase;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.Util.Border;
@@ -49,8 +52,9 @@ public class Soundnizer extends ItemBase {
 
 			RayTraceResult Position2 = playerIn.rayTrace(5, 1.0F);
 
-			//boolean ola = worldIn.isRemote;
-
+			//String teste=worldIn.getBlockState(Position2.getBlockPos()).getBlock().getClass().getName();		
+			//TileEntity teste = worldIn.getTileEntity(Position2.getBlockPos());
+			
 			if (Position2.typeOfHit != Type.MISS) {
 
 				if (!playerIn.isSneaking()) {
@@ -64,6 +68,7 @@ public class Soundnizer extends ItemBase {
 
 					Ambience.selectedArea.setPos2(new Vec3d(Position2.getBlockPos().getX(),Position2.getBlockPos().getY(),Position2.getBlockPos().getZ()));
 					Ambience.selectedArea.setDimension(playerIn.dimension);
+					Ambience.previewArea.setPos2(Ambience.selectedArea.getPos2());
 				} else {
 					if (Ambience.selectedArea != null)
 						Ambience.selectedArea.resetSelection();
@@ -119,28 +124,18 @@ public class Soundnizer extends ItemBase {
 			// AreaData data= new AreaData();
 			RayTraceResult Position1 = entityLiving.rayTrace(5, 1.0F);
 
-			TileEntity teste = entityLiving.world.getTileEntity(Position1.getBlockPos());
-
-			if (Position1.typeOfHit != Type.MISS) {
-
-				if (teste != null) {
-					if (!teste.getBlockType().toString().contains("ambience:speaker"))
-						((EntityPlayer) entityLiving).sendStatusMessage(
-								new TextComponentString(((I18n.format("Soundnizer.Position") + " 1 = x: ") + ""
-										+ ((int) Position1.getBlockPos().getX()) + "" + ("y: ") + ""
-										+ ((int) Position1.getBlockPos().getY()) + "" + ("z: ") + ""
-										+ ((int) Position1.getBlockPos().getZ()))),
-								(true));
-				} else {
+			String testBlock=entityLiving.world.getBlockState(Position1.getBlockPos()).getBlock().getClass().getName();
+			
+			if (Position1.typeOfHit != Type.MISS & !testBlock.contains("Speaker")) {			
 					((EntityPlayer) entityLiving).sendStatusMessage(
 							new TextComponentString(((I18n.format("Soundnizer.Position") + " 1 = x: ") + ""
 									+ ((int) Position1.getBlockPos().getX()) + "" + ("y: ") + ""
 									+ ((int) Position1.getBlockPos().getY()) + "" + ("z: ") + ""
 									+ ((int) Position1.getBlockPos().getZ()))),
-							(true));
-				}
+							(true));				
 				// Defines the selected area Pos 1
 				Ambience.selectedArea.setPos1(new Vec3d(Position1.getBlockPos().getX(),Position1.getBlockPos().getY(),Position1.getBlockPos().getZ()));
+				Ambience.previewArea.setPos1(Ambience.selectedArea.getPos1());
 			}
 		}
 		return super.onEntitySwing(entityLiving, stack);

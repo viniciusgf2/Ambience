@@ -2,6 +2,7 @@ package vaskii.ambience.objects.blocks;
 
 import java.util.List;
 
+import ibxm.Player;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.ITileEntityProvider;
@@ -10,6 +11,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,19 +20,24 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vaskii.ambience.GUI.SpeakerEditGUI;
 import vaskii.ambience.network4.MyMessage4;
 import vaskii.ambience.network4.NetworkHandler4;
+import vazkii.ambience.Util.Handlers.SoundHandler;
 
 public class Speaker extends BlockBase implements ITileEntityProvider {
 
@@ -150,7 +157,21 @@ public class Speaker extends BlockBase implements ITileEntityProvider {
 			}
 		} else {
 			{
-				((SpeakerTileEntity) world.getTileEntity(pos)).isPowered = false;				
+				((SpeakerTileEntity) world.getTileEntity(pos)).isPowered = false;		
+				((SpeakerTileEntity) world.getTileEntity(pos)).cooldown = 0;		
+			//	if (FMLCommonHandler.instance().getSide().isClient()) 
+				//	Minecraft.getMinecraft().getSoundHandler().stop("demoniachorus", SoundCategory.NEUTRAL);
+				
+				
+				EntityPlayerMP player= (EntityPlayerMP) world.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
+				
+				if(player !=null) {
+					//Manda msg pedido para parar o som no cliente
+					NBTTagCompound tagCompound = new NBTTagCompound();				
+					tagCompound.setString("selectedSound",((SpeakerTileEntity) world.getTileEntity(pos)).selectedSound); 
+					tagCompound.setString("stop","stop"); 
+					NetworkHandler4.sendToClient(new MyMessage4(tagCompound), player);	
+				}
 			}
 		}
 	}
@@ -159,8 +180,10 @@ public class Speaker extends BlockBase implements ITileEntityProvider {
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer entity, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
-				
+		
+		
 		if (FMLCommonHandler.instance().getSide().isServer() | !world.isRemote) {
+			
 		
 			NBTTagCompound tagCompound = new NBTTagCompound();
 			
@@ -169,14 +192,53 @@ public class Speaker extends BlockBase implements ITileEntityProvider {
 			tagCompound.setTag("pos",getPosListTag(pos));
 			tagCompound.setBoolean("loop",((SpeakerTileEntity) world.getTileEntity(pos)).loop);
 			tagCompound.setFloat("distance",((SpeakerTileEntity) world.getTileEntity(pos)).distance); 
+			tagCompound.setString("openGui","open");
+			tagCompound.setInteger("index", getListSelectedIndex(((SpeakerTileEntity) world.getTileEntity(pos)).selectedSound));
 			
-			
-			NetworkHandler4.sendToClient(new MyMessage4(tagCompound), (EntityPlayerMP) entity);	
+			if(entity.getHeldItemMainhand().getDisplayName().contains("Soundnizer")) {			
+				NetworkHandler4.sendToClient(new MyMessage4(tagCompound), (EntityPlayerMP) entity);	
+			}
 		}		
 		
 		return true;
 	}
 	
+	private int getListSelectedIndex(String selectedSound) {
+
+		int SelectedItemIndex = 0;
+		if (selectedSound != null)
+			for (String sound : SoundHandler.SOUNDS) {
+
+				if (sound.contains(selectedSound)) {
+					break;
+				}
+				SelectedItemIndex++;
+			}
+		
+		return SelectedItemIndex;
+	}
+	
+	@Override
+	public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn)
+	{		
+		if (FMLCommonHandler.instance().getSide().isClient() | worldIn.isRemote) {
+		//Minecraft.getMinecraft().getSoundHandler().stopSounds();
+			Minecraft.getMinecraft().getSoundHandler().stop("ambience:"+ selectedSound, SoundCategory.NEUTRAL);
+		}
+		
+		super.onBlockDestroyedByExplosion(worldIn, pos, explosionIn);
+	}
+
+	@Override
+	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state)
+	{		
+		if (FMLCommonHandler.instance().getSide().isClient() | worldIn.isRemote) {
+		    Minecraft.getMinecraft().getSoundHandler().stopSounds();						
+		}
+	
+		super.onBlockDestroyedByPlayer(worldIn, pos, state);
+	}
+
 	public NBTTagList getPosListTag(BlockPos pos) {
 		NBTTagList tagList = new NBTTagList();
 

@@ -14,6 +14,9 @@ public class GuiHandler implements IGuiHandler {
 			return new EditAreaGUI.GuiContainerMod(world, x, y, z, player);
 		if (id == SpeakerEditGUI.GUIID)
 			return new SpeakerEditGUI.GuiContainerMod(world, x, y, z, player);
+		
+	//	if (id == SpeakerGUI.GUIID)
+		//	return new SpeakerGUI.GuiContainerMod(world, x, y, z, player);
 
 		return null;
 	}
@@ -26,6 +29,9 @@ public class GuiHandler implements IGuiHandler {
 			return new EditAreaGUI.GuiWindow(world, x, y, z, player);
 		if (id == SpeakerEditGUI.GUIID)
 			return new SpeakerEditGUI.GuiWindow(world, x, y, z, player);
+		
+		//if (id == SpeakerGUI.GUIID)
+			//return new SpeakerGUI.GuiWindow(world, x, y, z, player);
 
 		return null;
 	}

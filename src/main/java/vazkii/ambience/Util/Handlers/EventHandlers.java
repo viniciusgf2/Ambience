@@ -138,7 +138,11 @@ public class EventHandlers {
 	// Quando alguma coisa ataca o player
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onLivingAttackEvent(LivingAttackEvent event) {
-		if (event.getEntity() instanceof EntityPlayer & event.getEntity() == currentplayer) {
+		
+		String test= event.getEntity().getName();
+		
+		if(currentplayer!=null)
+		if (/*event.getEntity() instanceof EntityPlayer & */event.getEntity().getName().contains(currentplayer.getName())) {
 			// When something get hurts near the player
 			List<EntityLivingBase> entities = Minecraft.getMinecraft().world.getEntitiesWithinAABB(
 					EntityLivingBase.class,

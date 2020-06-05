@@ -54,7 +54,7 @@ public class SoundHandler {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
 			JsonParser parser = new JsonParser();
 			JsonElement obj = parser.parse(reader);
-			System.out.println("0");
+			
 			if (obj != null) {
 				String[] arrOfStr = obj.toString().split("\"name\":\"");
 				List<String> result = new ArrayList<String>();

@@ -1,0 +1,56 @@
+{      
+	"demoniachorus": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:demoniachorus",
+                "stream": false
+            }
+        ]
+    },
+    "engine": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:engine",
+                "stream": false
+            }
+        ]
+    },		
+	"gas": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:gas",
+                "stream": false
+            }
+        ]
+    },
+	"railroadbel": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:railroadbel",
+                "stream": false
+            }
+        ]
+    },
+	"secret": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:secret",
+                "stream": false
+            }
+        ]
+    },
+	"witcher": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:witcher",
+                "stream": false
+            }
+        ]
+    }
+}
