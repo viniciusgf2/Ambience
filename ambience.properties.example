@@ -23,6 +23,8 @@ event.attacked=battle,battle2
 event.generic=field
 
 #Bosses
+event.bossEnderDragon=Boss
+event.bossWither=Boss
 event.foliaath=Boss
 event.ferrous_wroughtnaut=Boss
 event.barakoaya=Boss
@@ -31,6 +33,13 @@ event.frostmaw=Boss
 event.naga=Boss
 
 # === Events End
+
+# === Specific Sounds for each mob (use the mob name even modded mobs)
+#Mobs names have spaces replaced with +
+
+mob.zombie=battle,battle2
+mob.skeleton=battle,battle2
+mob.creeper=battle,battle2
 
 # === Specific Areas with the Sondnizer Tool - Highest Priority
 # Areas names have spaces replaced with +
