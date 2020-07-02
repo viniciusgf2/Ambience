@@ -57,6 +57,10 @@ public final class SongLoader {
 						String event = tokens[1];
 
 						SongPicker.areasMap.put(event, props.getProperty(s).split(","));
+					} else if (keyType.equals("mob")) {
+						String event = tokens[1];
+
+						SongPicker.mobMap.put(event, props.getProperty(s).split(","));
 					}
 
 					else if (keyType.matches("primarytag|secondarytag")) {

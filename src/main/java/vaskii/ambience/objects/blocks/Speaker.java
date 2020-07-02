@@ -14,6 +14,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -25,6 +26,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -64,6 +66,8 @@ public class Speaker extends BlockBase implements ITileEntityProvider {
 			I18n.format("Speaker.Desc");
 		}
 	}
+	
+	
 
 	@Override
 	public void addInformation(ItemStack itemstack, World world, List<String> list, ITooltipFlag flag) {
@@ -151,12 +155,12 @@ public class Speaker extends BlockBase implements ITileEntityProvider {
 		Block block = this;
 
 		if (world.isBlockIndirectlyGettingPowered(new BlockPos(x, y, z)) > 0) {
-			{
+			
 				((SpeakerTileEntity) world.getTileEntity(pos)).isPowered = true;
 				((SpeakerTileEntity) world.getTileEntity(pos)).countPlay = 0;
-			}
+			
 		} else {
-			{
+			
 				((SpeakerTileEntity) world.getTileEntity(pos)).isPowered = false;		
 				((SpeakerTileEntity) world.getTileEntity(pos)).cooldown = 0;		
 			//	if (FMLCommonHandler.instance().getSide().isClient()) 
@@ -172,7 +176,7 @@ public class Speaker extends BlockBase implements ITileEntityProvider {
 					tagCompound.setString("stop","stop"); 
 					NetworkHandler4.sendToClient(new MyMessage4(tagCompound), player);	
 				}
-			}
+			
 		}
 	}
 		

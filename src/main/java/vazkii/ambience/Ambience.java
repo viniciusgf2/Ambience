@@ -4,6 +4,7 @@ import java.io.File;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
@@ -26,8 +27,8 @@ import vaskii.ambience.GUI.GuiHandler;
 import vaskii.ambience.network4.ClientHandler;
 import vaskii.ambience.network4.MyMessage4;
 import vaskii.ambience.network4.NetworkHandler4;
-import vaskii.ambience.objects.blocks.Speaker;
 import vaskii.ambience.objects.blocks.SpeakerTileEntity;
+import vaskii.ambience.tabs.AmbienceTab;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.Util.Handlers.EventHandlers;
 import vazkii.ambience.Util.Handlers.ServerTickHandler;
@@ -38,6 +39,8 @@ import vazkii.ambience.proxy.CommonProxy;
 @Mod(modid = Reference.MOD_ID , name = Reference.MOD_NAME , version = Reference.VERSION , dependencies = Reference.DEPENDENCIES )
 public class Ambience {
 
+	public static final CreativeTabs AmbienceTab = new AmbienceTab("AmbienceTab");
+	
 	private static final int WAIT_DURATION = 25;
 	public static final int FADE_DURATION = 25;
 	public static final int SILENCE_DURATION = 5;

@@ -1,0 +1,51 @@
+{
+  "group": "ambience",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012",
+    "345",
+    "678"
+  ],
+  "key": {
+    "0": {
+      "item": "minecraft:stained_glass_pane",
+      "data": 1
+    },
+    "1": {
+      "item": "minecraft:stained_glass_pane",
+      "data": 1
+    },
+    "2": {
+      "item": "minecraft:stained_glass_pane",
+      "data": 1
+    },
+    "3": {
+      "item": "minecraft:stained_glass_pane",
+      "data": 1
+    },
+    "4": {
+      "item": "ambience:speaker",
+      "data": 0
+    },
+    "5": {
+      "item": "minecraft:stained_glass_pane",
+      "data": 1
+    },
+    "6": {
+      "item": "minecraft:stained_glass_pane",
+      "data": 1
+    },
+    "7": {
+      "item": "minecraft:heavy_weighted_pressure_plate"
+    },
+    "8": {
+      "item": "minecraft:stained_glass_pane",
+      "data": 1
+    }
+  },
+  "result": {
+    "item": "ambience:alarm",
+    "data": 2,
+    "count": 1
+  }
+}

@@ -1,4 +1,31 @@
-{      
+{     
+	"alarm-siren": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:alarm-siren",
+                "stream": false
+            }
+        ]
+    }, 
+	"alarm-sci-fi": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:alarm-sci-fi",
+                "stream": false
+            }
+        ]
+    }, 
+	"alarm-default": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:alarm-default",
+                "stream": false
+            }
+        ]
+    },  
 	"demoniachorus": {
         "category": "block",
         "sounds": [

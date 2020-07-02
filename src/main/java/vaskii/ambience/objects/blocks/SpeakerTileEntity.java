@@ -35,12 +35,21 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 	public boolean sync = false;
 	public int songLenght = 0;
 	private String old_song = "";
-
+	private boolean isAlarm=false;
+	public String color = "";
+	
 	public static int testCooldown = 0;
 
 	public SpeakerTileEntity() {
 		cooldown = 0;
 		delay = 30;
+	}
+	
+	public SpeakerTileEntity(boolean isAlarmL, String colorL) {
+		cooldown = 0;
+		delay = 30;
+		color=colorL;
+		isAlarm=isAlarmL;
 	}
 
 	@Override
@@ -50,6 +59,8 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 		this.selectedSound = nbt.getString("sound");
 		this.loop = nbt.getBoolean("loop");
 		this.distance = nbt.getFloat("distance");
+		this.color = nbt.getString("color");
+		this.isAlarm = nbt.getBoolean("isAlarm");
 		super.readFromNBT(nbt);
 
 		old_song = selectedSound;
@@ -62,21 +73,98 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 		nbt.setString("sound", selectedSound);
 		nbt.setBoolean("loop", this.loop);
 		nbt.setFloat("distance", this.distance);
+		nbt.setString("color", this.color);
+		nbt.setBoolean("isAlarm", this.isAlarm);
 
 		return super.writeToNBT(nbt);
+	}
+	
+
+	int countLight=0;
+	boolean isOn=false;
+	private void UpdateLight(boolean syncWithSound) {
+				
+		if(isAlarm)	
+			this.countLight++;
+			
+			if(countLight>17 & isOn & isAlarm) {
+				Alarm.setState(false, this.world, this.pos, this.color);	
+				isOn=false;
+			}	
+			
+		if(isAlarm & songLenght>2 & !syncWithSound)
+		{	
+			if((countLight>0 & countLight<17) & world.isBlockIndirectlyGettingPowered(pos) > 0 & !isOn) {
+				Alarm.setState(true, this.world, this.pos, this.color);		
+				isOn=true;
+			}
+			
+			if(countLight>30)
+				countLight=0;
+		}
+				
+		if(syncWithSound & songLenght<=2) {							
+			System.out.println("on");
+			Alarm.setState(true, this.world, this.pos, this.color);		
+			isOn=true;	
+			this.countLight=0;		
+		}	
+		
+		//Desliga a luz caso não receba sinal de redstone
+		if(world.isBlockIndirectlyGettingPowered(pos) <= 0 & isOn) {
+			isOn=false;
+			Alarm.setState(false, this.world, this.pos, this.color);
+		}
 	}
 
 	@Override
 	public void update() {
+		
+		/*if(isAlarm)			
+		{
+			this.countLight++;
+			 System.out.println(countLight);
+		}*/
+		//UpdateLight(false);
+		
+		
+		UpdateLight(false);
+		
 		try {
 			if (songLenght == 0 & selectedSound != "")
 				getSongLenght();
 	
+			
+			/*if(isAlarm & songLenght<=2) {
+				countLight=0;
+				Alarm.setState(true, this.world, this.pos, this.color);	
+			}*/
+			
+			//IF the speaker is a alarm do the lighting code flicker
+			/*if(isAlarm & songLenght>2) {
+						
+				if (world.isBlockIndirectlyGettingPowered(pos) > 0) {	
+					
+					if(countLight>30 & countLight < 60) {
+						Alarm.setState(true, this.world, this.pos, this.color);										
+					}
+					else if(countLight > 60) {
+						countLight=0;
+					}
+					else {
+						Alarm.setState(false, this.world, this.pos, this.color);	
+					}	
+					
+				}else {
+					Alarm.setState(false, this.world, this.pos, this.color);				
+				}
+			}*/
+			
 			// if (FMLCommonHandler.instance().getSide().isClient()) {
 			if (!this.getWorld().isRemote & cooldown>0) 
 			{
 				this.cooldown--;
-				testCooldown = cooldown;
+				testCooldown = cooldown;				
 			}
 						
 			if (!this.getWorld().isRemote & cooldown == 0) {
@@ -84,7 +172,9 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 				if (loop) // Play infinitly
 					if (world.isBlockIndirectlyGettingPowered(pos) > 0) {
 						this.cooldown =  delay + (songLenght * 20);
-	
+
+						UpdateLight(true);
+												
 						this.getWorld().playSound((EntityPlayer) null, this.pos.getX(), this.pos.getY(), this.pos.getZ(),
 								(net.minecraft.util.SoundEvent) net.minecraft.util.SoundEvent.REGISTRY
 										.getObject(new ResourceLocation("ambience:" + selectedSound)),

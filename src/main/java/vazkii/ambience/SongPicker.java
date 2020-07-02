@@ -73,6 +73,7 @@ public final class SongPicker {
 	public static final Map<String, String[]> eventMap = new HashMap();
 	public static final Map<Biome, String[]> biomeMap = new HashMap();
 	public static final Map<String, String[]> areasMap = new HashMap();	
+	public static final Map<String, String[]> mobMap = new HashMap();	
 	public static final Map<BiomeDictionary.Type, String[]> primaryTagMap = new HashMap();
 	public static final Map<BiomeDictionary.Type, String[]> secondaryTagMap = new HashMap();	
 	//public static final List<String> speakerMap = new ArrayList<String>();
@@ -87,6 +88,7 @@ public final class SongPicker {
 		eventMap.clear();
 		biomeMap.clear();
 		areasMap.clear();
+		mobMap.clear();
 		primaryTagMap.clear();
 		secondaryTagMap.clear();
 	}
@@ -176,7 +178,16 @@ public final class SongPicker {
 					if (!(mob instanceof EntityPlayer) & mob instanceof EntityMob) {
 						countEntities++;
 					}
+					
+					if (mobMap.containsKey(mobName) & countEntities>0 & !(mob instanceof EntityPlayer))
+						return mobMap.get(mobName);			
 				}
+				
+				//****************
+				
+				
+				
+				//****************
 
 				for (EntityLivingBase mob : entities) {
 					if (mobName != null || countEntities > 0) {

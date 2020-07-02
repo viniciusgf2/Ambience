@@ -3,7 +3,9 @@ package vaskii.ambience.GUI;
 import java.util.HashMap;
 import java.util.List;
 
+import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.primitives.Ints;
@@ -95,7 +97,7 @@ public class SpeakerEditGUI extends GuiScreen {
 			this.entity = entity;
 			this.xSize = 232;
 			this.ySize = 230;
-
+			
 			//getListSelectedIndex();
 			
 			pos = new BlockPos(x, y, z);
@@ -111,15 +113,16 @@ public class SpeakerEditGUI extends GuiScreen {
 			
 			//this.drawDefaultBackground();
 			super.drawScreen(mouseX, mouseY, partialTicks);
-			//this.renderHoveredToolTip(mouseX, mouseY);
+			//this.renderHoveredToolTip(mouseX, mouseY);	
 			
 			if(count>10)
 			soundList.drawScreen(mouseX, mouseY, partialTicks);	
 			
-			if(closeScreen) {			
+			if(closeScreen) {		
+				Mouse.setCursorPosition( mc.displayWidth / 2,  mc.displayHeight / 2);
 				closeScreen=false;
 				this.mc.player.closeScreen();				
-			}
+			}			
 		}
 		
 		
@@ -133,6 +136,7 @@ public class SpeakerEditGUI extends GuiScreen {
 				int l = (this.height - this.ySize) / 2;
 				this.drawModalRectWithCustomSizedTexture(k, l, 0, 0, this.xSize, this.ySize, this.xSize, this.ySize);
 			}
+			
 		}
 
 		@Override
@@ -169,9 +173,16 @@ public class SpeakerEditGUI extends GuiScreen {
 			}
 		}
 
+		private boolean mouseGrabbed=false;
 		@Override
-		protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-			if(!closeScreen) {		
+		protected void drawGuiContainerForegroundLayer(int par1, int par2) 
+		{			
+			if(!closeScreen) {	
+				if(!mouseGrabbed) {
+					mouseGrabbed=true;
+					Mouse.setGrabbed(false);	
+				}
+				
 				this.fontRenderer.drawString(I18n.format("GUI.SelectSoundLbl"), 59, -18, -1);
 				this.fontRenderer.drawString("Volume:", -14, 128, -1);
 				this.fontRenderer.drawString("Delay:", -14, 148, -1);
@@ -190,7 +201,8 @@ public class SpeakerEditGUI extends GuiScreen {
 		GuiSlider distance;
 		@Override
 		public void initGui() {
-			super.initGui();	
+			super.initGui();			
+
 			count=0;
 			this.guiLeft = (this.width - 176) / 2;
 			this.guiTop = (this.height - 166) / 2;
