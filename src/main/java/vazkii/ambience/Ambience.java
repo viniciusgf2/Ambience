@@ -255,8 +255,8 @@ public class Ambience {
 			String name = "Next Song: " + SongPicker.getSongName(nextSong);
 			event.getRight().add(name);
 		}
-		String name = "Cooldown: " + SpeakerTileEntity.testCooldown;
-		event.getRight().add(name);
+		//String name = "Cooldown: " + SpeakerTileEntity.testCooldown;
+		//event.getRight().add(name);
 	}
 	
 	@SubscribeEvent

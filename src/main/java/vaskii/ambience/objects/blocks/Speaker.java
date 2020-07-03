@@ -236,8 +236,13 @@ public class Speaker extends BlockBase implements ITileEntityProvider {
 	@Override
 	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state)
 	{		
-		if (FMLCommonHandler.instance().getSide().isClient() | worldIn.isRemote) {
+		/*if (FMLCommonHandler.instance().getSide().isClient() | worldIn.isRemote) {
 		    Minecraft.getMinecraft().getSoundHandler().stopSounds();						
+		}*/
+		
+		if (FMLCommonHandler.instance().getSide().isClient() | worldIn.isRemote) {
+			//Minecraft.getMinecraft().getSoundHandler().stopSounds();
+				Minecraft.getMinecraft().getSoundHandler().stop("ambience:"+ selectedSound, SoundCategory.NEUTRAL);
 		}
 	
 		super.onBlockDestroyedByPlayer(worldIn, pos, state);

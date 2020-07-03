@@ -47,9 +47,11 @@ public class Alarm extends Speaker {
 	public static float Distance = 1;
 	public static final PropertyDirection FACING = BlockDirectional.FACING;
 
+	public boolean isLit=false;
+	
 	public Alarm(String name, Material material, boolean isLit) {
 		super(name, material);
-		
+		this.isLit=isLit;
 		setHarvestLevel("pickaxe", 0);
 		setHardness(0.3F);
 		setResistance(1.5F);
@@ -73,6 +75,7 @@ public class Alarm extends Speaker {
 		setLightOpacity(0);
 		//this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(VARIANT, EnumType.WHITE));
+		
 	}
 	
 	@Override
@@ -114,21 +117,20 @@ public class Alarm extends Speaker {
 	}
 
 	//Acende e apaga a luz
-	public static void setState(boolean active, World worldIn, BlockPos pos, String color) {
-		IBlockState iblockstate = worldIn.getBlockState(pos);
-		TileEntity tileentity = worldIn.getTileEntity(pos);	
-				
-		if (active) {					
+	public void setState(boolean active, World worldIn, BlockPos pos, String color) {		
+			IBlockState iblockstate = worldIn.getBlockState(pos);
+			TileEntity tileentity = worldIn.getTileEntity(pos);	
+								
+			if (active) {					
 				worldIn.setBlockState(pos,BlockInit.block_Alarm_lit.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)).withProperty(VARIANT, EnumType.valueOf(color.toUpperCase())), 2);
-		} else {
-			
-			worldIn.setBlockState(pos,BlockInit.block_Alarm.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)));			
-		}
-
-		if (tileentity != null) {
-			tileentity.validate();
-			worldIn.setTileEntity(pos, tileentity);
-		}
+			} else {				
+				worldIn.setBlockState(pos,BlockInit.block_Alarm.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)));			
+			}
+	
+			if (tileentity != null) {
+				tileentity.validate();
+				worldIn.setTileEntity(pos, tileentity);
+			}		
 	}
 	
 	@Override
@@ -144,10 +146,10 @@ public class Alarm extends Speaker {
 	    iblockstate = iblockstate.withProperty(FACING, facing).withProperty(VARIANT, Alarm.EnumType.byMetadata(placer.getHeldItemMainhand().getMetadata()));
 
 	    //((SpeakerTileEntity)worldIn.getTileEntity(pos)).color = EnumType.byMetadata(placer.getHeldItemMainhand().getMetadata()).name;		
-		     
+			    
 		return iblockstate;// this.getDefaultState().withProperty(FACING, facing).withProperty(VARIANT, Alarm.EnumType.byMetadata(meta));
 	}
-
+	
 	// Abre a tela de seleção do som no bloco do speaker
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer entity, EnumHand hand,
@@ -158,13 +160,13 @@ public class Alarm extends Speaker {
 	}
 
 	@Override
-	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new SpeakerTileEntity(true,state.getValue(VARIANT).name);
+	public TileEntity createTileEntity(World world, IBlockState state) {		
+		return new SpeakerTileEntity(true,state.getValue(VARIANT).name,isLit);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new SpeakerTileEntity(true,EnumType.byMetadata(meta).name);
+		return new SpeakerTileEntity(true,EnumType.byMetadata(meta).name,isLit);
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////

@@ -23,6 +23,7 @@ import vazkii.ambience.Util.IHasModel;
 
 public class BlockBase extends Block implements IHasModel{
 
+	private static int i=0;
 	public Item itemBlock;
 	public BlockBase(String name, Material material) {		
 		super(material);
@@ -33,23 +34,7 @@ public class BlockBase extends Block implements IHasModel{
 		BlockInit.BLOCKS.add(this);
 		  
 		itemBlock = new AlarmItemBLock(this).setRegistryName(this.getRegistryName());		
-		ItemInit.ITEMS.add(itemBlock);		
-		  				
-		//Registra os sub-blocks
-		if(this instanceof Alarm) {			
-			int i=0;
-			  ImmutableList<IBlockState> values = this.getBlockState().getValidStates();
-              for (IBlockState state : values) {
-
-                  StateMapperBase statemapper = new DefaultStateMapper();
-                                    
-                  String variant=statemapper.getPropertyString(state.getProperties()).split("variant=")[1];
-                            		
-                  ModelLoader.setCustomModelResourceLocation(itemBlock, i,
-                          new ModelResourceLocation("ambience:alarm_"+ variant,statemapper.getPropertyString(state.getProperties())));
-                  i++;    
-              }
-		}
+		ItemInit.ITEMS.add(itemBlock);	
 	}
 	
 	@Override

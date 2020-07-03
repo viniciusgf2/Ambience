@@ -32,6 +32,20 @@ tile.alarm_magenta.name=Alarme Magenta
 tile.alarm_pink.name=Alarme Rosa
 tile.alarm_brown.name=Alarme Marrom
 
+tile.alarm.name=Alarme Acesso
+tile.alarm_red.name=Alarme Vermelho Acesso
+tile.alarm_orange.name=Alarme Laranja Acesso
+tile.alarm_yellow.name=Alarme Amarelo Acesso
+tile.alarm_lime.name=Alarme Verde Claro Acesso
+tile.alarm_green.name=Alarme Verde Acesso
+tile.alarm_lightblue.name=Alarme Azul Claro Acesso
+tile.alarm_cyan.name=Alarme Ciano Acesso
+tile.alarm_blue.name=Alarme Azul Acesso
+tile.alarm_purple.name=Alarme Roxo Acesso
+tile.alarm_magenta.name=Alarme Magenta Acesso
+tile.alarm_pink.name=Alarme Rosa Acesso
+tile.alarm_brown.name=Alarme Marrom Acesso
+
 tile.speaker.name=Caixa de Som
 tile.bell.name=Sino Cerimonial
 

@@ -37,19 +37,21 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 	private String old_song = "";
 	private boolean isAlarm=false;
 	public String color = "";
+	public boolean isOn=false;
 	
-	public static int testCooldown = 0;
+	//public static int testCooldown = 0;
 
 	public SpeakerTileEntity() {
 		cooldown = 0;
 		delay = 30;
 	}
 	
-	public SpeakerTileEntity(boolean isAlarmL, String colorL) {
+	public SpeakerTileEntity(boolean isAlarmL, String colorL,boolean on) {
 		cooldown = 0;
 		delay = 30;
 		color=colorL;
 		isAlarm=isAlarmL;
+		isOn=on; //Isso faz a luz saber que esta ligada assim que voce coloca um alarm_lit no chao entao ele apaga (talvez tirar dps se eu quiser manter luzes acessas)
 	}
 
 	@Override
@@ -81,21 +83,24 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 	
 
 	int countLight=0;
-	boolean isOn=false;
+	Alarm parent;
 	private void UpdateLight(boolean syncWithSound) {
-				
+		
+		if(parent == null)
+			parent=(Alarm)this.world.getBlockState(pos).getBlock();
+		
 		if(isAlarm)	
 			this.countLight++;
 			
-			if(countLight>17 & isOn & isAlarm) {
-				Alarm.setState(false, this.world, this.pos, this.color);	
+			if(countLight>17 & isOn & isAlarm) {											
+				parent.setState(false, this.world, this.pos, this.color);	
 				isOn=false;
 			}	
 			
 		if(isAlarm & songLenght>2 & !syncWithSound)
 		{	
 			if((countLight>0 & countLight<17) & world.isBlockIndirectlyGettingPowered(pos) > 0 & !isOn) {
-				Alarm.setState(true, this.world, this.pos, this.color);		
+				parent.setState(true, this.world, this.pos, this.color);		
 				isOn=true;
 			}
 			
@@ -103,9 +108,8 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 				countLight=0;
 		}
 				
-		if(syncWithSound & songLenght<=2) {							
-			System.out.println("on");
-			Alarm.setState(true, this.world, this.pos, this.color);		
+		if(syncWithSound & songLenght<=2) {		
+			parent.setState(true, this.world, this.pos, this.color);		
 			isOn=true;	
 			this.countLight=0;		
 		}	
@@ -113,8 +117,8 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 		//Desliga a luz caso não receba sinal de redstone
 		if(world.isBlockIndirectlyGettingPowered(pos) <= 0 & isOn) {
 			isOn=false;
-			Alarm.setState(false, this.world, this.pos, this.color);
-		}
+			parent.setState(false, this.world, this.pos, this.color);
+		}		
 	}
 
 	@Override
@@ -164,7 +168,7 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 			if (!this.getWorld().isRemote & cooldown>0) 
 			{
 				this.cooldown--;
-				testCooldown = cooldown;				
+			//	testCooldown = cooldown;				
 			}
 						
 			if (!this.getWorld().isRemote & cooldown == 0) {

@@ -32,6 +32,19 @@ tile.alarm_magenta.name=Alarm Magenta
 tile.alarm_pink.name=Alarm Pink
 tile.alarm_brown.name=Alarm Brown
 
+tile.alarm_lit.name=Alarm Lit
+tile.alarm_lit_red.name=Alarm Red Lit
+tile.alarm_lit_orange.name=Alarm Orange Lit
+tile.alarm_lit_yellow.name=Alarm Yellow Lit
+tile.alarm_lit_lime.name=Alarm Lime Lit
+tile.alarm_lit_green.name=Alarm Green Lit
+tile.alarm_lit_lightblue.name=Alarm Light Blue Lit
+tile.alarm_lit_cyan.name=Alarm Cyan Lit
+tile.alarm_lit_blue.name=Alarm Blue Lit
+tile.alarm_lit_purple.name=Alarm Purple Lit
+tile.alarm_lit_magenta.name=Alarm Magenta Lit
+tile.alarm_lit_pink.name=Alarm Pink Lit
+tile.alarm_lit_brown.name=Alarm Brown Lit
 
 tile.speaker.name=Speaker
 tile.bell.name=Bell of Consil of WaterSheep
