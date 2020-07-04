@@ -31,6 +31,7 @@ import vaskii.ambience.objects.blocks.SpeakerTileEntity;
 import vaskii.ambience.tabs.AmbienceTab;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.Util.Handlers.EventHandlers;
+import vazkii.ambience.Util.Handlers.RegistryHandler;
 import vazkii.ambience.Util.Handlers.ServerTickHandler;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.proxy.ClientProxy;
@@ -133,7 +134,6 @@ public class Ambience {
 		//proxyClient.preInit(event);
 		
 				
-		
 
 		//SongLoader.loadFrom(ambienceDir);
 	}
@@ -148,14 +148,13 @@ public class Ambience {
 		else
 		{			
 			SongLoader.loadFrom(ambienceDir);
-						
-			
+									
 			if(SongLoader.enabled)
 				thread = new PlayerThread();
 			
 			proxy.init(event);
 		}
-
+		
 		Minecraft mc = Minecraft.getMinecraft();
 		MusicTicker ticker = new NilMusicTicker(mc);
 		ReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, OBF_MC_MUSIC_TICKER);

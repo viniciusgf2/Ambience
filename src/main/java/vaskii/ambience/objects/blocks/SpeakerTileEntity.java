@@ -6,6 +6,8 @@ import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.AudioHeader;
 
+import net.minecraft.advancements.critereon.BredAnimalsTrigger.Instance;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -86,39 +88,43 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 	Alarm parent;
 	private void UpdateLight(boolean syncWithSound) {
 		
-		if(parent == null)
-			parent=(Alarm)this.world.getBlockState(pos).getBlock();
+		if(parent == null) {
+			Block blockAlarm=this.world.getBlockState(pos).getBlock();
+			if(blockAlarm instanceof Alarm)
+				parent=(Alarm)blockAlarm;
+		}else {
 		
-		if(isAlarm)	
-			this.countLight++;
-			
-			if(countLight>17 & isOn & isAlarm) {											
-				parent.setState(false, this.world, this.pos, this.color);	
-				isOn=false;
+			if(isAlarm)	
+				this.countLight++;
+				
+				if(countLight>17 & isOn & isAlarm) {											
+					parent.setState(false, this.world, this.pos, this.color);	
+					isOn=false;
+				}	
+				
+			if(isAlarm & songLenght>2 & !syncWithSound)
+			{	
+				if((countLight>0 & countLight<17) & world.isBlockIndirectlyGettingPowered(pos) > 0 & !isOn) {
+					parent.setState(true, this.world, this.pos, this.color);		
+					isOn=true;
+				}
+				
+				if(countLight>30)
+					countLight=0;
+			}
+					
+			if(syncWithSound & songLenght<=2) {		
+				parent.setState(true, this.world, this.pos, this.color);		
+				isOn=true;	
+				this.countLight=0;		
 			}	
 			
-		if(isAlarm & songLenght>2 & !syncWithSound)
-		{	
-			if((countLight>0 & countLight<17) & world.isBlockIndirectlyGettingPowered(pos) > 0 & !isOn) {
-				parent.setState(true, this.world, this.pos, this.color);		
-				isOn=true;
-			}
-			
-			if(countLight>30)
-				countLight=0;
+			//Desliga a luz caso não receba sinal de redstone
+			if(world.isBlockIndirectlyGettingPowered(pos) <= 0 & isOn) {
+				isOn=false;
+				parent.setState(false, this.world, this.pos, this.color);
+			}	
 		}
-				
-		if(syncWithSound & songLenght<=2) {		
-			parent.setState(true, this.world, this.pos, this.color);		
-			isOn=true;	
-			this.countLight=0;		
-		}	
-		
-		//Desliga a luz caso não receba sinal de redstone
-		if(world.isBlockIndirectlyGettingPowered(pos) <= 0 & isOn) {
-			isOn=false;
-			parent.setState(false, this.world, this.pos, this.color);
-		}		
 	}
 
 	@Override
@@ -177,6 +183,7 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 					if (world.isBlockIndirectlyGettingPowered(pos) > 0) {
 						this.cooldown =  delay + (songLenght * 20);
 
+						
 						UpdateLight(true);
 												
 						this.getWorld().playSound((EntityPlayer) null, this.pos.getX(), this.pos.getY(), this.pos.getZ(),
@@ -207,6 +214,7 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 				nbt.setInteger("delay", delay);
 				nbt.setBoolean("loop", loop);
 				nbt.setBoolean("sync", true);
+				nbt.setString("color", this.color);
 				nbt.setFloat("distance", distance);
 				// NetworkHandler4.sendToClient(new MyMessage4(nbt), entity);
 				NetworkHandler4.sendToAll(new MyMessage4(nbt));

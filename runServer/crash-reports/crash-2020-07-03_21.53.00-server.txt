@@ -1,0 +1,85 @@
+---- Minecraft Crash Report ----
+// Why did you do that?
+
+Time: 03/07/20 21:53
+Description: Ticking block entity
+
+java.lang.Error: Unresolved compilation problem: 
+	Syntax error on token ")", delete this token
+
+	at vaskii.ambience.objects.blocks.SpeakerTileEntity.update(SpeakerTileEntity.java:202)
+	at net.minecraft.world.World.updateEntities(World.java:2007)
+	at net.minecraft.world.WorldServer.updateEntities(WorldServer.java:643)
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:842)
+	at net.minecraft.server.dedicated.DedicatedServer.updateTimeLightAndEntities(DedicatedServer.java:415)
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:743)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:592)
+	at java.lang.Thread.run(Unknown Source)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Server thread
+Stacktrace:
+	at vaskii.ambience.objects.blocks.SpeakerTileEntity.update(SpeakerTileEntity.java:202)
+
+-- Block entity being ticked --
+Details:
+	Name: ambience:blocks/speaker // vaskii.ambience.objects.blocks.SpeakerTileEntity
+	Block type: ID #395 (tile.alarm // vaskii.ambience.objects.blocks.Alarm // ambience:alarm)
+	Block data value: 1 / 0x1 / 0b0001
+	Block location: World: (211,70,229), Chunk: (at 3,4,5 in 13,14; contains blocks 208,0,224 to 223,255,239), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+	Actual block type: ID #395 (tile.alarm // vaskii.ambience.objects.blocks.Alarm // ambience:alarm)
+	Actual block data value: 1 / 0x1 / 0b0001
+Stacktrace:
+	at net.minecraft.world.World.updateEntities(World.java:2007)
+	at net.minecraft.world.WorldServer.updateEntities(WorldServer.java:643)
+
+-- Affected level --
+Details:
+	Level name: world
+	All players: 1 total; [EntityPlayerMP['Player110'/289, l='world', x=205,87, y=70,00, z=233,08]]
+	Chunk stats: ServerChunkCache: 441 Drop: 0
+	Level seed: -3052900875485916511
+	Level generator: ID 00 - default, ver 1. Features enabled: true
+	Level generator options: 
+	Level spawn location: World: (196,64,232), Chunk: (at 4,4,8 in 12,14; contains blocks 192,0,224 to 207,255,239), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+	Level time: 208317 game time, 56428 day time
+	Level dimension: 0
+	Level storage version: 0x04ABD - Anvil
+	Level weather: Rain time: 1876 (now: false), thunder time: 19414 (now: false)
+	Level game mode: Game mode: survival (ID 0). Hardcore: false. Cheats: false
+Stacktrace:
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:842)
+	at net.minecraft.server.dedicated.DedicatedServer.updateTimeLightAndEntities(DedicatedServer.java:415)
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:743)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:592)
+	at java.lang.Thread.run(Unknown Source)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.12.2
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_251, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 6108469680 bytes (5825 MB) / 6229393408 bytes (5940 MB) up to 6229393408 bytes (5940 MB)
+	JVM Flags: 3 total; -Xincgc -Xmx6024M -Xms6024M
+	IntCache: cache: 7, tcache: 0, allocated: 12, tallocated: 94
+	FML: MCP 9.42 Powered by Forge 14.23.5.2838 5 mods loaded, 5 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+
+	| State  | ID        | Version                     | Source                           | Signature |
+	|:------ |:--------- |:--------------------------- |:-------------------------------- |:--------- |
+	| LCHIJA | minecraft | 1.12.2                      | minecraft.jar                    | None      |
+	| LCHIJA | mcp       | 9.42                        | minecraft.jar                    | None      |
+	| LCHIJA | FML       | 8.0.99.99                   | forgeSrc-1.12.2-14.23.5.2838.jar | None      |
+	| LCHIJA | forge     | 14.23.5.2838                | forgeSrc-1.12.2-14.23.5.2838.jar | None      |
+	| LCHIJA | ambience  | GRADLE:VERSION-GRADLE:BUILD | bin                              | None      |
+
+	Loaded coremods (and transformers): 
+	Profiler Position: N/A (disabled)
+	Player Count: 1 / 20; [EntityPlayerMP['Player110'/289, l='world', x=205,87, y=70,00, z=233,08]]
+	Is Modded: Definitely; Server brand changed to 'fml,forge'
+	Type: Dedicated Server (map_server.txt)

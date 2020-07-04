@@ -17,6 +17,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -32,8 +33,56 @@ import vazkii.ambience.Util.IHasModel;
 
 @EventBusSubscriber
 public class RegistryHandler {
-	public static void otherRegistries() {
-		BiomeInit.registerBiomes();
+
+	// Register the Sub-Blocks for the Alarm here
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public static void otherRegistries(ModelRegistryEvent event) {
+		// BiomeInit.registerBiomes();
+
+		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+
+			// Registra os sub-blocks do Alarm e Alarm Lit
+			BlockBase block = BlockInit.BLOCKS.get(1);
+
+			int i = 0;
+			List<IBlockState> values = block.getBlockState().getValidStates();
+			for (IBlockState state : values) {
+
+				StateMapperBase statemapper = new DefaultStateMapper();
+
+				String test = block.getRegistryName().getResourcePath();
+
+				String variant = statemapper.getPropertyString(state.getProperties()).split("variant=")[1];
+
+				ModelLoader.setCustomModelResourceLocation(block.itemBlock, i,
+						new ModelResourceLocation(
+								block.getRegistryName().getResourceDomain() + ":"
+										+ block.getRegistryName().getResourcePath() + "_" + variant,
+								statemapper.getPropertyString(state.getProperties())));
+				i++;
+			}
+
+			block = BlockInit.BLOCKS.get(2);
+
+			i = 0;
+			values = block.getBlockState().getValidStates();
+			for (IBlockState state : values) {
+
+				StateMapperBase statemapper = new DefaultStateMapper();
+
+				String test = block.getRegistryName().getResourcePath();
+
+				String variant = statemapper.getPropertyString(state.getProperties()).split("variant=")[1];
+
+				ModelLoader.setCustomModelResourceLocation(block.itemBlock, i,
+						new ModelResourceLocation(
+								block.getRegistryName().getResourceDomain() + ":"
+										+ block.getRegistryName().getResourcePath() + "_" + variant,
+								statemapper.getPropertyString(state.getProperties())));
+				i++;
+			}
+		}
 	}
 
 	@SubscribeEvent
@@ -42,7 +91,7 @@ public class RegistryHandler {
 	}
 
 	@SubscribeEvent
-	public static void onItemRegister(RegistryEvent.Register<Item> event) {				
+	public static void onItemRegister(RegistryEvent.Register<Item> event) {
 		event.getRegistry().registerAll(ItemInit.ITEMS.toArray(new Item[0]));
 	}
 
@@ -63,45 +112,8 @@ public class RegistryHandler {
 			if (block instanceof IHasModel) {
 				((IHasModel) block).registerModels();
 			}
-		}		
-		
-		
-		
-		//Registra os sub-blocks do Alarm e Alarm Lit
-		BlockBase block= BlockInit.BLOCKS.get(1);
-			
-		int i=0;
-		List<IBlockState> values = block.getBlockState().getValidStates();
-        for (IBlockState state : values) {
+		}
 
-            StateMapperBase statemapper = new DefaultStateMapper();
-                              
-            String test= block.getRegistryName().getResourcePath();
-            
-            String variant=statemapper.getPropertyString(state.getProperties()).split("variant=")[1];
-                      		
-            ModelLoader.setCustomModelResourceLocation(block.itemBlock, i,
-                    new ModelResourceLocation(block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath()+"_"+ variant,statemapper.getPropertyString(state.getProperties())));
-            i++;    
-        }
-		
-        block= BlockInit.BLOCKS.get(2);
-		
-		i=0;
-		values = block.getBlockState().getValidStates();
-        for (IBlockState state : values) {
-
-            StateMapperBase statemapper = new DefaultStateMapper();
-                              
-            String test= block.getRegistryName().getResourcePath();
-            
-            String variant=statemapper.getPropertyString(state.getProperties()).split("variant=")[1];
-                      		
-            ModelLoader.setCustomModelResourceLocation(block.itemBlock, i,
-                    new ModelResourceLocation(block.getRegistryName().getResourceDomain()+":"+block.getRegistryName().getResourcePath()+"_"+ variant,statemapper.getPropertyString(state.getProperties())));
-            i++;    
-        }
-		
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -111,7 +123,8 @@ public class RegistryHandler {
 
 		if (Ambience.previewArea != null)
 			if (Ambience.previewArea.getPos1() != null & Ambience.previewArea.getPos2() != null) {
-				SelectionBoxRenderer.drawBoundingBox(currentplayer.getPositionVector(), Ambience.previewArea.getPos1(),Ambience.previewArea.getPos2(), true, 2);
+				SelectionBoxRenderer.drawBoundingBox(currentplayer.getPositionVector(), Ambience.previewArea.getPos1(),
+						Ambience.previewArea.getPos2(), true, 2);
 			}
-	}	
+	}
 }

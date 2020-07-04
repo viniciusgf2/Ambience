@@ -126,7 +126,7 @@ public class Soundnizer extends ItemBase {
 
 			String testBlock=entityLiving.world.getBlockState(Position1.getBlockPos()).getBlock().getClass().getName();
 			
-			if (Position1.typeOfHit != Type.MISS & !testBlock.contains("Speaker")) {			
+			if (Position1.typeOfHit != Type.MISS & !testBlock.contains("Speaker") & !testBlock.contains("Alarm")) {			
 					((EntityPlayer) entityLiving).sendStatusMessage(
 							new TextComponentString(((I18n.format("Soundnizer.Position") + " 1 = x: ") + ""
 									+ ((int) Position1.getBlockPos().getX()) + "" + ("y: ") + ""
