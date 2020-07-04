@@ -17,7 +17,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.client.model.ModelLoader;
 import vaskii.ambience.Init.BlockInit;
 import vaskii.ambience.Init.ItemInit;
-import vaskii.ambience.objects.blocks.Alarm.EnumType;
+//import vaskii.ambience.objects.blocks.Alarm.EnumType;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.Util.IHasModel;
 

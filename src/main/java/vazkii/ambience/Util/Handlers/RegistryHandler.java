@@ -35,7 +35,7 @@ import vazkii.ambience.Util.IHasModel;
 public class RegistryHandler {
 
 	// Register the Sub-Blocks for the Alarm here
-	@SubscribeEvent
+	/*@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public static void otherRegistries(ModelRegistryEvent event) {
 		// BiomeInit.registerBiomes();
@@ -83,7 +83,7 @@ public class RegistryHandler {
 				i++;
 			}
 		}
-	}
+	}*/
 
 	@SubscribeEvent
 	public static void onSoundRegister(RegistryEvent.Register<SoundEvent> event) {

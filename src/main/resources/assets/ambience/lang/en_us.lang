@@ -19,6 +19,7 @@ Alarm.Desc=Plays a sound and flashs light when activated by redstone
 Bell.Desc=Sacred bell from the Consil of WaterSheep
 
 tile.alarm.name=Alarm
+tile.alarm_white.name=Alarm White
 tile.alarm_red.name=Alarm Red
 tile.alarm_orange.name=Alarm Orange
 tile.alarm_yellow.name=Alarm Yellow

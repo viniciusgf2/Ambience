@@ -1,0 +1,32 @@
+{
+  "variants": {    
+    "facing=up": {
+      "model": "ambience:alarm",
+      "x": 0
+    },
+    "facing=down": {
+      "model": "ambience:alarm",
+      "x": 180
+    },
+    "facing=north": {
+      "model": "ambience:alarm",
+      "x": 90,
+      "y": 0
+    },
+    "facing=south": {
+      "model": "ambience:alarm",
+      "x": 270,
+      "y": 0
+    },
+    "facing=east": {
+      "model": "ambience:alarm",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west": {
+      "model": "ambience:alarm",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

@@ -37,9 +37,6 @@ import vaskii.ambience.Init.ItemInit;
 
 public class Alarm extends Speaker {
 
-	public static final PropertyEnum<Alarm.EnumType> VARIANT = PropertyEnum.<Alarm.EnumType>create("variant",
-			Alarm.EnumType.class);
-
 	private boolean red = false;
 	public static String selectedSound = null;
 	public static int delaySound = 0;
@@ -47,16 +44,18 @@ public class Alarm extends Speaker {
 	public static float Distance = 1;
 	public static final PropertyDirection FACING = BlockDirectional.FACING;
 
+	public int meta=0;
 	public boolean isLit=false;
 	
-	public Alarm(String name, Material material, boolean isLit) {
+	public Alarm(String name, Material material, boolean isLit,int meta) {
 		super(name, material);
 		this.isLit=isLit;
+		this.meta=meta;
 		setHarvestLevel("pickaxe", 0);
 		setHardness(0.3F);
 		setResistance(1.5F);
 		setSoundType(SoundType.GLASS);
-				
+						
 		if (isLit) {
 			setCreativeTab(null);
 			setLightLevel(1F);
@@ -74,7 +73,7 @@ public class Alarm extends Speaker {
 
 		setLightOpacity(0);
 		//this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(VARIANT, EnumType.WHITE));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		
 	}
 	
@@ -121,30 +120,49 @@ public class Alarm extends Speaker {
 			IBlockState iblockstate = worldIn.getBlockState(pos);
 			TileEntity tileentity = worldIn.getTileEntity(pos);	
 								
-			if (active) {					
-				worldIn.setBlockState(pos,BlockInit.block_Alarm_lit.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)).withProperty(VARIANT, EnumType.valueOf(color.toUpperCase())), 2);
+			if (active) {	
+				switch (color) {
+					case "white" :worldIn.setBlockState(pos,BlockInit.block_Alarm_lit_WHITE.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 2);break;
+					case "red" :worldIn.setBlockState(pos,BlockInit.block_Alarm_lit_RED.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 2);break;
+					case "yellow" :worldIn.setBlockState(pos,BlockInit.block_Alarm_lit_YELLOW.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 2);break;
+					case "orange" :worldIn.setBlockState(pos,BlockInit.block_Alarm_lit_ORANGE.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 2);break;
+					case "lime" :worldIn.setBlockState(pos,BlockInit.block_Alarm_lit_LIME.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 2);break;
+					case "green" :worldIn.setBlockState(pos,BlockInit.block_Alarm_lit_GREEN.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 2);break;
+					case "cyan" :worldIn.setBlockState(pos,BlockInit.block_Alarm_lit_CYAN.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 2);break;				
+					case "lightblue" :worldIn.setBlockState(pos,BlockInit.block_Alarm_lit_LIGHTBLUE.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 2);break;
+					case "blue" :worldIn.setBlockState(pos,BlockInit.block_Alarm_lit_BLUE.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 2);break;
+					case "purple" :worldIn.setBlockState(pos,BlockInit.block_Alarm_lit_PURPLE.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 2);break;
+					case "magenta" :worldIn.setBlockState(pos,BlockInit.block_Alarm_lit_MAGENTA.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 2);break;
+					case "pink" :worldIn.setBlockState(pos,BlockInit.block_Alarm_lit_PINK.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 2);break;
+					case "brown" :worldIn.setBlockState(pos,BlockInit.block_Alarm_lit_BROWN.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 2);break;
+				}
+				
+				
 			} else {				
-				worldIn.setBlockState(pos,BlockInit.block_Alarm.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)));			
+				worldIn.setBlockState(pos,BlockInit.block_Alarm_WHITE.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)));			
 			}
 	
 			if (tileentity != null) {
 				tileentity.validate();
 				worldIn.setTileEntity(pos, tileentity);
-			}		
+			}	
 	}
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[]{FACING,VARIANT});
+		return new BlockStateContainer(this, new IProperty[]{FACING});
 	}
 	
 	@Override
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta,
 			EntityLivingBase placer) {
-				 		
+			
+	//	itemBlock.getUnlocalizedName().getRegistryName();
+		
 		IBlockState iblockstate = super.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
-	    iblockstate = iblockstate.withProperty(FACING, facing).withProperty(VARIANT, Alarm.EnumType.byMetadata(placer.getHeldItemMainhand().getMetadata()));
-
+	    //iblockstate = iblockstate.withProperty(FACING, facing).withProperty(VARIANT, Alarm.EnumType.byMetadata(placer.getHeldItemMainhand().getMetadata()));
+		iblockstate = iblockstate.withProperty(FACING, facing);
+		
 	    //((SpeakerTileEntity)worldIn.getTileEntity(pos)).color = EnumType.byMetadata(placer.getHeldItemMainhand().getMetadata()).name;		
 			    
 		return iblockstate;// this.getDefaultState().withProperty(FACING, facing).withProperty(VARIANT, Alarm.EnumType.byMetadata(meta));
@@ -161,111 +179,13 @@ public class Alarm extends Speaker {
 
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {		
-		return new SpeakerTileEntity(true,state.getValue(VARIANT).name,isLit);
+		return new SpeakerTileEntity(true,itemBlock.getUnlocalizedName().replace("tile.alarm_", ""),isLit);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new SpeakerTileEntity(true,EnumType.byMetadata(meta).name,isLit);
+		return new SpeakerTileEntity(true,itemBlock.getUnlocalizedName().replace("tile.alarm_", ""),isLit);
 	}
 
-///////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Gets the metadata of the item this Block can drop. This method is called when
-	 * the block gets destroyed. It returns the metadata of the dropped item based
-	 * on the old metadata of the block.
-	 */
-	public int damageDropped(IBlockState state) {
-		return ((Alarm.EnumType) state.getValue(VARIANT)).getMetadata();
-	}
-
-	/**
-	 * returns a list of blocks with the same ID, but different meta (eg: wood
-	 * returns 4 blocks)
-	 */
-	@Override
-	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
-		for (Alarm.EnumType Alarm$enumtype : Alarm.EnumType.values()) {
-			items.add(new ItemStack(this, 1, Alarm$enumtype.getMetadata()));
-		}
-	}
-	
-	/**
-	 * Get the MapColor for this Block and the given BlockState
-	 */
-	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		return ((Alarm.EnumType) state.getValue(VARIANT)).getMapColor();
-	}
-
-	public static enum EnumType implements IStringSerializable {
-		WHITE(0, "white", MapColor.QUARTZ),
-		RED(1, "red", MapColor.RED),
-		ORANGE(2, "orange", MapColor.ORANGE_STAINED_HARDENED_CLAY),
-		YELLOW(3, "yellow", MapColor.YELLOW),
-		LIME(4, "lime", MapColor.LIME),
-		GREEN(5, "green", MapColor.GREEN),
-		LIGHTBLUE(6, "lightblue", MapColor.LIGHT_BLUE),
-		CYAN(7, "cyan", MapColor.CYAN),
-		BLUE(8, "blue", MapColor.BLUE),
-		PURPLE(9, "purple", MapColor.PURPLE),
-		MAGENTA(10, "magenta", MapColor.MAGENTA),
-		PINK(11, "pink", MapColor.PINK),
-		BROWN(12, "brown", MapColor.BROWN);
-
-		private static final Alarm.EnumType[] META_LOOKUP = new Alarm.EnumType[values().length];
-		private final int meta;
-		private final String name;
-		private final String unlocalizedName;
-		/** The color that represents this entry on a map. */
-		private final MapColor mapColor;
-
-		private EnumType(int metaIn, String nameIn, MapColor mapColorIn) {
-			this(metaIn, nameIn, nameIn, mapColorIn);
-		}
-
-		private EnumType(int metaIn, String nameIn, String unlocalizedNameIn, MapColor mapColorIn) {
-			this.meta = metaIn;
-			this.name = nameIn;
-			this.unlocalizedName = unlocalizedNameIn;
-			this.mapColor = mapColorIn;
-		}
-
-		public int getMetadata() {
-			return this.meta;
-		}
-
-		/**
-		 * The color which represents this entry on a map.
-		 */
-		public MapColor getMapColor() {
-			return this.mapColor;
-		}
-
-		public String toString() {
-			return this.name;
-		}
-		
-		public static Alarm.EnumType byMetadata(int meta) {
-			if (meta < 0 || meta >= META_LOOKUP.length) {
-				meta = 0;
-			}
-
-			return META_LOOKUP[meta];
-		}
-
-		public String getName() {
-			return this.name;
-		}
-
-		public String getUnlocalizedName() {
-			return this.unlocalizedName;
-		}
-
-		static {
-			for (Alarm.EnumType Alarm$enumtype : values()) {
-				META_LOOKUP[Alarm$enumtype.getMetadata()] = Alarm$enumtype;
-			}
-		}
-	}
 }

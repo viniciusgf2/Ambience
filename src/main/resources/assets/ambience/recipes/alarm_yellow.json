@@ -44,7 +44,7 @@
     }
   },
   "result": {
-    "item": "ambience:alarm",
+    "item": "ambience:alarm_yellow",
     "data": 3,
     "count": 1
   }

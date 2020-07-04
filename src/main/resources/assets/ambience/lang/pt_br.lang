@@ -19,6 +19,7 @@ Speaker.Desc=Toca um som quando ativado por redstone
 Bell.Desc=Sino sagrado do Conselho das Ovelhas
 
 tile.alarm.name=Alarme
+tile.alarm_white.name=Alarme Branco
 tile.alarm_red.name=Alarme Vermelho
 tile.alarm_orange.name=Alarme Laranja
 tile.alarm_yellow.name=Alarme Amarelo
