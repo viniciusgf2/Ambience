@@ -182,7 +182,7 @@ public class Ambience {
 			if(fadeIn) {
 				thread.setGain(PlayerThread.fadeGains[fadeInTicks]);				
 			}			
-			if(thread.gain<thread.MAX_GAIN & fadeInTicks>0 & fadeIn) {			
+			if(thread.gain<thread.MAX_GAIN & fadeInTicks>0 /*& fadeIn*/) {			
 				fadeInTicks--;
 				fadeIn=true;
 			}else {

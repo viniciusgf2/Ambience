@@ -22,15 +22,9 @@ event.highUp=thesky
 event.attacked=battle,battle2
 event.generic=field
 
-#Bosses
+#Special Bosses
 event.bossEnderDragon=Boss
 event.bossWither=Boss
-event.foliaath=Boss
-event.ferrous_wroughtnaut=Boss
-event.barakoaya=Boss
-event.barako=Boss
-event.frostmaw=Boss
-event.naga=Boss
 
 # === Events End
 
@@ -40,6 +34,12 @@ event.naga=Boss
 mob.zombie=battle,battle2
 mob.skeleton=battle,battle2
 mob.creeper=battle,battle2
+mob.foliaath=Boss
+mob.ferrous_wroughtnaut=Boss3
+mob.barakoaya=Boss
+mob.barako=Boss
+mob.frostmaw=Boss3
+mob.naga=Boss3
 
 # === Specific Areas with the Sondnizer Tool - Highest Priority
 # Areas names have spaces replaced with +

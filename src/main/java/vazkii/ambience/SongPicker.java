@@ -16,6 +16,7 @@ import net.minecraft.client.gui.GuiBossOverlay;
 import net.minecraft.client.gui.GuiWinGame;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.monster.EntityMob;
@@ -159,13 +160,13 @@ public final class SongPicker {
 				int countEntities = 0;
 				String mobName = null;
 				List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class,
-						new AxisAlignedBB(player.posX - 16, player.posY - 2, player.posZ - 16, player.posX + 16,
-								player.posY + 4, player.posZ + 16));
+						new AxisAlignedBB(player.posX - 16, player.posY - 16, player.posZ - 16, player.posX + 16,
+								player.posY + 16, player.posZ + 16));
 
 				for (EntityLivingBase mob : entities) {
 					mobName = mob.getName().toLowerCase();
 
-					if (mobName.contains("foliaath") || mobName.contains("wroughtnaut") || mobName.contains("barako")
+					/*if (mobName.contains("foliaath") || mobName.contains("wroughtnaut") || mobName.contains("barako")
 							|| mobName.contains("frostmaw") || mobName.contains("naga")) {
 
 						songs = getSongsForEvent(EVENT_BOSS);
@@ -173,9 +174,9 @@ public final class SongPicker {
 							return songs;
 
 						countEntities++;
-					}
+					}*/
 
-					if (!(mob instanceof EntityPlayer) & mob instanceof EntityMob) {
+					if (!(mob instanceof EntityPlayer) & mob.isCreatureType(EnumCreatureType.MONSTER, false)) {
 						countEntities++;
 					}
 					

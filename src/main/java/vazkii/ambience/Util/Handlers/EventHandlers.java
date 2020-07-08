@@ -8,11 +8,21 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIAttackRanged;
+import net.minecraft.entity.ai.EntityAIAttackRangedBow;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
+import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
+import net.minecraft.entity.ai.EntityAIZombieAttack;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -124,16 +134,13 @@ public class EventHandlers {
 	public void onPlayerAttackEvent(AttackEntityEvent event) {
 		mobName = event.getTarget().getName().toLowerCase();
 
-		if (event.getTarget() instanceof EntityMob) {
+		//if (event.getTarget() instanceof EntityMob) {
+		if (event.getTarget().isCreatureType(EnumCreatureType.MONSTER, false)) {
 			ambience.attacked = true;
 			playInstant();
-		} else if (mobName.contains("foliaath") || mobName.contains("wroughtnaut") || mobName.contains("Barakoa")
-				|| mobName.contains("barako") || mobName.contains("frostmaw") || mobName.contains("naga")) {
-			ambience.attacked = true;
-			playInstant();
-		}
+		} 
 
-	}
+	}		
 
 	// Quando alguma coisa ataca o player
 	@SubscribeEvent(priority = EventPriority.NORMAL)
@@ -141,22 +148,32 @@ public class EventHandlers {
 		
 		String test= event.getEntity().getName();
 		
+	
+		
 		if(currentplayer!=null)
-		if (/*event.getEntity() instanceof EntityPlayer & */event.getEntity().getName().contains(currentplayer.getName())) {
+		if (/*event.getEntity() instanceof EntityPlayer & */event.getEntity().getName().contains(currentplayer.getName()) | event.getSource().isProjectile()) {
 			// When something get hurts near the player
 			List<EntityLivingBase> entities = Minecraft.getMinecraft().world.getEntitiesWithinAABB(
 					EntityLivingBase.class,
-					new AxisAlignedBB(event.getEntity().posX - 2, event.getEntity().posY - 2,
-							event.getEntity().posZ - 2, event.getEntity().posX + 2, event.getEntity().posY + 2,
-							event.getEntity().posZ + 2));
+					new AxisAlignedBB(event.getEntity().posX - 16, event.getEntity().posY - 16,
+							event.getEntity().posZ - 16, event.getEntity().posX + 16, event.getEntity().posY + 16,
+							event.getEntity().posZ + 16));
 			for (EntityLivingBase mob : entities) {
 				mobName = mob.getName().toLowerCase();
+								
 				// Detects when player gets attacked
-				if (mobName != null)
+				if (mobName != null) {
 					if (mobName.toLowerCase().contains("player") & mob.hurtTime > 0 || mob.arrowHitTimer > 0) {
 						ambience.attacked = true;
 						playInstant();
 					}
+					
+					//Detects when player attacks something with a bow
+					if (mobName.toLowerCase().contains("player") & event.getSource().isProjectile()) {
+						ambience.attacked = true;
+						playInstant();
+					}
+				}
 			}
 		}
 	}

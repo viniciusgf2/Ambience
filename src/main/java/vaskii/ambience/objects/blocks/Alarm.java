@@ -99,19 +99,19 @@ public class Alarm extends Speaker {
 		switch ((EnumFacing) state.getValue(BlockDirectional.FACING)) {
 
 		default:
-			return new AxisAlignedBB(0.88D, 0.12D, 0D, 0.12D, 0.88D, 0.12D);
+			return new AxisAlignedBB(0.28D, 0.12D, 0D, 0.12D, 0.28D, 0.12D);
 		case NORTH:
-			return new AxisAlignedBB(0.13D, 0.13D, 1D, 0.87D, 0.87D, 0.13D);
+			return new AxisAlignedBB(0.25D, 0.25D, 0.43D, 0.75D, 0.75D, 1D);
 		case WEST:
-			return new AxisAlignedBB(1D, 0.13D, 0.87D, 0.12D, 0.88D, 0.13D);
+			return new AxisAlignedBB(1D, 0.25D, 0.75D, 0.43D, 0.75D, 0.25D);
 		case EAST:
-			return new AxisAlignedBB(0D, 0.13D, 0.13D, 0.87D, 0.87D, 0.87D);
+			return new AxisAlignedBB(0D, 0.25D, 0.25D, 0.57D, 0.75D, 0.75D);
 		case UP:
-			return new AxisAlignedBB(0.13D, 0D, 0.13D, 0.87D, 0.87D, 0.87D);
+			return new AxisAlignedBB(0.25D, 0D, 0.25D, 0.75D, 0.57D, 0.75D);
 		case DOWN:
-			return new AxisAlignedBB(0.87D, 1D, 0.88D, 0.13, 0.13D, 0.13D);
+			return new AxisAlignedBB(0.75D, 0.43D, 0.75D, 0.25, 1D, 0.25D);
 		case SOUTH:
-			return new AxisAlignedBB(0.87D, 0.87D, 0D, 0.13D, 0.13D, 0.87D);
+			return new AxisAlignedBB(0.75D, 0.75D, 0D, 0.25D, 0.25D, 0.57D);
 		}
 	}
 
