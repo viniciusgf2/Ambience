@@ -1,15 +1,15 @@
 [
 {
   "modid": "ambience",
-  "name": "Ambience Mod",
-  "description": "Add music to your world",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
+  "name": "Ambience Mod - Extras",
+  "description": "Add music to your world and some blocks to customize the ambient sound for areas in your game",
+  "version": "1.4.3",
+  "mcversion": "1.12.2",
+  "url": "https://www.curseforge.com/minecraft/mc-mods/ambience-extras",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
-  "logoFile": "",
+  "authorList": ["viniciusgf1","vazkii"],
+  "credits": "Credits for Vazkii for making the core of this mod",
+  "logoFile": "assets/ambience/textures/gui/logo.png",
   "screenshots": [],
   "dependencies": []
 }

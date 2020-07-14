@@ -1,6 +1,12 @@
 package vazkii.ambience;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.apache.commons.io.IOUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
@@ -37,7 +43,7 @@ import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.proxy.ClientProxy;
 import vazkii.ambience.proxy.CommonProxy;
 
-@Mod(modid = Reference.MOD_ID , name = Reference.MOD_NAME , version = Reference.VERSION , dependencies = Reference.DEPENDENCIES )
+@Mod(modid = Reference.MOD_ID , name = Reference.MOD_NAME , version = Reference.VERSION , dependencies = Reference.DEPENDENCIES, updateJSON = Reference.UPDATEURL )
 public class Ambience {
 
 	public static final CreativeTabs AmbienceTab = new AmbienceTab("AmbienceTab");
@@ -165,7 +171,7 @@ public class Ambience {
 		if(thread == null)
 			return;
 		
-		if(event.phase == Phase.END) {
+		if(event.phase == Phase.END) {			
 			String songs = SongPicker.getSongsString();
 			String song = null;
 			
@@ -278,5 +284,44 @@ public class Ambience {
 			fadeIn=true;
 		}
 	}
+	
+	/*public static final String MODVERSION = "";
+	public static boolean isLatestVersion = false;
+	public static String latestVersion = "";
+	private void VersionChecker() {
+		InputStream in = null;
+		try 
+		{
+			in = new URL("https://raw.githubusercontent.com/jabelar/MagicBeans-1.7.10/master/src/main/java/com/blogspot/jabelarminecraft/magicbeans/version_file").openStream();
+		} 
+		catch 
+		(MalformedURLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try 
+		{
+			latestVersion = IOUtils.toString(in);
+		} 
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		finally 
+		{
+			IOUtils.closeQuietly(in);
+		}
+		System.out.println("Latest mod version = "+latestVersion);
+	    isLatestVersion = Ambience.MODVERSION.equals(latestVersion);
+	    System.out.println("Are you running latest version = "+isLatestVersion);
+	}*/
 	
 }

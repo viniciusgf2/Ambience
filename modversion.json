@@ -1,0 +1,13 @@
+{
+  "homepage": "https://www.curseforge.com/minecraft/mc-mods/ambience-extras/files",
+  "1.12.2": {
+	"1.4.4": "BUGFIX - Changed the way the reset key works when reloading the ambience.properties file in game
+			  \nBUGFIX - Alarm dropping always the white color when broken by the player after as received a redstone signal at least one time",
+    "1.4.3": "CHANGE - The mobs from mowzie's mobs were hard codded to always play the BOSS event music, now it's respecting the settings from the ambience.properties file
+			  \nBUGFIX- Some times if you go to fast over biomes the audio fade out and won't fade in again, now it's working fine."
+  },
+  "promos": {
+    "1.12.2-latest": "1.4.4",
+    "1.12.2-recommended": "1.4.4"  
+  }
+}

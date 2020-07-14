@@ -36,6 +36,7 @@ import vazkii.ambience.Ambience;
 import vazkii.ambience.NilMusicTicker;
 import vazkii.ambience.PlayerThread;
 import vazkii.ambience.SongLoader;
+import vazkii.ambience.SongPicker;
 
 public class EventHandlers {
 
@@ -96,12 +97,13 @@ public class EventHandlers {
 		// check each enumerated key binding type for pressed and take appropriate
 		// action
 		if (keyBindings[0].isPressed()) {
-			Ambience.thread.forceKill();
-			Ambience.thread.run();
+			SongPicker.reset();
+			//Ambience.thread.forceKill();			
+			//Ambience.thread.run();
 			SongLoader.loadFrom(ambience.ambienceDir);
 
-			if (SongLoader.enabled)
-				Ambience.thread = new PlayerThread();
+			//if (SongLoader.enabled)
+				//Ambience.thread = new PlayerThread();
 
 			Minecraft mc = Minecraft.getMinecraft();
 			MusicTicker ticker = new NilMusicTicker(mc);
@@ -145,11 +147,7 @@ public class EventHandlers {
 	// Quando alguma coisa ataca o player
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onLivingAttackEvent(LivingAttackEvent event) {
-		
-		String test= event.getEntity().getName();
-		
-	
-		
+							
 		if(currentplayer!=null)
 		if (/*event.getEntity() instanceof EntityPlayer & */event.getEntity().getName().contains(currentplayer.getName()) | event.getSource().isProjectile()) {
 			// When something get hurts near the player
