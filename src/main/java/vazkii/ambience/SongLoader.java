@@ -22,6 +22,7 @@ public final class SongLoader {
 	public static File mainDir;
 	public static boolean enabled = false;
 	
+	
 	public static void loadFrom(File f) {
 		File config = new File(f, "ambience.properties");
 		if (!config.exists())
@@ -31,6 +32,7 @@ public final class SongLoader {
 		try {
 			props.load(new FileReader(config));
 			enabled = props.getProperty("enabled").equals("true");
+			Ambience.showUpdateNotification = props.getProperty("ShowUpdateNotifications").equals("true");
 
 			if (enabled) {
 				SongPicker.reset();

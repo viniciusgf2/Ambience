@@ -1,6 +1,9 @@
 # Ambience Config
-
+#Enables or disables completly the mod(default=true)
 enabled=true
+
+#Enables or disables the notification in the chat that has updates(default=false)
+ShowUpdateNotifications=false
 
 # === Events - Highest Priority
 # Any non covered events will be ignored

@@ -4,30 +4,31 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIAttackRanged;
-import net.minecraft.entity.ai.EntityAIAttackRangedBow;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
-import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
-import net.minecraft.entity.ai.EntityAIZombieAttack;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.common.capabilities.Capability;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.common.ForgeVersion;
+import net.minecraftforge.common.ForgeVersion.CheckResult;
+import net.minecraftforge.common.ForgeVersion.Status;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -223,6 +224,36 @@ public class EventHandlers {
 		//Ambience.instance.fadeInTicks = Ambience.FADE_DURATION;
 		//Ambience.instance.silenceTicks = Ambience.SILENCE_DURATION;
 		//Ambience.instance.waitTick = 0;
+	}
+	
+	public static boolean show=false;
+	@SubscribeEvent
+	public void firstRender(RenderGameOverlayEvent event) {
+		Minecraft mc = Minecraft.getMinecraft();
+		if (!mc.inGameHasFocus || mc.player == null) {
+			return;
+		}
+		
+		if (!show & Ambience.showUpdateNotification) {
+			show = true;
+			for (ModContainer container : Loader.instance().getActiveModList()) {
+				if (!container.getModId().startsWith("mcp") && !container.getModId().equalsIgnoreCase("mcp") && !container.getModId().equalsIgnoreCase("FML") && !container.getModId().equalsIgnoreCase("Forge")) {
+					CheckResult res = ForgeVersion.getResult(container);
+					if ((res != null && res.status != Status.PENDING) && res.status == Status.BETA_OUTDATED || res.status == Status.OUTDATED) {
+						String comp = "\u00a7eNew version (\u00a77" + res.target + "\u00a7e) for\u00a7a " + container.getName() + " \u00a7eis available for download ";
+						
+						
+						/*ChatStyle style = comp.getChatStyle();
+						style.setColor(EnumChatFormatting.YELLOW);
+						style.setChatHoverEvent(new HoverEvent(net.minecraft.event.HoverEvent.Action.SHOW_TEXT, new ChatComponentText("\u00a7cClick to open download page.")));
+						style.setChatClickEvent(new ClickEvent(net.minecraft.event.ClickEvent.Action.OPEN_URL, res.url));
+						comp.setChatStyle(style);*/
+						mc.player.sendMessage(new TextComponentString(comp));
+					//	mc.player.add.addChatComponentMessage(comp);
+					}
+				}
+			}
+		}
 	}
 
 }

@@ -14,6 +14,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
+import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -76,9 +77,10 @@ public class Ambience {
 	
 	private static WorldData worldData=new WorldData();
 	
-	public static boolean sync=false;
-	
+	public static boolean sync=false;	
 	public static boolean instantPlaying=false;
+	
+	public static boolean showUpdateNotification=false;
 	
 	public static WorldData getWorldData() {
 		return worldData;
@@ -106,10 +108,7 @@ public class Ambience {
 
 		NetworkHandler4.init();
 		NetworkHandler4.INSTANCE.registerMessage(ClientHandler.class, MyMessage4.class, 2, Side.CLIENT);
-		
-
-		
-		
+				
 		//Registra a GUI
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 		
@@ -135,12 +134,8 @@ public class Ambience {
 		FMLCommonHandler.instance().bus().register(this);
 		MinecraftForge.EVENT_BUS.register(this);
 		
-		//proxy.preInit(event);
 		//proxyClient= new ClientProxy();
 		//proxyClient.preInit(event);
-		
-				
-
 		//SongLoader.loadFrom(ambienceDir);
 	}
 
@@ -163,7 +158,7 @@ public class Ambience {
 		
 		Minecraft mc = Minecraft.getMinecraft();
 		MusicTicker ticker = new NilMusicTicker(mc);
-		ReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, OBF_MC_MUSIC_TICKER);
+		ReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, OBF_MC_MUSIC_TICKER);		
 	}
 		
 	@SubscribeEvent
@@ -274,8 +269,8 @@ public class Ambience {
 		}
 	}
 	
-	public void changeSongTo(String song) {
-		
+	public void changeSongTo(String song) 
+	{		
 		currentSong = song;	
 		thread.play(song);		
 		thread.setGain(PlayerThread.fadeGains[fadeInTicks]);	
@@ -283,45 +278,5 @@ public class Ambience {
 			fadeInTicks= FADE_DURATION-1;		
 			fadeIn=true;
 		}
-	}
-	
-	/*public static final String MODVERSION = "";
-	public static boolean isLatestVersion = false;
-	public static String latestVersion = "";
-	private void VersionChecker() {
-		InputStream in = null;
-		try 
-		{
-			in = new URL("https://raw.githubusercontent.com/jabelar/MagicBeans-1.7.10/master/src/main/java/com/blogspot/jabelarminecraft/magicbeans/version_file").openStream();
-		} 
-		catch 
-		(MalformedURLException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		catch (IOException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try 
-		{
-			latestVersion = IOUtils.toString(in);
-		} 
-		catch (IOException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		finally 
-		{
-			IOUtils.closeQuietly(in);
-		}
-		System.out.println("Latest mod version = "+latestVersion);
-	    isLatestVersion = Ambience.MODVERSION.equals(latestVersion);
-	    System.out.println("Are you running latest version = "+isLatestVersion);
-	}*/
-	
+	}	
 }
