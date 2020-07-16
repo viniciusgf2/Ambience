@@ -4,11 +4,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.Set;
 
 import org.apache.logging.log4j.Level;
@@ -30,10 +33,43 @@ public final class SongLoader {
 
 		Properties props = new Properties();
 		try {
+
 			props.load(new FileReader(config));
+			
+			//Adds the Notification propertie to the ambience.properties file if the player don't have this 
+			if(props.getProperty("ShowUpdateNotifications") ==null) 
+			{								
+				try {
+					
+					int count=0;
+					String data="";
+					Scanner myReader = new Scanner(config);
+				      while (myReader.hasNextLine()) {
+				        data += myReader.nextLine()+"\n";
+				        
+				        if(count++==3) {
+				        	data+="#Enables or disables the notification in the chat that has updates(default=false)\nShowUpdateNotifications=false\n\n";
+				        }
+				      }
+				      myReader.close();
+				      
+				    BufferedWriter writer = new BufferedWriter(new FileWriter(config));	
+				    writer.write(data);
+					//writer.append("\n#Enables or disables the notification in the chat that has updates(default=false)\n");
+					//writer.append("ShowUpdateNotifications=false");
+					writer.close();
+					
+					props.load(new FileReader(config));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+
 			enabled = props.getProperty("enabled").equals("true");
 			Ambience.showUpdateNotification = props.getProperty("ShowUpdateNotifications").equals("true");
-
+				
+			
 			if (enabled) {
 				SongPicker.reset();
 				Set<Object> keys = props.keySet();
