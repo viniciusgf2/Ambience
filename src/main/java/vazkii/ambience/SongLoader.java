@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Level;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.FMLLog;
+import vazkii.ambience.event.EventInfo;
 
 public final class SongLoader {
 
@@ -75,12 +76,13 @@ public final class SongLoader {
 				Set<Object> keys = props.keySet();
 				for (Object obj : keys) {
 					String s = (String) obj;
-
+										
 					String[] tokens = s.split("\\.");
 					if (tokens.length < 2)
 						continue;
 
 					String keyType = tokens[0];
+					int dimID = tryParse(tokens[1], 0);
 					if (keyType.equals("event")) {
 						String event = tokens[1];
 
@@ -90,7 +92,7 @@ public final class SongLoader {
 						Biome biome = BiomeMapper.getBiome(biomeName);
 
 						if (biome != null)
-							SongPicker.biomeMap.put(biome, props.getProperty(s).split(","));
+							SongPicker.biomeMap.put(biome,props.getProperty(s).split(","));
 					} else if (keyType.equals("area")) {
 						String event = tokens[1];
 
@@ -99,6 +101,18 @@ public final class SongLoader {
 						String event = tokens[1];
 
 						SongPicker.mobMap.put(event, props.getProperty(s).split(","));
+					}else if (keyType.equals("dimension")) {
+						String event = "";
+						
+						if(tokens.length>2) 							
+						{
+							event=tokens[2];
+							SongPicker.eventMap.put(event+"\\"+ dimID, props.getProperty(s).split(","));
+						}
+						else
+						{
+							SongPicker.eventMap.put("dim" + dimID, props.getProperty(s).split(","));
+						}
 					}
 
 					else if (keyType.matches("primarytag|secondarytag")) {
@@ -165,5 +179,13 @@ public final class SongLoader {
 			s += token;
 		}
 		return s;
+	}
+	
+	private static int tryParse(String value, int defaultVal) {
+	    try {
+	        return Integer.parseInt(value);
+	    } catch (NumberFormatException e) {
+	        return defaultVal;
+	    }
 	}
 }

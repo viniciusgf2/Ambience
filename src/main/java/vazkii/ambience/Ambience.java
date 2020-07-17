@@ -10,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -80,6 +81,7 @@ public class Ambience {
 	public static boolean sync=false;	
 	public static boolean instantPlaying=false;
 	
+	public static boolean overideBackMusicDimension=false;
 	public static boolean showUpdateNotification=false;
 	
 	public static WorldData getWorldData() {
@@ -247,22 +249,33 @@ public class Ambience {
 			return;
 		
 		event.getRight().add(null);
-		if(PlayerThread.currentSong != null) {
-			String name = "Now Playing: " + SongPicker.getSongName(PlayerThread.currentSong);
-			event.getRight().add(name);
-		}
-		if(nextSong != null) {
-			String name = "Next Song: " + SongPicker.getSongName(nextSong);
-			event.getRight().add(name);
+		if((dimension>=-1 & dimension<=1) | PlayerThread.currentSong!="null" & nextSong!="null") {
+			
+			if(PlayerThread.currentSong != null) {
+				String name = "Now Playing: " + SongPicker.getSongName(PlayerThread.currentSong);
+				event.getRight().add(name);
+			}
+			if(nextSong != null) {
+				String name = "Next Song: " + SongPicker.getSongName(nextSong);
+				event.getRight().add(name);
+			}
 		}
 		//String name = "Cooldown: " + SpeakerTileEntity.testCooldown;
 		//event.getRight().add(name);
 	}
 	
+	public static int dimension=-25412;
 	@SubscribeEvent
 	public void onBackgroundMusic(PlaySoundEvent event) {
-		if(SongLoader.enabled && event.getSound().getCategory() == SoundCategory.MUSIC) {
-			if(event.isCancelable())
+		
+		WorldClient world=Minecraft.getMinecraft().world;
+				
+		if(world!=null)
+			dimension=world.provider.getDimension();
+		
+		if((SongLoader.enabled && event.getSound().getCategory() == SoundCategory.MUSIC) & (dimension>=-1 & dimension<=1) | overideBackMusicDimension) {
+						
+			if(event.isCancelable()) 
 				event.setCanceled(true);
 			
 			event.setResultSound(null);
@@ -271,6 +284,12 @@ public class Ambience {
 	
 	public void changeSongTo(String song) 
 	{		
+		//para de tocar as musicas caso esteja em outra dimensão
+		if(song=="null") {
+			thread.playing=false;
+			thread.setGain(0);
+		}
+		
 		currentSong = song;	
 		thread.play(song);		
 		thread.setGain(PlayerThread.fadeGains[fadeInTicks]);	

@@ -8,6 +8,7 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,6 +28,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -110,7 +112,7 @@ public class EventHandlers {
 			MusicTicker ticker = new NilMusicTicker(mc);
 			ReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
 		}
-
+		
 		/*if (keyBindings[1].isPressed()) {
 			if (SongPicker.getSongName(PlayerThread.currentSong) != "Boss3") {
 				pressedkey = true;
@@ -148,9 +150,9 @@ public class EventHandlers {
 	// Quando alguma coisa ataca o player
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onLivingAttackEvent(LivingAttackEvent event) {
-							
+
 		if(currentplayer!=null)
-		if (/*event.getEntity() instanceof EntityPlayer & */event.getEntity().getName().contains(currentplayer.getName()) | event.getSource().isProjectile()) {
+		if (event.getEntity().getName().contains(currentplayer.getName()) | event.getSource().isProjectile()) {
 			// When something get hurts near the player
 			List<EntityLivingBase> entities = Minecraft.getMinecraft().world.getEntitiesWithinAABB(
 					EntityLivingBase.class,
@@ -159,10 +161,10 @@ public class EventHandlers {
 							event.getEntity().posZ + 16));
 			for (EntityLivingBase mob : entities) {
 				mobName = mob.getName().toLowerCase();
-								
+											
 				// Detects when player gets attacked
 				if (mobName != null) {
-					if (mobName.toLowerCase().contains("player") & mob.hurtTime > 0 || mob.arrowHitTimer > 0) {
+					if (mob instanceof EntityPlayerSP & mob.hurtTime > 0 || mob.arrowHitTimer > 0) {
 						ambience.attacked = true;
 						playInstant();
 					}
@@ -188,10 +190,17 @@ public class EventHandlers {
 		}
 
 		// When Player is attacked by mobs
-		if (event.getEntityLiving() instanceof EntityPlayer) {
+	/*	if (event.getEntityLiving() instanceof EntityPlayer) {
 			ambience.attacked = true;
 			playInstant();
-		}
+		}*/
+		
+		if(event.getSource().getTrueSource()!=null)
+			if(event.getSource().getTrueSource().isCreatureType(EnumCreatureType.MONSTER, false)) {
+				System.out.println("monstro");
+				ambience.attacked = true;
+				playInstant();
+			}
 	}
 
 	// On something dies
