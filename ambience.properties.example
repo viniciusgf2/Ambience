@@ -87,6 +87,19 @@ biome.Hell=nether
 biome.House=house,house1,house2
 biome.Shop=shop
 
+#The Midnight Dimension Mod
+
+biome.Fungi+Forest=midnight_idle,crystal,midnight_idle,stegano
+biome.Hilly+Fungi+Forest=midnight_idle,crystal,midnight_idle,ultraviolet
+biome.Vigilant+Forest=midnight_idle,crystal,midnight_idle,stegano
+biome.Obscured+Plateau=midnight_idle,crystal,midnight_idle,ultraviolet
+biome.Black+Ridge=midnight_idle,crystal,midnight_idle,stegano
+biome.Phantasmal+Valley=midnight_idle,midnight_idle,midnight_idle,ultraviolet
+biome.Deceiful+Bog=midnight_idle,midnight_idle,midnight_idle,ultraviolet
+biome.Warped+Fields=midnight_idle,midnight_idle,midnight_idle,stegano
+biome.Crystal+Spires=midnight_idle,crystal,midnight_idle,stegano
+biome.Night+Plains=midnight_idle,midnight_idle,midnight_idle,ultraviolet
+
 
 # === Specific Biomes End
 
