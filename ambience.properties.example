@@ -24,8 +24,30 @@ event.horse=horse
 event.highUp=thesky
 event.attacked=battle,battle2
 event.generic=field
+event.falling=falling
+event.flyingelytra=flying
+event.lava=lava
+event.gameover=died
+event.paused=silent
+event.connecting=silent
+event.disconnected=silent
 
-#Special Bosses
+# === Events Per Dimension ====
+# If you set only "dimension.[DimensionID]" it will play that music globally on that dimension
+# and "dimension.[DimensionID].[Event]" it will set the event for that dimension
+
+#The Midnight Dimension Mod
+dimension.-23.boat=boat
+dimension.-23.attacked=battle,battle2
+dimension.-23.horse=horse
+
+#Deep Dark Dimension
+dimension.-11325=silent
+dimension.-11325.sleeping=sleeping
+dimension.-11325.lava=lava
+
+# === Special Bosses =====
+
 event.bossEnderDragon=Boss
 event.bossWither=Boss
 
