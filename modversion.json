@@ -8,7 +8,7 @@
     "1.4.3": "CHANGE - The mobs from mowzie's mobs were hard codded to always play the BOSS event music, now it's respecting the settings from the ambience.properties file\nBUGFIX- Some times if you go to fast over biomes the audio fade out and won't fade in again, now it's working fine."
   },
   "promos": {
-    "1.12.2-latest": "1.4.5.1",
-    "1.12.2-recommended": "1.4.5.1"  
+    "1.12.2-latest": "1.4.5.2",
+    "1.12.2-recommended": "1.4.5.2"  
   }
 }
