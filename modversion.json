@@ -1,14 +1,14 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/ambience-extras/files",
   "1.12.2": {
-	"1.4.6": "BUGFIX - Certain mobs from other mods when you hit they the game freezes when loading the combat music, now it's working fine.",
+	"1.4.5.1": "BUGFIX - Certain mobs from other mods when you hit they the game freezes when loading the combat music, now it's working fine.",
 	"1.4.5": "NEW - Added configurations to set the events per Dimension!!!\nNew - Added events to when you pause the game, when sleeping, connecting or disconnecting from a server, falling, flying with Elytra, on lava and when you dies.\nCHANGED - Event name for the ender dragon from 'bossDragon' to 'bossEnderDragon'",
 	"1.4.4.1": "BUGFIX - Added the notification config to the ambience.properties file if the player don't have it added.",
 	"1.4.4": "BUGFIX - Changed the way the reset key works when reloading the ambience.properties file in game\nBUGFIX - Alarm dropping always the white color when broken by the player after as received a redstone signal at least one time.",
     "1.4.3": "CHANGE - The mobs from mowzie's mobs were hard codded to always play the BOSS event music, now it's respecting the settings from the ambience.properties file\nBUGFIX- Some times if you go to fast over biomes the audio fade out and won't fade in again, now it's working fine."
   },
   "promos": {
-    "1.12.2-latest": "1.4.6",
-    "1.12.2-recommended": "1.4.6"  
+    "1.12.2-latest": "1.4.5.1",
+    "1.12.2-recommended": "1.4.5.1"  
   }
 }
