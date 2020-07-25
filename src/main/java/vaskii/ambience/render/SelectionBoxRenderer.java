@@ -1,41 +1,57 @@
 package vaskii.ambience.render;
 
+import javax.vecmath.Vector4f;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 import vazkii.ambience.Util.Border;
 
 public class SelectionBoxRenderer {
 
-	public static void drawBoundingBox(Vec3d player_pos, Vec3d posA, Vec3d posB, boolean smooth, float width) {
+	public static void drawBoundingBox(Vec3d player_pos, Vec3d posA, Vec3d posB, boolean smooth, float width, float partial_ticks) {
 
-		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
-		GL11.glDisable(GL11.GL_CULL_FACE);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GlStateManager.pushMatrix();
+	    GlStateManager.enableLighting();
+	    GlStateManager.disableLighting();
+	    GlStateManager.disableCull();
+	    GlStateManager.enableBlend();
+	    GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	    OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);	    
+	    GlStateManager.depthMask(false);	    
+	    
+       // GlStateManager.translate(-player_pos.x, -player_pos.y, -player_pos.z);
+        Vector4f color=new Vector4f(1,1,1, 85);
+	
+        GlStateManager.color(color.x, color.y, color.z, color.w);
+        
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_CULL_FACE);
 
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glTranslated(-player_pos.x, -player_pos.y, -player_pos.z);
+        GL11.glPushMatrix();
 
-		Color c = new Color(0, 255, 0, 85);
-		GL11.glColor4d(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
-		GL11.glLineWidth(width);
-		GL11.glDepthMask(false);
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferBuilder = tessellator.getBuffer();
-		
+        Entity viewing_from =  Minecraft.getMinecraft().getRenderViewEntity();
+
+        double x_fix = viewing_from.lastTickPosX + ((viewing_from.posX - viewing_from.lastTickPosX) * partial_ticks);
+        double y_fix = viewing_from.lastTickPosY + ((viewing_from.posY - viewing_from.lastTickPosY) * partial_ticks);
+        double z_fix = viewing_from.lastTickPosZ + ((viewing_from.posZ - viewing_from.lastTickPosZ) * partial_ticks);
+                
+        GL11.glTranslatef((float) -x_fix, (float) -y_fix, (float) -z_fix);
+        GL11.glPushMatrix();
+        
+		BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();		
 		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
 
-		//double dx = Math.abs(posA.x - posB.x);
-		//double dy = Math.abs(posA.y - posB.y);
-		//double dz = Math.abs(posA.z - posB.z);
-		double margin=-0.01;
-				
+		double margin=-0.01;				
 
 		Vec3d pA=new Vec3d(posA.x-1,posA.y,posA.z);
 		Vec3d pB=new Vec3d(posB.x,posB.y,posB.z-1);
@@ -64,208 +80,113 @@ public class SelectionBoxRenderer {
 		 
 		//Bottom
 				// AB
-				bufferBuilder.pos(border.p1.x, border.p1.y + margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
-				bufferBuilder.pos(border.p2.x+1, border.p1.y + margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
+				bufferBuilder.pos(border.p1.x, border.p1.y + margin, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // A
+				bufferBuilder.pos(border.p2.x+1, border.p1.y + margin, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // B
 				// BC
-				bufferBuilder.pos(border.p2.x+1, border.p1.y + margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-				bufferBuilder.pos(border.p2.x+1, border.p1.y + margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
+				bufferBuilder.pos(border.p2.x+1, border.p1.y + margin, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // B
+				bufferBuilder.pos(border.p2.x+1, border.p1.y + margin, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); // C
 				// CD
-				bufferBuilder.pos(border.p2.x+1, border.p1.y + margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
-				bufferBuilder.pos(border.p1.x, border.p1.y + margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
+				bufferBuilder.pos(border.p2.x+1, border.p1.y + margin, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); // C
+				bufferBuilder.pos(border.p1.x, border.p1.y + margin, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); // D
 				// DA
-				bufferBuilder.pos(border.p1.x, border.p1.y + margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
-				bufferBuilder.pos(border.p1.x, border.p1.y + margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
+				bufferBuilder.pos(border.p1.x, border.p1.y + margin, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); // D
+				bufferBuilder.pos(border.p1.x, border.p1.y + margin, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // A
 		
 		//Top
 				// EF
-				bufferBuilder.pos(border.p1.x, border.p2.y+1 - margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
-				bufferBuilder.pos(border.p2.x+1, border.p2.y+1 - margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
+				bufferBuilder.pos(border.p1.x, border.p2.y+1 - margin, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // E
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1 - margin, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // F
 				// FG
-				bufferBuilder.pos(border.p2.x+1, border.p2.y+1 - margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
-				bufferBuilder.pos(border.p2.x+1, border.p2.y+1 - margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1 - margin, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // F
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1 - margin, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); // G
 				// GH
-				bufferBuilder.pos(border.p2.x+1, border.p2.y+1 - margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
-				bufferBuilder.pos(border.p1.x, border.p2.y+1 - margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1 - margin, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); // G
+				bufferBuilder.pos(border.p1.x, border.p2.y+1 - margin, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); // H
 				// HE
-				bufferBuilder.pos(border.p1.x, border.p2.y+1 - margin, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); //H
-				bufferBuilder.pos(border.p1.x, border.p2.y+1 - margin, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
+				bufferBuilder.pos(border.p1.x, border.p2.y+1 - margin, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); //H
+				bufferBuilder.pos(border.p1.x, border.p2.y+1 - margin, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // E
 		
 		//Oeste
 				//AE
-				bufferBuilder.pos(border.p1.x, border.p1.y, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A				
-				bufferBuilder.pos(border.p1.x, border.p2.y+1, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
+				bufferBuilder.pos(border.p1.x, border.p1.y, border.p1.z - margin).color(color.x,color.y, color.z, color.w).endVertex(); // A				
+				bufferBuilder.pos(border.p1.x, border.p2.y+1, border.p1.z - margin).color(color.x,color.y, color.z, color.w).endVertex(); // E
 				
 				//EF
-				bufferBuilder.pos(border.p1.x, border.p2.y+1, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
-				bufferBuilder.pos(border.p2.x+1, border.p2.y+1, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F		
+				bufferBuilder.pos(border.p1.x, border.p2.y+1, border.p1.z - margin).color(color.x,color.y, color.z, color.w).endVertex(); // E
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1, border.p1.z - margin).color(color.x,color.y, color.z, color.w).endVertex(); // F		
 			
 				//FB
-				bufferBuilder.pos(border.p2.x+1, border.p2.y+1, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
-				bufferBuilder.pos(border.p2.x+1, border.p1.y, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1, border.p1.z - margin).color(color.x,color.y, color.z, color.w).endVertex(); // F
+				bufferBuilder.pos(border.p2.x+1, border.p1.y, border.p1.z - margin).color(color.x,color.y, color.z, color.w).endVertex(); // B
 			
 				//BA				
-				bufferBuilder.pos(border.p2.x+1, border.p1.y, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-				bufferBuilder.pos(border.p1.x, border.p1.y, border.p1.z - margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
+				bufferBuilder.pos(border.p2.x+1, border.p1.y, border.p1.z - margin).color(color.x,color.y, color.z, color.w).endVertex(); // B
+				bufferBuilder.pos(border.p1.x, border.p1.y, border.p1.z - margin).color(color.x,color.y, color.z, color.w).endVertex(); // A
 			
 	     
 	   //Leste
 				//CD
-				bufferBuilder.pos(border.p2.x+1, border.p1.y, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
-				bufferBuilder.pos(border.p1.x, border.p1.y, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
+				bufferBuilder.pos(border.p2.x+1, border.p1.y, border.p2.z+1 + margin).color(color.x,color.y, color.z, color.w).endVertex(); // C
+				bufferBuilder.pos(border.p1.x, border.p1.y, border.p2.z+1 + margin).color(color.x,color.y, color.z, color.w).endVertex(); // D
 				//DH
-				bufferBuilder.pos(border.p1.x, border.p1.y, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
-				bufferBuilder.pos(border.p1.x, border.p2.y+1, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); //H
+				bufferBuilder.pos(border.p1.x, border.p1.y, border.p2.z+1 + margin).color(color.x,color.y, color.z, color.w).endVertex(); // D
+				bufferBuilder.pos(border.p1.x, border.p2.y+1, border.p2.z+1 + margin).color(color.x,color.y, color.z, color.w).endVertex(); //H
 				
 				//HG
-				bufferBuilder.pos(border.p1.x, border.p2.y+1, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); //H
-				bufferBuilder.pos(border.p2.x+1, border.p2.y+1, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
+				bufferBuilder.pos(border.p1.x, border.p2.y+1, border.p2.z+1 + margin).color(color.x,color.y, color.z, color.w).endVertex(); //H
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1, border.p2.z+1 + margin).color(color.x,color.y, color.z, color.w).endVertex(); // G
 				
 				//GC
-				bufferBuilder.pos(border.p2.x+1, border.p2.y+1, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
-				bufferBuilder.pos(border.p2.x+1, border.p1.y, border.p2.z+1 + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
+				bufferBuilder.pos(border.p2.x+1, border.p2.y+1, border.p2.z+1 + margin).color(color.x,color.y, color.z, color.w).endVertex(); // G
+				bufferBuilder.pos(border.p2.x+1, border.p1.y, border.p2.z+1 + margin).color(color.x,color.y, color.z, color.w).endVertex(); // C
 			
 	     
 	   //Norte
 				//AD				
-		     	bufferBuilder.pos(border.p1.x - margin, border.p1.y, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A 
-		     	bufferBuilder.pos(border.p1.x - margin, border.p1.y, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D 
+		     	bufferBuilder.pos(border.p1.x - margin, border.p1.y, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // A 
+		     	bufferBuilder.pos(border.p1.x - margin, border.p1.y, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); // D 
 				
 				//DH
-		     	bufferBuilder.pos(border.p1.x - margin, border.p1.y, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D 
-		     	bufferBuilder.pos(border.p1.x - margin, border.p2.y+1, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); //H 
+		     	bufferBuilder.pos(border.p1.x - margin, border.p1.y, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); // D 
+		     	bufferBuilder.pos(border.p1.x - margin, border.p2.y+1, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); //H 
 				
 				//HE
-		     	bufferBuilder.pos(border.p1.x - margin, border.p2.y+1, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); //H 
-		     	bufferBuilder.pos(border.p1.x - margin, border.p2.y+1, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E 
+		     	bufferBuilder.pos(border.p1.x - margin, border.p2.y+1, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); //H 
+		     	bufferBuilder.pos(border.p1.x - margin, border.p2.y+1, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // E 
 				
 				//EA
-		     	bufferBuilder.pos(border.p1.x - margin, border.p2.y+1, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
-				bufferBuilder.pos(border.p1.x - margin, border.p1.y, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A 
+		     	bufferBuilder.pos(border.p1.x - margin, border.p2.y+1, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // E
+				bufferBuilder.pos(border.p1.x - margin, border.p1.y, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // A 
 			
 		//Sul
 				//BC
-				bufferBuilder.pos(border.p2.x+1 + margin, border.p1.y, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-				bufferBuilder.pos(border.p2.x+1 + margin, border.p1.y, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p1.y, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // B
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p1.y, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); // C
 
 				//CG
-				bufferBuilder.pos(border.p2.x+1 + margin, border.p1.y, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
-				bufferBuilder.pos(border.p2.x+1 + margin, border.p2.y+1, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G				
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p1.y, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); // C
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p2.y+1, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); // G				
 						
 				//GF
-				bufferBuilder.pos(border.p2.x+1 + margin, border.p2.y+1, border.p2.z+1).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G	
-				bufferBuilder.pos(border.p2.x+1 + margin, border.p2.y+1, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p2.y+1, border.p2.z+1).color(color.x,color.y, color.z, color.w).endVertex(); // G	
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p2.y+1, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // F
 				
 				//FB
-				bufferBuilder.pos(border.p2.x+1 + margin, border.p2.y+1, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
-				bufferBuilder.pos(border.p2.x+1 + margin, border.p1.y, border.p1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-	     
-		/*
-		//Bottom
-		// AB
-		bufferBuilder.pos(posA.x, posA.y + margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
-		bufferBuilder.pos(posA.x, posA.y + margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-		// BC
-		bufferBuilder.pos(posA.x, posA.y + margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-		bufferBuilder.pos(posA.x + dx, posA.y + margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
-		// CD
-		bufferBuilder.pos(posA.x + dx, posA.y + margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
-		bufferBuilder.pos(posA.x + dx, posA.y + margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
-		// DA
-		bufferBuilder.pos(posA.x + dx, posA.y + margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
-		bufferBuilder.pos(posA.x, posA.y + margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p2.y+1, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // F
+				bufferBuilder.pos(border.p2.x+1 + margin, border.p1.y, border.p1.z).color(color.x,color.y, color.z, color.w).endVertex(); // B
+	     			
+		Tessellator.getInstance().draw();
 		
-		//Top
-		// EF
-		bufferBuilder.pos(posA.x, posA.y + dy - margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
-		bufferBuilder.pos(posA.x, posA.y + dy - margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F		
-		// FG
-		bufferBuilder.pos(posA.x, posA.y + dy - margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
-		bufferBuilder.pos(posA.x + dx, posA.y + dy - margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
-		// GH
-		bufferBuilder.pos(posA.x + dx, posA.y + dy - margin, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
-		bufferBuilder.pos(posA.x + dx, posA.y + dy - margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
-		// HE
-		bufferBuilder.pos(posA.x + dx, posA.y + dy - margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
-		bufferBuilder.pos(posA.x, posA.y + dy - margin, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
-		
-		
-		//Leste
-		// AE
-		bufferBuilder.pos(posA.x- margin, posA.y, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
-		bufferBuilder.pos(posA.x- margin, posA.y + dy, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
-		
-		// EF
-		bufferBuilder.pos(posA.x- margin, posA.y + dy, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
-		bufferBuilder.pos(posA.x- margin, posA.y + dy, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F		
-	
-		//FB
-		bufferBuilder.pos(posA.x- margin, posA.y + dy, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
-		bufferBuilder.pos(posA.x- margin, posA.y, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-	
-		//BA				
-		bufferBuilder.pos(posA.x- margin, posA.y, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-		bufferBuilder.pos(posA.x- margin, posA.y, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
-			
-		//Norte
-		//AD				
-		bufferBuilder.pos(posA.x, posA.y, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
-		bufferBuilder.pos(posA.x + dx, posA.y, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
-		
-		//DH
-		bufferBuilder.pos(posA.x + dx, posA.y, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
-		bufferBuilder.pos(posA.x + dx, posA.y + dy, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
-		
-		//HE
-		bufferBuilder.pos(posA.x + dx, posA.y + dy, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
-		bufferBuilder.pos(posA.x, posA.y + dy, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
-		
-		//EA
-		bufferBuilder.pos(posA.x, posA.y + dy, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // E
-		bufferBuilder.pos(posA.x, posA.y, posA.z- margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // A
-		
-		
-		
-		//Sul
-		//BC
-		bufferBuilder.pos(posA.x, posA.y, posA.z + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-		bufferBuilder.pos(posA.x + dx, posA.y, posA.z + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C	
-
-		//CG
-		bufferBuilder.pos(posA.x + dx, posA.y, posA.z + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
-		bufferBuilder.pos(posA.x + dx, posA.y + dy, posA.z + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
-				
-		//GF
-		bufferBuilder.pos(posA.x + dx, posA.y + dy, posA.z + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
-		bufferBuilder.pos(posA.x, posA.y + dy, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
-		
-		//FB
-		bufferBuilder.pos(posA.x, posA.y + dy, posA.z + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // F
-		bufferBuilder.pos(posA.x, posA.y, posA.z + dz + margin).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // B
-		
-		
-		//Oeste
-		//CD
-		bufferBuilder.pos(posA.x + dx + margin, posA.y, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
-		bufferBuilder.pos(posA.x + dx + margin, posA.y, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
-		
-		//DH
-		bufferBuilder.pos(posA.x + dx + margin, posA.y, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // D
-		bufferBuilder.pos(posA.x + dx + margin, posA.y + dy, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
-		
-		//HG
-		bufferBuilder.pos(posA.x + dx + margin, posA.y + dy, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // H
-		bufferBuilder.pos(posA.x + dx + margin, posA.y + dy, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
-		
-		//GC
-		bufferBuilder.pos(posA.x + dx + margin, posA.y + dy, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // G
-		bufferBuilder.pos(posA.x + dx + margin, posA.y, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex(); // C
-		*/
-		
-		
-		tessellator.draw();
-		
-		GL11.glDepthMask(true);
-		GL11.glPopAttrib();
+		GL11.glPopMatrix();
+	    GL11.glPopMatrix();
+	    GL11.glEnable(GL11.GL_TEXTURE_2D);
+	    GL11.glEnable(GL11.GL_LIGHTING);
+	    GL11.glEnable(GL11.GL_CULL_FACE);
+	    
+	    GlStateManager.depthMask(true);
+	    GlStateManager.disableBlend();
+	    GlStateManager.enableCull();
+	    GlStateManager.enableLighting();
+	    GlStateManager.popMatrix();
 	}
-
 }

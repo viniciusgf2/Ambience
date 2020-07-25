@@ -124,7 +124,7 @@ public class RegistryHandler {
 		if (Ambience.previewArea != null)
 			if (Ambience.previewArea.getPos1() != null & Ambience.previewArea.getPos2() != null) {
 				SelectionBoxRenderer.drawBoundingBox(currentplayer.getPositionVector(), Ambience.previewArea.getPos1(),
-						Ambience.previewArea.getPos2(), true, 2);
+						Ambience.previewArea.getPos2(), true, 2,event.getPartialTicks());
 			}
 	}
 }

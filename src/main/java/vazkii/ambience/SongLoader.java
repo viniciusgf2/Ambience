@@ -19,8 +19,6 @@ import org.apache.logging.log4j.Level;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.FMLLog;
-import vazkii.ambience.event.EventInfo;
-
 public final class SongLoader {
 
 	public static File mainDir;

@@ -22,8 +22,13 @@ import net.minecraft.client.gui.GuiSleepMP;
 import net.minecraft.client.gui.GuiWinGame;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAITasks;
+import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.monster.EntityMob;
@@ -100,6 +105,9 @@ public final class SongPicker {
 
 	public static boolean areaSongsLoaded = false;
 	public static boolean falling = false;
+	
+	public static boolean horde=false;
+	
 	public static void reset() {
 		eventMap.clear();
 		biomeMap.clear();
@@ -136,7 +144,7 @@ public final class SongPicker {
 			return getSongsForEvent(EVENT_PAUSE);
 		
 		if (mc.currentScreen instanceof GuiSleepMP)
-		return getSongsForEvent(EVENT_SLEEPING);
+			return getSongsForEvent(EVENT_SLEEPING);
 				
 		if (mc.currentScreen instanceof GuiGameOver)
 			return getSongsForEvent(EVENT_GAMEOVER);
@@ -186,29 +194,24 @@ public final class SongPicker {
 
 		// Boss and Enemies Battle Musics******************
 
-		if (Ambience.attacked) {
-			try {
-				String[] songs = null;
-				int countEntities = 0;
-				String mobName = null;
-				List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class,
+		if (Ambience.attacked & !horde) {			
+				try {
+					String[] songs = null;
+					int countEntities = 0;
+					String mobName = null;
+								
+					List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class,
 						new AxisAlignedBB(player.posX - 16, player.posY - 16, player.posZ - 16, player.posX + 16,
 								player.posY + 16, player.posZ + 16));
 
 				for (EntityLivingBase mob : entities) {
+					
 					mobName = mob.getName().toLowerCase();
+					
 
-					/*if (mobName.contains("foliaath") || mobName.contains("wroughtnaut") || mobName.contains("barako")
-							|| mobName.contains("frostmaw") || mobName.contains("naga")) {
-
-						songs = getSongsForEvent(EVENT_BOSS);
-						if (songs != null)
-							return songs;
-
-						countEntities++;
-					}*/
-
-					if (!(mob instanceof EntityPlayer) & mob.isCreatureType(EnumCreatureType.MONSTER, false)) {
+					if (!(mob instanceof EntityPlayer) )
+						//if(mob instanceof EntityMob) {
+						if( mob.isCreatureType(EnumCreatureType.MONSTER, false) | ((EntityLiving) mob).canAttackClass(player.getClass())) {
 						countEntities++;
 					}
 					
@@ -218,23 +221,23 @@ public final class SongPicker {
 				
 				//****************
 				
-				
+				if (mobName != null & countEntities > 0) {
+					//Songs for other dimensions
+					if (dimension <-1 | dimension >1 )
+						songs = getSongsForEvent(EVENT_ATTACKED+"\\"+dimension); 			
+					else
+						songs = getSongsForEvent(EVENT_ATTACKED);
+				}
 				
 				//****************
 
-				for (EntityLivingBase mob : entities) {
+				/*for (EntityLivingBase mob : entities) {
 					if (mobName != null || countEntities > 0) {
 
-						if (!(mob instanceof EntityPlayer)) {
-							
-							//Songs for other dimensions
-							if (dimension <-1 | dimension >1 )
-								songs = getSongsForEvent(EVENT_ATTACKED+"\\"+dimension); 			
-							else
-								songs = getSongsForEvent(EVENT_ATTACKED);
-						}
+						if (!(mob instanceof EntityPlayer))
+							songs = getSongsForEvent(EVENT_ATTACKED);
 					}
-				}
+				}*/
 
 				if (mobName == null || countEntities < 1) {
 					Ambience.attacked = false;
@@ -278,6 +281,7 @@ public final class SongPicker {
 		int monsterCount = world.getEntitiesWithinAABB(EntityMob.class, new AxisAlignedBB(player.posX - 16,
 				player.posY - 8, player.posZ - 16, player.posX + 16, player.posY + 8, player.posZ + 16)).size();
 		if (monsterCount > 5) {
+			horde=true;
 			String[] songs=null;
 			//Songs for other dimensions
 			if (dimension <-1 | dimension >1 )
@@ -286,6 +290,8 @@ public final class SongPicker {
 				songs = getSongsForEvent(EVENT_HORDE);
 			if (songs != null)
 				return songs;
+		}else {
+			horde=false;
 		}
 
 		if (player.fishEntity != null) {
@@ -367,7 +373,7 @@ public final class SongPicker {
 			}
 		}
 
-		if (player.isInsideOfMaterial(Material.WATER)) {
+		if (player.isInsideOfMaterial(Material.WATER) & !Ambience.attacked) {
 			String[] songs=null;
 			//Songs for other dimensions
 			if (dimension <-1 | dimension >1 )
@@ -378,7 +384,7 @@ public final class SongPicker {
 				return songs;
 		}
 				
-		if(player.fallDistance>10) 
+		if(player.fallDistance>15) 
 		{
 			falling=true;
 			String[] songs=null;

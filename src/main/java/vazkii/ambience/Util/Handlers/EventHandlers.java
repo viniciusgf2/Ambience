@@ -56,7 +56,7 @@ public class EventHandlers {
 		// MEU-------------
 		currentplayer = Minecraft.getMinecraft().player;
 		// declare an array of key bindings
-		keyBindings = new KeyBinding[1];
+		keyBindings = new KeyBinding[2];
 
 		// instantiate the key bindings
 		// keyBindings[0] = new KeyBinding("key.structure.desc", Keyboard.KEY_P,
@@ -64,7 +64,7 @@ public class EventHandlers {
 		
 		//GUI.InstantPlayChk
 		keyBindings[0] = new KeyBinding("Options.Reload", Keyboard.KEY_P, "Ambience");
-		//keyBindings[1] = new KeyBinding("Plays a music instantly", Keyboard.KEY_O, "Ambience");
+		keyBindings[1] = new KeyBinding("Force Play", Keyboard.KEY_O, "Ambience");
 
 		// register all the key bindings
 		for (int i = 0; i < keyBindings.length; ++i) {
@@ -113,6 +113,20 @@ public class EventHandlers {
 			ReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
 		}
 		
+		if (keyBindings[1].isPressed()) {
+			//SongPicker.reset();
+			Ambience.thread.forceKill();			
+			Ambience.thread.run();
+			SongLoader.loadFrom(ambience.ambienceDir);
+
+			if (SongLoader.enabled)
+				Ambience.thread = new PlayerThread();
+
+			Minecraft mc = Minecraft.getMinecraft();
+			MusicTicker ticker = new NilMusicTicker(mc);
+			ReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
+		}
+		
 		/*if (keyBindings[1].isPressed()) {
 			if (SongPicker.getSongName(PlayerThread.currentSong) != "Boss3") {
 				pressedkey = true;
@@ -151,8 +165,11 @@ public class EventHandlers {
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onLivingAttackEvent(LivingAttackEvent event) {
 
+		
+	//	System.out.println(event.getEntity().getName());
+		
 		if(currentplayer!=null)
-		if (event.getEntity().getName().contains(currentplayer.getName()) | event.getSource().isProjectile()) {
+		if (/*event.getEntity() instanceof EntityPlayer & */event.getEntity().getName().contains(currentplayer.getName())) {
 			// When something get hurts near the player
 			List<EntityLivingBase> entities = Minecraft.getMinecraft().world.getEntitiesWithinAABB(
 					EntityLivingBase.class,
@@ -161,27 +178,20 @@ public class EventHandlers {
 							event.getEntity().posZ + 16));
 			for (EntityLivingBase mob : entities) {
 				mobName = mob.getName().toLowerCase();
-											
+								
 				// Detects when player gets attacked
-				if (mobName != null) {
-					if (mob instanceof EntityPlayerSP & mob.hurtTime > 0 || mob.arrowHitTimer > 0) {
+				if (mobName != null & !event.getSource().isUnblockable())
+					if (mobName.toLowerCase().contains("player") || event.getSource().isProjectile()) {
 						ambience.attacked = true;
 						playInstant();
 					}
-					
-					//Detects when player attacks something with a bow
-					if (mobName.toLowerCase().contains("player") & event.getSource().isProjectile()) {
-						ambience.attacked = true;
-						playInstant();
-					}
-				}
 			}
 		}
 	}
 
 	// SINGLE PLAYER Only!!!!
 	// On Player Attacks and Get Attacked
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	/*@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		// When Player attacks mobs
 		if (event.getSource().getTrueSource() instanceof EntityPlayer) {
@@ -190,18 +200,17 @@ public class EventHandlers {
 		}
 
 		// When Player is attacked by mobs
-	/*	if (event.getEntityLiving() instanceof EntityPlayer) {
+		if (event.getEntityLiving() instanceof EntityPlayer) {			
 			ambience.attacked = true;
 			playInstant();
-		}*/
+		}
 		
-		if(event.getSource().getTrueSource()!=null)
-			if(event.getSource().getTrueSource().isCreatureType(EnumCreatureType.MONSTER, false)) {
-				System.out.println("monstro");
+		/*if(event.getSource().getTrueSource()!=null)
+			if(event.getSource().getTrueSource().isCreatureType(EnumCreatureType.MONSTER, false)) {				
 				ambience.attacked = true;
 				playInstant();
 			}
-	}
+	}*/
 
 	// On something dies
 	@SubscribeEvent(priority = EventPriority.NORMAL)
