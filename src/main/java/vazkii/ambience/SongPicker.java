@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.gui.BossInfoClient;
 import net.minecraft.client.gui.GuiBossOverlay;
 import net.minecraft.client.gui.GuiDisconnected;
@@ -134,6 +135,20 @@ public final class SongPicker {
 				
 		if (player == null || world == null) {
 			areaSongsLoaded = false;
+			
+			Ambience.dimension=-25412;
+			//System.out.println(Ambience.thread.currentSong);
+			
+			if(Ambience.thread.currentSong!=null)
+			{				
+				if(getSongsForEvent(EVENT_MAIN_MENU) !=null)
+					Ambience.overideBackMusicDimension=true;
+				else {
+					Ambience.fadeIn=true;
+					Ambience.fadeInTicks= Ambience.FADE_DURATION-1;	
+					Ambience.overideBackMusicDimension=false;	
+				}
+			}
 						
 			return getSongsForEvent(EVENT_MAIN_MENU);
 		}
