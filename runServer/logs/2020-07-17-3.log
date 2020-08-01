@@ -1,0 +1,275 @@
+[14:22:34] [main/INFO] [GradleStart]: Extra: []
+[14:22:34] [main/INFO] [GradleStart]: Running with arguments: [--tweakClass, net.minecraftforge.fml.common.launcher.FMLServerTweaker, --tweakClass, net.minecraftforge.gradle.tweakers.CoremodTweaker]
+[14:22:35] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLServerTweaker
+[14:22:35] [main/INFO] [LaunchWrapper]: Using primary tweak class name net.minecraftforge.fml.common.launcher.FMLServerTweaker
+[14:22:35] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.gradle.tweakers.CoremodTweaker
+[14:22:35] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLServerTweaker
+[14:22:36] [main/INFO] [FML]: Forge Mod Loader version 14.23.5.2838 for Minecraft 1.12.2 loading
+[14:22:36] [main/INFO] [FML]: Java is Java HotSpot(TM) 64-Bit Server VM, version 1.8.0_251, running on Windows 10:amd64:10.0, installed at C:\Program Files\Java\jre1.8.0_251
+[14:22:36] [main/ERROR] [FML]: Apache Maven library folder was not in the format expected. Using default libraries directory.
+[14:22:36] [main/ERROR] [FML]: Full: C:\Users\titan\.gradle\caches\modules-2\files-2.1\org.apache.maven\maven-artifact\3.5.3\7dc72b6d6d8a6dced3d294ed54c2cc3515ade9f4\maven-artifact-3.5.3.jar
+[14:22:36] [main/ERROR] [FML]: Trimmed: c:/users/titan/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-artifact/3.5.3/
+[14:22:36] [main/INFO] [FML]: Managed to load a deobfuscated Minecraft name- we are in a deobfuscated environment. Skipping runtime deobfuscation
+[14:22:36] [main/INFO] [FML]: Ignoring missing certificate for coremod FMLCorePlugin (net.minecraftforge.fml.relauncher.FMLCorePlugin), we are in deobf and it's a forge core plugin
+[14:22:36] [main/INFO] [FML]: Ignoring missing certificate for coremod FMLForgePlugin (net.minecraftforge.classloading.FMLForgePlugin), we are in deobf and it's a forge core plugin
+[14:22:36] [main/INFO] [FML]: Searching C:\Users\titan\Documents\GitHub\Ambience\runServer\.\mods for mods
+[14:22:36] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.gradle.tweakers.CoremodTweaker
+[14:22:36] [main/INFO] [GradleStart]: Injecting location in coremod net.minecraftforge.fml.relauncher.FMLCorePlugin
+[14:22:36] [main/INFO] [GradleStart]: Injecting location in coremod net.minecraftforge.classloading.FMLForgePlugin
+[14:22:36] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[14:22:36] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
+[14:22:36] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.gradle.tweakers.AccessTransformerTweaker
+[14:22:36] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[14:22:36] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[14:22:36] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[14:22:38] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
+[14:22:38] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[14:22:38] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
+[14:22:38] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.gradle.tweakers.AccessTransformerTweaker
+[14:22:38] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.TerminalTweaker
+[14:22:38] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.TerminalTweaker
+[14:22:38] [main/INFO] [LaunchWrapper]: Launching wrapped minecraft {net.minecraft.server.MinecraftServer}
+[14:22:42] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Starting minecraft server version 1.12.2
+[14:22:42] [Server thread/INFO] [FML]: MinecraftForge v14.23.5.2838 Initialized
+[14:22:42] [Server thread/INFO] [FML]: Starts to replace vanilla recipe ingredients with ore ingredients.
+[14:22:42] [Server thread/INFO] [FML]: Invalid recipe found with multiple oredict ingredients in the same ingredient...
+[14:22:42] [Server thread/INFO] [FML]: Replaced 1227 ore ingredients
+[14:22:43] [Server thread/INFO] [FML]: Searching C:\Users\titan\Documents\GitHub\Ambience\runServer\.\mods for mods
+[14:22:45] [Server thread/INFO] [FML]: Forge Mod Loader has identified 5 mods to load
+[14:22:45] [Server thread/WARN] [FML]: Missing English translation for FML: assets/fml/lang/en_us.lang
+[14:22:45] [Server thread/INFO] [FML]: Attempting connection with missing mods [minecraft, mcp, FML, forge, ambience] at CLIENT
+[14:22:45] [Server thread/INFO] [FML]: Attempting connection with missing mods [minecraft, mcp, FML, forge, ambience] at SERVER
+[14:22:46] [Server thread/INFO] [FML]: Processing ObjectHolder annotations
+[14:22:46] [Server thread/INFO] [FML]: Found 1168 ObjectHolder annotations
+[14:22:46] [Server thread/INFO] [FML]: Identifying ItemStackHolder annotations
+[14:22:46] [Server thread/INFO] [FML]: Found 0 ItemStackHolder annotations
+[14:22:46] [Server thread/INFO] [FML]: Configured a dormant chunk cache size of 0
+[14:22:46] [Forge Version Check/INFO] [forge.VersionCheck]: [forge] Starting version check at http://files.minecraftforge.net/maven/net/minecraftforge/forge/promotions_slim.json
+[14:22:46] [Server thread/INFO] [FML]: Applying holder lookups
+[14:22:46] [Server thread/INFO] [FML]: Holder lookups applied
+[14:22:46] [Server thread/INFO] [FML]: Applying holder lookups
+[14:22:46] [Server thread/INFO] [FML]: Holder lookups applied
+[14:22:46] [Server thread/INFO] [FML]: Applying holder lookups
+[14:22:46] [Server thread/INFO] [FML]: Holder lookups applied
+[14:22:46] [Server thread/INFO] [FML]: Applying holder lookups
+[14:22:46] [Server thread/INFO] [FML]: Holder lookups applied
+[14:22:46] [Server thread/INFO] [FML]: Injecting itemstacks
+[14:22:46] [Server thread/INFO] [FML]: Itemstack injection complete
+[14:22:46] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Loading properties
+[14:22:46] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Default game type: SURVIVAL
+[14:22:46] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Generating keypair
+[14:22:46] [Forge Version Check/INFO] [forge.VersionCheck]: [forge] Found status: OUTDATED Target: 14.23.5.2854
+[14:22:46] [Forge Version Check/INFO] [forge.VersionCheck]: [ambience] Starting version check at https://raw.githubusercontent.com/viniciusgf2/Ambience/master/modversion.json
+[14:22:46] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Starting Minecraft server on *:25565
+[14:22:46] [Server thread/INFO] [net.minecraft.network.NetworkSystem]: Using default channel type
+[14:22:47] [Server thread/WARN] [net.minecraft.server.dedicated.DedicatedServer]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[14:22:47] [Server thread/WARN] [net.minecraft.server.dedicated.DedicatedServer]: The server will make no attempt to authenticate usernames. Beware.
+[14:22:47] [Server thread/WARN] [net.minecraft.server.dedicated.DedicatedServer]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[14:22:47] [Server thread/WARN] [net.minecraft.server.dedicated.DedicatedServer]: To change this, set "online-mode" to "true" in the server.properties file.
+[14:22:47] [Forge Version Check/INFO] [forge.VersionCheck]: [ambience] Found status: AHEAD Target: null
+[14:22:47] [Server thread/INFO] [FML]: Applying holder lookups
+[14:22:47] [Server thread/INFO] [FML]: Holder lookups applied
+[14:22:47] [Server thread/INFO] [FML]: Injecting itemstacks
+[14:22:47] [Server thread/INFO] [FML]: Itemstack injection complete
+[14:22:47] [Server thread/INFO] [FML]: Forge Mod Loader has successfully loaded 5 mods
+[14:22:47] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Preparing level "world"
+[14:22:47] [Server thread/INFO] [FML]: Injecting existing registry data into this server instance
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_creative_spawner
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_fluid_ender_distillation
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_slice_and_splice
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_fluid_cloud_seed
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_simple_alloy_smelter
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_normal_wireless_charger
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_combustion_generator
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world ambience:alarm
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_fence
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_holy_fog
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_franken_zombie_generator
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_simple_furnace
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_powered_spawner
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_wireless_charger_extension
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_enhanced_vat_top
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_xp_vacuum
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_aversion_obelisk
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_experience_obelisk
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_reinforced_obsidian
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_advanced_power_monitor
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_carpet
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_exit_rail
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_omni_reservoir
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_iron_trapdoor
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_stone_fence
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_enhanced_wireless_charger
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_infinity_fog
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_dialing_device
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_self_resetting_lever300
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_ender_generator
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_enlightened_fused_quartz
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_self_resetting_lever60
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_fused_glass
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_wooden_trapdoor
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_wireless_charger
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_simple_stirling_generator
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_enhanced_vat
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_simple_sag_mill
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_iron_door
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_cold_fire
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_conduit_bundle
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_gauge
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_vacuum_chest
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_simple_wired_charger
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_enhanced_combustion_generator_top
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_alloy_endergy
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_lava_generator
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_weather_obelisk
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_zombie_generator
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_confusion_charge
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_stirling_generator
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_pressure_plate
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_reservoir
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_self_resetting_lever30
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_stone
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_dark_iron_bars
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_inhibitor_obelisk
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_dark_steel_trapdoor
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_enlightened_fused_glass
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_self_resetting_lever10
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_wooden_door
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_wired_charger
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_glowstone_solid
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_end_iron_bars
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_simple_crafter
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_cap_bank
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world ambience:alarm_lit
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_reinforced_obsidian
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_enhanced_alloy_smelter_top
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_travel_anchor
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_fluid_liquid_sunshine
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_solar_panel
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_dark_paper_anvil
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_enhanced_wired_charger
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_fused_quartz
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_enderman_skull
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_redstone_solid
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_fluid_cloud_seed_concentrated
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_enhanced_wired_charger_top
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_buffer
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_wall
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_redstone
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_sag_mill
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_enchanter
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_dark_steel_trapdoor
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painter
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_fence_gate
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_machine_base
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_alloy_smelter
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_attractor_obelisk
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_transceiver
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_stair
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_enhanced_alloy_smelter
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_dark_fused_glass
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_stone_stair
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_tank
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_fluid_vapor_of_levity
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_crafter
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_relocator_obelisk
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_decoration3
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_ender_charge
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_decoration2
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_decoration1
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_double_slab
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_dark_steel_door
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_tele_pad
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_machine_io
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_fluid_nutrient_distillation
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_concussion_charge
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_dark_steel_door
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_fluid_rocket_fuel
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_detector_block
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_electric_light
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_enhanced_combustion_generator
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_soul_binder
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_infinity
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_stone_slab
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_light_node
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_vat
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_fused_quartz
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_dark_steel_anvil
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_enhanced_sag_mill
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_dark_fused_quartz
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_industrial_insulation
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_power_monitor
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_impulse_hopper
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_enhanced_sag_mill_top
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_farm_station
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_alloy
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_fluid_hootch
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_detector_block_silent
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_stone_double_slab
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_self_resetting_lever5
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_fluid_fire_water
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_killer_joe
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_glowstone
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_broken_anvil
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_slab
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_dark_steel_ladder
+[14:22:47] [Server thread/INFO] [FML]: Registry Block: Found a missing id from the world enderio:block_painted_workbench
+[14:22:47] [Server thread/INFO] [FML]: Applying holder lookups
+[14:22:47] [Server thread/INFO] [FML]: Holder lookups applied
+[14:22:48] [Server thread/INFO] [FML]: Loading dimension 0 (world) (net.minecraft.server.dedicated.DedicatedServer@459715b9)
+[14:22:48] [Server thread/INFO] [net.minecraft.advancements.AdvancementList]: Loaded 488 advancements
+[14:22:48] [Server thread/INFO] [FML]: Loading dimension -1 (world) (net.minecraft.server.dedicated.DedicatedServer@459715b9)
+[14:22:48] [Server thread/INFO] [FML]: Loading dimension 1 (world) (net.minecraft.server.dedicated.DedicatedServer@459715b9)
+[14:22:48] [Server thread/INFO] [net.minecraft.server.MinecraftServer]: Preparing start region for level 0
+[14:22:49] [Server thread/INFO] [net.minecraft.server.MinecraftServer]: Preparing spawn area: 12%
+[14:22:50] [Server thread/WARN] [net.minecraft.world.WorldServer]: Keeping entity minecraft:rabbit that already exists with UUID ea95be67-8b16-4738-a208-6825812e0d8e
+[14:22:50] [Server thread/WARN] [net.minecraft.world.WorldServer]: Keeping entity minecraft:rabbit that already exists with UUID a4bfd594-1bb3-47cf-97fc-8f50df94730a
+[14:22:50] [Server thread/WARN] [net.minecraft.world.WorldServer]: Keeping entity minecraft:chicken that already exists with UUID 49b1263b-44cc-4671-afbd-3c46a01a721c
+[14:22:50] [Server thread/WARN] [net.minecraft.world.WorldServer]: Keeping entity minecraft:cow that already exists with UUID a7b575e4-991b-459e-9f72-f7b9b7984433
+[14:22:50] [Server thread/WARN] [net.minecraft.world.WorldServer]: Keeping entity minecraft:rabbit that already exists with UUID bc24d114-8ef1-4e93-b8be-9a63a92de280
+[14:22:50] [Server thread/WARN] [net.minecraft.world.WorldServer]: Keeping entity minecraft:cow that already exists with UUID b4228780-af58-4179-a253-3e2dcf56c069
+[14:22:50] [Server thread/INFO] [net.minecraft.server.MinecraftServer]: Preparing spawn area: 81%
+[14:22:51] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Done (3,824s)! For help, type "help" or "?"
+[14:22:51] [Server thread/INFO] [FML]: Unloading dimension -1
+[14:22:51] [Server thread/INFO] [FML]: Unloading dimension 1
+[14:22:56] [Netty Server IO #2/INFO] [FML]: Client protocol version 2
+[14:22:56] [Netty Server IO #2/INFO] [FML]: Client attempting to join with 5 mods : minecraft@1.12.2,FML@8.0.99.99,ambience@1.4.5,forge@14.23.5.2838,mcp@9.42
+[14:22:56] [Server thread/INFO] [FML]: [Server thread] Server side modded connection established
+[14:22:56] [Server thread/INFO] [net.minecraft.server.management.PlayerList]: Player813[/127.0.0.1:58294] logged in with entity id 298 at (201.5, 67.0, 235.5)
+[14:22:56] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Player813 joined the game
+[14:23:15] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Opped Player813
+[14:23:18] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: [Player813: Set own game mode to Creative Mode]
+[14:23:26] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: [Player813: Set own game mode to Survival Mode]
+[14:23:46] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: [Player813: Set own game mode to Creative Mode]
+[14:24:00] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: [Player813: Set own game mode to Survival Mode]
+[14:24:06] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Player813 was slain by Husk
+[14:24:42] [Server thread/INFO] [net.minecraft.network.NetHandlerPlayServer]: Player813 lost connection: Timed out
+[14:24:42] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Player813 left the game
+[14:26:06] [Netty Server IO #3/INFO] [FML]: Client protocol version 2
+[14:26:06] [Netty Server IO #3/INFO] [FML]: Client attempting to join with 5 mods : minecraft@1.12.2,FML@8.0.99.99,ambience@1.4.5,forge@14.23.5.2838,mcp@9.42
+[14:26:07] [Server thread/INFO] [FML]: [Server thread] Server side modded connection established
+[14:26:07] [Server thread/INFO] [net.minecraft.server.management.PlayerList]: Player813[/127.0.0.1:58619] logged in with entity id 1978 at (193.8853147656246, 68.95327914164065, 235.69999998807907)
+[14:26:07] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Player813 joined the game
+[14:26:14] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Player813 was slain by Husk
+[14:26:24] [Server thread/WARN] [net.minecraft.world.WorldServer]: Keeping entity minecraft:cow that already exists with UUID b4228780-af58-4179-a253-3e2dcf56c069
+[14:26:30] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Player813 was slain by Husk
+[14:27:09] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Player813 was slain by Husk
+[14:28:12] [Netty Server IO #3/ERROR] [FML]: NetworkDispatcher exception
+java.io.IOException: Foi forçado o cancelamento de uma conexão existente pelo host remoto
+	at sun.nio.ch.SocketDispatcher.read0(Native Method) ~[?:1.8.0_251]
+	at sun.nio.ch.SocketDispatcher.read(Unknown Source) ~[?:1.8.0_251]
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(Unknown Source) ~[?:1.8.0_251]
+	at sun.nio.ch.IOUtil.read(Unknown Source) ~[?:1.8.0_251]
+	at sun.nio.ch.SocketChannelImpl.read(Unknown Source) ~[?:1.8.0_251]
+	at io.netty.buffer.PooledUnsafeDirectByteBuf.setBytes(PooledUnsafeDirectByteBuf.java:288) ~[PooledUnsafeDirectByteBuf.class:4.1.9.Final]
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1100) ~[AbstractByteBuf.class:4.1.9.Final]
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:372) ~[NioSocketChannel.class:4.1.9.Final]
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:123) [AbstractNioByteChannel$NioByteUnsafe.class:4.1.9.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:624) [NioEventLoop.class:4.1.9.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:559) [NioEventLoop.class:4.1.9.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:476) [NioEventLoop.class:4.1.9.Final]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:438) [NioEventLoop.class:4.1.9.Final]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:858) [SingleThreadEventExecutor$5.class:4.1.9.Final]
+	at java.lang.Thread.run(Unknown Source) [?:1.8.0_251]
+[14:28:12] [Server thread/INFO] [net.minecraft.network.NetHandlerPlayServer]: Player813 lost connection: Internal Exception: java.io.IOException: Foi forçado o cancelamento de uma conexão existente pelo host remoto
+[14:28:12] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer]: Player813 left the game
