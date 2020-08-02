@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "normal": {
+      "model": "ambience:speaker"
+    },
+    "facing=north": {
+      "model": "ambience:speaker"
+    },
+    "facing=east": {
+      "model": "ambience:speaker",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "ambience:speaker",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ambience:speaker",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "ambience:speaker",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "ambience:speaker",
+      "x": 90
+    }
+  }
+}

@@ -2,7 +2,7 @@ package vazkii.ambience;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.eventbus.api.Event;
 
 // top lel name
 // works as an api, feel free to include in your mods to add custom events
@@ -16,7 +16,7 @@ public class AmbienceEventEvent extends Event {
 	
 	AmbienceEventEvent(World world, BlockPos pos) {
 		this.world = world;
-		this.pos = pos;
+		this.pos = pos;		
 	}
 	
 	public static class Pre extends AmbienceEventEvent {

@@ -1,0 +1,11 @@
+{
+  "parent": "ambience:custom/bell_wall",
+  "textures": {
+    "all": "ambience:blocks/speaker",
+    "particle": "ambience:blocks/speaker",
+    "bell_side": "ambience:blocks/bell_side",
+    "bell_bottom": "ambience:blocks/bell_bottom",    
+    "bell_top": "ambience:blocks/bell_top",
+    "dark_oak_planks": "minecraft:blocks/planks_big_oak"
+  }
+}

@@ -1,172 +1,256 @@
 package vazkii.ambience;
 
 import java.io.File;
-import java.util.Random;
+import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.DamageSource;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.config.ModConfig.Type;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import vazkii.ambience.Util.WorldData;
+import vazkii.ambience.Util.Handlers.EventHandlers;
+import vazkii.ambience.World.Biomes.Area;
 
-@Mod(modid = Ambience.MOD_ID, name = Ambience.MOD_NAME, version = Ambience.VERSION, dependencies = Ambience.DEPENDENCIES)
+@Mod(Ambience.MODID)
 public class Ambience {
+	
 
-	public static final String MOD_ID = "ambience";
-	public static final String MOD_NAME = MOD_ID;
-	public static final String BUILD = "GRADLE:BUILD";
-	public static final String VERSION = "GRADLE:VERSION-" + BUILD;
-	public static final String DEPENDENCIES = "";
+	public static final String MODID = "ambience";
+	
+    // Directly reference a log4j logger.
+    public static final Logger LOGGER = LogManager.getLogger();
+        
 
-	private static final int WAIT_DURATION = 40;
-	public static final int FADE_DURATION = 40;
-	public static final int SILENCE_DURATION = 20;
 
-	public static final String[] OBF_MC_MUSIC_TICKER = { "aM", "field_147126_aw", "mcMusicTicker" };
-	public static final String[] OBF_MAP_BOSS_INFOS = { "g", "field_184060_g", "mapBossInfos" };
+	//public static final String[] OBF_MC_MUSIC_TICKER = { "aM", "field_147126_aw", "mcMusicTicker" };
+	//public static final String[] OBF_MAP_BOSS_INFOS = { "g", "field_184060_g", "mapBossInfos" };
+	public static final String OBF_MC_MUSIC_TICKER = "field_147126_aw";
+	public static final String OBF_MAP_BOSS_INFOS ="field_184060_g";
 
 	public static PlayerThread thread;
 	
-	String currentSong;
-	String nextSong;
-	int waitTick = WAIT_DURATION;
-	int fadeOutTicks = FADE_DURATION;
-	int fadeInTicks = 0;
-	int silenceTicks = 0;
+	public static Boolean attacked=false;
+	public static Boolean forcePlay=false;
 	
-	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
-		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) return;
 
-		FMLCommonHandler.instance().bus().register(this);
-		MinecraftForge.EVENT_BUS.register(this);
+	public static File ambienceDir;
+	public static File resourcesDir;
+	
+	public static Area selectedArea=new Area("Area1");
+	public static Area previewArea=new Area("Area1");
+	public static int multiArea=0;
+	
+	private static WorldData worldData=new WorldData();
+	
+	public static boolean sync=false;	
+	public static boolean instantPlaying=false;
+	
+	public static boolean overideBackMusicDimension=false;
+	public static boolean showUpdateNotification=false;
+	
+	public static int dimension=-25412;
+	
+	public static WorldData getWorldData() {
+		return worldData;
+	}
+
+	public static void setWorldData(WorldData worldData) {
+		Ambience.worldData = worldData;
+	}
+
+	public static Ambience instance;
+	
+	/*@SidedProxy(clientSide = Reference.CLIENT , serverSide= Reference.COMMON)
+	public static CommonProxy proxy;
 		
-		File configDir = event.getSuggestedConfigurationFile().getParentFile();
-		File ambienceDir = new File(configDir.getParentFile(), "ambience_music");
+	@OnlyIn(value = Dist.CLIENT)
+	public static ClientProxy proxyClient;
+	*/
+			
+	public Ambience() {
+		//Register the Config File
+		ModLoadingContext.get().registerConfig(Type.COMMON, AmbienceConfig.COMMON_SPEC, "ambience-common.toml");
+        // Register the setup method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        // Register the enqueueIMC method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+        // Register the processIMC method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+        // Register the doClientStuff method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+
+        // Register ourselves for server and other game events we are interested in
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+	
+	
+	private void setup(final FMLCommonSetupEvent event)
+    {							
+		File configDir = new File(Paths.get("").toAbsolutePath().toString());
+		ambienceDir = new File(configDir, "ambience_music");
 		if(!ambienceDir.exists())
 			ambienceDir.mkdir();
 		
-		SongLoader.loadFrom(ambienceDir);
+		resourcesDir = new File(configDir.getParentFile(), "resourcepacks\\AmbienceSounds\\assets\\ambience");
+				
+		//Registra os Biomas
+		//RegistryHandler.otherRegistries();
+
+		//	NetworkHandler4.init();
+		//	NetworkHandler4.INSTANCE.registerMessage(ClientHandler.class, MyMessage4.class, 2, Side.CLIENT);
+						
+		//Registra a GUI
+		//NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
+				
+		//SyncHandler.init();
+				
+		//proxy.preInit(event);
+		//proxy.registerTileEntities();
+				
+		if (!FMLEnvironment.dist.isClient()) return;
+				
+		//FMLCommonHandler.instance().bus().register(this);
+		//MinecraftForge.EVENT_BUS.register(this);
+				
+        // some preinit code
+        LOGGER.info("HELLO FROM PREINIT");
+        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+    }
+
+    private void doClientStuff(final FMLClientSetupEvent event) {
+       
+    	SongLoader.loadFrom(ambienceDir);
 		
 		if(SongLoader.enabled)
 			thread = new PlayerThread();
-	}
+		
+		//proxy.init(event);
+					
+		Minecraft mc = Minecraft.getInstance();
+		MusicTicker ticker = new NilMusicTicker(mc);
+		ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, OBF_MC_MUSIC_TICKER);
+			    	
+        LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
+    }
 
+    private void enqueueIMC(final InterModEnqueueEvent event)
+    {    	
+        // some example code to dispatch IMC to another mod
+        InterModComms.sendTo("examplemod", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
+    }
+
+    private void processIMC(final InterModProcessEvent event)
+    {    	
+        // some example code to receive and process InterModComms from other mods
+        LOGGER.info("Got IMC {}", event.getIMCStream().
+                map(m->m.getMessageSupplier().get()).
+                collect(Collectors.toList()));
+    }
+    // You can use SubscribeEvent and let the Event Bus discover methods to call
+    @SubscribeEvent
+    public void onServerStarting(FMLServerStartingEvent event) {
+        // do something when the server starts
+        LOGGER.info("HELLO from server starting");
+    }
+
+    // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
+    // Event bus for receiving Registry Events)
+    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+    public static class RegistryEvents {
+        @SubscribeEvent
+        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
+            // register a new block here
+            LOGGER.info("HELLO from Register Block");
+        }
+    }
+	
+	
+    
+    /*
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) return;
-
-		Minecraft mc = Minecraft.getMinecraft();
-		MusicTicker ticker = new NilMusicTicker(mc);
-		ReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, OBF_MC_MUSIC_TICKER);
-	}
-	
-	@SubscribeEvent
-	public void onTick(ClientTickEvent event) {
-		if(thread == null)
-			return;
-		
-		if(event.phase == Phase.END) {
-			String songs = SongPicker.getSongsString();
-			String song = null;
-			
-			if(songs != null) {
-				if(nextSong == null || !songs.contains(nextSong)) {
-					do {
-						song = SongPicker.getRandomSong();
-					} while(song.equals(currentSong) && songs.contains(","));
-				} else
-					song = nextSong;
-			}
-			
-			if(songs != null && (!songs.equals(PlayerThread.currentSongChoices) || (song == null && PlayerThread.currentSong != null) || !thread.playing)) {
-				if(nextSong != null && nextSong.equals(song))
-					waitTick--;
-				
-				if (!song.equals(currentSong)) {
-					if (currentSong != null && PlayerThread.currentSong != null && !PlayerThread.currentSong.equals(song) && songs.equals(PlayerThread.currentSongChoices))
-						currentSong = PlayerThread.currentSong;
-					else
-						nextSong = song;
-				} else if (nextSong != null && !songs.contains(nextSong))
-					nextSong = null;
-				
-				if(waitTick <= 0) {
-					if(PlayerThread.currentSong == null) {
-						currentSong = nextSong;
-						nextSong = null;
-						PlayerThread.currentSongChoices = songs;
-						changeSongTo(song);
-						fadeOutTicks = 0;
-						waitTick = WAIT_DURATION;
-					} else if(fadeOutTicks < FADE_DURATION) {
-						thread.setGain(PlayerThread.fadeGains[fadeOutTicks]);
-						fadeOutTicks++;
-						silenceTicks = 0;
-					} else {
-						if(silenceTicks < SILENCE_DURATION) {
-							silenceTicks++;
-						} else {
-							nextSong = null;
-							PlayerThread.currentSongChoices = songs;
-							changeSongTo(song);
-							fadeOutTicks = 0;
-							waitTick = WAIT_DURATION;
-						}
-					}
-				}
-			} else {
-				nextSong = null;
-				thread.setGain(PlayerThread.fadeGains[0]);
-				silenceTicks = 0;
-				fadeOutTicks = 0;
-				waitTick = WAIT_DURATION;
-			}
-			
-			if(thread != null)
-				thread.setRealGain();
-		}
-	}
-	
+		//Server Tick
+		FMLCommonHandler.instance().bus().register(new ServerTickHandler());			
+	}		
+	*/
+    
+    @OnlyIn(value = Dist.CLIENT)
 	@SubscribeEvent
 	public void onRenderOverlay(RenderGameOverlayEvent.Text event) {
-		if(!Minecraft.getMinecraft().gameSettings.showDebugInfo)
+		if(!Minecraft.getInstance().gameSettings.showDebugInfo)
 			return;
-		
+				
 		event.getRight().add(null);
-		if(PlayerThread.currentSong != null) {
-			String name = "Now Playing: " + SongPicker.getSongName(PlayerThread.currentSong);
-			event.getRight().add(name);
-		}
-		if(nextSong != null) {
-			String name = "Next Song: " + SongPicker.getSongName(nextSong);
-			event.getRight().add(name);
-		}
-	}
-	
-	@SubscribeEvent
-	public void onBackgroundMusic(PlaySoundEvent event) {
-		if(SongLoader.enabled && event.getSound().getCategory() == SoundCategory.MUSIC) {
-			if(event.isCancelable())
-				event.setCanceled(true);
+		if((Ambience.dimension>=-1 & Ambience.dimension<=1) | PlayerThread.currentSong!="null" & EventHandlers.nextSong!="null") {
 			
-			event.setResultSound(null);
-		}
+			if(PlayerThread.currentSong != null) {
+				String name = "Now Playing: " + SongPicker.getSongName(PlayerThread.currentSong);
+				event.getRight().add(name);
+			}
+			if(EventHandlers.nextSong != null) {
+				String name = "Next Song: " + SongPicker.getSongName(EventHandlers.nextSong);
+				event.getRight().add(name);
+			}
+		}		
 	}
-	
-	public void changeSongTo(String song) {
-		currentSong = song;
-		thread.play(song);
-	}
-	
+    
+
+	String mobName = null;
+ // FUNCIONA Quando player ataca alguma coisa
+ 	@SubscribeEvent(priority = EventPriority.NORMAL)
+ 	public void onPlayerAttackEvent(AttackEntityEvent event) {
+ 		mobName = event.getTarget().getName().getString().toLowerCase();
+
+ 		if (event.getTarget() instanceof MobEntity) {
+ 		//if (event.getTarget().isCreatureType(EnumCreatureType.MONSTER, false)) {
+ 			attacked = true;
+ 			EventHandlers.playInstant();
+ 		} 
+
+ 	}		
+ 	
+ 	// On something dies
+ 	@SubscribeEvent(priority = EventPriority.NORMAL)
+ 	public void onEntityDeath(LivingDeathEvent event) {
+ 		DamageSource source = event.getSource();
+
+ 		// When Player kills something
+ 		if (source.getTrueSource() instanceof PlayerEntity & event.getEntity() == Minecraft.getInstance().player) {
+ 			attacked = false;
+ 		}
+
+ 		// When Player dies
+ 		if (event.getEntity() instanceof PlayerEntity & event.getEntity() == Minecraft.getInstance().player) {
+ 			attacked = false;
+ 		}
+
+ 	}	
 }
