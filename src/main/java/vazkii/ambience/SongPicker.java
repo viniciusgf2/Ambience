@@ -39,13 +39,17 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import vazkii.ambience.Util.Handlers.EventHandlers;
+import vazkii.ambience.Util.Handlers.EventHandlersServer;
 import vazkii.ambience.World.Biomes.Area;
 
+@OnlyIn(value = Dist.CLIENT)
 public final class SongPicker {
 
 	public static final String EVENT_ATTACKED = "attacked";
@@ -210,8 +214,7 @@ public final class SongPicker {
 					List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class,
 						new AxisAlignedBB(player.getPosX() - 16, player.getPosY() - 16, player.getPosZ() - 16, player.getPosX() + 16,player.getPosY() + 16, player.getPosZ() + 16));
 
-				for (LivingEntity mob : entities) {
-					
+				for (LivingEntity mob : entities) {					
 					mobName = mob.getName().getString().toLowerCase();
 										
 					if (!(mob instanceof PlayerEntity) )	
@@ -234,8 +237,8 @@ public final class SongPicker {
 				}
 				
 				//****************
-
-				if (mobName == null || countEntities < 1) {
+				//Termina a musica de ataque
+				if (mobName == null || countEntities < 1 || EventHandlersServer.attackingTimer-- < 0) {
 					Ambience.attacked = false;
 				}
 

@@ -13,6 +13,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -35,20 +37,19 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import vazkii.ambience.Util.RegistryHandler;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.Util.Handlers.EventHandlers;
+import vazkii.ambience.Util.Handlers.EventHandlersServer;
 import vazkii.ambience.World.Biomes.Area;
 
 @Mod(Ambience.MODID)
-public class Ambience {
-	
-
+public class Ambience {	
 	public static final String MODID = "ambience";
-	
+	 
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
         
-
 
 	//public static final String[] OBF_MC_MUSIC_TICKER = { "aM", "field_147126_aw", "mcMusicTicker" };
 	//public static final String[] OBF_MAP_BOSS_INFOS = { "g", "field_184060_g", "mapBossInfos" };
@@ -73,7 +74,7 @@ public class Ambience {
 	public static boolean sync=false;	
 	public static boolean instantPlaying=false;
 	
-	public static boolean overideBackMusicDimension=false;
+	public static boolean overideBackMusicDimension=false;//Overide the custom dimensions back music if there is custom music
 	public static boolean showUpdateNotification=false;
 	
 	public static int dimension=-25412;
@@ -107,11 +108,17 @@ public class Ambience {
         // Register the doClientStuff method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
+        //Registra Items/Blocos
+        RegistryHandler.init();        
+        
+        MinecraftForge.EVENT_BUS.register(new EventHandlersServer());
+        
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
 	
 	
+	//PREINIT
 	private void setup(final FMLCommonSetupEvent event)
     {							
 		File configDir = new File(Paths.get("").toAbsolutePath().toString());
@@ -120,7 +127,7 @@ public class Ambience {
 			ambienceDir.mkdir();
 		
 		resourcesDir = new File(configDir.getParentFile(), "resourcepacks\\AmbienceSounds\\assets\\ambience");
-				
+					
 		//Registra os Biomas
 		//RegistryHandler.otherRegistries();
 
@@ -133,20 +140,15 @@ public class Ambience {
 		//SyncHandler.init();
 				
 		//proxy.preInit(event);
-		//proxy.registerTileEntities();
-				
-		if (!FMLEnvironment.dist.isClient()) return;
-				
-		//FMLCommonHandler.instance().bus().register(this);
-		//MinecraftForge.EVENT_BUS.register(this);
-				
-        // some preinit code
-        LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+		//proxy.registerTileEntities();				
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
-       
+
+		EventHandlers.registerKeyBindings();
+		
+		
+		
     	SongLoader.loadFrom(ambienceDir);
 		
 		if(SongLoader.enabled)
@@ -192,7 +194,14 @@ public class Ambience {
         }
     }
 	
-	
+    //Registra a Creative Tab
+	public static final ItemGroup customItemGroup= new ItemGroup("AmbienceTab")
+	{
+	      @Override
+	      public ItemStack createIcon() {
+	        return new ItemStack(RegistryHandler.Soundnizer.get());
+	      }
+	}; 
     
     /*
 	@EventHandler
@@ -202,29 +211,12 @@ public class Ambience {
 	}		
 	*/
     
-    @OnlyIn(value = Dist.CLIENT)
-	@SubscribeEvent
-	public void onRenderOverlay(RenderGameOverlayEvent.Text event) {
-		if(!Minecraft.getInstance().gameSettings.showDebugInfo)
-			return;
-				
-		event.getRight().add(null);
-		if((Ambience.dimension>=-1 & Ambience.dimension<=1) | PlayerThread.currentSong!="null" & EventHandlers.nextSong!="null") {
-			
-			if(PlayerThread.currentSong != null) {
-				String name = "Now Playing: " + SongPicker.getSongName(PlayerThread.currentSong);
-				event.getRight().add(name);
-			}
-			if(EventHandlers.nextSong != null) {
-				String name = "Next Song: " + SongPicker.getSongName(EventHandlers.nextSong);
-				event.getRight().add(name);
-			}
-		}		
-	}
+   
     
-
-	String mobName = null;
+    
+	/*String mobName = null;
  // FUNCIONA Quando player ataca alguma coisa
+	@OnlyIn(value = Dist.CLIENT)
  	@SubscribeEvent(priority = EventPriority.NORMAL)
  	public void onPlayerAttackEvent(AttackEntityEvent event) {
  		mobName = event.getTarget().getName().getString().toLowerCase();
@@ -238,6 +230,7 @@ public class Ambience {
  	}		
  	
  	// On something dies
+	@OnlyIn(value = Dist.CLIENT)
  	@SubscribeEvent(priority = EventPriority.NORMAL)
  	public void onEntityDeath(LivingDeathEvent event) {
  		DamageSource source = event.getSource();
@@ -252,5 +245,5 @@ public class Ambience {
  			attacked = false;
  		}
 
- 	}	
+ 	}	*/
 }

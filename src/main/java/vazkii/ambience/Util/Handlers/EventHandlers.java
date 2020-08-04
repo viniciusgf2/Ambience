@@ -2,13 +2,8 @@ package vazkii.ambience.Util.Handlers;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
-import net.minecraft.client.audio.SoundHandler.Loader;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -19,13 +14,8 @@ import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.VersionChecker.CheckResult;
 import net.minecraftforge.fml.VersionChecker.Status;
@@ -33,7 +23,6 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
-import net.minecraftforge.versions.forge.ForgeVersion;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.NilMusicTicker;
 import vazkii.ambience.PlayerThread;
@@ -57,17 +46,25 @@ public class EventHandlers {
 	public static int fadeInTicks = FADE_DURATION-1;
 	public static boolean fadeIn = false;
 	public static int silenceTicks = 0;
-	
-	Entity currentplayer;
+		
 	// public static boolean attacked = false;
 	public static KeyBinding[] keyBindings;
 
-	public Ambience ambience;
-
-	public EventHandlers(Ambience amb) {
-		this.ambience = amb;
-
-		currentplayer = Minecraft.getInstance().player;		
+	public EventHandlers() {		
+		
+	}
+	
+	public static void playInstant() {		
+		fadeOutTicks = FADE_DURATION;
+		silenceTicks = SILENCE_DURATION;
+		waitTick = 0;
+		Ambience.instantPlaying=true;
+			
+		Ambience.thread.setGain(PlayerThread.fadeGains[0]);	
+		fadeIn=false;		
+	}
+	
+	public static void registerKeyBindings() {
 		keyBindings = new KeyBinding[2];
 		
 		keyBindings[0] = new KeyBinding("Options.Reload", 80 , "Ambience");
@@ -167,43 +164,25 @@ public class EventHandlers {
 		if(world!=null)
 			Ambience.dimension=world.dimension.getType().getId();
 		
-		if((event.getSound().getCategory() == SoundCategory.MUSIC) & (Ambience.dimension>=-1 & Ambience.dimension<=1) | Ambience.overideBackMusicDimension) {
-						
-			if(event.isCancelable()) 
-				event.setCanceled(true);
-			
-			event.setResultSound(null);
-		}
+		if(event.getSound().getCategory() == SoundCategory.MUSIC)
+			if(Ambience.dimension>=-1 & Ambience.dimension<=1 | Ambience.overideBackMusicDimension) {
+							
+				if(event.isCancelable()) 
+					event.setCanceled(true);
+				
+				event.setResultSound(null);
+			}
 	}
 	
-	public static void playInstant() {		
-		fadeOutTicks = FADE_DURATION;
-		silenceTicks = SILENCE_DURATION;
-		waitTick = 0;
-		Ambience.instantPlaying=true;
-			
-		Ambience.thread.setGain(PlayerThread.fadeGains[0]);	
-		fadeIn=false;		
-	}
-	
-	
-	
-
-	int count = 0;
-	boolean pressedkey = false;
-
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		if (currentplayer == null)
-			currentplayer = Minecraft.getInstance().player;
-
 		// check each enumerated key binding type for pressed and take appropriate
 		// action
 		if (keyBindings[0].isPressed()) {
 			SongPicker.reset();
 			//Ambience.thread.forceKill();			
 			//Ambience.thread.run();
-			SongLoader.loadFrom(ambience.ambienceDir);
+			SongLoader.loadFrom(Ambience.ambienceDir);
 
 			//if (SongLoader.enabled)
 				//Ambience.thread = new PlayerThread();
@@ -218,7 +197,7 @@ public class EventHandlers {
 			//SongPicker.reset();
 			Ambience.thread.forceKill();			
 			Ambience.thread.run();
-			SongLoader.loadFrom(ambience.ambienceDir);
+			SongLoader.loadFrom(Ambience.ambienceDir);
 
 			if (SongLoader.enabled)
 				Ambience.thread = new PlayerThread();
@@ -229,74 +208,6 @@ public class EventHandlers {
 		}
 	}
 
-	
-	// Events when attacking
-
-	String mobName = null;
-	Boolean isHostile = false;
-/*
-	// FUNCIONA Quando player ataca alguma coisa
-	@SubscribeEvent(priority = EventPriority.NORMAL)
-	public void onPlayerAttackEvent(AttackEntityEvent event) {
-		mobName = event.getTarget().getName().getString().toLowerCase();
-
-		if (event.getTarget() instanceof MobEntity) {
-		//if (event.getTarget().isCreatureType(EnumCreatureType.MONSTER, false)) {
-			ambience.attacked = true;
-			playInstant();
-		} 
-
-	}		
-	
-	// On something dies
-	@SubscribeEvent(priority = EventPriority.NORMAL)
-	public void onEntityDeath(LivingDeathEvent event) {
-		DamageSource source = event.getSource();
-
-		// When Player kills something
-		if (source.getTrueSource() instanceof PlayerEntity & event.getEntity() == currentplayer) {
-			ambience.attacked = false;
-		}
-
-		// When Player dies
-		if (event.getEntity() instanceof PlayerEntity & event.getEntity() == currentplayer) {
-			ambience.attacked = false;
-		}
-
-	}	
-	
-
-	// Quando alguma coisa ataca o player
-	@SubscribeEvent(priority = EventPriority.NORMAL)
-	public void onLivingAttackEvent(LivingAttackEvent event) {
-
-		
-	//	System.out.println(event.getEntity().getName());
-		
-		if(currentplayer!=null)
-		if (event.getEntity().getName().contains(currentplayer.getName())) {
-			// When something get hurts near the player
-			List<EntityLivingBase> entities = Minecraft.getMinecraft().world.getEntitiesWithinAABB(
-					EntityLivingBase.class,
-					new AxisAlignedBB(event.getEntity().posX - 16, event.getEntity().posY - 16,
-							event.getEntity().posZ - 16, event.getEntity().posX + 16, event.getEntity().posY + 16,
-							event.getEntity().posZ + 16));
-			for (EntityLivingBase mob : entities) {
-				mobName = mob.getName().toLowerCase();
-								
-				// Detects when player gets attacked
-				if (mobName != null & !event.getSource().isUnblockable())
-					if (mobName.toLowerCase().contains("player") || event.getSource().isProjectile()) {
-						ambience.attacked = true;
-						playInstant();
-					}
-			}
-		}
-	}
-
-		*/
-	
-	
 	public static void changeSongTo(String song) 
 	{		
 		//para de tocar as musicas caso esteja em outra dimensão
@@ -337,5 +248,8 @@ public class EventHandlers {
 			}
 		}
 	}
-
+	
 }
+
+
+
