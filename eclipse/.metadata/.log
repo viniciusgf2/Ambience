@@ -1,4 +1,4 @@
-!SESSION 2020-08-02 19:17:54.010 -----------------------------------------------
+!SESSION 2020-08-04 12:02:06.030 -----------------------------------------------
 eclipse.buildId=4.15.0.I20200305-0155
 java.version=1.8.0_261
 java.vendor=Oracle Corporation
@@ -6,13 +6,13 @@ BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=pt_BR
 Framework arguments:  -product org.eclipse.epp.package.java.product
 Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
 
-!ENTRY org.eclipse.egit.ui 2 0 2020-08-02 19:18:38.233
+!ENTRY org.eclipse.egit.ui 2 0 2020-08-04 12:02:17.715
 !MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
 user global configuration and to define the default location to store repositories: 'C:\Users\titan'. If this is
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
-!SESSION 2020-08-02 19:19:51.376 -----------------------------------------------
+!SESSION 2020-08-04 12:03:54.871 -----------------------------------------------
 eclipse.buildId=4.15.0.I20200305-0155
 java.version=1.8.0_261
 java.vendor=Oracle Corporation
@@ -20,13 +20,13 @@ BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=pt_BR
 Framework arguments:  -product org.eclipse.epp.package.java.product
 Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
 
-!ENTRY org.eclipse.egit.ui 2 0 2020-08-02 19:20:02.340
+!ENTRY org.eclipse.egit.ui 2 0 2020-08-04 12:04:06.981
 !MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
 user global configuration and to define the default location to store repositories: 'C:\Users\titan'. If this is
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
-!SESSION 2020-08-02 19:21:49.739 -----------------------------------------------
+!SESSION 2020-08-04 12:04:34.159 -----------------------------------------------
 eclipse.buildId=4.15.0.I20200305-0155
 java.version=1.8.0_261
 java.vendor=Oracle Corporation
@@ -34,722 +34,87 @@ BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=pt_BR
 Framework arguments:  -product org.eclipse.epp.package.java.product
 Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
 
-!ENTRY org.eclipse.egit.ui 2 0 2020-08-02 19:21:58.327
+!ENTRY org.eclipse.egit.ui 2 0 2020-08-04 12:04:45.113
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\titan'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2020-08-04 12:08:07.175 -----------------------------------------------
+eclipse.buildId=4.15.0.I20200305-0155
+java.version=1.8.0_261
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=pt_BR
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2020-08-04 12:08:18.119
 !MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
 user global configuration and to define the default location to store repositories: 'C:\Users\titan'. If this is
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
 
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:22:38.744
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:24:28.322
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.search 4 0 2020-08-02 19:28:24.289
-!MESSAGE Text Search
-!SUBENTRY 1 org.eclipse.search 4 0 2020-08-02 19:28:24.289
-!MESSAGE Problems encountered during text search.
-!SUBENTRY 2 org.eclipse.search 4 4 2020-08-02 19:28:24.289
-!MESSAGE File 'Ambience 1.15/Eclipse/.metadata/.lock' has been skipped, problem while reading: ('O processo não pode acessar o arquivo porque outro processo bloqueou parte do arquivo').
-!STACK 0
-java.io.IOException: O processo não pode acessar o arquivo porque outro processo bloqueou parte do arquivo
-	at java.io.FileInputStream.readBytes(Native Method)
-	at java.io.FileInputStream.read(Unknown Source)
-	at sun.nio.cs.StreamDecoder.readBytes(Unknown Source)
-	at sun.nio.cs.StreamDecoder.implRead(Unknown Source)
-	at sun.nio.cs.StreamDecoder.read(Unknown Source)
-	at java.io.InputStreamReader.read(Unknown Source)
-	at java.io.Reader.read(Unknown Source)
-	at org.eclipse.search.internal.core.text.FileCharSequenceProvider$Buffer.fill(FileCharSequenceProvider.java:168)
-	at org.eclipse.search.internal.core.text.FileCharSequenceProvider$FileCharSequence.fillBuffer(FileCharSequenceProvider.java:376)
-	at org.eclipse.search.internal.core.text.FileCharSequenceProvider$FileCharSequence.getBuffer(FileCharSequenceProvider.java:349)
-	at org.eclipse.search.internal.core.text.FileCharSequenceProvider$FileCharSequence.charAt(FileCharSequenceProvider.java:403)
-	at org.eclipse.search.internal.core.text.TextSearchVisitor.hasBinaryContent(TextSearchVisitor.java:504)
-	at org.eclipse.search.internal.core.text.TextSearchVisitor.access$9(TextSearchVisitor.java:490)
-	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:246)
-	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:188)
-	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
-
-!ENTRY org.eclipse.search 4 0 2020-08-02 19:28:24.296
-!MESSAGE Problems encountered during text search.
-!SUBENTRY 1 org.eclipse.search 4 0 2020-08-02 19:28:24.296
-!MESSAGE Problems encountered during text search.
-!SUBENTRY 2 org.eclipse.search 4 4 2020-08-02 19:28:24.296
-!MESSAGE File 'Ambience 1.15/Eclipse/.metadata/.lock' has been skipped, problem while reading: ('O processo não pode acessar o arquivo porque outro processo bloqueou parte do arquivo').
-!STACK 0
-java.io.IOException: O processo não pode acessar o arquivo porque outro processo bloqueou parte do arquivo
-	at java.io.FileInputStream.readBytes(Native Method)
-	at java.io.FileInputStream.read(Unknown Source)
-	at sun.nio.cs.StreamDecoder.readBytes(Unknown Source)
-	at sun.nio.cs.StreamDecoder.implRead(Unknown Source)
-	at sun.nio.cs.StreamDecoder.read(Unknown Source)
-	at java.io.InputStreamReader.read(Unknown Source)
-	at java.io.Reader.read(Unknown Source)
-	at org.eclipse.search.internal.core.text.FileCharSequenceProvider$Buffer.fill(FileCharSequenceProvider.java:168)
-	at org.eclipse.search.internal.core.text.FileCharSequenceProvider$FileCharSequence.fillBuffer(FileCharSequenceProvider.java:376)
-	at org.eclipse.search.internal.core.text.FileCharSequenceProvider$FileCharSequence.getBuffer(FileCharSequenceProvider.java:349)
-	at org.eclipse.search.internal.core.text.FileCharSequenceProvider$FileCharSequence.charAt(FileCharSequenceProvider.java:403)
-	at org.eclipse.search.internal.core.text.TextSearchVisitor.hasBinaryContent(TextSearchVisitor.java:504)
-	at org.eclipse.search.internal.core.text.TextSearchVisitor.access$9(TextSearchVisitor.java:490)
-	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:246)
-	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:188)
-	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:28:38.419
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:29:47.517
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:30:15.085
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:33:25.445
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:35:05.375
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:36:23.842
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:36:35.720
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:36:54.607
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:41:42.077
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:41:47.770
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:44:08.832
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.ui 4 4 2020-08-02 19:45:44.449
-!MESSAGE An internal error has occurred.
-!STACK 0
-java.lang.IllegalArgumentException: Index out of bounds
-	at org.eclipse.swt.SWT.error(SWT.java:4704)
-	at org.eclipse.swt.SWT.error(SWT.java:4638)
-	at org.eclipse.swt.SWT.error(SWT.java:4609)
-	at org.eclipse.swt.widgets.Widget.error(Widget.java:432)
-	at org.eclipse.swt.widgets.TreeItem.getItem(TreeItem.java:715)
-	at org.eclipse.jface.viewers.TreeViewer.lambda$4(TreeViewer.java:829)
-	at org.eclipse.jface.viewers.StructuredViewer.preservingSelection(StructuredViewer.java:1397)
-	at org.eclipse.jface.viewers.TreeViewer.preservingSelection(TreeViewer.java:363)
-	at org.eclipse.jface.viewers.StructuredViewer.preservingSelection(StructuredViewer.java:1358)
-	at org.eclipse.jface.viewers.TreeViewer.remove(TreeViewer.java:810)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.handleRemove(TreeModelContentProvider.java:1546)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1266)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateModel(TreeModelContentProvider.java:562)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.doModelChanged(TreeModelContentProvider.java:530)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.access$0(TreeModelContentProvider.java:524)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider$DelayedDoModelChangedJob.runInUIThread(TreeModelContentProvider.java:436)
-	at org.eclipse.ui.progress.UIJob.lambda$0(UIJob.java:95)
-	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
-	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
-	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3897)
-	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3527)
-	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1160)
-	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
-	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1049)
-	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
-	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:658)
-	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
-	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:557)
-	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:154)
-	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
-	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
-	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
-	at org.eclipse.equinox.launcher.Main.run(Main.java:1447)
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:49:04.059
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:49:12.914
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.ui 4 4 2020-08-02 19:51:09.521
-!MESSAGE An internal error has occurred.
-!STACK 0
-java.lang.IllegalArgumentException: Index out of bounds
-	at org.eclipse.swt.SWT.error(SWT.java:4704)
-	at org.eclipse.swt.SWT.error(SWT.java:4638)
-	at org.eclipse.swt.SWT.error(SWT.java:4609)
-	at org.eclipse.swt.widgets.Widget.error(Widget.java:432)
-	at org.eclipse.swt.widgets.TreeItem.getItem(TreeItem.java:715)
-	at org.eclipse.jface.viewers.TreeViewer.lambda$4(TreeViewer.java:829)
-	at org.eclipse.jface.viewers.StructuredViewer.preservingSelection(StructuredViewer.java:1397)
-	at org.eclipse.jface.viewers.TreeViewer.preservingSelection(TreeViewer.java:363)
-	at org.eclipse.jface.viewers.StructuredViewer.preservingSelection(StructuredViewer.java:1358)
-	at org.eclipse.jface.viewers.TreeViewer.remove(TreeViewer.java:810)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.handleRemove(TreeModelContentProvider.java:1546)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1266)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateModel(TreeModelContentProvider.java:562)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.doModelChanged(TreeModelContentProvider.java:530)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.access$0(TreeModelContentProvider.java:524)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider$DelayedDoModelChangedJob.runInUIThread(TreeModelContentProvider.java:436)
-	at org.eclipse.ui.progress.UIJob.lambda$0(UIJob.java:95)
-	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
-	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
-	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3897)
-	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3527)
-	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1160)
-	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
-	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1049)
-	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
-	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:658)
-	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
-	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:557)
-	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:154)
-	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
-	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
-	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
-	at org.eclipse.equinox.launcher.Main.run(Main.java:1447)
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:51:42.280
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:53:45.454
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.ui 4 4 2020-08-02 19:55:45.784
-!MESSAGE An internal error has occurred.
-!STACK 0
-java.lang.IllegalArgumentException: Index out of bounds
-	at org.eclipse.swt.SWT.error(SWT.java:4704)
-	at org.eclipse.swt.SWT.error(SWT.java:4638)
-	at org.eclipse.swt.SWT.error(SWT.java:4609)
-	at org.eclipse.swt.widgets.Widget.error(Widget.java:432)
-	at org.eclipse.swt.widgets.TreeItem.getItem(TreeItem.java:715)
-	at org.eclipse.jface.viewers.TreeViewer.lambda$4(TreeViewer.java:829)
-	at org.eclipse.jface.viewers.StructuredViewer.preservingSelection(StructuredViewer.java:1397)
-	at org.eclipse.jface.viewers.TreeViewer.preservingSelection(TreeViewer.java:363)
-	at org.eclipse.jface.viewers.StructuredViewer.preservingSelection(StructuredViewer.java:1358)
-	at org.eclipse.jface.viewers.TreeViewer.remove(TreeViewer.java:810)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.handleRemove(TreeModelContentProvider.java:1546)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1266)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateModel(TreeModelContentProvider.java:562)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.doModelChanged(TreeModelContentProvider.java:530)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.access$0(TreeModelContentProvider.java:524)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider$DelayedDoModelChangedJob.runInUIThread(TreeModelContentProvider.java:436)
-	at org.eclipse.ui.progress.UIJob.lambda$0(UIJob.java:95)
-	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
-	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
-	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3897)
-	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3527)
-	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1160)
-	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
-	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1049)
-	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
-	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:658)
-	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
-	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:557)
-	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:154)
-	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
-	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
-	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
-	at org.eclipse.equinox.launcher.Main.run(Main.java:1447)
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 19:56:13.174
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 20:03:02.285
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 20:09:13.198
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 20:09:21.505
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 20:11:38.361
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.buildship.core 2 0 2020-08-02 20:11:59.628
-!MESSAGE Cannot update classpath provider
+!ENTRY org.eclipse.debug.core 4 125 2020-08-04 12:10:25.644
+!MESSAGE Error logged from Debug Core: 
 !STACK 1
-org.eclipse.core.internal.resources.ResourceException(null)[380]: java.lang.Exception: The resource tree is locked for modifications.
-	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
-	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
-	at org.eclipse.core.internal.resources.WorkManager.checkIn(WorkManager.java:122)
-	at org.eclipse.core.internal.resources.Workspace.prepareOperation(Workspace.java:2242)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2287)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2317)
-	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.doSave(LaunchConfigurationWorkingCopy.java:225)
-	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.doSave(LaunchConfigurationWorkingCopy.java:186)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.updateLaunchConfiguration(DefaultExternalLaunchConfigurationManager.java:188)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.ensureGradleClasspathProviderPresent(DefaultExternalLaunchConfigurationManager.java:157)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.updateClasspathProvider(DefaultExternalLaunchConfigurationManager.java:99)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager$LaunchConfigurationListener.launchConfigurationChanged(DefaultExternalLaunchConfigurationManager.java:231)
-	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.run(LaunchManager.java:225)
-	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
-	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.notify(LaunchManager.java:209)
-	at org.eclipse.debug.internal.core.LaunchManager.launchConfigurationChanged(LaunchManager.java:2141)
-	at org.eclipse.debug.internal.core.LaunchManager$LaunchManagerVisitor.visit(LaunchManager.java:378)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:67)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:51)
-	at org.eclipse.debug.internal.core.LaunchManager.resourceChanged(LaunchManager.java:2266)
-	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:305)
-	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
-	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:295)
-	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:158)
-	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:380)
-	at org.eclipse.core.internal.resources.Workspace.endOperation(Workspace.java:1502)
-	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:49)
-	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
-!SUBENTRY 1 org.eclipse.core.resources 4 380 2020-08-02 20:11:59.628
-!MESSAGE The resource tree is locked for modifications.
-!STACK 0
-java.lang.Exception: The resource tree is locked for modifications.
-	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
-	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
-	at org.eclipse.core.internal.resources.WorkManager.checkIn(WorkManager.java:122)
-	at org.eclipse.core.internal.resources.Workspace.prepareOperation(Workspace.java:2242)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2287)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2317)
-	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.doSave(LaunchConfigurationWorkingCopy.java:225)
-	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.doSave(LaunchConfigurationWorkingCopy.java:186)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.updateLaunchConfiguration(DefaultExternalLaunchConfigurationManager.java:188)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.ensureGradleClasspathProviderPresent(DefaultExternalLaunchConfigurationManager.java:157)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.updateClasspathProvider(DefaultExternalLaunchConfigurationManager.java:99)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager$LaunchConfigurationListener.launchConfigurationChanged(DefaultExternalLaunchConfigurationManager.java:231)
-	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.run(LaunchManager.java:225)
-	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
-	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.notify(LaunchManager.java:209)
-	at org.eclipse.debug.internal.core.LaunchManager.launchConfigurationChanged(LaunchManager.java:2141)
-	at org.eclipse.debug.internal.core.LaunchManager$LaunchManagerVisitor.visit(LaunchManager.java:378)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:67)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:51)
-	at org.eclipse.debug.internal.core.LaunchManager.resourceChanged(LaunchManager.java:2266)
-	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:305)
-	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
-	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:295)
-	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:158)
-	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:380)
-	at org.eclipse.core.internal.resources.Workspace.endOperation(Workspace.java:1502)
-	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:49)
-	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
-
-!ENTRY org.eclipse.buildship.core 2 0 2020-08-02 20:11:59.641
-!MESSAGE Cannot update classpath provider
-!STACK 1
-org.eclipse.core.internal.resources.ResourceException(null)[380]: java.lang.Exception: The resource tree is locked for modifications.
-	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
-	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
-	at org.eclipse.core.internal.resources.WorkManager.checkIn(WorkManager.java:122)
-	at org.eclipse.core.internal.resources.Workspace.prepareOperation(Workspace.java:2242)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2287)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2317)
-	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.doSave(LaunchConfigurationWorkingCopy.java:225)
-	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.doSave(LaunchConfigurationWorkingCopy.java:186)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.updateLaunchConfiguration(DefaultExternalLaunchConfigurationManager.java:188)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.ensureGradleClasspathProviderPresent(DefaultExternalLaunchConfigurationManager.java:157)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.updateClasspathProvider(DefaultExternalLaunchConfigurationManager.java:99)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager$LaunchConfigurationListener.launchConfigurationChanged(DefaultExternalLaunchConfigurationManager.java:231)
-	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.run(LaunchManager.java:225)
-	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
-	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.notify(LaunchManager.java:209)
-	at org.eclipse.debug.internal.core.LaunchManager.launchConfigurationChanged(LaunchManager.java:2141)
-	at org.eclipse.debug.internal.core.LaunchManager$LaunchManagerVisitor.visit(LaunchManager.java:378)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:67)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:51)
-	at org.eclipse.debug.internal.core.LaunchManager.resourceChanged(LaunchManager.java:2266)
-	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:305)
-	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
-	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:295)
-	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:158)
-	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:380)
-	at org.eclipse.core.internal.resources.Workspace.endOperation(Workspace.java:1502)
-	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:49)
-	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
-!SUBENTRY 1 org.eclipse.core.resources 4 380 2020-08-02 20:11:59.641
-!MESSAGE The resource tree is locked for modifications.
-!STACK 0
-java.lang.Exception: The resource tree is locked for modifications.
-	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
-	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
-	at org.eclipse.core.internal.resources.WorkManager.checkIn(WorkManager.java:122)
-	at org.eclipse.core.internal.resources.Workspace.prepareOperation(Workspace.java:2242)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2287)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2317)
-	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.doSave(LaunchConfigurationWorkingCopy.java:225)
-	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.doSave(LaunchConfigurationWorkingCopy.java:186)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.updateLaunchConfiguration(DefaultExternalLaunchConfigurationManager.java:188)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.ensureGradleClasspathProviderPresent(DefaultExternalLaunchConfigurationManager.java:157)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.updateClasspathProvider(DefaultExternalLaunchConfigurationManager.java:99)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager$LaunchConfigurationListener.launchConfigurationChanged(DefaultExternalLaunchConfigurationManager.java:231)
-	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.run(LaunchManager.java:225)
-	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
-	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.notify(LaunchManager.java:209)
-	at org.eclipse.debug.internal.core.LaunchManager.launchConfigurationChanged(LaunchManager.java:2141)
-	at org.eclipse.debug.internal.core.LaunchManager$LaunchManagerVisitor.visit(LaunchManager.java:378)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:67)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:51)
-	at org.eclipse.debug.internal.core.LaunchManager.resourceChanged(LaunchManager.java:2266)
-	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:305)
-	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
-	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:295)
-	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:158)
-	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:380)
-	at org.eclipse.core.internal.resources.Workspace.endOperation(Workspace.java:1502)
-	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:49)
-	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
-
-!ENTRY org.eclipse.buildship.core 2 0 2020-08-02 20:11:59.654
-!MESSAGE Cannot update classpath provider
-!STACK 1
-org.eclipse.core.internal.resources.ResourceException(null)[380]: java.lang.Exception: The resource tree is locked for modifications.
-	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
-	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
-	at org.eclipse.core.internal.resources.WorkManager.checkIn(WorkManager.java:122)
-	at org.eclipse.core.internal.resources.Workspace.prepareOperation(Workspace.java:2242)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2287)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2317)
-	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.doSave(LaunchConfigurationWorkingCopy.java:225)
-	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.doSave(LaunchConfigurationWorkingCopy.java:186)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.updateLaunchConfiguration(DefaultExternalLaunchConfigurationManager.java:188)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.ensureGradleClasspathProviderPresent(DefaultExternalLaunchConfigurationManager.java:157)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.updateClasspathProvider(DefaultExternalLaunchConfigurationManager.java:99)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager$LaunchConfigurationListener.launchConfigurationChanged(DefaultExternalLaunchConfigurationManager.java:231)
-	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.run(LaunchManager.java:225)
-	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
-	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.notify(LaunchManager.java:209)
-	at org.eclipse.debug.internal.core.LaunchManager.launchConfigurationChanged(LaunchManager.java:2141)
-	at org.eclipse.debug.internal.core.LaunchManager$LaunchManagerVisitor.visit(LaunchManager.java:378)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:67)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:51)
-	at org.eclipse.debug.internal.core.LaunchManager.resourceChanged(LaunchManager.java:2266)
-	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:305)
-	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
-	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:295)
-	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:158)
-	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:380)
-	at org.eclipse.core.internal.resources.Workspace.endOperation(Workspace.java:1502)
-	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:49)
-	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
-!SUBENTRY 1 org.eclipse.core.resources 4 380 2020-08-02 20:11:59.655
-!MESSAGE The resource tree is locked for modifications.
-!STACK 0
-java.lang.Exception: The resource tree is locked for modifications.
-	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
-	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
-	at org.eclipse.core.internal.resources.WorkManager.checkIn(WorkManager.java:122)
-	at org.eclipse.core.internal.resources.Workspace.prepareOperation(Workspace.java:2242)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2287)
-	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2317)
-	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.doSave(LaunchConfigurationWorkingCopy.java:225)
-	at org.eclipse.debug.internal.core.LaunchConfigurationWorkingCopy.doSave(LaunchConfigurationWorkingCopy.java:186)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.updateLaunchConfiguration(DefaultExternalLaunchConfigurationManager.java:188)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.ensureGradleClasspathProviderPresent(DefaultExternalLaunchConfigurationManager.java:157)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager.updateClasspathProvider(DefaultExternalLaunchConfigurationManager.java:99)
-	at org.eclipse.buildship.core.internal.launch.DefaultExternalLaunchConfigurationManager$LaunchConfigurationListener.launchConfigurationChanged(DefaultExternalLaunchConfigurationManager.java:231)
-	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.run(LaunchManager.java:225)
-	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
-	at org.eclipse.debug.internal.core.LaunchManager$ConfigurationNotifier.notify(LaunchManager.java:209)
-	at org.eclipse.debug.internal.core.LaunchManager.launchConfigurationChanged(LaunchManager.java:2141)
-	at org.eclipse.debug.internal.core.LaunchManager$LaunchManagerVisitor.visit(LaunchManager.java:378)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:67)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
-	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:51)
-	at org.eclipse.debug.internal.core.LaunchManager.resourceChanged(LaunchManager.java:2266)
-	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:305)
-	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
-	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:295)
-	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:158)
-	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:380)
-	at org.eclipse.core.internal.resources.Workspace.endOperation(Workspace.java:1502)
-	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:49)
-	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
-
-!ENTRY org.eclipse.jface 2 0 2020-08-02 20:12:42.445
-!MESSAGE Ignored reentrant call while viewer is busy. This is only logged once per viewer instance, but similar calls will still be ignored.
-!STACK 0
-java.lang.RuntimeException
-	at org.eclipse.jface.viewers.ColumnViewer.checkBusy(ColumnViewer.java:764)
-	at org.eclipse.jface.viewers.ColumnViewer.update(ColumnViewer.java:543)
-	at org.eclipse.ui.navigator.CommonViewer.update(CommonViewer.java:512)
-	at org.eclipse.jface.viewers.StructuredViewer.update(StructuredViewer.java:1976)
-	at org.eclipse.ui.internal.navigator.resources.nested.NestedProjectsLabelProvider.lambda$2(NestedProjectsLabelProvider.java:87)
-	at java.util.concurrent.CompletableFuture.uniAccept(Unknown Source)
-	at java.util.concurrent.CompletableFuture$UniAccept.tryFire(Unknown Source)
-	at java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
-	at java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source)
-	at java.util.concurrent.CompletableFuture$AsyncSupply.exec(Unknown Source)
-	at java.util.concurrent.ForkJoinTask.doExec(Unknown Source)
-	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(Unknown Source)
-	at java.util.concurrent.ForkJoinPool.runWorker(Unknown Source)
-	at java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source)
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 20:12:45.251
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 20:12:56.684
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 20:16:58.070
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-02 20:17:04.962
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-!SESSION 2020-08-02 20:19:09.702 -----------------------------------------------
-eclipse.buildId=4.15.0.I20200305-0155
-java.version=1.8.0_261
-java.vendor=Oracle Corporation
-BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=pt_BR
-Framework arguments:  -product org.eclipse.epp.package.java.product
-Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
-
-!ENTRY org.eclipse.egit.ui 2 0 2020-08-02 20:19:19.428
-!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
-user global configuration and to define the default location to store repositories: 'C:\Users\titan'. If this is
-not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
-EGit might behave differently since they see different configuration options.
-This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
-!SESSION 2020-08-03 10:59:52.453 -----------------------------------------------
-eclipse.buildId=4.15.0.I20200305-0155
-java.version=1.8.0_261
-java.vendor=Oracle Corporation
-BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=pt_BR
-Framework arguments:  -product org.eclipse.epp.package.java.product
-Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
-
-!ENTRY org.eclipse.egit.ui 2 0 2020-08-03 11:00:22.167
-!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
-user global configuration and to define the default location to store repositories: 'C:\Users\titan'. If this is
-not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
-EGit might behave differently since they see different configuration options.
-This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 11:03:17.439
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jface 2 0 2020-08-03 11:06:19.774
-!MESSAGE Ignored reentrant call while viewer is busy. This is only logged once per viewer instance, but similar calls will still be ignored.
-!STACK 0
-java.lang.RuntimeException
-	at org.eclipse.jface.viewers.ColumnViewer.checkBusy(ColumnViewer.java:764)
-	at org.eclipse.jface.viewers.ColumnViewer.update(ColumnViewer.java:543)
-	at org.eclipse.ui.navigator.CommonViewer.update(CommonViewer.java:512)
-	at org.eclipse.jface.viewers.StructuredViewer.update(StructuredViewer.java:1976)
-	at org.eclipse.ui.internal.navigator.resources.nested.NestedProjectsLabelProvider.lambda$2(NestedProjectsLabelProvider.java:87)
-	at java.util.concurrent.CompletableFuture.uniAccept(Unknown Source)
-	at java.util.concurrent.CompletableFuture$UniAccept.tryFire(Unknown Source)
-	at java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
-	at java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source)
-	at java.util.concurrent.CompletableFuture$AsyncSupply.exec(Unknown Source)
-	at java.util.concurrent.ForkJoinTask.doExec(Unknown Source)
-	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(Unknown Source)
-	at java.util.concurrent.ForkJoinPool.runWorker(Unknown Source)
-	at java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source)
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 11:11:34.001
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 11:13:30.575
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 11:18:58.219
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 11:29:17.810
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 11:30:55.182
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 11:34:05.615
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 11:35:36.900
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 11:39:50.701
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 11:42:42.080
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 11:45:32.065
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 11:47:47.469
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 11:49:02.880
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 11:51:16.214
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:07:02.947
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:12:32.083
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:17:24.690
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.core.jobs 4 2 2020-08-03 12:23:05.703
-!MESSAGE An internal error occurred during: "Requesting Java AST from selection".
-!STACK 0
-java.lang.ArrayIndexOutOfBoundsException: 23
-	at org.eclipse.jdt.internal.compiler.util.HashtableOfPackage.get(HashtableOfPackage.java:70)
-	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.getPackage0(LookupEnvironment.java:1618)
-	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.getTopLevelPackage(LookupEnvironment.java:1654)
-	at org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.findImport(CompilationUnitScope.java:542)
-	at org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.getImport(CompilationUnitScope.java:700)
-	at org.eclipse.jdt.core.dom.DefaultBindingResolver.resolveName(DefaultBindingResolver.java:1375)
-	at org.eclipse.jdt.core.dom.Name.resolveBinding(Name.java:88)
-	at org.eclipse.jdt.internal.core.manipulation.search.OccurrencesFinder.visit(OccurrencesFinder.java:149)
-	at org.eclipse.jdt.core.dom.QualifiedName.accept0(QualifiedName.java:159)
-	at org.eclipse.jdt.core.dom.ASTNode.accept(ASTNode.java:2927)
-	at org.eclipse.jdt.core.dom.ASTNode.acceptChild(ASTNode.java:2975)
-	at org.eclipse.jdt.core.dom.QualifiedName.accept0(QualifiedName.java:162)
-	at org.eclipse.jdt.core.dom.ASTNode.accept(ASTNode.java:2927)
-	at org.eclipse.jdt.core.dom.ASTNode.acceptChild(ASTNode.java:2975)
-	at org.eclipse.jdt.core.dom.ImportDeclaration.accept0(ImportDeclaration.java:206)
-	at org.eclipse.jdt.core.dom.ASTNode.accept(ASTNode.java:2927)
-	at org.eclipse.jdt.core.dom.ASTNode.acceptChildren(ASTNode.java:2998)
-	at org.eclipse.jdt.core.dom.CompilationUnit.accept0(CompilationUnit.java:257)
-	at org.eclipse.jdt.core.dom.ASTNode.accept(ASTNode.java:2927)
-	at org.eclipse.jdt.internal.core.manipulation.search.OccurrencesFinder.performSearch(OccurrencesFinder.java:104)
-	at org.eclipse.jdt.internal.core.manipulation.search.OccurrencesFinder.getOccurrences(OccurrencesFinder.java:110)
-	at org.eclipse.jdt.internal.ui.javaeditor.JavaEditor.updateOccurrenceAnnotations(JavaEditor.java:3366)
-	at org.eclipse.jdt.internal.ui.javaeditor.JavaEditor$6.selectionChanged(JavaEditor.java:3392)
-	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup.calculateASTandInform(SelectionListenerWithASTManager.java:184)
-	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup$3.run(SelectionListenerWithASTManager.java:160)
-	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:26:11.528
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:32:18.032
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:33:50.247
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:37:27.802
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:39:41.640
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:40:51.052
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:42:49.900
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:42:57.728
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:46:55.557
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:47:00.632
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:55:01.489
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:56:55.134
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 12:58:35.809
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 13:00:51.507
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 13:02:44.188
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 13:02:48.554
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.ui 4 4 2020-08-03 13:05:14.191
-!MESSAGE An internal error has occurred.
-!STACK 0
-java.lang.IllegalArgumentException: Index out of bounds
-	at org.eclipse.swt.SWT.error(SWT.java:4704)
-	at org.eclipse.swt.SWT.error(SWT.java:4638)
-	at org.eclipse.swt.SWT.error(SWT.java:4609)
-	at org.eclipse.swt.widgets.Widget.error(Widget.java:432)
-	at org.eclipse.swt.widgets.TreeItem.getItem(TreeItem.java:715)
-	at org.eclipse.jface.viewers.TreeViewer.lambda$4(TreeViewer.java:829)
-	at org.eclipse.jface.viewers.StructuredViewer.preservingSelection(StructuredViewer.java:1397)
-	at org.eclipse.jface.viewers.TreeViewer.preservingSelection(TreeViewer.java:363)
-	at org.eclipse.jface.viewers.StructuredViewer.preservingSelection(StructuredViewer.java:1358)
-	at org.eclipse.jface.viewers.TreeViewer.remove(TreeViewer.java:810)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.handleRemove(TreeModelContentProvider.java:1546)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1266)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateModel(TreeModelContentProvider.java:562)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.doModelChanged(TreeModelContentProvider.java:530)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.access$0(TreeModelContentProvider.java:524)
-	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider$DelayedDoModelChangedJob.runInUIThread(TreeModelContentProvider.java:436)
-	at org.eclipse.ui.progress.UIJob.lambda$0(UIJob.java:95)
-	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
-	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
-	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3897)
-	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3527)
+org.eclipse.core.runtime.CoreException: Launch configuration runClient references non-existing project Ambience 1.15.
+	at org.eclipse.jdt.launching.JavaRuntime.abort(JavaRuntime.java:1838)
+	at org.eclipse.jdt.launching.JavaRuntime.getJavaProject(JavaRuntime.java:1713)
+	at org.eclipse.jdt.launching.StandardClasspathProvider.computeUnresolvedClasspath(StandardClasspathProvider.java:46)
+	at org.eclipse.jdt.launching.StandardSourcePathProvider.computeUnresolvedClasspath(StandardSourcePathProvider.java:51)
+	at org.eclipse.jdt.launching.JavaRuntime.computeUnresolvedSourceLookupPath(JavaRuntime.java:1140)
+	at org.eclipse.jdt.launching.sourcelookup.containers.JavaSourcePathComputer.computeSourceContainers(JavaSourcePathComputer.java:60)
+	at org.eclipse.debug.internal.core.sourcelookup.SourcePathComputer.computeSourceContainers(SourcePathComputer.java:68)
+	at org.eclipse.debug.core.sourcelookup.containers.DefaultSourceContainer.createSourceContainers(DefaultSourceContainer.java:105)
+	at org.eclipse.debug.core.sourcelookup.containers.CompositeSourceContainer.getSourceContainers(CompositeSourceContainer.java:125)
+	at org.eclipse.debug.internal.ui.sourcelookup.SourceContainerViewer$ContentProvider.getChildren(SourceContainerViewer.java:64)
+	at org.eclipse.jface.viewers.AbstractTreeViewer.getRawChildren(AbstractTreeViewer.java:1429)
+	at org.eclipse.jface.viewers.TreeViewer.getRawChildren(TreeViewer.java:350)
+	at org.eclipse.jface.viewers.StructuredViewer.getFilteredChildren(StructuredViewer.java:852)
+	at org.eclipse.jface.viewers.AbstractTreeViewer.getSortedChildren(AbstractTreeViewer.java:621)
+	at org.eclipse.jface.viewers.AbstractTreeViewer.createChildren(AbstractTreeViewer.java:823)
+	at org.eclipse.jface.viewers.TreeViewer.createChildren(TreeViewer.java:604)
+	at org.eclipse.jface.viewers.AbstractTreeViewer.createChildren(AbstractTreeViewer.java:774)
+	at org.eclipse.jface.viewers.AbstractTreeViewer.handleTreeExpand(AbstractTreeViewer.java:1549)
+	at org.eclipse.jface.viewers.TreeViewer.handleTreeExpand(TreeViewer.java:889)
+	at org.eclipse.jface.viewers.AbstractTreeViewer$3.treeExpanded(AbstractTreeViewer.java:1561)
+	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:136)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4105)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1037)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1061)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1046)
+	at org.eclipse.swt.widgets.Tree.wmNotifyChild(Tree.java:7495)
+	at org.eclipse.swt.widgets.Control.wmNotify(Control.java:5766)
+	at org.eclipse.swt.widgets.Composite.wmNotify(Composite.java:1950)
+	at org.eclipse.swt.widgets.Control.WM_NOTIFY(Control.java:5334)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:4774)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:4749)
+	at org.eclipse.swt.internal.win32.OS.CallWindowProc(Native Method)
+	at org.eclipse.swt.widgets.Tree.callWindowProc(Tree.java:1546)
+	at org.eclipse.swt.widgets.Tree.WM_LBUTTONDOWN(Tree.java:6397)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:4754)
+	at org.eclipse.swt.widgets.Tree.windowProc(Tree.java:5929)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:4749)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessage(Native Method)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3522)
+	at org.eclipse.jface.window.Window.runEventLoop(Window.java:823)
+	at org.eclipse.jface.window.Window.open(Window.java:799)
+	at org.eclipse.debug.internal.ui.launchConfigurations.LaunchConfigurationsDialog.open(LaunchConfigurationsDialog.java:1240)
+	at org.eclipse.debug.ui.DebugUITools.lambda$1(DebugUITools.java:627)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:72)
+	at org.eclipse.debug.ui.DebugUITools.openLaunchConfigurationDialogOnGroup(DebugUITools.java:633)
+	at org.eclipse.debug.ui.DebugUITools.openLaunchConfigurationDialogOnGroup(DebugUITools.java:571)
+	at org.eclipse.debug.ui.actions.OpenLaunchDialogAction.run(OpenLaunchDialogAction.java:85)
+	at org.eclipse.jface.action.Action.runWithEvent(Action.java:474)
+	at org.eclipse.jface.action.ActionContributionItem.handleWidgetSelection(ActionContributionItem.java:579)
+	at org.eclipse.jface.action.ActionContributionItem.lambda$4(ActionContributionItem.java:413)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4105)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1037)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:3922)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3524)
 	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1160)
 	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
 	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1049)
@@ -771,67 +136,9 @@ java.lang.IllegalArgumentException: Index out of bounds
 	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1447)
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 13:32:20.533
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 13:59:59.096
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 14:03:01.463
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.core.jobs 4 2 2020-08-03 14:18:01.460
-!MESSAGE An internal error occurred during: "Search Marketplace for compatible editors (*.json)".
-!STACK 0
-java.lang.NullPointerException
-	at org.eclipse.epp.internal.mpc.ui.discovery.DiscoverFileSupportJob.orderNodesByTagSubExtensionCount(DiscoverFileSupportJob.java:126)
-	at org.eclipse.epp.internal.mpc.ui.discovery.DiscoverFileSupportJob.run(DiscoverFileSupportJob.java:87)
-	at org.eclipse.epp.internal.mpc.ui.discovery.DiscoverFileSupportJob.run(DiscoverFileSupportJob.java:70)
-	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 14:22:46.169
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.core.jobs 4 2 2020-08-03 14:25:12.266
-!MESSAGE An internal error occurred during: "Search Marketplace for compatible editors (*.json)".
-!STACK 0
-java.lang.NullPointerException
-	at org.eclipse.epp.internal.mpc.ui.discovery.DiscoverFileSupportJob.orderNodesByTagSubExtensionCount(DiscoverFileSupportJob.java:126)
-	at org.eclipse.epp.internal.mpc.ui.discovery.DiscoverFileSupportJob.run(DiscoverFileSupportJob.java:87)
-	at org.eclipse.epp.internal.mpc.ui.discovery.DiscoverFileSupportJob.run(DiscoverFileSupportJob.java:70)
-	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 14:25:41.472
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 14:27:56.499
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 14:28:15.524
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 14:41:07.816
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 14:47:30.575
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 14:51:26.007
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 14:53:30.499
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 14:55:48.331
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 14:59:58.782
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 15:03:32.023
-!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
-!SESSION 2020-08-03 18:09:25.765 -----------------------------------------------
+!SUBENTRY 1 org.eclipse.jdt.launching 4 107 2020-08-04 12:10:25.645
+!MESSAGE Launch configuration runClient references non-existing project Ambience 1.15.
+!SESSION 2020-08-04 12:23:45.017 -----------------------------------------------
 eclipse.buildId=4.15.0.I20200305-0155
 java.version=1.8.0_261
 java.vendor=Oracle Corporation
@@ -839,12 +146,96 @@ BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=pt_BR
 Framework arguments:  -product org.eclipse.epp.package.java.product
 Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
 
-!ENTRY org.eclipse.egit.ui 2 0 2020-08-03 18:10:38.531
+!ENTRY org.eclipse.egit.ui 2 0 2020-08-04 12:23:55.517
 !MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
 user global configuration and to define the default location to store repositories: 'C:\Users\titan'. If this is
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
 
-!ENTRY org.eclipse.jdt.debug 2 0 2020-08-03 18:30:10.533
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 12:24:54.816
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 12:25:50.748
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 12:26:29.454
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 12:45:05.250
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 12:52:48.093
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 12:53:36.089
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 12:55:36.927
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 12:56:07.086
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 13:23:34.562
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 13:34:37.978
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 13:35:06.983
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 14:08:48.596
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 14:23:58.571
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 14:54:01.222
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 15:24:39.478
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 15:50:10.775
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 16:02:46.981
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 16:23:47.659
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 16:52:33.599
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 4 130 2020-08-04 17:00:11.542
+!MESSAGE Invalid stack frame
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 17:02:49.941
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 18:39:53.332
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 19:11:14.082
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 19:13:59.966
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 19:17:33.966
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 19:20:06.392
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 19:22:46.026
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 19:27:04.756
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 19:34:29.700
 !MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread

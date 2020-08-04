@@ -1,3 +1,19 @@
+Build: 1.15.2-31.2.35 - Mon Aug 03 23:35:09 GMT 2020
+	csh2001331:
+		Fire AnimalTameEvent for cats. (#6760)
+
+	mrtschipp:
+		Re-added PlayerEvent.NameFormat (#7173)
+
+=========
+Build: 1.15.2-31.2.33 - Mon Jul 27 23:27:15 GMT 2020
+	curle:
+		Add extra debugging information to the MDK (#6882)
+
+	ray.neiheiser:
+		Fix rail 180 rotations (#7174)
+
+=========
 Build: 1.15.2-31.2.31 - Mon Jul 06 20:59:19 GMT 2020
 	shartte:
 		Fix using Fluid's emptySound when filling buckets, rather than the fillSound. (#6786)
@@ -21,7 +37,7 @@ Build: 1.15.2-31.2.28 - Mon Jun 29 19:47:39 GMT 2020
 
 =========
 Build: 1.15.2-31.2.27 - Thu Jun 25 17:11:42 GMT 2020
-	laughlan.cov:
+	Laughlan Coventry:
 		Allow RayTraceContext to be constructed with a null entity. (#6708)
 
 =========
@@ -220,7 +236,7 @@ Build: 1.15.2-31.1.91 - Fri May 15 16:38:42 GMT 2020
 
 =========
 Build: 1.15.2-31.1.89 - Fri May 15 14:45:46 GMT 2020
-	laughlan.cov:
+	Laughlan Coventry:
 		Remove duplicate post of ChunkEvent.Load. (#6697)
 
 =========
@@ -266,7 +282,7 @@ Build: 1.15.2-31.1.80 - Tue May 12 21:08:20 GMT 2020
 
 =========
 Build: 1.15.2-31.1.79 - Mon May 11 22:28:50 GMT 2020
-	laughlan.cov:
+	Laughlan Coventry:
 		Fix IForgeBlock.removedByPlayer not firing on the client. (#6638)
 
 =========

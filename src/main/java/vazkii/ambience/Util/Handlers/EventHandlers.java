@@ -4,12 +4,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
@@ -28,6 +30,7 @@ import vazkii.ambience.NilMusicTicker;
 import vazkii.ambience.PlayerThread;
 import vazkii.ambience.SongLoader;
 import vazkii.ambience.SongPicker;
+import vazkii.ambience.render.SelectionBoxRenderer;
 
 //@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 @Mod.EventBusSubscriber(modid = Ambience.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
@@ -223,6 +226,17 @@ public class EventHandlers {
 			fadeInTicks= FADE_DURATION-1;		
 			fadeIn=true;
 		}
+	}
+	
+	@SubscribeEvent
+	public static void onWorldRenderLast(RenderWorldLastEvent event) {
+		PlayerEntity currentplayer = Minecraft.getInstance().player;
+
+		if (Ambience.previewArea != null)
+			if (Ambience.previewArea.getPos1() != null & Ambience.previewArea.getPos2() != null) {
+				SelectionBoxRenderer.drawBoundingBox(currentplayer.getPositionVector(), Ambience.previewArea.getPos1(),
+						Ambience.previewArea.getPos2(), true, 2,event.getPartialTicks(),event);
+			}
 	}
 	
 	public static boolean show=false;
