@@ -121,8 +121,8 @@ public class EventHandlers {
 
 	// Quando alguma coisa ataca o player
 	@SubscribeEvent
-	public void onEntitySetAttackTargetEvent(LivingSetAttackTargetEvent event) {
-		if (event.getTarget() instanceof EntityPlayer) {
+	public void onEntitySetAttackTargetEvent(LivingAttackEvent event) {
+		if (event.getEntityLiving() instanceof EntityPlayer) {
 			Ambience.attacked = true;
 			attackingTimer = attackFadeTime;
 
@@ -160,6 +160,40 @@ public class EventHandlers {
 		}
 
 	}
+
+	// FUNCIONA Quando player ataca alguma coisa
+	/*
+	 * @SubscribeEvent(priority = EventPriority.NORMAL) public void
+	 * onPlayerAttackEvent(AttackEntityEvent event) { mobName =
+	 * event.getTarget().getName().toLowerCase();
+	 * 
+	 * //if (event.getTarget() instanceof EntityMob) { if
+	 * (event.getTarget().isCreatureType(EnumCreatureType.MONSTER, false)) {
+	 * ambience.attacked = true; playInstant(); }
+	 * 
+	 * } // Quando alguma coisa ataca o player
+	 * 
+	 * @SubscribeEvent(priority = EventPriority.NORMAL) public void
+	 * onLivingAttackEvent(LivingAttackEvent event) {
+	 * 
+	 * 
+	 * // System.out.println(event.getEntity().getName());
+	 * 
+	 * if(currentplayer!=null) if
+	 * (event.getEntity().getName().contains(currentplayer.getName())) { // When
+	 * something get hurts near the player List<EntityLivingBase> entities =
+	 * Minecraft.getMinecraft().world.getEntitiesWithinAABB( EntityLivingBase.class,
+	 * new AxisAlignedBB(event.getEntity().posX - 16, event.getEntity().posY - 16,
+	 * event.getEntity().posZ - 16, event.getEntity().posX + 16,
+	 * event.getEntity().posY + 16, event.getEntity().posZ + 16)); for
+	 * (EntityLivingBase mob : entities) { mobName = mob.getName().toLowerCase();
+	 * 
+	 * // Detects when player gets attacked if (mobName != null &
+	 * !event.getSource().isUnblockable()) if
+	 * (mobName.toLowerCase().contains("player") ||
+	 * event.getSource().isProjectile()) { ambience.attacked = true; playInstant();
+	 * } } } }
+	 */
 
 	public static void playInstant() {
 		Ambience.fadeOutTicks = Ambience.FADE_DURATION;

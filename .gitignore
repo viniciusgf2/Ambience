@@ -22,5 +22,6 @@ eclipse
 run
 *.gz
 *.log
+runServer
 runServer/world/stats/*
 runServer/world/advancements/*

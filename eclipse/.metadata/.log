@@ -1963,3 +1963,115 @@ java.lang.RuntimeException
 
 !ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 11:15:38.992
 !MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 11:27:57.352
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 11:28:07.390
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.ui 4 4 2020-08-04 11:28:36.076
+!MESSAGE An internal error has occurred.
+!STACK 0
+java.lang.IllegalArgumentException: Index out of bounds
+	at org.eclipse.swt.SWT.error(SWT.java:4704)
+	at org.eclipse.swt.SWT.error(SWT.java:4638)
+	at org.eclipse.swt.SWT.error(SWT.java:4609)
+	at org.eclipse.swt.widgets.Widget.error(Widget.java:432)
+	at org.eclipse.swt.widgets.TreeItem.getItem(TreeItem.java:715)
+	at org.eclipse.jface.viewers.TreeViewer.lambda$4(TreeViewer.java:829)
+	at org.eclipse.jface.viewers.StructuredViewer.preservingSelection(StructuredViewer.java:1397)
+	at org.eclipse.jface.viewers.TreeViewer.preservingSelection(TreeViewer.java:363)
+	at org.eclipse.jface.viewers.StructuredViewer.preservingSelection(StructuredViewer.java:1358)
+	at org.eclipse.jface.viewers.TreeViewer.remove(TreeViewer.java:810)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.handleRemove(TreeModelContentProvider.java:1546)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1266)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateModel(TreeModelContentProvider.java:562)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.doModelChanged(TreeModelContentProvider.java:530)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.access$0(TreeModelContentProvider.java:524)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider$DelayedDoModelChangedJob.runInUIThread(TreeModelContentProvider.java:436)
+	at org.eclipse.ui.progress.UIJob.lambda$0(UIJob.java:95)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3897)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3527)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1160)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1049)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:658)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:557)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:154)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1447)
+
+!ENTRY org.eclipse.ui 4 4 2020-08-04 11:28:52.042
+!MESSAGE An internal error has occurred.
+!STACK 0
+java.lang.IllegalArgumentException: Index out of bounds
+	at org.eclipse.swt.SWT.error(SWT.java:4704)
+	at org.eclipse.swt.SWT.error(SWT.java:4638)
+	at org.eclipse.swt.SWT.error(SWT.java:4609)
+	at org.eclipse.swt.widgets.Widget.error(Widget.java:432)
+	at org.eclipse.swt.widgets.TreeItem.getItem(TreeItem.java:715)
+	at org.eclipse.jface.viewers.TreeViewer.lambda$4(TreeViewer.java:829)
+	at org.eclipse.jface.viewers.StructuredViewer.preservingSelection(StructuredViewer.java:1397)
+	at org.eclipse.jface.viewers.TreeViewer.preservingSelection(TreeViewer.java:363)
+	at org.eclipse.jface.viewers.StructuredViewer.preservingSelection(StructuredViewer.java:1358)
+	at org.eclipse.jface.viewers.TreeViewer.remove(TreeViewer.java:810)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.handleRemove(TreeModelContentProvider.java:1546)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1266)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateNodes(TreeModelContentProvider.java:1299)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.updateModel(TreeModelContentProvider.java:562)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.doModelChanged(TreeModelContentProvider.java:530)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider.access$0(TreeModelContentProvider.java:524)
+	at org.eclipse.debug.internal.ui.viewers.model.TreeModelContentProvider$DelayedDoModelChangedJob.runInUIThread(TreeModelContentProvider.java:436)
+	at org.eclipse.ui.progress.UIJob.lambda$0(UIJob.java:95)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3897)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3527)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1160)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1049)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:658)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:557)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:154)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1447)
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 11:34:44.996
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.jdt.debug 2 0 2020-08-04 11:34:49.653
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
