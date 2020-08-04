@@ -245,16 +245,8 @@ public final class SongPicker {
 				}
 				
 				//****************
-
-				/*for (EntityLivingBase mob : entities) {
-					if (mobName != null || countEntities > 0) {
-
-						if (!(mob instanceof EntityPlayer))
-							songs = getSongsForEvent(EVENT_ATTACKED);
-					}
-				}*/
-
-				if (mobName == null || countEntities < 1) {
+				//Termina a musica de ataque
+				if (mobName == null || countEntities < 1  || EventHandlers.attackingTimer-- < 0) {
 					Ambience.attacked = false;
 				}
 
