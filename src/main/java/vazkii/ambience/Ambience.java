@@ -42,6 +42,7 @@ import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.Util.Handlers.EventHandlers;
 import vazkii.ambience.Util.Handlers.EventHandlersServer;
 import vazkii.ambience.World.Biomes.Area;
+import vazkii.ambience.network.AmbiencePackageHandler;
 
 @Mod(Ambience.MODID)
 public class Ambience {	
@@ -112,7 +113,10 @@ public class Ambience {
         RegistryHandler.init();        
         
         MinecraftForge.EVENT_BUS.register(new EventHandlersServer());
-        
+                
+        //Init the Network Handler
+        AmbiencePackageHandler.register();
+       
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }

@@ -268,13 +268,13 @@ public class Area implements Comparator<Area>{
 			break;
 		}
 
-	/*	CompoundNBT tagListPos = nbt.getCompound("Pos");		
+		CompoundNBT tagListPos = nbt.getCompound("Pos");		
 		Vec3d pos1 = new Vec3d(tagListPos.getDouble("x1"), tagListPos.getDouble("y1"),tagListPos.getDouble("z1"));area.setPos1(pos1);
 		Vec3d pos2 = new Vec3d(tagListPos.getDouble("x2"), tagListPos.getDouble("y2"),tagListPos.getDouble("z2"));
 		area.setPos1(pos1);
-		area.setPos2(pos2);*/
+		area.setPos2(pos2);
 		
-		CompoundNBT tagListAreas = nbt.getCompound("Areas"); // 10 indicates a list of NBTTagCompound
+		/*CompoundNBT tagListAreas = nbt.getCompound("Pos"); // 10 indicates a list of NBTTagCompound
 		Iterator<INBT> iterator = tagListAreas.getList("Areas", 10).iterator();
 		while (iterator.hasNext()) {	
 			CompoundNBT tagListPos = nbt.getCompound("Pos");		
@@ -282,7 +282,7 @@ public class Area implements Comparator<Area>{
 			Vec3d pos2 = new Vec3d(tagListPos.getDouble("x2"), tagListPos.getDouble("y2"),tagListPos.getDouble("z2"));
 			area.setPos1(pos1);
 			area.setPos2(pos2);
-		}
+		}*/
 				
 		return area;
 	}

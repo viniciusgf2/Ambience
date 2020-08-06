@@ -1,23 +1,20 @@
 package vazkii.ambience.items;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceContext.FluidMode;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -26,6 +23,9 @@ import net.minecraft.world.World;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.Util.Border;
 import vazkii.ambience.World.Biomes.Area;
+import vazkii.ambience.World.Biomes.Area.Operation;
+import vazkii.ambience.network.AmbiencePackageHandler;
+import vazkii.ambience.network.MyMessage;
 
 public class Soundnizer extends ItemBase {
 
@@ -93,7 +93,17 @@ public class Soundnizer extends ItemBase {
 
 							if (border.contains(playerIn.getPositionVector())) {
 
+								Ambience.selectedArea.setOperation(Operation.CREATE);
+								Ambience.selectedArea.setName("Elevador");
+								//ClientPlayNetHandler clientplaynethandler = Minecraft.getInstance().getConnection();								
+							    //clientplaynethandler.sendPacket(new MyMessage(Ambience.selectedArea.SerializeThis()));
+							      
+								AmbiencePackageHandler.sendToServer(new MyMessage(Ambience.selectedArea.SerializeThis()));
+																
+								
 								//Create AREA
+								//Minecraft.getInstance().displayGuiScreen(new CreateAreaGUI(playerIn)); 
+								
 								//playerIn.openGui(Ambience.instance, 5, worldIn, MathHelper.floor(playerIn.getPosX()),
 								//		MathHelper.floor(playerIn.getPosY()), MathHelper.floor(playerIn.getPosZ()));
 							} else {
@@ -101,13 +111,13 @@ public class Soundnizer extends ItemBase {
 										(ITextComponent)new StringTextComponent(I18n.format("Soundnizer.Alert")), true);
 							}
 						}
-					} /*else {
-						EditAreaGUI.currentArea = currentArea;
-
+					} else {
+						/*EditAreaGUI.currentArea = currentArea;
+						
 						//UPDATE AREA
 						playerIn.openGui(Ambience.instance, 2, worldIn, MathHelper.floor(playerIn.getPosX()),
-								MathHelper.floor(playerIn.getPosY()), MathHelper.floor(playerIn.getPosZ()));
-					}*/
+								MathHelper.floor(playerIn.getPosY()), MathHelper.floor(playerIn.getPosZ()));*/
+					}
 				} else {
 					//Clear selected Area
 						Ambience.selectedArea = new Area("Area1");

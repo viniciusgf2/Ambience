@@ -12,6 +12,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.raid.RaidManager;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
@@ -107,9 +108,21 @@ public class WorldData extends WorldSavedData implements Supplier{
 	
 	public WorldData GetArasforWorld(ServerWorld world)
 	{
+		
 		DimensionSavedDataManager storage = world.getSavedData();
+		WorldData data = world.getSavedData().getOrCreate(() -> {
+	         return new WorldData();
+	      }, Ambience.MODID);
+		
+		storage.set(data);
+
+		listAreas = data.listAreas;	
+		
+		return data;
+		
+	/*	DimensionSavedDataManager storage = world.getSavedData();
 		Supplier<WorldData> sup = new WorldData();
-		WorldData saver = (WorldData) storage.getOrCreate(sup, Ambience.MODID);
+		WorldData saver = (WorldData) storage.getOrCreate((Supplier<WorldData>) storage, Ambience.MODID);
 
 		if (saver == null) 
 		{
@@ -119,7 +132,7 @@ public class WorldData extends WorldSavedData implements Supplier{
 		
 		listAreas = saver.listAreas;	
 		
-		return saver;
+		return saver;*/
 	}	
 
 	public void saveData() {
@@ -184,8 +197,7 @@ public class WorldData extends WorldSavedData implements Supplier{
 
 		listAreas.clear();
 
-		CompoundNBT tagListAreas = data.getCompound("Areas"); // 10 indicates a list of NBTTagCompound
-		Iterator<INBT> iterator = tagListAreas.getList("Areas", 10).iterator();
+		Iterator<INBT> iterator = data.getList("Areas", 10).iterator(); // 10 indicates a list of NBTTagCompound
 		while (iterator.hasNext()) {
 			CompoundNBT areaCompound = (CompoundNBT) iterator.next();
 			Area area = new Area(areaCompound.getString("Name"));

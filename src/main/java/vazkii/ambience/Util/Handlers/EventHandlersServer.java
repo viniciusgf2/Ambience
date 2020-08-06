@@ -1,25 +1,48 @@
 package vazkii.ambience.Util.Handlers;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.play.ServerPlayNetHandler;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.gui.MinecraftServerGui;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.common.ForgeConfig.Server;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.PlayerThread;
 import vazkii.ambience.SongPicker;
+import vazkii.ambience.Util.WorldData;
+import vazkii.ambience.World.Biomes.Area;
+import vazkii.ambience.network.AmbiencePackageHandler;
+import vazkii.ambience.network.MyMessage;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraftforge.server.ServerMain;
 
 @Mod.EventBusSubscriber(modid = Ambience.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventHandlersServer {
@@ -46,7 +69,7 @@ public class EventHandlersServer {
 		if (event.getTarget() instanceof ServerPlayerEntity) {
 			Ambience.attacked = true;
 			attackingTimer = attackFadeTime;
-						
+
 			EventHandlers.playInstant();
 		}
 
@@ -106,5 +129,50 @@ public class EventHandlersServer {
 		}
 		String timer = "Attacking Timer: " + EventHandlersServer.attackingTimer;
 		event.getRight().add(timer);
+	}
+
+	// Server Side
+	@SubscribeEvent
+	@OnlyIn(value = Dist.DEDICATED_SERVER)
+	public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+
+		// MinecraftServer server =event.getEntity().getServer();
+
+		
+		// server.deferTask(taskIn)
+		//Minecraft.getInstance().enqueue(() -> {
+
+			Ambience.selectedArea = null;
+
+			WorldData data = new WorldData();// WorldData.forWorld(event.player.world);
+
+			ServerWorld world = (ServerWorld) event.getPlayer().world;
+			data.GetArasforWorld(world);
+
+			List<Area> areasList = new ArrayList<Area>();
+			areasList.addAll(data.listAreas);
+
+			if (data.listAreas != null)
+				Ambience.getWorldData().listAreas = data.listAreas;
+
+			/*
+			 * Iterator<Area> iterator = areasList.iterator(); while (iterator.hasNext()) {
+			 * NetworkHandler4.sendToClient(new
+			 * MyMessage4(iterator.next().SerializeThis()),(EntityPlayerMP) event.player); }
+			 */
+			// WorldData.SerializeThis(data.listAreas);
+
+			if (data.listAreas.size() > 0) {
+				CompoundNBT nbt = WorldData.SerializeThis(Ambience.getWorldData().listAreas);
+			//	nbt.putBoolean("sync", true);
+		      		
+				//String test=((ServerPlayerEntity)event.getPlayer()).get.getDisplayName().getString();
+
+				System.out.print("test");
+				
+				AmbiencePackageHandler.sendToClient(new MyMessage(nbt),(ServerPlayerEntity) event.getPlayer());
+				
+			}
+		//});
 	}
 }
