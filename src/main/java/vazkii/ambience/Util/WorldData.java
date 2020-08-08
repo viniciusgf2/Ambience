@@ -156,8 +156,6 @@ public class WorldData extends WorldSavedData implements Supplier{
 
 		data.put("Areas", tagList);
 		
-		//System.out.println(tagList.toString());
-
 		this.markDirty();
 	}
 

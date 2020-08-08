@@ -8,22 +8,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -37,6 +30,8 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import vazkii.ambience.Screens.CreateAreaScreen;
+import vazkii.ambience.Util.ModContainerTypes;
 import vazkii.ambience.Util.RegistryHandler;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.Util.Handlers.EventHandlers;
@@ -109,6 +104,15 @@ public class Ambience {
         // Register the doClientStuff method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
+        //Registra o container das janelas
+        IEventBus bus=FMLJavaModLoadingContext.get().getModEventBus();
+        ModContainerTypes.CONTAINER_TYPES.register(bus);
+        
+        
+      
+       // FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerContainers);
+        
+
         //Registra Items/Blocos
         RegistryHandler.init();        
         
@@ -121,6 +125,21 @@ public class Ambience {
         MinecraftForge.EVENT_BUS.register(this);
     }
 	
+	
+	
+
+  /*  public void registerContainers(RegistryEvent.Register<ContainerType<?>> event){
+    	DeferredRegister<ContainerType<?>> CONTAINER_TYPES = new DeferredRegister<>(ForgeRegistries.CONTAINERS, Ambience.MODID);
+    	
+    	RegistryObject<ContainerType<MyContainer>> GUI_CONTAINER = CONTAINER_TYPES.register("my_container", () -> IForgeContainerType.create(MyContainer::new));
+    	
+    	//event.getRegistry().register(IForgeContainerType.create(MyContainer::new).setRegistryName(new ResourceLocation(Ambience.MODID, "my_container")));
+    }*/
+    
+/*	 public  void registerContainers(RegistryEvent.Register<ContainerType<?>> event){
+	        event.getRegistry().register(IForgeContainerType.create(GuiContainerMod::new));
+	    }
+*/	
 	
 	//PREINIT
 	private void setup(final FMLCommonSetupEvent event)
@@ -152,6 +171,9 @@ public class Ambience {
 		EventHandlers.registerKeyBindings();
 		
 		
+		//if(FMLEnvironment.dist== Dist.CLIENT)
+		//Registra as telas
+	   // ScreenManager.registerFactory(ModContainerTypes.GUI_CONTAINER.get(), CreateAreaScreen::new);
 		
     	SongLoader.loadFrom(ambienceDir);
 		

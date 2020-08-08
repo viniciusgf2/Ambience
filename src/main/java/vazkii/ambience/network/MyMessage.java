@@ -38,7 +38,7 @@ private CompoundNBT data;
     public void handle(Supplier<NetworkEvent.Context> context) {
     	
     	NetworkEvent.Context ctx = context.get();
-    	System.out.println(ctx.getDirection() + " Side="+FMLEnvironment.dist);
+    	//System.out.println(ctx.getDirection() + " Side="+FMLEnvironment.dist);
     	 
 
     	// The value that was sent

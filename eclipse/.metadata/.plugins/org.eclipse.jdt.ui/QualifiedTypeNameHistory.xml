@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.minecraft.client.renderer.Tessellator"/>
-<fullyQualifiedTypeName name="net.minecraft.client.renderer.BufferBuilder"/>
-<fullyQualifiedTypeName name="net.minecraft.client.renderer.vertex.DefaultVertexFormats"/>
-<fullyQualifiedTypeName name="java.awt.Color"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
-<fullyQualifiedTypeName name="com.mojang.blaze3d.systems.RenderSystem"/>
-<fullyQualifiedTypeName name="net.minecraftforge.client.model.pipeline.LightUtil"/>
-<fullyQualifiedTypeName name="net.minecraft.util.math.BlockRayTraceResult"/>
 <fullyQualifiedTypeName name="net.minecraft.util.math.MathHelper"/>
 <fullyQualifiedTypeName name="com.sun.jna.platform.unix.X11.Screen"/>
 <fullyQualifiedTypeName name="net.minecraft.client.gui.screen.Screen"/>
@@ -24,7 +16,6 @@
 <fullyQualifiedTypeName name="vazkii.ambience.Screens.CreateAreaGUI.GuiContainerMod"/>
 <fullyQualifiedTypeName name="vazkii.ambience.Screens.GuiContainerMod"/>
 <fullyQualifiedTypeName name="net.minecraft.inventory.container.ContainerType"/>
-<fullyQualifiedTypeName name="vazkii.ambience.Screens.CreateAreaGUI"/>
 <fullyQualifiedTypeName name="net.minecraft.client.gui.ScreenManager.IScreenFactory"/>
 <fullyQualifiedTypeName name="net.minecraft.command.arguments.NBTCompoundTagArgument"/>
 <fullyQualifiedTypeName name="net.minecraftforge.fml.common.network.ByteBufUtils"/>
@@ -60,4 +51,13 @@
 <fullyQualifiedTypeName name="net.minecraftforge.fml.loading.FMLEnvironment"/>
 <fullyQualifiedTypeName name="vazkii.ambience.Util.WorldData"/>
 <fullyQualifiedTypeName name="net.minecraftforge.api.distmarker.Dist"/>
+<fullyQualifiedTypeName name="vazkii.ambience.Screens.CreateAreaGUI"/>
+<fullyQualifiedTypeName name="net.minecraft.client.renderer.Vector3f"/>
+<fullyQualifiedTypeName name="net.minecraft.client.gui.widget.TextFieldWidget"/>
+<fullyQualifiedTypeName name="net.minecraft.client.renderer.IRenderTypeBuffer"/>
+<fullyQualifiedTypeName name="com.mojang.blaze3d.matrix.MatrixStack"/>
+<fullyQualifiedTypeName name="java.lang.Override"/>
+<fullyQualifiedTypeName name="net.minecraft.client.renderer.RenderHelper"/>
+<fullyQualifiedTypeName name="net.minecraft.client.gui.widget.button.Button"/>
+<fullyQualifiedTypeName name="net.minecraft.client.resources.I18n"/>
 </qualifiedTypeNameHistroy>

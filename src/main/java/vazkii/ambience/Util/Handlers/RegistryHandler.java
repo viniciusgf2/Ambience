@@ -1,10 +1,25 @@
 package vazkii.ambience.Util.Handlers;
 
+import net.minecraft.client.gui.ScreenManager;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import vazkii.ambience.Ambience;
+import vazkii.ambience.Screens.CreateAreaScreen;
+import vazkii.ambience.Util.ModContainerTypes;
 
-@EventBusSubscriber
+
+@Mod.EventBusSubscriber(modid = Ambience.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class RegistryHandler {
-
+	
+	@SubscribeEvent
+	public static void clientRegistries(FMLClientSetupEvent event){
+		//Registra as telas
+		ScreenManager.registerFactory(ModContainerTypes.GUI_CONTAINER.get(), CreateAreaScreen::new);			
+	}
+	
 	// Register the Sub-Blocks for the Alarm here
 	/*@SubscribeEvent
 	@SideOnly(Side.CLIENT)

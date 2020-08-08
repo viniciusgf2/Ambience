@@ -24,6 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.ForgeConfig.Server;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ServerTickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -38,6 +39,7 @@ import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.network.AmbiencePackageHandler;
 import vazkii.ambience.network.MyMessage;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -54,10 +56,10 @@ public class EventHandlersServer {
 		attackingTimer = attackFadeTime;
 	}
 
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		// System.out.println("olá");
-	}
+		
+	}*/
 
 	String mobName = null;
 
@@ -136,9 +138,6 @@ public class EventHandlersServer {
 	@OnlyIn(value = Dist.DEDICATED_SERVER)
 	public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
 
-		// MinecraftServer server =event.getEntity().getServer();
-
-		
 		// server.deferTask(taskIn)
 		//Minecraft.getInstance().enqueue(() -> {
 
@@ -155,24 +154,39 @@ public class EventHandlersServer {
 			if (data.listAreas != null)
 				Ambience.getWorldData().listAreas = data.listAreas;
 
-			/*
-			 * Iterator<Area> iterator = areasList.iterator(); while (iterator.hasNext()) {
-			 * NetworkHandler4.sendToClient(new
-			 * MyMessage4(iterator.next().SerializeThis()),(EntityPlayerMP) event.player); }
-			 */
-			// WorldData.SerializeThis(data.listAreas);
-
 			if (data.listAreas.size() > 0) {
 				CompoundNBT nbt = WorldData.SerializeThis(Ambience.getWorldData().listAreas);
-			//	nbt.putBoolean("sync", true);
-		      		
-				//String test=((ServerPlayerEntity)event.getPlayer()).get.getDisplayName().getString();
-
-				System.out.print("test");
-				
+						
 				AmbiencePackageHandler.sendToClient(new MyMessage(nbt),(ServerPlayerEntity) event.getPlayer());
 				
 			}
 		//});
+	}
+	
+	int waitTime = 0;
+
+	@SubscribeEvent	
+	public void onServerTick(ServerTickEvent event) { // this
+		// most certainly WILL fire, even in single player, see for yourself:
+		// Sync data betwen all the players when player create a new area
+				
+		
+		
+	/*	if (Ambience.sync & event.side == LogicalSide.SERVER) {
+			waitTime++;
+
+			if (waitTime > 50) {
+				waitTime = 0;
+				Ambience.sync = false;
+
+				
+			//	AmbiencePackageHandler.sendToServer(new MyMessage(Ambience.selectedArea.SerializeThis()));
+				
+				//CompoundNBT nbt = WorldData.SerializeThis(Ambience.getWorldData().listAreas);
+				//nbt.putBoolean("sync", true);
+
+				//NetworkHandler4.sendToAll(new MyMessage4(nbt));
+			}
+		}*/
 	}
 }

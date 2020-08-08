@@ -1,9 +1,17 @@
 package vazkii.ambience.Util.Handlers;
 
-public class ServerTickHandler {
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.event.TickEvent.ServerTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import vazkii.ambience.Ambience;
+import vazkii.ambience.Util.WorldData;
 
-	int waitTime = 0;
+//@Mod.EventBusSubscriber(modid = Ambience.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+public class ServerTickHandler {
 /*
+	int waitTime = 0;
+
 	@SubscribeEvent
 	public void onServerTick(ServerTickEvent event) { // this
 		// most certainly WILL fire, even in single player, see for yourself:
@@ -15,10 +23,11 @@ public class ServerTickHandler {
 				waitTime = 0;
 				Ambience.sync = false;
 
-				NBTTagCompound nbt = WorldData.SerializeThis(Ambience.getWorldData().listAreas);
-				nbt.setBoolean("sync", true);
+				 
+				//CompoundNBT nbt = WorldData.SerializeThis(Ambience.getWorldData().listAreas);
+				//nbt.putBoolean("sync", true);
 
-				NetworkHandler4.sendToAll(new MyMessage4(nbt));
+				//NetworkHandler4.sendToAll(new MyMessage4(nbt));
 			}
 		}
 	}

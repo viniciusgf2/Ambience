@@ -9,7 +9,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
@@ -54,7 +53,7 @@ public class EventHandlers {
 	public static KeyBinding[] keyBindings;
 
 	public EventHandlers() {		
-		
+
 	}
 	
 	public static void playInstant() {		
@@ -78,6 +77,12 @@ public class EventHandlers {
 			ClientRegistry.registerKeyBinding(keyBindings[i]);
 		}
 	}
+
+	/*@SubscribeEvent
+	public static void clientRegistries(FMLClientSetupEvent event){
+		//Registra as telas
+		ScreenManager.registerFactory(ModContainerTypes.GUI_CONTAINER.get(), CreateAreaScreen::new);			
+	}*/
 	
 	@SubscribeEvent
 	public static void onTick(final ClientTickEvent event) {
@@ -227,7 +232,7 @@ public class EventHandlers {
 			fadeIn=true;
 		}
 	}
-	
+		
 	@SubscribeEvent
 	public static void onWorldRenderLast(RenderWorldLastEvent event) {
 		PlayerEntity currentplayer = Minecraft.getInstance().player;

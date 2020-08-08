@@ -1,4 +1,5 @@
 {
+	"GUI.CancelButton": "Cancel",
 	"GUI.ConfirmButton": "Confirm",
 	"GUI.DeleteButton": "Delete Region",
 	"GUI.SaveButton": "Save Region",
@@ -7,7 +8,9 @@
 	"GUI.AreaNameField": "Name",
 	"GUI.InstantPlayChk": "Instant Play?",
 	"GUI.SelectSoundLbl": "Select Sound:",
-	"GUI.anoite": "Play at night?",
+	"GUI.PlayAtNight": "Play at night?",
+	"GUI.CreateArea": "Create Region",
+
 
 	"item.ambience.soundnizer": "Soundnizer",
 	"Soundnizer.Position": "Position",
