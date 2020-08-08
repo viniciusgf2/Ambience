@@ -1,0 +1,9 @@
+{
+  "parent": "ambience:custom/speakerbox",
+  "textures": {
+    "all": "ambience:blocks/speaker",
+    "particle": "ambience:blocks/speaker",
+    "wool_colored_black": "minecraft:blocks/wool_colored_black",
+    "log_oak": "minecraft:blocks/log_oak"
+  }
+}

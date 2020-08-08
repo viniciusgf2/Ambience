@@ -301,7 +301,7 @@ public class Area implements Comparator<Area>{
 			area.setPlayAtNight(areaCompound.getBoolean("playNight"));
 			area.setInstantPlay(areaCompound.getBoolean("instP"));
 						
-			CompoundNBT tagListPos = nbt.getCompound("Pos");		
+			CompoundNBT tagListPos = areaCompound.getCompound("Pos");		
 			Vec3d pos1 = new Vec3d(tagListPos.getDouble("x1"), tagListPos.getDouble("y1"),tagListPos.getDouble("z1"));area.setPos1(pos1);
 			Vec3d pos2 = new Vec3d(tagListPos.getDouble("x2"), tagListPos.getDouble("y2"),tagListPos.getDouble("z2"));
 			area.setPos1(pos1);

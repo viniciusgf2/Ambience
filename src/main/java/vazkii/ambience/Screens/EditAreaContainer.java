@@ -7,20 +7,21 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import vazkii.ambience.Util.ModContainerTypes;
+import vazkii.ambience.World.Biomes.Area;
 
-public class GuiContainerMod extends Container {
+public class EditAreaContainer extends Container {
 
-	
-	public GuiContainerMod(final int windowId, final PlayerInventory playerInventory,final PacketBuffer extraData) {
-		super(ModContainerTypes.CREATEAREA_CONTAINER.get(), windowId);
+	public static Area currentArea=new Area("Area1");
+	public EditAreaContainer(final int windowId, final PlayerInventory playerInventory,final PacketBuffer extraData) {
+		super(ModContainerTypes.EDITAREA_CONTAINER.get(), windowId);
 	}
 	
-	 public GuiContainerMod(int id){
-         super(ModContainerTypes.CREATEAREA_CONTAINER.get(), id);
-         // more stuff here
+	 public EditAreaContainer(int id,Area currentArea){
+         super(ModContainerTypes.EDITAREA_CONTAINER.get(), id);
+         this.currentArea=currentArea;
    }
 	
-	protected GuiContainerMod(ContainerType<?> type, int id) {
+	protected EditAreaContainer(ContainerType<?> type, int id) {
 		super(type, id);
 		// TODO Auto-generated constructor stub
 	}

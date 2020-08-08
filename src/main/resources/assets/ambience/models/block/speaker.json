@@ -1,9 +1,103 @@
 {
-  "parent": "ambience:custom/speakerbox",
-  "textures": {
-    "all": "ambience:blocks/speaker",
-    "particle": "ambience:blocks/speaker",
-    "wool_colored_black": "minecraft:blocks/wool_colored_black",
-    "log_oak": "minecraft:blocks/log_oak"
-  }
+	"credit": "Made with Blockbench",
+	"textures": {
+		"black_wool": "ambience:blocks/black_wool",
+		"particle": "ambience:blocks/oak_log",
+		"log_oak": "ambience:blocks/oak_log"
+	},
+	"elements": [
+		{
+			"name": "Frame4",
+			"from": [2, 3, 14],
+			"to": [3, 13, 15],
+			"faces": {
+				"north": {"uv": [0, 0, 1, 10], "texture": "#log_oak"},
+				"east": {"uv": [0, 0, 1, 10], "texture": "#log_oak"},
+				"west": {"uv": [0, 0, 1, 10], "texture": "#log_oak"}
+			}
+		},
+		{
+			"name": "Frame1",
+			"from": [13, 3, 14],
+			"to": [14, 13, 15],
+			"faces": {
+				"north": {"uv": [0, 0, 1, 10], "texture": "#log_oak"},
+				"east": {"uv": [0, 0, 1, 10], "texture": "#log_oak"},
+				"west": {"uv": [0, 0, 1, 10], "texture": "#log_oak"}
+			}
+		},
+		{
+			"name": "Frame2",
+			"from": [2, 2, 14],
+			"to": [14, 3, 15],
+			"faces": {
+				"north": {"uv": [0, 0, 12, 1], "texture": "#log_oak"},
+				"east": {"uv": [0, 0, 1, 1], "texture": "#log_oak"},
+				"west": {"uv": [0, 0, 1, 1], "texture": "#log_oak"},
+				"up": {"uv": [0, 0, 12, 1], "texture": "#log_oak"},
+				"down": {"uv": [0, 0, 12, 1], "texture": "#log_oak"}
+			}
+		},
+		{
+			"name": "Frame3",
+			"from": [2, 13, 14],
+			"to": [14, 14, 15],
+			"faces": {
+				"north": {"uv": [0, 0, 12, 1], "texture": "#log_oak"},
+				"east": {"uv": [0, 0, 1, 1], "texture": "#log_oak"},
+				"west": {"uv": [0, 0, 1, 1], "texture": "#log_oak"},
+				"up": {"uv": [0, 0, 12, 1], "texture": "#log_oak"},
+				"down": {"uv": [0, 0, 12, 1], "texture": "#log_oak"}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [2, 2, 15],
+			"to": [14, 14, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 12, 12], "texture": "#black_wool"},
+				"east": {"uv": [0, 0, 1, 12], "texture": "#log_oak"},
+				"south": {"uv": [0, 0, 12, 12], "texture": "#log_oak"},
+				"west": {"uv": [0, 0, 1, 12], "texture": "#log_oak"},
+				"up": {"uv": [0, 0, 12, 1], "texture": "#log_oak"},
+				"down": {"uv": [0, 0, 12, 1], "texture": "#log_oak"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 315, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, 58, 0],
+			"translation": [-2.5, 0, -2],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 83, 0],
+			"translation": [-7, 4.75, 4.25],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 96, 0],
+			"translation": [-3.5, -1, -6]
+		},
+		"ground": {
+			"translation": [0, 3, -4.5],
+			"scale": [0.67, 0.67, 0.67]
+		},
+		"gui": {
+			"rotation": [0, -180, 0],
+			"translation": [0.25, 0, 0],
+			"scale": [1.12, 1.12, 0.89]
+		},
+		"head": {
+			"translation": [0, 12, -13.25]
+		},
+		"fixed": {
+			"translation": [0, 0, -8]
+		}
+	}
 }

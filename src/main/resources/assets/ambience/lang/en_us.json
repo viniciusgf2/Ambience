@@ -10,6 +10,9 @@
 	"GUI.SelectSoundLbl": "Select Sound:",
 	"GUI.PlayAtNight": "Play at night?",
 	"GUI.CreateArea": "Create Region",
+	"GUI.EditArea": "Edit Region",
+	"GUI.CreateAreaError": "Define a name for the region!",
+	
 
 
 	"item.ambience.soundnizer": "Soundnizer",
@@ -17,6 +20,7 @@
 	"Soundnizer.Alert": "You must be inside a selected region to create!",
 	"Soundnizer.Desc": "Configures a region to play a sound.",
 
+	"block.ambience.speaker": "Speaker",
 	"Speaker.Desc": "Plays a sound when activated by redstone",
 	"Alarm.Desc": "Plays a sound and flashs light when activated by redstone",
 	"Bell.Desc": "Sacred bell from the Consil of WaterSheep",

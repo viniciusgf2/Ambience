@@ -135,7 +135,7 @@ public class EventHandlersServer {
 
 	// Server Side
 	@SubscribeEvent
-	@OnlyIn(value = Dist.DEDICATED_SERVER)
+	//@OnlyIn(value = Dist.DEDICATED_SERVER)
 	public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
 
 		// server.deferTask(taskIn)
@@ -143,23 +143,20 @@ public class EventHandlersServer {
 
 			Ambience.selectedArea = null;
 
-			WorldData data = new WorldData();// WorldData.forWorld(event.player.world);
+			WorldData data = new WorldData();
 
 			ServerWorld world = (ServerWorld) event.getPlayer().world;
 			data.GetArasforWorld(world);
 
-			List<Area> areasList = new ArrayList<Area>();
-			areasList.addAll(data.listAreas);
-
 			if (data.listAreas != null)
-				Ambience.getWorldData().listAreas = data.listAreas;
+				Ambience.setWorldData(data.GetArasforWorld(world));
 
-			if (data.listAreas.size() > 0) {
+			/*if (data.listAreas.size() > 0) {
 				CompoundNBT nbt = WorldData.SerializeThis(Ambience.getWorldData().listAreas);
 						
 				AmbiencePackageHandler.sendToClient(new MyMessage(nbt),(ServerPlayerEntity) event.getPlayer());
 				
-			}
+			}*/
 		//});
 	}
 	

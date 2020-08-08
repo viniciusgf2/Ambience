@@ -150,20 +150,8 @@ public class Ambience {
 			ambienceDir.mkdir();
 		
 		resourcesDir = new File(configDir.getParentFile(), "resourcepacks\\AmbienceSounds\\assets\\ambience");
-					
-		//Registra os Biomas
-		//RegistryHandler.otherRegistries();
-
-		//	NetworkHandler4.init();
-		//	NetworkHandler4.INSTANCE.registerMessage(ClientHandler.class, MyMessage4.class, 2, Side.CLIENT);
+			
 						
-		//Registra a GUI
-		//NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-				
-		//SyncHandler.init();
-				
-		//proxy.preInit(event);
-		//proxy.registerTileEntities();				
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
@@ -228,48 +216,7 @@ public class Ambience {
 	        return new ItemStack(RegistryHandler.Soundnizer.get());
 	      }
 	}; 
-    
-    /*
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		//Server Tick
-		FMLCommonHandler.instance().bus().register(new ServerTickHandler());			
-	}		
-	*/
-    
+       
    
-    
-    
-	/*String mobName = null;
- // FUNCIONA Quando player ataca alguma coisa
-	@OnlyIn(value = Dist.CLIENT)
- 	@SubscribeEvent(priority = EventPriority.NORMAL)
- 	public void onPlayerAttackEvent(AttackEntityEvent event) {
- 		mobName = event.getTarget().getName().getString().toLowerCase();
 
- 		if (event.getTarget() instanceof MobEntity) {
- 		//if (event.getTarget().isCreatureType(EnumCreatureType.MONSTER, false)) {
- 			attacked = true;
- 			EventHandlers.playInstant();
- 		} 
-
- 	}		
- 	
- 	// On something dies
-	@OnlyIn(value = Dist.CLIENT)
- 	@SubscribeEvent(priority = EventPriority.NORMAL)
- 	public void onEntityDeath(LivingDeathEvent event) {
- 		DamageSource source = event.getSource();
-
- 		// When Player kills something
- 		if (source.getTrueSource() instanceof PlayerEntity & event.getEntity() == Minecraft.getInstance().player) {
- 			attacked = false;
- 		}
-
- 		// When Player dies
- 		if (event.getEntity() instanceof PlayerEntity & event.getEntity() == Minecraft.getInstance().player) {
- 			attacked = false;
- 		}
-
- 	}	*/
 }

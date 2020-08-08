@@ -10,12 +10,15 @@
 	"GUI.SelectSoundLbl": "Selecionar Som:",
 	"GUI.PlayAtNight": "Tocar a noite?",
 	"GUI.CreateArea": "Criar Regiao",
+	"GUI.EditArea": "Editar Regiao",
+	"GUI.CreateAreaError": "Defina um nome para a regiao!",
 
 	"item.ambience.soundnizer": "Soundnizer",
 	"Soundnizer.Position": "Posicao",
 	"Soundnizer.Alert": "Voce deve estar dentro de uma regiao selecionada para criar uma nova!",
 	"Soundnizer.Desc": "Configura uma regiao para tocar um som.",
 
+	"block.ambience.speaker": "Speaker",
 	"Alarm.Desc": "Toca um som e pisca a luz quando ativado por redstone",
 	"Speaker.Desc": "Toca um som quando ativado por redstone",
 	"Bell.Desc": "Sino sagrado do Conselho das Ovelhas",

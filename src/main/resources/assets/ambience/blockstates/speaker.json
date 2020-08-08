@@ -1,29 +1,26 @@
 {
-  "variants": {
-    "normal": {
-      "model": "ambience:speaker"
-    },
+  "variants": {   
     "facing=north": {
-      "model": "ambience:speaker"
+      "model": "ambience:block/speaker"
     },
     "facing=east": {
-      "model": "ambience:speaker",
+      "model": "ambience:block/speaker",
       "y": 90
     },
     "facing=south": {
-      "model": "ambience:speaker",
+      "model": "ambience:block/speaker",
       "y": 180
     },
     "facing=west": {
-      "model": "ambience:speaker",
+      "model": "ambience:block/speaker",
       "y": 270
     },
     "facing=up": {
-      "model": "ambience:speaker",
+      "model": "ambience:block/speaker",
       "x": 270
     },
     "facing=down": {
-      "model": "ambience:speaker",
+      "model": "ambience:block/speaker",
       "x": 90
     }
   }

@@ -43,7 +43,7 @@ private CompoundNBT data;
 
     	// The value that was sent
     	Area area = Area.DeSerialize(data);
-    	 
+    	
     	context.get().enqueueWork(() -> {
     		
     		//if (ctx.getDirection().getReceptionSide().isClient() && ctx.getDirection().getOriginationSide().isServer()) {
@@ -53,7 +53,7 @@ private CompoundNBT data;
     		//
     		//SERVER SIDE
     		//
-    		if(FMLEnvironment.dist == Dist.DEDICATED_SERVER) {
+    		//if(FMLEnvironment.dist == Dist.DEDICATED_SERVER) {
     			ServerWorld world=ctx.getSender().server.getWorld(DimensionType.getById(area.getDimension()));
     		
     			WorldData data = new WorldData().GetArasforWorld(world);
@@ -77,7 +77,7 @@ private CompoundNBT data;
 
  				Ambience.getWorldData().listAreas = data.listAreas;
  				Ambience.sync = true;
-    		}
+    		//}
     		
 	    });
     	

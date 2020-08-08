@@ -77,12 +77,41 @@ public class EventHandlers {
 			ClientRegistry.registerKeyBinding(keyBindings[i]);
 		}
 	}
+	
+	@SubscribeEvent
+	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+		// check each enumerated key binding type for pressed and take appropriate
+		// action
+		if (keyBindings[0].isPressed()) {
+			SongPicker.reset();
+			//Ambience.thread.forceKill();			
+			//Ambience.thread.run();
+			SongLoader.loadFrom(Ambience.ambienceDir);
 
-	/*@SubscribeEvent
-	public static void clientRegistries(FMLClientSetupEvent event){
-		//Registra as telas
-		ScreenManager.registerFactory(ModContainerTypes.GUI_CONTAINER.get(), CreateAreaScreen::new);			
-	}*/
+			//if (SongLoader.enabled)
+				//Ambience.thread = new PlayerThread();
+
+			Minecraft mc = Minecraft.getInstance();
+			MusicTicker ticker = new NilMusicTicker(mc);
+
+			ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
+		}
+		
+		if (keyBindings[1].isPressed()) {
+			//SongPicker.reset();
+			Ambience.thread.forceKill();			
+			Ambience.thread.run();
+			SongLoader.loadFrom(Ambience.ambienceDir);
+
+			if (SongLoader.enabled)
+				Ambience.thread = new PlayerThread();
+
+			Minecraft mc = Minecraft.getInstance();
+			MusicTicker ticker = new NilMusicTicker(mc);
+			ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
+		}
+	}
+
 	
 	@SubscribeEvent
 	public static void onTick(final ClientTickEvent event) {
@@ -182,39 +211,7 @@ public class EventHandlers {
 			}
 	}
 	
-	@SubscribeEvent
-	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		// check each enumerated key binding type for pressed and take appropriate
-		// action
-		if (keyBindings[0].isPressed()) {
-			SongPicker.reset();
-			//Ambience.thread.forceKill();			
-			//Ambience.thread.run();
-			SongLoader.loadFrom(Ambience.ambienceDir);
-
-			//if (SongLoader.enabled)
-				//Ambience.thread = new PlayerThread();
-
-			Minecraft mc = Minecraft.getInstance();
-			MusicTicker ticker = new NilMusicTicker(mc);
-
-			ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
-		}
-		
-		if (keyBindings[1].isPressed()) {
-			//SongPicker.reset();
-			Ambience.thread.forceKill();			
-			Ambience.thread.run();
-			SongLoader.loadFrom(Ambience.ambienceDir);
-
-			if (SongLoader.enabled)
-				Ambience.thread = new PlayerThread();
-
-			Minecraft mc = Minecraft.getInstance();
-			MusicTicker ticker = new NilMusicTicker(mc);
-			ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
-		}
-	}
+	
 
 	public static void changeSongTo(String song) 
 	{		

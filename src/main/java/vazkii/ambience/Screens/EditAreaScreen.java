@@ -12,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -22,8 +23,9 @@ import vazkii.ambience.network.AmbiencePackageHandler;
 import vazkii.ambience.network.MyMessage;
 
 @OnlyIn(Dist.CLIENT)
-public class CreateAreaScreen extends ContainerScreen<GuiContainerMod> {
+public class EditAreaScreen extends ContainerScreen<EditAreaContainer> {
 
+	private Area currentArea=new Area("Area1");
 	private Button cancelBtn;
 	private Button confirmBtn;
 	private TextFieldWidget AreaName;
@@ -32,13 +34,15 @@ public class CreateAreaScreen extends ContainerScreen<GuiContainerMod> {
 	private static final ResourceLocation textureBackground = new ResourceLocation("ambience:textures/gui/edit_window_back.png");
 	private boolean error;
 
-	public CreateAreaScreen(GuiContainerMod screenContainer, PlayerInventory inv, ITextComponent titleIn) {
+	public EditAreaScreen(EditAreaContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
 		super(screenContainer, inv, titleIn);
 		this.guiLeft = 0;
 		this.guiTop = 0;
 		// this.xSize = 232;
 		// this.ySize = 112;
-
+		this.currentArea=EditAreaContainer.currentArea;
+		
+		
 		this.cancelBtn = new Button(this.width / 2 - 105, this.height / 4 + 120, 100, 20,
 				I18n.format("GUI.CancelButton"), (close) -> {					
 					this.close();
@@ -52,14 +56,13 @@ public class CreateAreaScreen extends ContainerScreen<GuiContainerMod> {
 						//inv.player.sendStatusMessage((ITextComponent)new TranslationTextComponent(I18n.format("GUI.CreateAreaError")),(true));
 						
 					}else {					
-						Ambience.selectedArea.setOperation(Operation.CREATE);
-						Ambience.selectedArea.setName(AreaName.getText());
-						Ambience.selectedArea.setInstantPlay(instaPlayChk.isChecked());
-						Ambience.selectedArea.setPlayAtNight(PlayatNight.isChecked());
-						AmbiencePackageHandler.sendToServer(new MyMessage(Ambience.selectedArea.SerializeThis()));
+						currentArea.setOperation(Operation.EDIT);
+						currentArea.setName(AreaName.getText());
+						currentArea.setInstantPlay(instaPlayChk.isChecked());
+						currentArea.setPlayAtNight(PlayatNight.isChecked());
+						AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));
 						Ambience.sync = true;
 	
-						Ambience.selectedArea=new Area("Area1");
 						this.close();
 					}
 				});
@@ -76,15 +79,14 @@ public class CreateAreaScreen extends ContainerScreen<GuiContainerMod> {
 
 		if (this.AreaName == null) {
 			this.AreaName = new TextFieldWidget(this.font, this.width / 2 - 80, this.height / 4 + 15, 160, 20, I18n.format("GUI.AreaNameField"));
-			AreaName.setText(I18n.format("GUI.AreaNameField"));
+			AreaName.setText(currentArea.getName());
 			AreaName.setFocused2(true);
 			AreaName.setVisible(true);
-			AreaName.setEnabled(false);
 
 			this.instaPlayChk = new CheckboxButton(this.width / 2 - 80, this.height / 4 + 50, 20, 20,
-					I18n.format("GUI.InstantPlayChk"), false);
+					I18n.format("GUI.InstantPlayChk"), currentArea.isInstantPlay());
 			this.PlayatNight = new CheckboxButton(this.width / 2 - 80, this.height / 4 + 80, 20, 20,
-					I18n.format("GUI.PlayAtNight"), false);
+					I18n.format("GUI.PlayAtNight"), currentArea.isPlayatNight());
 		}
 
 		confirmBtn.x = this.width / 2 + 5;
@@ -96,7 +98,7 @@ public class CreateAreaScreen extends ContainerScreen<GuiContainerMod> {
 		this.instaPlayChk.y = this.height / 2 - 5;
 		this.PlayatNight.x = this.width / 2 - 80;
 		this.PlayatNight.y = this.height / 2 + 20;
-
+		
 		this.AreaName.x = this.width / 2 - 80;
 		this.AreaName.y = this.height / 2 - 40;
 
@@ -123,7 +125,7 @@ public class CreateAreaScreen extends ContainerScreen<GuiContainerMod> {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-		this.drawCenteredString(this.font, I18n.format("GUI.CreateArea"), this.xSize / 2, this.ySize / 2 - 80,16777215);
+		this.drawCenteredString(this.font, I18n.format("GUI.EditArea"), this.xSize / 2, this.ySize / 2 - 80,16777215);
 		if(error)
 			this.drawCenteredString(this.font,"§4"+I18n.format("GUI.CreateAreaError"), this.xSize / 2 ,	this.ySize / 2 - 54, 16777215);
 	}
@@ -165,16 +167,11 @@ public class CreateAreaScreen extends ContainerScreen<GuiContainerMod> {
 					AreaName.charTyped(lowerCaseChar.charAt(0), p_keyPressed_2_);
 					error=false;
 				} else {
-					
-					//if(p_keyPressed_1_ == 69 340)
 					AreaName.charTyped((char) p_keyPressed_1_, p_keyPressed_2_);
 					error=false;
 				}
 			}
 		}
-		
-		if(p_keyPressed_1_== 69)
-			return true;
 
 		return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 	}
@@ -208,7 +205,6 @@ public class CreateAreaScreen extends ContainerScreen<GuiContainerMod> {
 		
 		if(AreaName.getText().contains(I18n.format("GUI.AreaNameField")) & clicked) {
 			AreaName.setText("");
-			AreaName.setEnabled(true);
 		}
 
 		return super.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
