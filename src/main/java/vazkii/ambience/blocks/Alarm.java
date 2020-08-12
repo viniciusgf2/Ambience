@@ -39,6 +39,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.ambience.Screens.SpeakerContainer;
 import vazkii.ambience.Util.ModTileEntityTypes;
@@ -49,7 +50,7 @@ import vazkii.ambience.network.MyMessage;
 
 public class Alarm extends Block {
 
-	public boolean isLit=false;
+	public static boolean isLit=false;
 	public String color;  
 	
 	private boolean red = false;
@@ -58,6 +59,9 @@ public class Alarm extends Block {
 	public static boolean loop = true;
 	public static float Distance = 1;
 	public static final DirectionProperty FACING = DirectionalBlock.FACING;
+	public static AlarmTileEntity tileEntity;
+	
+	
 	public static final VoxelShape SHAPE_N = Stream.of(Block.makeCuboidShape(2, 2, 15, 14, 14, 16),
 			Block.makeCuboidShape(2, 3, 14, 3, 13, 15), Block.makeCuboidShape(13, 3, 14, 14, 13, 15),
 			Block.makeCuboidShape(2, 2, 14, 14, 3, 15), Block.makeCuboidShape(2, 13, 14, 14, 14, 15))
@@ -101,20 +105,27 @@ public class Alarm extends Block {
 	public static SoundType soundType=SoundType.WOOD;
 	public static int lightValue=0;
 
-	public Alarm(String color) {
+	public Alarm(String color,Boolean isLit) {
 		super(Block.Properties.create(material)
 				.hardnessAndResistance(2.0f, 5.0f)
 				.sound(soundType)
 				.harvestLevel(1)
 				.harvestTool(ToolType.PICKAXE)
-				.lightValue(lightValue));
+				.lightValue(isLit? 16:0)
+				);
 		
-		
-		this.color=color;
-				
+		Alarm.isLit=isLit;
+		this.color=color;				
 	}
-	
-	
+
+	@Override
+	public int getLightValue(BlockState state) {		
+		if(isLit)
+			return 16;
+		else
+			return 0;
+		//return super.getLightValue(state);
+	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -245,12 +256,14 @@ public class Alarm extends Block {
 		return SelectedItemIndex;
 	}
 
+	public static BlockPos position;
 	@Override
 	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos,
 			boolean isMoving) {
 		super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
 
-		this.selectedSound=((AlarmTileEntity) worldIn.getTileEntity(pos)).selectedSound;
+		this.position=pos;
+		//this.selectedSound=((AlarmTileEntity) worldIn.getTileEntity(pos)).selectedSound;
 		int x = pos.getX();
 		int y = pos.getY();
 		int z = pos.getZ();
@@ -327,41 +340,64 @@ public class Alarm extends Block {
 	}
 	
 	//Acende e apaga a luz
-	public void setState(boolean active, World worldIn, BlockPos pos, String color) {		
+	public void setState(boolean active, World worldIn, BlockPos pos, String color, String selectedSound) {		
 			BlockState iblockstate = worldIn.getBlockState(pos);
 			TileEntity tileentity = worldIn.getTileEntity(pos);	
 						
-			this.color=color;
+			
+			//if(worldIn.isRemote)
 
-			
-			
+			this.tileEntity=(AlarmTileEntity) tileentity;
+			this.color=color;
 			
 			if (active) {	
+				
+				if(selectedSound!="")
+				Alarm.selectedSound=selectedSound;
+				//else
+				//	Alarm.selectedSound="gas";
+					
 				switch (color) {
-					case "white" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_WHITE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-					case "red" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_RED.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-					case "yellow" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_YELLOW.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-					case "orange" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_ORANGE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-					case "lime" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_LIME.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-					case "green" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_GREEN.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-					case "cyan" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_CYAN.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;				
-					case "lightblue" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_LIGHTBLUE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-					case "blue" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_BLUE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-					case "purple" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_PURPLE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-					case "magenta" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_MAGENTA.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-					case "pink" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_PINK.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-					case "brown" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_BROWN.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
+					case "white" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_WHITE_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
+					case "red" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_RED_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 1); getLightValue(this.getDefaultState());break;
+					case "yellow" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_YELLOW_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
+					case "orange" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_ORANGE_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
+					case "lime" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_LIME_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
+					case "green" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_GREEN_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
+					case "cyan" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_CYAN_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
+					case "lightblue" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_LIGHTBLUE_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
+					case "blue" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_BLUE_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
+					case "purple" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_PURPLE_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
+					case "magenta" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_MAGENTA_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
+					case "pink" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_PINK_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
+					case "brown" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_BROWN_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
 				}
 				
 				
-			} else {				
-				worldIn.setBlockState(pos,RegistryHandler.block_Alarm_WHITE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);			
+				
+			} else {
+				switch (color) {
+					case "lit_white" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_WHITE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 1);break;
+					case "lit_red" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_RED.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 1);break;
+					case "lit_yellow" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_YELLOW.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 1);break;
+					case "lit_orange" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_ORANGE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 1);break;
+					case "lit_lime" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_LIME.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 1);break;
+					case "lit_green" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_GREEN.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 1);break;
+					case "lit_cyan" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_CYAN.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 1);break;
+					case "lit_lightblue" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_LIGHTBLUE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 1);break;
+					case "lit_blue" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_BLUE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 1);break;
+					case "lit_purple" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_PURPLE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 1);break;
+					case "lit_magenta" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_MAGENTA.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 1);break;
+					case "lit_pink" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_PINK.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 1);break;
+					case "lit_brown" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_BROWN.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 1);break;
+				}
+				//worldIn.setBlockState(pos,RegistryHandler.block_Alarm_WHITE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);			
 			}
 	
-			if (tileentity != null) {
+			/*if (tileentity != null) {
 				tileentity.validate();
 				worldIn.setTileEntity(pos, tileentity);
-			}	
+			}*/	
 	}
 
 	@Override
@@ -396,22 +432,83 @@ public class Alarm extends Block {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+				
+		/*if(this.hasTileEntity() & this.tileEntity!=null) {
+			String test=((AlarmTileEntity) world.getTileEntity(this.tileEntity.getPos())).selectedSound;
+		}*/
 		
-		switch(color) {
-			case "white" : return ModTileEntityTypes.ALARM_WHITE.get().create();
-			case "red" :return ModTileEntityTypes.ALARM_RED.get().create();
-			case "yellow" :return ModTileEntityTypes.ALARM_YELLOW.get().create();
-			case "orange" :return ModTileEntityTypes.ALARM_ORANGE.get().create();
-			case "lime" : return ModTileEntityTypes.ALARM_LIME.get().create();
-			case "green" :return ModTileEntityTypes.ALARM_GREEN.get().create();
-			case "cyan" :return ModTileEntityTypes.ALARM_CYAN.get().create();		
-			case "lightblue" :return ModTileEntityTypes.ALARM_LIGHTBLUE.get().create();
-			case "blue" :return ModTileEntityTypes.ALARM_BLUE.get().create();
-			case "purple" :return ModTileEntityTypes.ALARM_PURPLE.get().create();
-			case "magenta" :return ModTileEntityTypes.ALARM_MAGENTA.get().create();
-			case "pink" :return ModTileEntityTypes.ALARM_PINK.get().create();
-			case "brown" :return ModTileEntityTypes.ALARM_BROWN.get().create();
-		}
+	//	if(this.tileEntity!=null)
+	//	
+		//System.out.println(this.color + "   "+ this.selectedSound);
+		
+		 AlarmTileEntity alarm=null;
+		 
+		 if(this.tileEntity!=null)
+		 {
+			 alarm=this.tileEntity;
+			 
+				switch(color) {
+					case "white" : return new AlarmTileEntity("white",false,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "red" : return new AlarmTileEntity("red",false,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);					
+					case "yellow" : return new AlarmTileEntity("yellow",false,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "orange" : return new AlarmTileEntity("orange",false,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "lime" :  return new AlarmTileEntity("lime",false,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "green" : return new AlarmTileEntity("green",false,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "cyan" : return new AlarmTileEntity("cyan",false,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);		
+					case "lightblue" : return new AlarmTileEntity("lightblue",false,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "blue" : return new AlarmTileEntity("blue",false,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "purple" : return new AlarmTileEntity("purple",false,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "magenta" : return new AlarmTileEntity("magenta",false,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "pink" : return new AlarmTileEntity("pink",false,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "brown" : return new AlarmTileEntity("brown",false,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					
+					case "lit_white" : return new AlarmTileEntity("lit_white",true,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "lit_red" : return new AlarmTileEntity("lit_red",true,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "lit_yellow" : return new AlarmTileEntity("lit_yellow",true,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "lit_orange" : return new AlarmTileEntity("lit_orange",true,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "lit_lime" : return new AlarmTileEntity("lit_lime",true,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "lit_green" : return new AlarmTileEntity("lit_green",true,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "lit_cyan" : return new AlarmTileEntity("lit_cyan",true,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "lit_lightblue" : return new AlarmTileEntity("lit_lightblue",true,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "lit_blue" : return new AlarmTileEntity("lit_blue",true,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "lit_purple" : return new AlarmTileEntity("lit_purple",true,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "lit_magenta" : return new AlarmTileEntity("lit_magenta",true,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "lit_pink" : return new AlarmTileEntity("lit_pink",true,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+					case "lit_brown" : return new AlarmTileEntity("lit_brown",true,alarm.selectedSound,alarm.delay,alarm.distance,alarm.cooldown);
+			}
+		 }else {
+				switch(color) {
+					case "white" : return new AlarmTileEntity("lit_white",false);
+					case "red" : return new AlarmTileEntity("red",false);
+					case "yellow" :return new AlarmTileEntity("lit_yellow",false);
+					case "orange" : return new AlarmTileEntity("lit_orange",false);
+					case "lime" :  return new AlarmTileEntity("lit_lime",false);
+					case "green" : return new AlarmTileEntity("lit_green",false);
+					case "cyan" :return new AlarmTileEntity("lit_cyan",false);		
+					case "lightblue" : return new AlarmTileEntity("lit_lightblue",false);
+					case "blue" :return new AlarmTileEntity("lit_blue",false);
+					case "purple" :return new AlarmTileEntity("lit_purple",false);
+					case "magenta" :return new AlarmTileEntity("lit_magenta",false);
+					case "pink" :return new AlarmTileEntity("lit_pink",false);
+					case "brown" : return new AlarmTileEntity("lit_brown",false);
+
+					case "lit_white" : return new AlarmTileEntity("lit_white",true);
+					case "lit_red" : return new AlarmTileEntity("lit_red",true);
+					case "lit_yellow" : return new AlarmTileEntity("lit_yellow",true);
+					case "lit_orange" : return new AlarmTileEntity("lit_orange",true);
+					case "lit_lime" : return new AlarmTileEntity("lit_lime",true);
+					case "lit_green" : return new AlarmTileEntity("lit_green",true);
+					case "lit_cyan" : return new AlarmTileEntity("lit_cyan",true);
+					case "lit_lightblue" : return new AlarmTileEntity("lit_lightblue",true);
+					case "lit_blue" : return new AlarmTileEntity("lit_blue",true);
+					case "lit_purple" : return new AlarmTileEntity("lit_purple",true);
+					case "lit_magenta" : return new AlarmTileEntity("lit_magenta",true);
+					case "lit_pink" : return new AlarmTileEntity("lit_pink",true);
+					case "lit_brown" : return new AlarmTileEntity("lit_brown",true);
+			}
+		 }
+		
+	
 		//RegistryHandler.BLOCKS.getEntries();
 		return ModTileEntityTypes.ALARM_RED.get().create();
 	}

@@ -41,7 +41,7 @@ public class SpeakerTileEntity extends TileEntity implements ITickableTileEntity
 	}
 	
 	public SpeakerTileEntity(String Color) {
-		this(ModTileEntityTypes.getAlarmByColor2(Color));
+		this(ModTileEntityTypes.SPEAKER.get());
 		
 		this.isAlarm=true;
 		
@@ -94,7 +94,7 @@ public class SpeakerTileEntity extends TileEntity implements ITickableTileEntity
 		return super.write(nbt);
 	}
 	
-	int countLight=0;
+	/*int countLight=0;
 	Speaker parent;
 	private void UpdateLight(boolean syncWithSound) {
 		
@@ -136,13 +136,13 @@ public class SpeakerTileEntity extends TileEntity implements ITickableTileEntity
 			}	
 		}
 	}
-
+*/
 	@Override
 	public void tick() {
 		
 
 		
-		UpdateLight(false);
+		//UpdateLight(false);
 		
 		try {
 			if (songLenght == 0 & selectedSound != "")
@@ -161,7 +161,7 @@ public class SpeakerTileEntity extends TileEntity implements ITickableTileEntity
 						this.cooldown =  delay + (songLenght * 20);
 
 						Speaker.selectedSound=selectedSound;
-						UpdateLight(true);
+						//UpdateLight(true);
 								
 						this.getWorld().playSound((PlayerEntity) null, this.pos.getX(), this.pos.getY(), this.pos.getZ(),
 								ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:" + selectedSound)),

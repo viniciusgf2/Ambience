@@ -15,10 +15,10 @@ import vazkii.ambience.Util.ModTileEntityTypes;
 import vazkii.ambience.network.AmbiencePackageHandler;
 import vazkii.ambience.network.MyMessage;
 
-public class AlarmTileEntity extends SpeakerTileEntity implements ITickableTileEntity{
+public class AlarmTileEntity extends TileEntity implements ITickableTileEntity{
 
 	public int cooldown;
-	public String selectedSound = "";
+	public String selectedSound="";
 	public boolean isPowered = false;
 	public int delay = 30;
 	public boolean loop = true;
@@ -53,6 +53,31 @@ public class AlarmTileEntity extends SpeakerTileEntity implements ITickableTileE
 		this.color=Color;
 		cooldown = 0;
 		delay = 30;
+	}
+	
+	public AlarmTileEntity(String Color,boolean isOn,String selectedSound,int delay,int distance,int cooldown) {
+		//this(ModTileEntityTypes.ALARM_RED.get());
+		this(ModTileEntityTypes.getAlarmByColor(Color));
+		
+		this.selectedSound=selectedSound;
+		
+		//this.songLenght=6;
+		this.isOn=isOn;
+		this.color=Color;
+		this.cooldown = cooldown;
+		this.delay = delay;
+		this.distance=distance;
+	}
+	
+	public AlarmTileEntity(String Color,boolean isOn) {
+		//this(ModTileEntityTypes.ALARM_RED.get());
+		this(ModTileEntityTypes.getAlarmByColor(Color));
+		
+		this.isOn=isOn;
+		this.color=Color;
+		cooldown = 0;
+		this.delay = delay;
+		this.distance=distance;
 	}
 	
 	public AlarmTileEntity() {
@@ -108,44 +133,97 @@ public class AlarmTileEntity extends SpeakerTileEntity implements ITickableTileE
 				parent=(Alarm)blockAlarm;
 		}else {
 		
-				this.countLight++;
 				
-				if(countLight>17 & isOn) {											
-					parent.setState(false, this.world, this.pos, this.color);	
-					isOn=false;
+				if(syncWithSound) {		
+					
+					/*if(countLight>27 & world.isBlockPowered(pos)) 
+					{
+						parent.setState(false, this.world, this.pos, this.color, this.selectedSound);	
+						isOn=false;	
+						this.countLight=0;	
+					}*/
+
+					if(countLight>15 & !isOn) {						
+						parent.setState(true, this.world, this.pos, this.color, this.selectedSound);	
+						isOn=true;
+					}
+					else {
+						parent.setState(false, this.world, this.pos, this.color, this.selectedSound);	
+						isOn=false;
+						countLight=0;
+					}
+					
 				}	
 				
-			if(songLenght>2 & !syncWithSound)
-			{	
-				if((countLight>0 & countLight<17) & world.isBlockPowered(pos) & !isOn) {
-					parent.setState(true, this.world, this.pos, this.color);		
+				
+			/*	if(countLight>57 & isOn & world.isBlockPowered(pos) & syncWithSound) {											
+					parent.setState(false, this.world, this.pos, this.color, this.selectedSound);	
+					isOn=false;
+				}	
+				if(countLight>27 & !isOn & world.isBlockPowered(pos) & syncWithSound) {											
+					parent.setState(true, this.world, this.pos, this.color, this.selectedSound);	
 					isOn=true;
 				}
 				
-				if(countLight>30)
-					countLight=0;
+			if(songLenght>2 & !syncWithSound)
+			{	
+				if((countLight>27 & countLight<47) & world.isBlockPowered(pos) & !isOn) {
+					parent.setState(true, this.world, this.pos, this.color, this.selectedSound);		
+					isOn=true;
+				}else if(countLight>67  & world.isBlockPowered(pos) & isOn) {
+					parent.setState(false, this.world, this.pos, this.color, this.selectedSound);		
+					isOn=false;
+				}
+				
+				System.out.println(""+countLight);
+			//	if(countLight>60)
+				//	countLight=0;
 			}
+			else if(songLenght<2 & !syncWithSound & world.isBlockPowered(pos) & isOn & countLight>27 ) {
+				isOn=false;
+				parent.setState(false, this.world, this.pos, this.color, this.selectedSound);
+			}	
 					
 			if(syncWithSound & songLenght<=2) {		
-				parent.setState(true, this.world, this.pos, this.color);		
+				parent.setState(true, this.world, this.pos, this.color, this.selectedSound);		
 				isOn=true;	
 				this.countLight=0;		
 			}	
+			*/
+			
+			
 			
 			//Desliga a luz caso não receba sinal de redstone
-			if(world.isBlockPowered(pos) & isOn) {
+			/*if(!world.isBlockPowered(pos)) {
 				isOn=false;
-				parent.setState(false, this.world, this.pos, this.color);
-			}	
+				parent.setState(false, this.world, this.pos, this.color, this.selectedSound);
+			}*/	
 		}
 	}
 
 	@Override
 	public void tick() {
 		
+		//Desliga a luz caso não receba sinal de redstone
+		if(!world.isBlockPowered(pos) & isOn) {			
+			if(parent == null) {
+				Block blockAlarm=this.world.getBlockState(pos).getBlock();
+				if(blockAlarm instanceof Alarm)
+					parent=(Alarm)blockAlarm;
+			}else {
+				isOn=false;
+				parent.setState(false, this.world, this.pos, this.color, this.selectedSound);
+			}
+		}else{
+			if(this.countLight<150) {
+				this.countLight++;
 
+				//System.out.println(countLight);
+			}
+		}
 		
-		UpdateLight(false);
+		
+		//UpdateLight(false);
 		
 		try {
 			if (songLenght == 0 & selectedSound != "")
@@ -166,7 +244,10 @@ public class AlarmTileEntity extends SpeakerTileEntity implements ITickableTileE
 
 						Alarm.selectedSound=selectedSound;
 						UpdateLight(true);
-								
+						/*countLight=0;
+						isOn=false;
+							*/
+						
 						this.getWorld().playSound((PlayerEntity) null, this.pos.getX(), this.pos.getY(), this.pos.getZ(),
 								ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:" + selectedSound)),
 								SoundCategory.NEUTRAL, (float) distance, (float) 1);
