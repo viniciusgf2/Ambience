@@ -9,7 +9,6 @@ import net.minecraft.util.math.BlockPos;
 import vazkii.ambience.Util.ModContainerTypes;
 
 public class GuiContainerMod extends Container {
-
 	
 	public GuiContainerMod(final int windowId, final PlayerInventory playerInventory,final PacketBuffer extraData) {
 		super(ModContainerTypes.CREATEAREA_CONTAINER.get(), windowId);

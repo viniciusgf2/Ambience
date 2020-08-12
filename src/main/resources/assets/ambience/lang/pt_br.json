@@ -12,7 +12,8 @@
 	"GUI.CreateArea": "Criar Regiao",
 	"GUI.EditArea": "Editar Regiao",
 	"GUI.CreateAreaError": "Defina um nome para a regiao!",
-
+	"GUI.Distance": "Distancia:",
+	
 	"item.ambience.soundnizer": "Soundnizer",
 	"Soundnizer.Position": "Posicao",
 	"Soundnizer.Alert": "Voce deve estar dentro de uma regiao selecionada para criar uma nova!",

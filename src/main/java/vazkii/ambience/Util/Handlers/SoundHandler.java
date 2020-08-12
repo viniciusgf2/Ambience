@@ -1,7 +1,24 @@
 package vazkii.ambience.Util.Handlers;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import vazkii.ambience.Ambience;
+
 public class SoundHandler {
-/*
+
 	public static final List<String> SOUNDS = new ArrayList<String>();
 
 	public SoundHandler() {
@@ -24,7 +41,7 @@ public class SoundHandler {
 				for (int i = 1; i < arrOfStr.length; i++) {
 					String SoundName = arrOfStr[i].split("\",\"")[0].substring(9);
 					
-					ResourceLocation location = new ResourceLocation(Reference.MOD_ID, SoundName);
+					ResourceLocation location = new ResourceLocation(Ambience.MODID, SoundName);
 					SoundEvent soundEvent = new SoundEvent(location);
 					soundEvent.setRegistryName(SoundName);
 					ForgeRegistries.SOUND_EVENTS.register(soundEvent);
@@ -38,17 +55,5 @@ public class SoundHandler {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-
-		ResourceLocation location = new ResourceLocation(Reference.MOD_ID, "bell1");
-		SoundEvent soundEvent = new SoundEvent(location);
-		soundEvent.setRegistryName("bell1");
-		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
-		SOUNDS.add("bell1");
-		
-		location = new ResourceLocation(Reference.MOD_ID, "bell2");
-		soundEvent = new SoundEvent(location);
-		soundEvent.setRegistryName("bell2");
-		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
-		SOUNDS.add("bell2");
-	}*/
+	}
 }

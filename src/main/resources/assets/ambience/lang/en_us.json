@@ -12,6 +12,7 @@
 	"GUI.CreateArea": "Create Region",
 	"GUI.EditArea": "Edit Region",
 	"GUI.CreateAreaError": "Define a name for the region!",
+	"GUI.Distance": "Distance:",
 	
 
 

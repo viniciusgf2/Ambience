@@ -2,6 +2,8 @@ package vazkii.ambience;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,10 +12,9 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
-import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -29,13 +30,13 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import vazkii.ambience.Screens.CreateAreaScreen;
 import vazkii.ambience.Util.ModContainerTypes;
+import vazkii.ambience.Util.ModTileEntityTypes;
 import vazkii.ambience.Util.RegistryHandler;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.Util.Handlers.EventHandlers;
 import vazkii.ambience.Util.Handlers.EventHandlersServer;
+import vazkii.ambience.Util.Handlers.SoundHandler;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.network.AmbiencePackageHandler;
 
@@ -93,6 +94,7 @@ public class Ambience {
 	*/
 			
 	public Ambience() {
+				
 		//Register the Config File
 		ModLoadingContext.get().registerConfig(Type.COMMON, AmbienceConfig.COMMON_SPEC, "ambience-common.toml");
         // Register the setup method for modloading
@@ -107,6 +109,7 @@ public class Ambience {
         //Registra o container das janelas
         IEventBus bus=FMLJavaModLoadingContext.get().getModEventBus();
         ModContainerTypes.CONTAINER_TYPES.register(bus);
+        ModTileEntityTypes.TILE_ENTITY_TYPES.register(bus);
         
         
       
@@ -144,13 +147,13 @@ public class Ambience {
 	//PREINIT
 	private void setup(final FMLCommonSetupEvent event)
     {							
-		File configDir = new File(Paths.get("").toAbsolutePath().toString());
+		/*File configDir = new File(Paths.get("").toAbsolutePath().toString());
 		ambienceDir = new File(configDir, "ambience_music");
 		if(!ambienceDir.exists())
 			ambienceDir.mkdir();
 		
 		resourcesDir = new File(configDir.getParentFile(), "resourcepacks\\AmbienceSounds\\assets\\ambience");
-			
+			*/
 						
     }
 
@@ -206,6 +209,19 @@ public class Ambience {
             // register a new block here
             LOGGER.info("HELLO from Register Block");
         }
+        
+        @SubscribeEvent
+    	public static void onSoundRegister(final RegistryEvent.Register<SoundEvent> event) {
+        	File configDir = new File(Paths.get("").toAbsolutePath().toString());
+    		ambienceDir = new File(configDir, "ambience_music");
+    		if(!ambienceDir.exists())
+    			ambienceDir.mkdir();
+    		
+    		resourcesDir = new File(configDir, "resourcepacks\\AmbienceSounds\\assets\\ambience");
+    			
+        	
+        	SoundHandler.registerSounds();
+    	}
     }
 	
     //Registra a Creative Tab

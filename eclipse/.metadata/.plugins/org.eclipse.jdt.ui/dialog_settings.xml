@@ -10,13 +10,14 @@
 	</section>
 	<section name="completion_proposal_size">
 		<item key="size.x" value="593"/>
-		<item key="size.y" value="392"/>
+		<item key="size.y" value="393"/>
 	</section>
 	<section name="quick_assist_proposal_size">
 	</section>
 	<section name="JavaElementSearchActions">
 	</section>
 	<section name="RenameInformationPopup">
+		<item key="snap_position" value="2"/>
 	</section>
 	<section name="org.eclipse.ltk.ui.refactoring.settings">
 	</section>
@@ -29,10 +30,10 @@
 		<item key="Comments" value="false"/>
 	</section>
 	<section name="DialogBounds_OverrideMethodDialog">
-		<item key="DIALOG_X_ORIGIN" value="865"/>
-		<item key="DIALOG_Y_ORIGIN" value="238"/>
-		<item key="DIALOG_WIDTH" value="524"/>
-		<item key="DIALOG_HEIGHT" value="513"/>
+		<item key="DIALOG_X_ORIGIN" value="656"/>
+		<item key="DIALOG_Y_ORIGIN" value="73"/>
+		<item key="DIALOG_WIDTH" value="680"/>
+		<item key="DIALOG_HEIGHT" value="896"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
 	</section>
 	<section name="OptionalMessageDialog.hide.">

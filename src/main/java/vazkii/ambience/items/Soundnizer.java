@@ -31,6 +31,7 @@ import vazkii.ambience.Screens.GuiContainerMod;
 import vazkii.ambience.Util.Border;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.World.Biomes.Area;
+import vazkii.ambience.blocks.Speaker;
 
 public class Soundnizer extends ItemBase {
 
@@ -64,11 +65,16 @@ public class Soundnizer extends ItemBase {
 			rightclick=true;
 			firstclick=true;
 			
+			String blockName="";
 			if(lookingAt.hitInfo == null && lookingAt.getType() != RayTraceResult.Type.BLOCK) {
-				firstclick=false;
+				firstclick=false;				
+			}else {
+				blockName=worldIn.getBlockState(((BlockRayTraceResult)lookingAt).getPos()).getBlock().getRegistryName().getPath();
 			}
 			
-			if (lookingAt != null && lookingAt.getType() == RayTraceResult.Type.BLOCK) {
+			
+			//& !testBlock.contains("Speaker") & !testBlock.contains("Alarm")
+			if (lookingAt != null && lookingAt.getType() == RayTraceResult.Type.BLOCK & !blockName.contains("speaker") & !blockName.contains("alarm")) {
 				BlockPos Position2 =((BlockRayTraceResult)lookingAt).getPos();
 				
 				if (!playerIn.isSneaking()) {
@@ -93,11 +99,10 @@ public class Soundnizer extends ItemBase {
 			}
 		}
 
-		System.out.println(FMLEnvironment.dist);
 			
-			//Server
-			//if (!worldIn.isRemote & lookingAt.hitInfo == null && lookingAt.getType() != RayTraceResult.Type.BLOCK) {
-			if (!worldIn.isRemote) {
+		//Server
+		//if (!worldIn.isRemote & lookingAt.hitInfo == null && lookingAt.getType() != RayTraceResult.Type.BLOCK) {
+		if (!worldIn.isRemote) {
 					
 				Area currentArea = Area.getPlayerStandingArea(playerIn);
 								
@@ -145,7 +150,7 @@ public class Soundnizer extends ItemBase {
 						}
 					} else {
 						//EditAreaGUI.currentArea = currentArea;
-						if(!firstclick) {
+						if(!firstclick & (Ambience.selectedArea.getPos1()!=null & Ambience.selectedArea.getPos2()!=null )) {
 							int id = playerIn.getEntityId();								
 							 NetworkHooks.openGui((ServerPlayerEntity) playerIn, new INamedContainerProvider() {
 					                @Override

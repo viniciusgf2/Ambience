@@ -47,8 +47,11 @@ import vazkii.ambience.Util.Handlers.SoundHandler;
 import vazkii.ambience.network.AmbiencePackageHandler;
 import vazkii.ambience.network.MyMessage;
 
-public class Speaker extends Block {
+public class Alarm extends Block {
 
+	public boolean isLit=false;
+	public String color;  
+	
 	private boolean red = false;
 	public static String selectedSound = null;
 	public static int delaySound = 0;
@@ -98,8 +101,7 @@ public class Speaker extends Block {
 	public static SoundType soundType=SoundType.WOOD;
 	public static int lightValue=0;
 
-	public String color;  
-	public Speaker(String color) {
+	public Alarm(String color) {
 		super(Block.Properties.create(material)
 				.hardnessAndResistance(2.0f, 5.0f)
 				.sound(soundType)
@@ -188,14 +190,15 @@ public class Speaker extends Block {
 												
 				CompoundNBT tagCompound = new CompoundNBT();
 				
-				tagCompound.putInt("delay",((SpeakerTileEntity) worldIn.getTileEntity(pos)).delay); 
-				tagCompound.putString("selectedSound",((SpeakerTileEntity) worldIn.getTileEntity(pos)).selectedSound); 
+				tagCompound.putInt("delay",((AlarmTileEntity) worldIn.getTileEntity(pos)).delay); 
+				tagCompound.putString("selectedSound",((AlarmTileEntity) worldIn.getTileEntity(pos)).selectedSound); 
 				tagCompound.put("pos",getPosListTag(pos));
-				tagCompound.putBoolean("loop",((SpeakerTileEntity) worldIn.getTileEntity(pos)).loop);
-				tagCompound.putFloat("distance",((SpeakerTileEntity) worldIn.getTileEntity(pos)).distance); 
+				tagCompound.putBoolean("loop",((AlarmTileEntity) worldIn.getTileEntity(pos)).loop);
+				tagCompound.putFloat("distance",((AlarmTileEntity) worldIn.getTileEntity(pos)).distance); 
 				tagCompound.putString("openGui","open");
-				tagCompound.putInt("index", getListSelectedIndex(((SpeakerTileEntity) worldIn.getTileEntity(pos)).selectedSound));
+				tagCompound.putInt("index", getListSelectedIndex(((AlarmTileEntity) worldIn.getTileEntity(pos)).selectedSound));
 				tagCompound.putInt("dimension",player.dimension.getId());
+				tagCompound.putBoolean("isAlarm",true);
 				
 				AmbiencePackageHandler.sendToClient(new MyMessage(tagCompound), (ServerPlayerEntity) player);;
 									
@@ -209,13 +212,13 @@ public class Speaker extends Block {
 					public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
 
 						return new SpeakerContainer(player.getEntityId(),
-								((SpeakerTileEntity) worldIn.getTileEntity(pos)).delay,
-								((SpeakerTileEntity) worldIn.getTileEntity(pos)).selectedSound,
+								((AlarmTileEntity) worldIn.getTileEntity(pos)).delay,
+								((AlarmTileEntity) worldIn.getTileEntity(pos)).selectedSound,
 								pos,
-								((SpeakerTileEntity) worldIn.getTileEntity(pos)).loop,
-								((SpeakerTileEntity) worldIn.getTileEntity(pos)).distance, 
+								((AlarmTileEntity) worldIn.getTileEntity(pos)).loop,
+								((AlarmTileEntity) worldIn.getTileEntity(pos)).distance, 
 								"open",
-								getListSelectedIndex(((SpeakerTileEntity) worldIn.getTileEntity(pos)).selectedSound),
+								getListSelectedIndex(((AlarmTileEntity) worldIn.getTileEntity(pos)).selectedSound),
 								player.dimension.getId());
 					}
 				}, buf -> buf.writeInt(player.getEntityId()));
@@ -247,7 +250,7 @@ public class Speaker extends Block {
 			boolean isMoving) {
 		super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
 
-		this.selectedSound=((SpeakerTileEntity) worldIn.getTileEntity(pos)).selectedSound;
+		this.selectedSound=((AlarmTileEntity) worldIn.getTileEntity(pos)).selectedSound;
 		int x = pos.getX();
 		int y = pos.getY();
 		int z = pos.getZ();
@@ -255,22 +258,22 @@ public class Speaker extends Block {
 
 		if (worldIn.isBlockPowered(new BlockPos(x, y, z))) {
 
-			((SpeakerTileEntity) worldIn.getTileEntity(pos)).isPowered = true;
-			((SpeakerTileEntity) worldIn.getTileEntity(pos)).countPlay = 0;
+			((AlarmTileEntity) worldIn.getTileEntity(pos)).isPowered = true;
+			((AlarmTileEntity) worldIn.getTileEntity(pos)).countPlay = 0;
 
 		} else {
 
-			((SpeakerTileEntity) worldIn.getTileEntity(pos)).isPowered = false;
-			((SpeakerTileEntity) worldIn.getTileEntity(pos)).cooldown = 0;
+			((AlarmTileEntity) worldIn.getTileEntity(pos)).isPowered = false;
+			((AlarmTileEntity) worldIn.getTileEntity(pos)).cooldown = 0;
 
 			PlayerEntity player = (PlayerEntity) worldIn.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10,false);
 
 			if (player != null & player instanceof ServerPlayerEntity) {
 				// Manda msg pedido para parar o som no cliente
 				CompoundNBT tagCompound = new CompoundNBT();
-				tagCompound.putString("selectedSound", ((SpeakerTileEntity) worldIn.getTileEntity(pos)).selectedSound);
+				tagCompound.putString("selectedSound", ((AlarmTileEntity) worldIn.getTileEntity(pos)).selectedSound);
 				tagCompound.putString("stop", "stop");
-				tagCompound.putString("sound","ambience:"+((SpeakerTileEntity) worldIn.getTileEntity(pos)).selectedSound);
+				tagCompound.putString("sound","ambience:"+((AlarmTileEntity) worldIn.getTileEntity(pos)).selectedSound);
 							
 				AmbiencePackageHandler.sendToClient(new MyMessage(tagCompound), (ServerPlayerEntity) player);				
 			}
@@ -287,35 +290,6 @@ public class Speaker extends Block {
 		return posCompound;
 	}
 
-	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
-	}
-
-	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-	
-		switch(color) {
-		case "white" : return ModTileEntityTypes.ALARM_WHITE.get().create();
-		case "red" :return ModTileEntityTypes.ALARM_RED.get().create();
-		case "yellow" :return ModTileEntityTypes.ALARM_YELLOW.get().create();
-		case "orange" :return ModTileEntityTypes.ALARM_ORANGE.get().create();
-		case "lime" : return ModTileEntityTypes.ALARM_LIME.get().create();
-		case "green" :return ModTileEntityTypes.ALARM_GREEN.get().create();
-		case "cyan" :return ModTileEntityTypes.ALARM_CYAN.get().create();		
-		case "lightblue" :return ModTileEntityTypes.ALARM_LIGHTBLUE.get().create();
-		case "blue" :return ModTileEntityTypes.ALARM_BLUE.get().create();
-		case "purple" :return ModTileEntityTypes.ALARM_PURPLE.get().create();
-		case "magenta" :return ModTileEntityTypes.ALARM_MAGENTA.get().create();
-		case "pink" :return ModTileEntityTypes.ALARM_PINK.get().create();
-		case "brown" :return ModTileEntityTypes.ALARM_BROWN.get().create();
-		default: return ModTileEntityTypes.ALARM_RED.get().create();
-	}
-		
-		//return ModTileEntityTypes.ALARM_RED.get().create();
-	}
-	
-		
 
 	//Stops the Sound on Player Destroy
 	@Override
@@ -352,44 +326,94 @@ public class Speaker extends Block {
 		AmbiencePackageHandler.sendToClient(new MyMessage(tagCompound), (ServerPlayerEntity) player);
 	}
 	
-	//--------------------------------------
-	//ALARM---------------------------------
-	//--------------------------------------
 	//Acende e apaga a luz
-		public void setState(boolean active, World worldIn, BlockPos pos, String color) {		
-				BlockState iblockstate = worldIn.getBlockState(pos);
-				TileEntity tileentity = worldIn.getTileEntity(pos);	
-							
-				this.color=color;
+	public void setState(boolean active, World worldIn, BlockPos pos, String color) {		
+			BlockState iblockstate = worldIn.getBlockState(pos);
+			TileEntity tileentity = worldIn.getTileEntity(pos);	
+						
+			this.color=color;
 
-				
-				
-				
-				/*if (active) {	
-					switch (color) {
-						case "white" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_WHITE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "red" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_RED_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "yellow" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_YELLOW.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "orange" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_ORANGE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "lime" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_LIME.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "green" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_GREEN.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "cyan" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_CYAN.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;				
-						case "lightblue" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_LIGHTBLUE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "blue" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_BLUE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "purple" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_PURPLE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "magenta" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_MAGENTA.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "pink" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_PINK.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "brown" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_BROWN.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-					}
-					
-					
-				} else {				
-					worldIn.setBlockState(pos,RegistryHandler.block_Alarm_WHITE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);			
+			
+			
+			
+			if (active) {	
+				switch (color) {
+					case "white" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_WHITE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
+					case "red" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_RED.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
+					case "yellow" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_YELLOW.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
+					case "orange" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_ORANGE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
+					case "lime" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_LIME.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
+					case "green" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_GREEN.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
+					case "cyan" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_CYAN.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;				
+					case "lightblue" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_LIGHTBLUE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
+					case "blue" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_BLUE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
+					case "purple" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_PURPLE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
+					case "magenta" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_MAGENTA.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
+					case "pink" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_PINK.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
+					case "brown" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_BROWN.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
 				}
-		*/
-				if (tileentity != null) {
-					tileentity.validate();
-					worldIn.setTileEntity(pos, tileentity);
-				}	
+				
+				
+			} else {				
+				worldIn.setBlockState(pos,RegistryHandler.block_Alarm_WHITE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);			
+			}
+	
+			if (tileentity != null) {
+				tileentity.validate();
+				worldIn.setTileEntity(pos, tileentity);
+			}	
+	}
+
+	@Override
+	public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, TileEntity te,
+			ItemStack stack) {
+
+		
+		switch(((AlarmTileEntity)te).color) {
+			case "white" : state =RegistryHandler.block_Alarm_WHITE.get().getDefaultState();break;
+			case "red" :state =RegistryHandler.block_Alarm_RED.get().getDefaultState();break;
+			case "yellow" :state = RegistryHandler.block_Alarm_YELLOW.get().getDefaultState();break;
+			case "orange" :state = RegistryHandler.block_Alarm_ORANGE.get().getDefaultState();break;
+			case "lime" : state =RegistryHandler.block_Alarm_LIME.get().getDefaultState();break;
+			case "green" :state = RegistryHandler.block_Alarm_GREEN.get().getDefaultState();break;
+			case "cyan" :state =RegistryHandler.block_Alarm_CYAN.get().getDefaultState();break;				
+			case "lightblue" :state = RegistryHandler.block_Alarm_LIGHTBLUE.get().getDefaultState();break;
+			case "blue" :state =RegistryHandler.block_Alarm_BLUE.get().getDefaultState();break;
+			case "purple" :state = RegistryHandler.block_Alarm_PURPLE.get().getDefaultState();break;
+			case "magenta" :state = RegistryHandler.block_Alarm_MAGENTA.get().getDefaultState();break;
+			case "pink" :state =RegistryHandler.block_Alarm_PINK.get().getDefaultState();break;
+			case "brown" :state = RegistryHandler.block_Alarm_BROWN.get().getDefaultState();break;
+	}
+		
+		super.harvestBlock(worldIn, player, pos, state, te, stack);
+	}
+	
+	
+	@Override
+	public boolean hasTileEntity(BlockState state) {
+		return true;
+	}
+
+	@Override
+	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+		
+		switch(color) {
+			case "white" : return ModTileEntityTypes.ALARM_WHITE.get().create();
+			case "red" :return ModTileEntityTypes.ALARM_RED.get().create();
+			case "yellow" :return ModTileEntityTypes.ALARM_YELLOW.get().create();
+			case "orange" :return ModTileEntityTypes.ALARM_ORANGE.get().create();
+			case "lime" : return ModTileEntityTypes.ALARM_LIME.get().create();
+			case "green" :return ModTileEntityTypes.ALARM_GREEN.get().create();
+			case "cyan" :return ModTileEntityTypes.ALARM_CYAN.get().create();		
+			case "lightblue" :return ModTileEntityTypes.ALARM_LIGHTBLUE.get().create();
+			case "blue" :return ModTileEntityTypes.ALARM_BLUE.get().create();
+			case "purple" :return ModTileEntityTypes.ALARM_PURPLE.get().create();
+			case "magenta" :return ModTileEntityTypes.ALARM_MAGENTA.get().create();
+			case "pink" :return ModTileEntityTypes.ALARM_PINK.get().create();
+			case "brown" :return ModTileEntityTypes.ALARM_BROWN.get().create();
 		}
+		//RegistryHandler.BLOCKS.getEntries();
+		return ModTileEntityTypes.ALARM_RED.get().create();
+	}
+	
 }

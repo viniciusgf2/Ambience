@@ -1,30 +1,30 @@
 {
-  "variants": {    
+  "variants": {
     "facing=up": {
-      "model": "ambience:alarm_cyan",
+      "model": "ambience:block/alarm_cyan",
       "x": 0
     },
     "facing=down": {
-      "model": "ambience:alarm_cyan",
+      "model": "ambience:block/alarm_cyan",
       "x": 180
     },
     "facing=north": {
-      "model": "ambience:alarm_cyan",
+      "model": "ambience:block/alarm_cyan",
       "x": 90,
       "y": 0
     },
     "facing=south": {
-      "model": "ambience:alarm_cyan",
+      "model": "ambience:block/alarm_cyan",
       "x": 270,
       "y": 0
     },
     "facing=east": {
-      "model": "ambience:alarm_cyan",
+      "model": "ambience:block/alarm_cyan",
       "x": 90,
       "y": 90
     },
     "facing=west": {
-      "model": "ambience:alarm_cyan",
+      "model": "ambience:block/alarm_cyan",
       "x": 90,
       "y": 270
     }
