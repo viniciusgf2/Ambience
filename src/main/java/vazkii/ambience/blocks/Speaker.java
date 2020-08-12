@@ -98,7 +98,6 @@ public class Speaker extends Block {
 	public static SoundType soundType=SoundType.WOOD;
 	public static int lightValue=0;
 
-	public String color;  
 	public Speaker(String color) {
 		super(Block.Properties.create(material)
 				.hardnessAndResistance(2.0f, 5.0f)
@@ -106,10 +105,7 @@ public class Speaker extends Block {
 				.harvestLevel(1)
 				.harvestTool(ToolType.PICKAXE)
 				.lightValue(lightValue));
-		
-		
-		this.color=color;
-				
+								
 	}
 	
 	
@@ -294,25 +290,7 @@ public class Speaker extends Block {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-	
-		switch(color) {
-		case "white" : return ModTileEntityTypes.ALARM_WHITE.get().create();
-		case "red" :return ModTileEntityTypes.ALARM_RED.get().create();
-		case "yellow" :return ModTileEntityTypes.ALARM_YELLOW.get().create();
-		case "orange" :return ModTileEntityTypes.ALARM_ORANGE.get().create();
-		case "lime" : return ModTileEntityTypes.ALARM_LIME.get().create();
-		case "green" :return ModTileEntityTypes.ALARM_GREEN.get().create();
-		case "cyan" :return ModTileEntityTypes.ALARM_CYAN.get().create();		
-		case "lightblue" :return ModTileEntityTypes.ALARM_LIGHTBLUE.get().create();
-		case "blue" :return ModTileEntityTypes.ALARM_BLUE.get().create();
-		case "purple" :return ModTileEntityTypes.ALARM_PURPLE.get().create();
-		case "magenta" :return ModTileEntityTypes.ALARM_MAGENTA.get().create();
-		case "pink" :return ModTileEntityTypes.ALARM_PINK.get().create();
-		case "brown" :return ModTileEntityTypes.ALARM_BROWN.get().create();
-		default: return ModTileEntityTypes.ALARM_RED.get().create();
-	}
-		
-		//return ModTileEntityTypes.ALARM_RED.get().create();
+		return ModTileEntityTypes.SPEAKER.get().create();			
 	}
 	
 		
@@ -350,46 +328,5 @@ public class Speaker extends Block {
 		tagCompound.putString("sound","ambience:"+sound);
 					
 		AmbiencePackageHandler.sendToClient(new MyMessage(tagCompound), (ServerPlayerEntity) player);
-	}
-	
-	//--------------------------------------
-	//ALARM---------------------------------
-	//--------------------------------------
-	//Acende e apaga a luz
-		public void setState(boolean active, World worldIn, BlockPos pos, String color) {		
-				BlockState iblockstate = worldIn.getBlockState(pos);
-				TileEntity tileentity = worldIn.getTileEntity(pos);	
-							
-				this.color=color;
-
-				
-				
-				
-				/*if (active) {	
-					switch (color) {
-						case "white" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_WHITE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "red" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_RED_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "yellow" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_YELLOW.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "orange" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_ORANGE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "lime" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_LIME.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "green" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_GREEN.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "cyan" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_CYAN.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;				
-						case "lightblue" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_LIGHTBLUE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "blue" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_BLUE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "purple" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_PURPLE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "magenta" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_MAGENTA.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "pink" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_PINK.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-						case "brown" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_BROWN.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);break;
-					}
-					
-					
-				} else {				
-					worldIn.setBlockState(pos,RegistryHandler.block_Alarm_WHITE.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);			
-				}
-		*/
-				if (tileentity != null) {
-					tileentity.validate();
-					worldIn.setTileEntity(pos, tileentity);
-				}	
-		}
+	}	
 }
