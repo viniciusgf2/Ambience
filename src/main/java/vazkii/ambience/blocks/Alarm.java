@@ -50,7 +50,7 @@ import vazkii.ambience.network.MyMessage;
 
 public class Alarm extends Block {
 
-	public static boolean isLit=false;
+	public static boolean isLit=true;
 	public String color;  
 	
 	private boolean red = false;
@@ -62,49 +62,16 @@ public class Alarm extends Block {
 	public static AlarmTileEntity tileEntity;
 	
 	
-	public static final VoxelShape SHAPE_N = Stream.of(Block.makeCuboidShape(2, 2, 15, 14, 14, 16),
-			Block.makeCuboidShape(2, 3, 14, 3, 13, 15), Block.makeCuboidShape(13, 3, 14, 14, 13, 15),
-			Block.makeCuboidShape(2, 2, 14, 14, 3, 15), Block.makeCuboidShape(2, 13, 14, 14, 14, 15))
-			.reduce((v1, v2) -> {
-				return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
-			}).get();
-
-	public static final VoxelShape SHAPE_S = Stream.of(Block.makeCuboidShape(2, 2, 0, 14, 14, 1),
-			Block.makeCuboidShape(13, 3, 1, 14, 13, 2), Block.makeCuboidShape(2, 3, 1, 3, 13, 2),
-			Block.makeCuboidShape(2, 2, 1, 14, 3, 2), Block.makeCuboidShape(2, 13, 1, 14, 14, 2)).reduce((v1, v2) -> {
-				return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
-			}).get();
-
-	public static final VoxelShape SHAPE_E = Stream.of(Block.makeCuboidShape(0, 2, 2, 1, 14, 14),
-			Block.makeCuboidShape(1, 3, 2, 2, 13, 3), Block.makeCuboidShape(1, 3, 13, 2, 13, 14),
-			Block.makeCuboidShape(1, 2, 2, 2, 3, 14), Block.makeCuboidShape(1, 13, 2, 2, 14, 14)).reduce((v1, v2) -> {
-				return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
-			}).get();
-
-	public static final VoxelShape SHAPE_W = Stream.of(Block.makeCuboidShape(15, 2, 2, 16, 14, 14),
-			Block.makeCuboidShape(14, 3, 13, 15, 13, 14), Block.makeCuboidShape(14, 3, 2, 15, 13, 3),
-			Block.makeCuboidShape(14, 2, 2, 15, 3, 14), Block.makeCuboidShape(14, 13, 2, 15, 14, 14))
-			.reduce((v1, v2) -> {
-				return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
-			}).get();
-
-	public static final VoxelShape SHAPE_U = Stream.of(Block.makeCuboidShape(2, 0, 2, 14, 1, 14),
-			Block.makeCuboidShape(2, 1, 3, 3, 2, 13), Block.makeCuboidShape(13, 1, 3, 14, 2, 13),
-			Block.makeCuboidShape(2, 1, 2, 14, 2, 3), Block.makeCuboidShape(2, 1, 13, 14, 2, 14)).reduce((v1, v2) -> {
-				return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
-			}).get();
-
-	public static final VoxelShape SHAPE_D = Stream.of(Block.makeCuboidShape(2, 15, 2, 14, 16, 14),
-			Block.makeCuboidShape(2, 14, 3, 3, 15, 13), Block.makeCuboidShape(13, 14, 3, 14, 15, 13),
-			Block.makeCuboidShape(2, 14, 13, 14, 15, 14), Block.makeCuboidShape(2, 14, 2, 14, 15, 3))
-			.reduce((v1, v2) -> {
-				return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
-			}).get();
+	public static final VoxelShape SHAPE_N = VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5, 5, 8, 11, 11, 16), Block.makeCuboidShape(4, 4, 16, 12, 12, 17), IBooleanFunction.OR);
+	public static final VoxelShape SHAPE_S = VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5, 5, 0, 11, 11, 8), Block.makeCuboidShape(4, 4, -1, 12, 12, 0), IBooleanFunction.OR);
+	public static final VoxelShape SHAPE_E = VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 5, 5, 9, 11, 11), Block.makeCuboidShape(0, 4, 4, 1, 12, 12), IBooleanFunction.OR);
+	public static final VoxelShape SHAPE_W = VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 5, 5, 15, 11, 11), Block.makeCuboidShape(15, 4, 4, 16, 12, 12), IBooleanFunction.OR);
+	public static final VoxelShape SHAPE_U = VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5, 1, 5, 11, 9, 11), Block.makeCuboidShape(4, 0, 4, 12, 1, 12), IBooleanFunction.OR);
+	public static final VoxelShape SHAPE_D = VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5, 7, 5, 11, 15, 11), Block.makeCuboidShape(4, 15, 4, 12, 16, 12), IBooleanFunction.OR);
 
 	public static Material material=Material.WOOD;
 	public static SoundType soundType=SoundType.WOOD;
-	public static int lightValue=0;
-
+	
 	public Alarm(String color,Boolean isLit) {
 		super(Block.Properties.create(material)
 				.hardnessAndResistance(2.0f, 5.0f)
@@ -118,14 +85,16 @@ public class Alarm extends Block {
 		this.color=color;				
 	}
 
-	@Override
+/*	@Override
 	public int getLightValue(BlockState state) {		
+		//if(this.getRegistryName().getPath().contains("white"))
+			//return 16;
+		
 		if(isLit)
 			return 16;
 		else
 			return 0;
-		//return super.getLightValue(state);
-	}
+	}*/
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -330,13 +299,15 @@ public class Alarm extends Block {
 	
 	private void StopSound(String sound, BlockPos pos, PlayerEntity player) {
 		
+		if(sound!=null) {
 		// Manda msg pedido para parar o som no cliente
 		CompoundNBT tagCompound = new CompoundNBT();
-		tagCompound.putString("selectedSound", sound);
-		tagCompound.putString("stop", "stop");
-		tagCompound.putString("sound","ambience:"+sound);
-					
-		AmbiencePackageHandler.sendToClient(new MyMessage(tagCompound), (ServerPlayerEntity) player);
+			tagCompound.putString("selectedSound", sound);
+			tagCompound.putString("stop", "stop");
+			tagCompound.putString("sound","ambience:"+sound);
+						
+			AmbiencePackageHandler.sendToClient(new MyMessage(tagCompound), (ServerPlayerEntity) player);
+		}
 	}
 	
 	//Acende e apaga a luz
@@ -359,7 +330,7 @@ public class Alarm extends Block {
 					
 				switch (color) {
 					case "white" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_WHITE_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
-					case "red" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_RED_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 1); getLightValue(this.getDefaultState());break;
+					case "red" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_RED_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
 					case "yellow" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_YELLOW_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
 					case "orange" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_ORANGE_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
 					case "lime" :worldIn.setBlockState(pos,RegistryHandler.block_Alarm_LIME_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2); getLightValue(this.getDefaultState());break;
@@ -478,19 +449,19 @@ public class Alarm extends Block {
 			}
 		 }else {
 				switch(color) {
-					case "white" : return new AlarmTileEntity("lit_white",false);
+					case "white" : return new AlarmTileEntity("white",false);
 					case "red" : return new AlarmTileEntity("red",false);
-					case "yellow" :return new AlarmTileEntity("lit_yellow",false);
-					case "orange" : return new AlarmTileEntity("lit_orange",false);
-					case "lime" :  return new AlarmTileEntity("lit_lime",false);
-					case "green" : return new AlarmTileEntity("lit_green",false);
-					case "cyan" :return new AlarmTileEntity("lit_cyan",false);		
-					case "lightblue" : return new AlarmTileEntity("lit_lightblue",false);
-					case "blue" :return new AlarmTileEntity("lit_blue",false);
-					case "purple" :return new AlarmTileEntity("lit_purple",false);
-					case "magenta" :return new AlarmTileEntity("lit_magenta",false);
-					case "pink" :return new AlarmTileEntity("lit_pink",false);
-					case "brown" : return new AlarmTileEntity("lit_brown",false);
+					case "yellow" :return new AlarmTileEntity("yellow",false);
+					case "orange" : return new AlarmTileEntity("orange",false);
+					case "lime" :  return new AlarmTileEntity("lime",false);
+					case "green" : return new AlarmTileEntity("green",false);
+					case "cyan" :return new AlarmTileEntity("cyan",false);		
+					case "lightblue" : return new AlarmTileEntity("lightblue",false);
+					case "blue" :return new AlarmTileEntity("blue",false);
+					case "purple" :return new AlarmTileEntity("purple",false);
+					case "magenta" :return new AlarmTileEntity("magenta",false);
+					case "pink" :return new AlarmTileEntity("pink",false);
+					case "brown" : return new AlarmTileEntity("brown",false);
 
 					case "lit_white" : return new AlarmTileEntity("lit_white",true);
 					case "lit_red" : return new AlarmTileEntity("lit_red",true);

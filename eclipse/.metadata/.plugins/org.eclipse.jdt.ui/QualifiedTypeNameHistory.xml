@@ -40,14 +40,12 @@
 <fullyQualifiedTypeName name="net.minecraft.util.SoundCategory"/>
 <fullyQualifiedTypeName name="net.minecraft.util.math.BlockPos"/>
 <fullyQualifiedTypeName name="vazkii.ambience.network.MyMessage"/>
-<fullyQualifiedTypeName name="net.minecraftforge.fml.loading.FMLEnvironment"/>
 <fullyQualifiedTypeName name="vazkii.ambience.blocks.Speaker"/>
 <fullyQualifiedTypeName name="net.minecraft.entity.player.PlayerEntity"/>
 <fullyQualifiedTypeName name="net.minecraft.block.Block.Properties"/>
 <fullyQualifiedTypeName name="net.minecraft.tileentity.TileEntity"/>
 <fullyQualifiedTypeName name="net.minecraft.world.World"/>
 <fullyQualifiedTypeName name="net.minecraft.block.Block"/>
-<fullyQualifiedTypeName name="vazkii.ambience.blocks.Alarm"/>
 <fullyQualifiedTypeName name="net.minecraft.nbt.CompoundNBT"/>
 <fullyQualifiedTypeName name="java.util.function.Supplier"/>
 <fullyQualifiedTypeName name="net.minecraft.tileentity.TileEntityType"/>
@@ -60,4 +58,6 @@
 <fullyQualifiedTypeName name="vazkii.ambience.blocks.SpeakerTileEntity"/>
 <fullyQualifiedTypeName name="java.lang.Boolean"/>
 <fullyQualifiedTypeName name="vazkii.ambience.blocks.AlarmTileEntity"/>
+<fullyQualifiedTypeName name="vazkii.ambience.blocks.Alarm"/>
+<fullyQualifiedTypeName name="net.minecraftforge.fml.loading.FMLEnvironment"/>
 </qualifiedTypeNameHistroy>

@@ -32,9 +32,9 @@ public class ModTileEntityTypes {
 	public static final RegistryObject<TileEntityType<AlarmTileEntity>> ALARM_PINK = TILE_ENTITY_TYPES.register("alarm_pink", () -> TileEntityType.Builder.create(() -> new AlarmTileEntity("pink"),RegistryHandler.block_Alarm_PINK.get()).build(null));
 	public static final RegistryObject<TileEntityType<AlarmTileEntity>> ALARM_BROWN = TILE_ENTITY_TYPES.register("alarm_brown", () -> TileEntityType.Builder.create(() -> new AlarmTileEntity("brown"),RegistryHandler.block_Alarm_BROWN.get()).build(null));
 	
-	public static final RegistryObject<TileEntityType<AlarmTileEntity>> ALARM_RED_LIT = TILE_ENTITY_TYPES.register("alarm_lit_red", () -> TileEntityType.Builder.create(() -> new AlarmTileEntity("lit_red"),RegistryHandler.block_Alarm_RED_lit.get()).build(null));
 	
 	public static final RegistryObject<TileEntityType<AlarmTileEntity>> ALARM_WHITE_LIT = TILE_ENTITY_TYPES.register("alarm_lit_white", () -> TileEntityType.Builder.create(() -> new AlarmTileEntity("lit_white"),RegistryHandler.block_Alarm_WHITE_lit.get()).build(null));
+	public static final RegistryObject<TileEntityType<AlarmTileEntity>> ALARM_RED_LIT = TILE_ENTITY_TYPES.register("alarm_lit_red", () -> TileEntityType.Builder.create(() -> new AlarmTileEntity("lit_red"),RegistryHandler.block_Alarm_RED_lit.get()).build(null));
 	public static final RegistryObject<TileEntityType<AlarmTileEntity>> ALARM_ORANGE_LIT = TILE_ENTITY_TYPES.register("alarm_lit_orange", () -> TileEntityType.Builder.create(() -> new AlarmTileEntity("lit_orange"),RegistryHandler.block_Alarm_ORANGE_lit.get()).build(null));
 	public static final RegistryObject<TileEntityType<AlarmTileEntity>> ALARM_YELLOW_LIT = TILE_ENTITY_TYPES.register("alarm_lit_yellow", () -> TileEntityType.Builder.create(() -> new AlarmTileEntity("lit_yellow"),RegistryHandler.block_Alarm_YELLOW_lit.get()).build(null));
 	public static final RegistryObject<TileEntityType<AlarmTileEntity>> ALARM_LIME_LIT = TILE_ENTITY_TYPES.register("alarm_lit_lime", () -> TileEntityType.Builder.create(() -> new AlarmTileEntity("lit_lime"),RegistryHandler.block_Alarm_LIME_lit.get()).build(null));
@@ -81,9 +81,4 @@ public class ModTileEntityTypes {
 		return null;		
 	}
 
-
-	/*public static TileEntityType<?> getAlarmByColor2(String color) {
-		return ModTileEntityTypes.ALARM_RED.get();
-	}*/
-	
 }

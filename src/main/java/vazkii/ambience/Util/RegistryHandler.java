@@ -1,8 +1,5 @@
 package vazkii.ambience.Util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -10,9 +7,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.ambience.Ambience;
-import vazkii.ambience.items.ItemBase;
+import vazkii.ambience.blocks.Alarm;
+import vazkii.ambience.blocks.BlockItemBase;
+import vazkii.ambience.blocks.Speaker;
 import vazkii.ambience.items.Soundnizer;
-import vazkii.ambience.blocks.*;
 
 public class RegistryHandler {
 	
@@ -43,7 +41,7 @@ public class RegistryHandler {
 	public static final RegistryObject<Block> block_Alarm_YELLOW =  BLOCKS.register("alarm_yellow", () -> new Alarm("yellow",false));
 	public static final RegistryObject<Block> block_Alarm_LIME =  BLOCKS.register("alarm_lime", () -> new Alarm("lime",false));
 	public static final RegistryObject<Block> block_Alarm_GREEN =  BLOCKS.register("alarm_green",() -> new Alarm("green",false));
-	public static final RegistryObject<Block> block_Alarm_LIGHTBLUE =  BLOCKS.register("alarm_lightblue",() -> new Alarm("_lightblue",false));
+	public static final RegistryObject<Block> block_Alarm_LIGHTBLUE =  BLOCKS.register("alarm_lightblue",() -> new Alarm("lightblue",false));
 	public static final RegistryObject<Block> block_Alarm_CYAN =  BLOCKS.register("alarm_cyan", () -> new Alarm("cyan",false));
 	public static final RegistryObject<Block> block_Alarm_BLUE =  BLOCKS.register("alarm_blue",() -> new Alarm("blue",false));
 	public static final RegistryObject<Block> block_Alarm_PURPLE =  BLOCKS.register("alarm_purple",() -> new Alarm("purple",false));
@@ -66,22 +64,7 @@ public class RegistryHandler {
 	public static final RegistryObject<Block> block_Alarm_BROWN_lit =  BLOCKS.register("alarm_lit_brown", () -> new Alarm("lit_brown",true));
 		
 
-	//public static Block[] alarm_List = new Block[14];
-	/*public static final Block[] alarm_List= {
-											 block_Alarm_WHITE.get(),			
-											 block_Alarm_RED.get(),
-											 block_Alarm_ORANGE.get(),
-											 block_Alarm_YELLOW.get(),
-											 block_Alarm_LIME.get(),
-											 block_Alarm_GREEN.get(),
-											 block_Alarm_LIGHTBLUE.get(),
-											 block_Alarm_CYAN.get(),
-											 block_Alarm_BLUE.get(),
-											 block_Alarm_PURPLE.get(),
-											 block_Alarm_MAGENTA.get(),
-											 block_Alarm_PINK.get(),
-											 block_Alarm_BROWN.get()
-											};*/
+	
 	
 	//Block Items
 	public static final RegistryObject<Item> Speaker_Item = ITEMS.register("speaker", () -> new BlockItemBase(Speaker.get()));
@@ -100,7 +83,7 @@ public class RegistryHandler {
 	public static final RegistryObject<Item> Alarm_PINK_Item = ITEMS.register("alarm_pink", () -> new BlockItemBase(block_Alarm_PINK.get()));
 	public static final RegistryObject<Item> Alarm_BROWN_Item = ITEMS.register("alarm_brown", () -> new BlockItemBase(block_Alarm_BROWN.get()));
 
-	public static final RegistryObject<Item> Alarm_WHITE_Item_lit = ITEMS.register("alarm_lit_white", () -> new BlockItemBase(block_Alarm_RED_lit.get()));
+	public static final RegistryObject<Item> Alarm_WHITE_Item_lit = ITEMS.register("alarm_lit_white", () -> new BlockItemBase(block_Alarm_WHITE_lit.get()));
 	public static final RegistryObject<Item> Alarm_RED_Item_lit = ITEMS.register("alarm_lit_red", () -> new BlockItemBase(block_Alarm_RED_lit.get()));
 	public static final RegistryObject<Item> Alarm_ORANGE_Item_lit = ITEMS.register("alarm_lit_orange", () -> new BlockItemBase(block_Alarm_ORANGE_lit.get()));
 	public static final RegistryObject<Item> Alarm_YELLOW_Item_lit = ITEMS.register("alarm_lit_yellow", () -> new BlockItemBase(block_Alarm_YELLOW_lit.get()));

@@ -1,5 +1,5 @@
 {
-  "parent": "ambience:block/alarm",
+  "parent": "ambience:block/alarm_white",
   "display": {
     "thirdperson": {
       "rotation": [

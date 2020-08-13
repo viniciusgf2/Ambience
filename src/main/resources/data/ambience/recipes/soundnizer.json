@@ -1,0 +1,18 @@
+{
+  "group": "ambience",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "000",
+    "0 0",
+    "0  "
+  ],
+  "key": {
+    "0": {
+      "item": "minecraft:coal_block"
+    }
+  },
+  "result": {
+    "item": "ambience:soundnizer",
+    "count": 1
+  }
+}

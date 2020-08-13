@@ -1,0 +1,42 @@
+{
+  "group": "ambience",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012",
+    "345",
+    "678"
+  ],
+  "key": {
+    "0": {
+      "item": "minecraft:orange_stained_glass_pane"
+    },
+    "1": {
+      "item": "minecraft:orange_stained_glass_pane"
+    },
+    "2": {
+      "item": "minecraft:orange_stained_glass_pane"
+    },
+    "3": {
+      "item": "minecraft:orange_stained_glass_pane"
+    },
+    "4": {
+      "item": "ambience:speaker"
+    },
+    "5": {
+      "item": "minecraft:orange_stained_glass_pane"
+    },
+    "6": {
+      "item": "minecraft:orange_stained_glass_pane"
+    },
+    "7": {
+      "item": "minecraft:heavy_weighted_pressure_plate"
+    },
+    "8": {
+      "item": "minecraft:orange_stained_glass_pane"
+    }
+  },
+  "result": {
+    "item": "ambience:alarm_orange",
+    "count": 1
+  }
+}

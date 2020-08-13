@@ -56,7 +56,7 @@ public class AmbiencePackageHandler {
 	        PlayerEntity sender = ctx.get().getSender(); // the client that sent this packet
 	        // do stuff
 	        
-	        System.out.println(context.getDirection());
+	       // System.out.println(context.getDirection());
 	    });
 	    ctx.get().setPacketHandled(true);
 	}

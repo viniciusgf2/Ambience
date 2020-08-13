@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "IoI",
+    "IiI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:yellow_stained_glass_pane"
+    },   
+    "o": {
+      "item": "ambience:speaker"
+    },
+    "i": {
+      "item": "minecraft:heavy_weighted_pressure_plate"
+    }
+  },
+  "result": {
+    "item": "ambience:alarm_yellow",
+    "count": 1
+  }
+}
