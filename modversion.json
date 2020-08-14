@@ -4,6 +4,7 @@
     "1.0.0" : "Migrated to the 1.15.2 version!!!"
   },
    "1.12.2": {
+    "1.4.5.3": "BUGFIX -  Fixed a bug where the sounds of the game get muted in other dimensions\nCHANGE - Changed the rendering of the Selected Area with the Soundnizer tool to somehow render something with shaders.",
 	"1.4.5.2": "CHANGE - Changed the way the mod detects when is in combat or not, to a more effective way.\nCHANGE - When you are using a mod that changes the main menu and it has it own theme music it will play the music defined by the mod if you comment the event.mainMenu in the config files.",
 	"1.4.5.1": "BUGFIX - Certain mobs from other mods when you hit they the game freezes when loading the combat music, now it's working fine.",
 	"1.4.5": "NEW - Added configurations to set the events per Dimension!!!\nNew - Added events to when you pause the game, when sleeping, connecting or disconnecting from a server, falling, flying with Elytra, on lava and when you dies.\nCHANGED - Event name for the ender dragon from 'bossDragon' to 'bossEnderDragon'",
@@ -14,7 +15,7 @@
   "promos": {
 	"1.15.2": "1.0.0",
     "1.15.2-recommended": "1.0.0",
-    "1.12.2-latest": "1.4.5.2",
-    "1.12.2-recommended": "1.4.5.2"  
+    "1.12.2-latest": "1.4.5.3",
+    "1.12.2-recommended": "1.4.5.3"  
   }
 }

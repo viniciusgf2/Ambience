@@ -1,9 +1,0 @@
-{
-  "minecraft:adventure/adventuring_time": {
-    "criteria": {
-      "plains": "2020-05-31 11:15:06 -0300",
-      "desert": "2020-05-31 11:15:30 -0300"
-    },
-    "done": false
-  }
-}

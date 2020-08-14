@@ -19,23 +19,4 @@
 <entry path="C:\Program Files\Java\jre1.8.0_261\lib\endorsed"/>
 </endorsedDirs>
 </libraryInfo>
-<libraryInfo home="C:\Program Files\Java\jre1.8.0_251" version="1.8.0_251">
-<bootpath>
-<entry path="C:\Program Files\Java\jre1.8.0_251\lib\resources.jar"/>
-<entry path="C:\Program Files\Java\jre1.8.0_251\lib\rt.jar"/>
-<entry path="C:\Program Files\Java\jre1.8.0_251\lib\sunrsasign.jar"/>
-<entry path="C:\Program Files\Java\jre1.8.0_251\lib\jsse.jar"/>
-<entry path="C:\Program Files\Java\jre1.8.0_251\lib\jce.jar"/>
-<entry path="C:\Program Files\Java\jre1.8.0_251\lib\charsets.jar"/>
-<entry path="C:\Program Files\Java\jre1.8.0_251\lib\jfr.jar"/>
-<entry path="C:\Program Files\Java\jre1.8.0_251\classes"/>
-</bootpath>
-<extensionDirs>
-<entry path="C:\Program Files\Java\jre1.8.0_251\lib\ext"/>
-<entry path="C:\WINDOWS\Sun\Java\lib\ext"/>
-</extensionDirs>
-<endorsedDirs>
-<entry path="C:\Program Files\Java\jre1.8.0_251\lib\endorsed"/>
-</endorsedDirs>
-</libraryInfo>
 </libraryInfos>

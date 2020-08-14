@@ -273,7 +273,8 @@ public class Ambience {
 		if(world!=null)
 			dimension=world.provider.getDimension();
 		
-		if((SongLoader.enabled && event.getSound().getCategory() == SoundCategory.MUSIC) & (dimension>=-1 & dimension<=1) | overideBackMusicDimension) {
+		if(event.getSound().getCategory() == SoundCategory.MUSIC)
+		if((SongLoader.enabled & (dimension>=-1 & dimension<=1) | overideBackMusicDimension)) {
 						
 			if(event.isCancelable()) 
 				event.setCanceled(true);
