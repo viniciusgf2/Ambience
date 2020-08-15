@@ -107,7 +107,7 @@ public class MyMessage {
 			}*/
 
 			
-			if (EventSound.getString("selectedSound") == null & EventSound.getString("SoundEvent") == null) {
+			if (EventSound.getString("Name") != null) {
 				// The value that was sent
 				Area area = Area.DeSerialize(data);
 				world = ctx.getSender().server.getWorld(DimensionType.getById(area.getDimension()));

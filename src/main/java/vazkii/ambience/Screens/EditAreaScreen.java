@@ -7,6 +7,7 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.CheckboxButton;
+import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -28,6 +29,7 @@ public class EditAreaScreen extends ContainerScreen<EditAreaContainer> {
 	private Area currentArea=new Area("Area1");
 	private Button cancelBtn;
 	private Button confirmBtn;
+	private ImageButton showAreaBtn;
 	private TextFieldWidget AreaName;
 	private CheckboxButton instaPlayChk;
 	private CheckboxButton PlayatNight;
@@ -41,7 +43,22 @@ public class EditAreaScreen extends ContainerScreen<EditAreaContainer> {
 		// this.xSize = 232;
 		// this.ySize = 112;
 		this.currentArea=EditAreaContainer.currentArea;
-		
+
+		this.showAreaBtn = new ImageButton(10,10,20,20,0,0,-1,new ResourceLocation("ambience:textures/gui/areabtn.png"),20,20,
+				(showArea) -> {		
+					
+					if(Ambience.previewArea == currentArea)
+						Ambience.previewArea=new Area("Area1");
+					else {
+					
+						if(Ambience.selectedArea.getPos1()==null & Ambience.selectedArea.getPos2()==null)
+							Ambience.previewArea=currentArea;
+						else
+							Ambience.previewArea=new Area("Area1");
+					}
+					
+					this.close();
+				},"show Area");
 		
 		this.cancelBtn = new Button(this.width / 2 - 105, this.height / 4 + 120, 100, 20,
 				I18n.format("GUI.CancelButton"), (close) -> {					
@@ -69,6 +86,7 @@ public class EditAreaScreen extends ContainerScreen<EditAreaContainer> {
 
 		this.buttons.add(cancelBtn);
 		this.buttons.add(confirmBtn);
+		this.buttons.add(showAreaBtn);
 	}
 
 	@Override
@@ -93,6 +111,10 @@ public class EditAreaScreen extends ContainerScreen<EditAreaContainer> {
 		confirmBtn.y = this.height / 2 + 60;
 		cancelBtn.x = this.width / 2 - 105;
 		cancelBtn.y = this.height / 2 + 60;
+		
+
+		showAreaBtn.x = 10;
+		showAreaBtn.y = 10;
 
 		this.instaPlayChk.x = this.width / 2 - 80;
 		this.instaPlayChk.y = this.height / 2 - 5;
@@ -104,6 +126,7 @@ public class EditAreaScreen extends ContainerScreen<EditAreaContainer> {
 
 		this.AreaName.render(mouseX, mouseY, partialTicks);
 
+		this.showAreaBtn.render(mouseX, mouseY, partialTicks);
 		this.cancelBtn.render(mouseX, mouseY, partialTicks);
 		this.confirmBtn.render(mouseX, mouseY, partialTicks);
 		this.instaPlayChk.render(mouseX, mouseY, partialTicks);
@@ -172,6 +195,9 @@ public class EditAreaScreen extends ContainerScreen<EditAreaContainer> {
 				}
 			}
 		}
+		
+		if(p_keyPressed_1_== 69)
+			return true;
 
 		return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 	}
@@ -198,6 +224,11 @@ public class EditAreaScreen extends ContainerScreen<EditAreaContainer> {
 		if (confirmBtn.isHovered()) {
 			confirmBtn.playDownSound(minecraft.getSoundHandler());
 			confirmBtn.onClick(p_mouseClicked_1_, p_mouseClicked_3_);
+		}
+		
+		if (showAreaBtn.isHovered()) {
+			showAreaBtn.playDownSound(minecraft.getSoundHandler());
+			showAreaBtn.onClick(p_mouseClicked_1_, p_mouseClicked_3_);
 		}
 			
 		boolean clicked = AreaName.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);

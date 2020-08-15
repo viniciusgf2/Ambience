@@ -150,7 +150,7 @@ public class Soundnizer extends ItemBase {
 						}
 					} else {
 						//EditAreaGUI.currentArea = currentArea;
-						if(!firstclick & (Ambience.selectedArea.getPos1()!=null & Ambience.selectedArea.getPos2()!=null )) {
+						if(!firstclick ) {
 							int id = playerIn.getEntityId();								
 							 NetworkHooks.openGui((ServerPlayerEntity) playerIn, new INamedContainerProvider() {
 					                @Override

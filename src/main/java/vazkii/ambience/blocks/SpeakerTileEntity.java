@@ -2,7 +2,10 @@ package vazkii.ambience.blocks;
 
 import java.io.File;
 
-import net.minecraft.block.Block;
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.AudioHeader;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -10,9 +13,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.Util.ModTileEntityTypes;
@@ -94,55 +94,10 @@ public class SpeakerTileEntity extends TileEntity implements ITickableTileEntity
 		return super.write(nbt);
 	}
 	
-	/*int countLight=0;
-	Speaker parent;
-	private void UpdateLight(boolean syncWithSound) {
-		
-		if(parent == null) {
-			Block blockAlarm=this.world.getBlockState(pos).getBlock();
-			if(blockAlarm.getRegistryName().getPath().contains("alarm"))
-				parent=(Speaker) blockAlarm;
-		}else {
-		
-			if(isAlarm)	
-				this.countLight++;
-				
-				if(countLight>17 & isOn & isAlarm) {											
-					parent.setState(false, this.world, this.pos, this.color);	
-					isOn=false;
-				}	
-				
-			if(isAlarm & songLenght>2 & !syncWithSound)
-			{	
-				if((countLight>0 & countLight<17) & world.isBlockPowered(pos) & !isOn) {
-					parent.setState(true, this.world, this.pos, this.color);		
-					isOn=true;
-				}
-				
-				if(countLight>30)
-					countLight=0;
-			}
-					
-			if(syncWithSound & songLenght<=2) {		
-				parent.setState(true, this.world, this.pos, this.color);		
-				isOn=true;	
-				this.countLight=0;		
-			}	
-			
-			//Desliga a luz caso não receba sinal de redstone
-			if(world.isBlockPowered(pos) & isOn) {
-				isOn=false;
-				parent.setState(false, this.world, this.pos, this.color);
-			}	
-		}
-	}
-*/
+	
 	@Override
 	public void tick() {
 		
-
-		
-		//UpdateLight(false);
 		
 		try {
 			if (songLenght == 0 & selectedSound != "")
@@ -161,8 +116,7 @@ public class SpeakerTileEntity extends TileEntity implements ITickableTileEntity
 						this.cooldown =  delay + (songLenght * 20);
 
 						Speaker.selectedSound=selectedSound;
-						//UpdateLight(true);
-								
+														
 						this.getWorld().playSound((PlayerEntity) null, this.pos.getX(), this.pos.getY(), this.pos.getZ(),
 								ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:" + selectedSound)),
 								SoundCategory.NEUTRAL, (float) distance, (float) 1);
@@ -223,7 +177,7 @@ public class SpeakerTileEntity extends TileEntity implements ITickableTileEntity
 	}
 	
 	private void getSongLenght() {
-		/*
+		
 		 // Obtém o tempo do som selecionado********************
 		String selectedsound = ((SpeakerTileEntity) world.getTileEntity(pos)).selectedSound;
 		File f = new File(Ambience.resourcesDir+"\\sounds", selectedsound + ".ogg");
@@ -238,7 +192,7 @@ public class SpeakerTileEntity extends TileEntity implements ITickableTileEntity
 			}
 		}else {
 			songLenght=0;
-		}*/
+		}
 		// ****************************************************
 	}
 
