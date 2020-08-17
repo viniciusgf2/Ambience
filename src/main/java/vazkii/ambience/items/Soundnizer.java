@@ -31,67 +31,78 @@ import vazkii.ambience.Screens.GuiContainerMod;
 import vazkii.ambience.Util.Border;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.World.Biomes.Area;
+import vazkii.ambience.World.Biomes.Area.Operation;
 import vazkii.ambience.blocks.Speaker;
+import vazkii.ambience.network.AmbiencePackageHandler;
+import vazkii.ambience.network.MyMessage;
 
 public class Soundnizer extends ItemBase {
 
-	
-	/*public Soundnizer() {
-		super();
-		maxStackSize = 64;
-		
-		if (!FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-			I18n.format("Soundnizer.Position");
-			I18n.format("Soundnizer.Alert");
-			I18n.format("Soundnizer.Desc");
-		}
-	}*/
+	/*
+	 * public Soundnizer() { super(); maxStackSize = 64;
+	 * 
+	 * if (!FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+	 * I18n.format("Soundnizer.Position"); I18n.format("Soundnizer.Alert");
+	 * I18n.format("Soundnizer.Desc"); } }
+	 */
 
-	private boolean rightclick=false;
-	private boolean firstclick=false;
+	private boolean rightclick = false;
+	public static boolean firstclick = false;
+
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		
+
 		ItemStack item = playerIn.getHeldItem(handIn);
 
 		if (Ambience.selectedArea == null)
 			Ambience.selectedArea = new Area("Area1");
 
-		
-	
-		//Client
+		// Client
 		if (worldIn.isRemote) {
 			RayTraceResult lookingAt = Minecraft.getInstance().objectMouseOver;
-			rightclick=true;
-			firstclick=true;
-			
-			String blockName="";
-			if(lookingAt.hitInfo == null && lookingAt.getType() != RayTraceResult.Type.BLOCK) {
-				firstclick=false;				
-			}else {
-				blockName=worldIn.getBlockState(((BlockRayTraceResult)lookingAt).getPos()).getBlock().getRegistryName().getPath();
-			}
-			
-			
-			//& !testBlock.contains("Speaker") & !testBlock.contains("Alarm")
-			if (lookingAt != null && lookingAt.getType() == RayTraceResult.Type.BLOCK & !blockName.contains("speaker") & !blockName.contains("alarm")) {
-				BlockPos Position2 =((BlockRayTraceResult)lookingAt).getPos();
-				
-				if (!playerIn.isSneaking()) {
-					((PlayerEntity) playerIn).sendStatusMessage(
-							(ITextComponent)new TranslationTextComponent(I18n.format("Soundnizer.Position") + " 2 = x:" + ""
-									+ ((int) Position2.getX()) + "" + (" y:") + ""
-									+ ((int) Position2.getY()) + "" + (" z:") + ""
-									+ ((int) Position2.getZ())),
-							(true));
+			rightclick = true;
+			firstclick = true;
 
-					Ambience.selectedArea.setPos2(new Vec3d(Position2.getX(),Position2.getY(),Position2.getZ()));
+			String blockName = "";
+			if (lookingAt.hitInfo == null && lookingAt.getType() != RayTraceResult.Type.BLOCK) {
+				firstclick = false;
+			} else {
+				blockName = worldIn.getBlockState(((BlockRayTraceResult) lookingAt).getPos()).getBlock()
+						.getRegistryName().getPath();
+			}
+
+			// & !testBlock.contains("Speaker") & !testBlock.contains("Alarm")
+			if (lookingAt != null && lookingAt.getType() == RayTraceResult.Type.BLOCK & !blockName.contains("speaker")
+					& !blockName.contains("alarm")) {
+				BlockPos Position2 = ((BlockRayTraceResult) lookingAt).getPos();
+
+				if (!playerIn.isSneaking()) {
+					((PlayerEntity) playerIn)
+							.sendStatusMessage(
+									(ITextComponent) new TranslationTextComponent(I18n.format("Soundnizer.Position")
+											+ " 2 = x:" + "" + ((int) Position2.getX()) + "" + (" y:") + ""
+											+ ((int) Position2.getY()) + "" + (" z:") + "" + ((int) Position2.getZ())),
+									(true));
+
+					Ambience.selectedArea.setPos2(new Vec3d(Position2.getX(), Position2.getY(), Position2.getZ()));
 					Ambience.selectedArea.setDimension(playerIn.dimension.getId());
 					Ambience.previewArea.setPos2(Ambience.selectedArea.getPos2());
-					
-					//Create AREA
-				//	Minecraft.getInstance().displayGuiScreen(new CreateAreaGUI());
-										
+
+					// envia a posição selecionada para o server
+					Ambience.selectedArea.setOperation(Operation.SELECT);
+					Ambience.selectedArea.setName("Area1");
+
+					if (Ambience.selectedArea.getPos1() != null)
+						Ambience.selectedArea.setPos1(new Vec3d(Ambience.selectedArea.getPos1().getX(),
+								Ambience.selectedArea.getPos1().getY(), Ambience.selectedArea.getPos1().getZ()));
+
+					Ambience.selectedArea.setPos2(new Vec3d(Position2.getX(), Position2.getY(), Position2.getZ()));
+					Ambience.selectedArea.setInstantPlay(false);
+					Ambience.selectedArea.setPlayAtNight(false);
+					AmbiencePackageHandler.sendToServer(new MyMessage(Ambience.selectedArea.SerializeThis()));
+					// Create AREA
+					// Minecraft.getInstance().displayGuiScreen(new CreateAreaGUI());
+
 				} else {
 					if (Ambience.selectedArea != null)
 						Ambience.selectedArea.resetSelection();
@@ -99,123 +110,132 @@ public class Soundnizer extends ItemBase {
 			}
 		}
 
-			
-		//Server
-		//if (!worldIn.isRemote & lookingAt.hitInfo == null && lookingAt.getType() != RayTraceResult.Type.BLOCK) {
+		// Server
+		// if (!worldIn.isRemote & lookingAt.hitInfo == null && lookingAt.getType() !=
+		// RayTraceResult.Type.BLOCK) {
 		if (!worldIn.isRemote) {
-					
-				Area currentArea = Area.getPlayerStandingArea(playerIn);
-								
-				if (!playerIn.isSneaking()) {
-					if ((currentArea == null & !firstclick) | Ambience.multiArea>0 & (Ambience.selectedArea.getPos1()!=null & Ambience.selectedArea.getPos2()!=null )) {
 
-						// Check if player is inside the selected area before creating
-						if (Ambience.selectedArea.getPos1() != null & Ambience.selectedArea.getPos2() != null) {
+			Area currentArea = Area.getPlayerStandingArea(playerIn);
 
-							Border border = new Border(Ambience.selectedArea.getPos1(),Ambience.selectedArea.getPos2());
+			if (!playerIn.isSneaking()) {
+				if ((currentArea == null & !firstclick) | Ambience.multiArea > 0
+						& (Ambience.selectedArea.getPos1().y != 0 & Ambience.selectedArea.getPos2().y != 0)) {
 
-							if (border.contains(playerIn.getPositionVector())) {
+					Border border = new Border(Ambience.selectedArea.getPos1(), Ambience.selectedArea.getPos2());
 
-								/*
-								Ambience.selectedArea.setOperation(Operation.CREATE);
-								Ambience.selectedArea.setName("Elevador");															      
-								AmbiencePackageHandler.sendToServer(new MyMessage(Ambience.selectedArea.SerializeThis()));
-								 */							
+					// Check if player is inside the selected area before creating
+					if (Ambience.selectedArea.getPos1() != null & Ambience.selectedArea.getPos2() != null
+							/*& (Ambience.selectedArea.getPos1().y != 0 & Ambience.selectedArea.getPos2().y != 0)*/) {
+						if (border.contains(playerIn.getPositionVector())) {
 
-								//Create AREA
-								
-								//NetworkHooks.openGui(playerIn, () -> new CreateAreaScreen(null, null, null));
-								//playerIn.openContainer(new CreateAreaScreen(null, null, null));
-																
-								
-								int id = playerIn.getEntityId();								
-								 NetworkHooks.openGui((ServerPlayerEntity) playerIn, new INamedContainerProvider() {
-						                @Override
-						                public ITextComponent getDisplayName() {
-						                   // return (ITextComponent)new StringTextComponent(I18n.format("GUI.CreateArea"));
-						                	 return (ITextComponent)new StringTextComponent("CreateArea");
-						                }
+							// Create AREA Screen
+							int id = playerIn.getEntityId();
+							NetworkHooks.openGui((ServerPlayerEntity) playerIn, new INamedContainerProvider() {
+								@Override
+								public ITextComponent getDisplayName() {
+									// return (ITextComponent)new
+									// StringTextComponent(I18n.format("GUI.CreateArea"));
+									return (ITextComponent) new StringTextComponent("CreateArea");
+								}
 
-						                @Override
-						                public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-						                    
-						                    return new GuiContainerMod(id);
-						                }
-						            }, buf -> buf.writeInt(id));
-																								
-							} else {
-								((PlayerEntity) playerIn).sendStatusMessage(
-										(ITextComponent)new StringTextComponent(I18n.format("Soundnizer.Alert")), true);
-							}
+								@Override
+								public Container createMenu(int i, PlayerInventory playerInventory,
+										PlayerEntity playerEntity) {
+
+									return new GuiContainerMod(id);
+								}
+							}, buf -> buf.writeInt(id));
+
+						} else {
+							((PlayerEntity) playerIn).sendStatusMessage((ITextComponent) new StringTextComponent(
+									"You must be inside a selected region to create!"), true);
 						}
-					} else {
-						//EditAreaGUI.currentArea = currentArea;
-						if(!firstclick ) {
-							int id = playerIn.getEntityId();								
-							 NetworkHooks.openGui((ServerPlayerEntity) playerIn, new INamedContainerProvider() {
-					                @Override
-					                public ITextComponent getDisplayName() {
-					                   // return (ITextComponent)new StringTextComponent(I18n.format("GUI.EditArea"));
-					                	 return (ITextComponent)new StringTextComponent("EditArea");
-					                }
-	
-					                @Override
-					                public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-					                    
-					                    return new EditAreaContainer(id,currentArea);
-					                }
-					            }, buf -> buf.writeInt(id));
-						}
-						/*//UPDATE AREA
-						playerIn.openGui(Ambience.instance, 2, worldIn, MathHelper.floor(playerIn.getPosX()),
-								MathHelper.floor(playerIn.getPosY()), MathHelper.floor(playerIn.getPosZ()));*/
-						
 					}
 				} else {
-					//Clear selected Area
-						Ambience.selectedArea = new Area("Area1");
-						Ambience.previewArea = new Area("Area1");
+					// EditAreaGUI.currentArea = currentArea;
+					if (!firstclick) {
+						
+						//Ambience.selectedArea = currentArea;
+						currentArea.setOperation(Operation.OPENEDIT);
+
+						AmbiencePackageHandler.sendToClient(new MyMessage(currentArea.SerializeThis()),(ServerPlayerEntity) playerIn);
+						
+						int id = playerIn.getEntityId();
+						NetworkHooks.openGui((ServerPlayerEntity) playerIn, new INamedContainerProvider() {
+							@Override
+							public ITextComponent getDisplayName() {
+								return (ITextComponent) new StringTextComponent("EditArea");
+							}
+
+							@Override
+							public Container createMenu(int i, PlayerInventory playerInventory,
+									PlayerEntity playerEntity) {
+
+								return new EditAreaContainer(id, currentArea);
+							}
+						}, buf -> buf.writeInt(id));
+					}
 				}
-				firstclick=false;
+			} else {
+				// Clear selected Area
+				Ambience.selectedArea = new Area("Area1");
+				Ambience.previewArea = new Area("Area1");
+				Ambience.selectedArea.setOperation(Operation.SELECT);
+
+				AmbiencePackageHandler.sendToClient(new MyMessage(Ambience.selectedArea.SerializeThis()),
+						(ServerPlayerEntity) playerIn);
+			}
+			firstclick = false;
 		}
 
-        return ActionResult.resultSuccess(item);
+		return ActionResult.resultSuccess(item);
 	}
-	
-	
+
 	@Override
-	public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {		
+	public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
 		if (Ambience.selectedArea == null)
 			Ambience.selectedArea = new Area("Area1");
-		
+
 		if (entity.world.isRemote & !rightclick) {
-			
+
 			RayTraceResult lookingAt = Minecraft.getInstance().objectMouseOver;
-			
+
 			if (lookingAt != null && lookingAt.getType() == RayTraceResult.Type.BLOCK) {
-				BlockPos Position1 =((BlockRayTraceResult)lookingAt).getPos();
-			//if (Position1.getType() != Type.MISS & !testBlock.contains("Speaker") & !testBlock.contains("Alarm")) {			
-					((PlayerEntity) entity).sendStatusMessage(
-							new TranslationTextComponent(((I18n.format("Soundnizer.Position") + " 1 = x:") + ""
-									+ ((int) Position1.getX()) + "" + (" y:") + ""
-									+ ((int) Position1.getY()) + "" + (" z:") + ""
-									+ ((int) Position1.getZ()))),
-							(true));				
+				BlockPos Position1 = ((BlockRayTraceResult) lookingAt).getPos();
+				// if (Position1.getType() != Type.MISS & !testBlock.contains("Speaker") &
+				// !testBlock.contains("Alarm")) {
+				((PlayerEntity) entity).sendStatusMessage(new TranslationTextComponent(
+						((I18n.format("Soundnizer.Position") + " 1 = x:") + "" + ((int) Position1.getX()) + "" + (" y:")
+								+ "" + ((int) Position1.getY()) + "" + (" z:") + "" + ((int) Position1.getZ()))),
+						(true));
 				// Defines the selected area Pos 1
-				Ambience.selectedArea.setPos1(new Vec3d(Position1.getX(),Position1.getY(),Position1.getZ()));
+				Ambience.selectedArea.setPos1(new Vec3d(Position1.getX(), Position1.getY(), Position1.getZ()));
 				Ambience.previewArea.setPos1(Ambience.selectedArea.getPos1());
+
+				// envia a posição selecionada para o server
+				Ambience.selectedArea.setOperation(Operation.SELECT);
+				Ambience.selectedArea.setName("Area1");
+
+				if (Ambience.selectedArea.getPos2() != null)
+					Ambience.selectedArea.setPos2(new Vec3d(Ambience.selectedArea.getPos2().getX(),
+							Ambience.selectedArea.getPos2().getY(), Ambience.selectedArea.getPos2().getZ()));
+
+				Ambience.selectedArea.setPos1(new Vec3d(Position1.getX(), Position1.getY(), Position1.getZ()));
+				Ambience.selectedArea.setInstantPlay(false);
+				Ambience.selectedArea.setPlayAtNight(false);
+				AmbiencePackageHandler.sendToServer(new MyMessage(Ambience.selectedArea.SerializeThis()));
 			}
 		}
-		
-		rightclick=false;
-		
+
+		rightclick = false;
+
 		return super.onEntitySwing(stack, entity);
 	}
-	
+
 	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		super.addInformation(stack, worldIn, tooltip, flagIn);
-		tooltip.add((ITextComponent)new StringTextComponent(I18n.format("Soundnizer.Desc")));
+		tooltip.add((ITextComponent) new StringTextComponent(I18n.format("Soundnizer.Desc")));
 	}
 
 }

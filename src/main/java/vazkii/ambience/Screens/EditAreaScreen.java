@@ -9,14 +9,12 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.CheckboxButton;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.World.Biomes.Area.Operation;
@@ -26,7 +24,7 @@ import vazkii.ambience.network.MyMessage;
 @OnlyIn(Dist.CLIENT)
 public class EditAreaScreen extends ContainerScreen<EditAreaContainer> {
 
-	private Area currentArea=new Area("Area1");
+	public static Area currentArea=new Area("Area1");
 	private Button cancelBtn;
 	private Button confirmBtn;
 	private ImageButton showAreaBtn;
@@ -40,28 +38,28 @@ public class EditAreaScreen extends ContainerScreen<EditAreaContainer> {
 		super(screenContainer, inv, titleIn);
 		this.guiLeft = 0;
 		this.guiTop = 0;
-		// this.xSize = 232;
-		// this.ySize = 112;
-		this.currentArea=EditAreaContainer.currentArea;
 
 		this.showAreaBtn = new ImageButton(10,10,20,20,0,0,-1,new ResourceLocation("ambience:textures/gui/areabtn.png"),20,20,
 				(showArea) -> {		
 					
-					if(Ambience.previewArea == currentArea)
+										
+					if(Ambience.previewArea.getName().contains(currentArea.getName()))
 						Ambience.previewArea=new Area("Area1");
-					else {
-					
-						if(Ambience.selectedArea.getPos1()==null & Ambience.selectedArea.getPos2()==null)
-							Ambience.previewArea=currentArea;
-						else
-							Ambience.previewArea=new Area("Area1");
+					else {					
+						Ambience.previewArea=currentArea;
 					}
 					
 					this.close();
 				},"show Area");
 		
 		this.cancelBtn = new Button(this.width / 2 - 105, this.height / 4 + 120, 100, 20,
-				I18n.format("GUI.CancelButton"), (close) -> {					
+				I18n.format("GUI.DeleteButton"), (close) -> {	
+					
+					currentArea.setOperation(Operation.DELETE);
+					AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));
+					
+					currentArea = null;
+					
 					this.close();
 				});
 

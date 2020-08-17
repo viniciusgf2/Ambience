@@ -21,6 +21,7 @@ import vazkii.ambience.Ambience;
 import vazkii.ambience.Screens.SpeakerContainer;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.World.Biomes.Area;
+import vazkii.ambience.World.Biomes.Area.Operation;
 import vazkii.ambience.blocks.AlarmTileEntity;
 import vazkii.ambience.blocks.Speaker;
 import vazkii.ambience.blocks.SpeakerTileEntity;
@@ -47,119 +48,168 @@ public class MyMessage {
 	public void handle(Supplier<NetworkEvent.Context> context) {
 
 		NetworkEvent.Context ctx = context.get();
-		// System.out.println(ctx.getDirection() + " Side="+FMLEnvironment.dist);
 
 		context.get().enqueueWork(() -> {
 
-			// if (ctx.getDirection().getReceptionSide().isClient() &&
-			// ctx.getDirection().getOriginationSide().isServer()) {
-			// }
-			
+		
 			//
 			// SERVER SIDE
 			//
 			// if(FMLEnvironment.dist == Dist.DEDICATED_SERVER) {
-			 if(ctx.getDirection()== NetworkDirection.PLAY_TO_SERVER) {
-			// This is the player the packet was sent to the server from
+			if (ctx.getDirection() == NetworkDirection.PLAY_TO_SERVER) {
+				// This is the player the packet was sent to the server from
 
-			CompoundNBT EventSound = data;
-			ServerWorld world = ctx.getSender().server.getWorld(DimensionType.getById(data.getInt("dimension")));
-			
-			// Save the speaker gui configs
-			if (EventSound.getString("SoundEvent") != null & !EventSound.getString("SoundEvent").isEmpty() & !EventSound.getBoolean("isAlarm")) {
+				CompoundNBT EventSound = data;
+				ServerWorld world = ctx.getSender().server.getWorld(DimensionType.getById(data.getInt("dimension")));
 
-				BlockPos pos = new BlockPos(EventSound.getInt("x"), EventSound.getInt("y"), EventSound.getInt("z"));
+				// Save the speaker gui configs
+				if (EventSound.getString("SoundEvent") != null & !EventSound.getString("SoundEvent").isEmpty()
+						& !EventSound.getBoolean("isAlarm")) {
 
-				((SpeakerTileEntity) world.getTileEntity(pos)).selectedSound = EventSound.getString("SoundEvent");
-				((SpeakerTileEntity) world.getTileEntity(pos)).delay = EventSound.getInt("delay");
-				((SpeakerTileEntity) world.getTileEntity(pos)).loop = EventSound.getBoolean("loop");
-				((SpeakerTileEntity) world.getTileEntity(pos)).distance = EventSound.getInt("distance");
-				((SpeakerTileEntity) world.getTileEntity(pos)).countPlay = 0;
-				((SpeakerTileEntity) world.getTileEntity(pos)).sync = true;
+					BlockPos pos = new BlockPos(EventSound.getInt("x"), EventSound.getInt("y"), EventSound.getInt("z"));
 
-				context.get().setPacketHandled(true);
-			}
-			
-			// Save the alarm gui configs
-			if (EventSound.getString("SoundEvent") != null & EventSound.getBoolean("isAlarm") & !EventSound.getString("SoundEvent").isEmpty()) {
+					((SpeakerTileEntity) world.getTileEntity(pos)).selectedSound = EventSound.getString("SoundEvent");
+					((SpeakerTileEntity) world.getTileEntity(pos)).delay = EventSound.getInt("delay");
+					((SpeakerTileEntity) world.getTileEntity(pos)).loop = EventSound.getBoolean("loop");
+					((SpeakerTileEntity) world.getTileEntity(pos)).distance = EventSound.getInt("distance");
+					((SpeakerTileEntity) world.getTileEntity(pos)).countPlay = 0;
+					((SpeakerTileEntity) world.getTileEntity(pos)).sync = true;
 
-				BlockPos pos = new BlockPos(EventSound.getInt("x"), EventSound.getInt("y"), EventSound.getInt("z"));
-
-				((AlarmTileEntity) world.getTileEntity(pos)).selectedSound = EventSound.getString("SoundEvent");
-				((AlarmTileEntity) world.getTileEntity(pos)).delay = EventSound.getInt("delay");
-				((AlarmTileEntity) world.getTileEntity(pos)).loop = EventSound.getBoolean("loop");
-				((AlarmTileEntity) world.getTileEntity(pos)).distance = EventSound.getInt("distance");
-				((AlarmTileEntity) world.getTileEntity(pos)).countPlay = 0;
-				((AlarmTileEntity) world.getTileEntity(pos)).sync = true;
-
-				context.get().setPacketHandled(true);
-			}
-
-			//Update the informations on the client when opening the Speaker Screen
-			/*if (EventSound.getString("selectedSound") != null & !EventSound.getString("selectedSound").isEmpty()) {
-				SpeakerContainer.selectedSound = EventSound.getString("selectedSound");
-				SpeakerContainer.delay = EventSound.getInt("delay");
-				SpeakerContainer.loop = EventSound.getBoolean("loop");
-				SpeakerContainer.distance = EventSound.getFloat("distance");
-				SpeakerContainer.dimension = EventSound.getInt("dimension");
-
-				context.get().setPacketHandled(true);
-			}*/
-
-			
-			if (EventSound.getString("Name") != null) {
-				// The value that was sent
-				Area area = Area.DeSerialize(data);
-				world = ctx.getSender().server.getWorld(DimensionType.getById(area.getDimension()));
-				
-				WorldData data = new WorldData().GetArasforWorld(world);
-
-				switch (area.getOperation()) {
-				case CREATE:
-					data.addArea(area);
-					break;
-				case DELETE:
-					data.removeArea(area);
-					break;
-				case EDIT:
-					data.editArea(area);
-					break;
-				default:
-					data.addArea(area);
-					break;
+					context.get().setPacketHandled(true);
 				}
 
-				data.saveData();
+				// Save the alarm gui configs
+				if (EventSound.getString("SoundEvent") != null & EventSound.getBoolean("isAlarm")
+						& !EventSound.getString("SoundEvent").isEmpty()) {
 
-				Ambience.getWorldData().listAreas = data.listAreas;
-				Ambience.sync = true;
+					BlockPos pos = new BlockPos(EventSound.getInt("x"), EventSound.getInt("y"), EventSound.getInt("z"));
+
+					((AlarmTileEntity) world.getTileEntity(pos)).selectedSound = EventSound.getString("SoundEvent");
+					((AlarmTileEntity) world.getTileEntity(pos)).delay = EventSound.getInt("delay");
+					((AlarmTileEntity) world.getTileEntity(pos)).loop = EventSound.getBoolean("loop");
+					((AlarmTileEntity) world.getTileEntity(pos)).distance = EventSound.getInt("distance");
+					((AlarmTileEntity) world.getTileEntity(pos)).countPlay = 0;
+					((AlarmTileEntity) world.getTileEntity(pos)).sync = true;
+
+					context.get().setPacketHandled(true);
+				}
+
+			
+
+				if (EventSound.getString("Name") != null) {
+					// The value that was sent
+					Area area = Area.DeSerialize(data);
+					world = ctx.getSender().server.getWorld(DimensionType.getById(area.getDimension()));
+
+					WorldData data = new WorldData().GetArasforWorld(world);
+
+					switch (area.getOperation()) {
+					case CREATE:
+						data.addArea(area);
+						
+						// Clear selected Area
+						ClearSelection(ctx);
+						/*Ambience.selectedArea = new Area("Area1");
+						Ambience.previewArea = new Area("Area1");
+						Ambience.selectedArea.setOperation(Operation.SELECT);
+
+						AmbiencePackageHandler.sendToClient(new MyMessage(Ambience.selectedArea.SerializeThis()),ctx.getSender());
+						*/
+						
+						break;
+					case DELETE:
+						data.removeArea(area);
+						CompoundNBT updatedAreas = WorldData.SerializeThis(Ambience.getWorldData().listAreas);
+						AmbiencePackageHandler.sendToClient(new MyMessage(updatedAreas), ctx.getSender());	
+						
+						
+						
+						// Clear selected Area
+						ClearSelection(ctx);
+					/*	Ambience.selectedArea = new Area("Area1");
+						Ambience.previewArea = new Area("Area1");
+						Ambience.selectedArea.setOperation(Operation.SELECT);
+
+						AmbiencePackageHandler.sendToClient(new MyMessage(Ambience.selectedArea.SerializeThis()),ctx.getSender());
+						*/
+						
+						break;
+					case EDIT:
+						data.editArea(area);	
+						
+						updatedAreas = WorldData.SerializeThis(Ambience.getWorldData().listAreas);
+						AmbiencePackageHandler.sendToClient(new MyMessage(updatedAreas), ctx.getSender());
+						break;
+					case SELECT:
+						Ambience.selectedArea = area;
+						Ambience.previewArea = area;
+						break;					
+					default:
+						data.addArea(area);						
+						break;
+					}
+
+					data.saveData();
+
+					Ambience.getWorldData().listAreas = data.listAreas;
+					Ambience.sync = true;
+
+				}
 
 			}
-			
-			 }
-			 
-			 else {
 
-					CompoundNBT EventSound = data;
-				//Update the informations on the client when opening the Speaker Screen
-					//if (EventSound.getString("selectedSound") != null & !EventSound.getString("selectedSound").isEmpty()) {
+			else {
+
+				CompoundNBT EventSound = data;
+				// Update the informations on the client when opening the Speaker Screen
+				 if (EventSound.getString("selectedSound") != null & !EventSound.getString("selectedSound").isEmpty()) {
 						SpeakerContainer.selectedSound = EventSound.getString("selectedSound");
 						SpeakerContainer.delay = EventSound.getInt("delay");
 						SpeakerContainer.loop = EventSound.getBoolean("loop");
 						SpeakerContainer.distance = EventSound.getFloat("distance");
 						SpeakerContainer.dimension = EventSound.getInt("dimension");
-						SpeakerContainer.pos =new BlockPos(EventSound.getCompound("pos").getInt("x"), EventSound.getCompound("pos").getInt("y"), EventSound.getCompound("pos").getInt("z"));
-						SpeakerContainer.isAlarm=EventSound.getBoolean("isAlarm");
+						SpeakerContainer.pos = new BlockPos(EventSound.getCompound("pos").getInt("x"),
+								EventSound.getCompound("pos").getInt("y"), EventSound.getCompound("pos").getInt("z"));
+						SpeakerContainer.isAlarm = EventSound.getBoolean("isAlarm");
 						context.get().setPacketHandled(true);
-					//}
-											
-					//Stops the playing sound on the client 
-					if (EventSound.getString("stop").contains("stop")) {
-						Minecraft.getInstance().getSoundHandler().stop(new ResourceLocation(EventSound.getString("sound")), SoundCategory.NEUTRAL);
-					}
-			 }
+						// }
+
+						// Stops the playing sound on the client
+						if (EventSound.getString("stop").contains("stop")) {
+							Minecraft.getInstance().getSoundHandler()
+									.stop(new ResourceLocation(EventSound.getString("sound")), SoundCategory.NEUTRAL);
+						}
+				 }
+				 
+				 if (EventSound.getString("Name") != null) {
+						Area area = Area.DeSerialize(data);
+						
+						
+						
+						switch (area.getOperation()) {						
+							case OPENEDIT:
+								vazkii.ambience.Screens.EditAreaScreen.currentArea=area;
+								if(Ambience.previewArea.getName()=="Area1")
+									Ambience.previewArea = new Area("Area1");
+								break;
+							case SELECT:Ambience.selectedArea = area;
+								Ambience.previewArea = area;
+								break;
+						}
+				 }
+			}
 		});
 
 		context.get().setPacketHandled(true);
+	}
+	
+	private void ClearSelection(NetworkEvent.Context ctx) {
+		// Clear selected Area
+		Ambience.selectedArea = new Area("Area1");
+		Ambience.previewArea = new Area("Area1");
+		Ambience.selectedArea.setOperation(Operation.SELECT);
+
+		AmbiencePackageHandler.sendToClient(new MyMessage(Ambience.selectedArea.SerializeThis()),ctx.getSender());
+		
 	}
 }

@@ -19,7 +19,7 @@ public class Area implements Comparator<Area>{
 	// e: edit
 	// d: delete
 	public enum Operation {
-		CREATE, EDIT, DELETE;
+		CREATE, EDIT, DELETE,SELECT,OPENEDIT;
 	}
 
 	private Operation operation;
@@ -118,6 +118,12 @@ public class Area implements Comparator<Area>{
 
 		case DELETE:
 			return "d";
+			
+		case SELECT:
+			return "s";
+		
+		case OPENEDIT:
+			return "oe";
 
 		default:
 			return "c";
@@ -127,13 +133,16 @@ public class Area implements Comparator<Area>{
 	public CompoundNBT getPosListTag() {
 
 		CompoundNBT posCompound = new CompoundNBT();
-		posCompound.putDouble("x1", pos1.x);
-		posCompound.putDouble("y1", pos1.y);
-		posCompound.putDouble("z1", pos1.z);
-		posCompound.putDouble("x2", pos2.x);
-		posCompound.putDouble("y2", pos2.y);
-		posCompound.putDouble("z2", pos2.z);
-
+		if(pos1!=null) {
+			posCompound.putDouble("x1", pos1.x);
+			posCompound.putDouble("y1", pos1.y);
+			posCompound.putDouble("z1", pos1.z);
+		}
+		if(pos2!=null) {
+			posCompound.putDouble("x2", pos2.x);
+			posCompound.putDouble("y2", pos2.y);
+			posCompound.putDouble("z2", pos2.z);
+		}
 		return posCompound;
 	}
 
@@ -234,6 +243,7 @@ public class Area implements Comparator<Area>{
 			setID(generateNewID());
 
 		CompoundNBT tagCompound = new CompoundNBT();
+		if(pos1 !=null & pos2!=null)
 		tagCompound.put("Pos", getPosListTag()); // Coordinates init and final
 		tagCompound.putString("Name", getName()); // Area Name
 		tagCompound.putInt("D", getDimension()); // Dimension
@@ -262,6 +272,12 @@ public class Area implements Comparator<Area>{
 			break;
 		case "d":
 			area.setOperation(Operation.DELETE);
+			break;
+		case "s":
+			area.setOperation(Operation.SELECT);
+			break;
+		case "oe":
+			area.setOperation(Operation.OPENEDIT);
 			break;
 		default:
 			area.setOperation(Operation.CREATE);

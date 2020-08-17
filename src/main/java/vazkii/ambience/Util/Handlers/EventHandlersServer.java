@@ -129,8 +129,6 @@ public class EventHandlersServer {
 				event.getRight().add(name);
 			}
 		}
-		String timer = "Attacking Timer: " + EventHandlersServer.attackingTimer;
-		event.getRight().add(timer);
 	}
 
 	// Server Side
