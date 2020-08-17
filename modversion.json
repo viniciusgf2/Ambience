@@ -1,6 +1,7 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/ambience-extras/files",
    "1.15.2": {    
+    "1.0.2" : "BUGFIX - Not able to create\edit Areas on Servers\nChange - Added the button to delete areas",
     "1.0.1" : "BUGFIX - The speaker wasn't getting the lenght of the playing sound causing it to overlap the audio\nBUGFIX - The selected Area weren't beeing created, now its working for creation and edit\nCHANGE - Added the Show Selected Area button in the edit Area Screen",
     "1.0.0" : "Migrated to the 1.15.2 version!!!"
   },
