@@ -192,8 +192,14 @@ public class Speaker extends Block {
 				tagCompound.putString("openGui","open");
 				tagCompound.putInt("index", getListSelectedIndex(((SpeakerTileEntity) worldIn.getTileEntity(pos)).selectedSound));
 				tagCompound.putInt("dimension",player.dimension.getId());
+				tagCompound.putBoolean("isAlarm",false);
 				
-				AmbiencePackageHandler.sendToClient(new MyMessage(tagCompound), (ServerPlayerEntity) player);;
+				SpeakerContainer.isAlarm =false;
+				SpeakerContainer.pos=pos;
+				SpeakerContainer.dimension=player.dimension.getId();
+
+				AmbiencePackageHandler.sendToAll(new MyMessage(tagCompound));
+				//AmbiencePackageHandler.sendToClient(new MyMessage(tagCompound), (ServerPlayerEntity) player);;
 									
 				NetworkHooks.openGui((ServerPlayerEntity) player, new INamedContainerProvider() {
 					@Override
@@ -212,7 +218,8 @@ public class Speaker extends Block {
 								((SpeakerTileEntity) worldIn.getTileEntity(pos)).distance, 
 								"open",
 								getListSelectedIndex(((SpeakerTileEntity) worldIn.getTileEntity(pos)).selectedSound),
-								player.dimension.getId());
+								player.dimension.getId(),
+								false);
 					}
 				}, buf -> buf.writeInt(player.getEntityId()));
 
@@ -268,7 +275,7 @@ public class Speaker extends Block {
 				tagCompound.putString("stop", "stop");
 				tagCompound.putString("sound","ambience:"+((SpeakerTileEntity) worldIn.getTileEntity(pos)).selectedSound);
 							
-				AmbiencePackageHandler.sendToClient(new MyMessage(tagCompound), (ServerPlayerEntity) player);				
+				AmbiencePackageHandler.sendToAll(new MyMessage(tagCompound));				
 			}
 
 		}

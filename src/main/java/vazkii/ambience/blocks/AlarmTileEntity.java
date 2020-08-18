@@ -144,14 +144,13 @@ public class AlarmTileEntity extends TileEntity implements ITickableTileEntity{
 			}else {
 			
 				
-					this.countLight++;
-					
-					if(countLight>40 & isOn) {											
-						parent.setState(false, this.world, this.pos, this.color, this.selectedSound);	
-						isOn=false;
-						countLight=0;
-					}	
-					
+				this.countLight++;
+				if(countLight>40 & isOn) {											
+					parent.setState(false, this.world, this.pos, this.color, this.selectedSound);	
+					isOn=false;
+					countLight=0;
+				}	
+
 				if(songLenght>2 & !syncWithSound)
 				{	
 					if((countLight>20 & countLight<40) & world.isBlockPowered(pos) & !isOn) {
@@ -174,10 +173,15 @@ public class AlarmTileEntity extends TileEntity implements ITickableTileEntity{
 					//	countLight=0;
 				}
 						
-				if(syncWithSound & songLenght<=2) {		
+				if(syncWithSound & songLenght<=2 & !isOn) {		
 					parent.setState(true, this.world, this.pos, this.color, this.selectedSound);
 					isOn=true;	
 					this.countLight=0;		
+				}
+				else if(syncWithSound & songLenght<=2 & isOn) {		
+						parent.setState(false, this.world, this.pos, this.color, this.selectedSound);
+						isOn=false;	
+						this.countLight=0;		
 				}	
 				
 				//Desliga a luz caso não receba sinal de redstone

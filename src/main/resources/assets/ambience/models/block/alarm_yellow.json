@@ -71,7 +71,7 @@
 				},
 				"down": {
 					"uv": [ 0, 0, 10, 10 ],
-					"texture": "#missing"
+					"texture": "#0"
 				}
 			}
 		}

@@ -78,7 +78,7 @@ public class EventHandlers {
 		}
 	}
 	
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		// check each enumerated key binding type for pressed and take appropriate
 		// action
@@ -110,7 +110,7 @@ public class EventHandlers {
 			MusicTicker ticker = new NilMusicTicker(mc);
 			ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
 		}
-	}
+	}*/
 
 	
 	@SubscribeEvent
@@ -191,6 +191,39 @@ public class EventHandlers {
 			if(Ambience.thread != null)
 				Ambience.thread.setRealGain();
 		}
+		
+		
+		//KEYBOARD EVENTS HANDLER
+		// check each enumerated key binding type for pressed and take appropriate
+				// action
+				if (keyBindings[0].isPressed()) {
+					SongPicker.reset();
+					//Ambience.thread.forceKill();			
+					//Ambience.thread.run();
+					SongLoader.loadFrom(Ambience.ambienceDir);
+
+					//if (SongLoader.enabled)
+						//Ambience.thread = new PlayerThread();
+
+					Minecraft mc = Minecraft.getInstance();
+					MusicTicker ticker = new NilMusicTicker(mc);
+
+					ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
+				}
+				
+				if (keyBindings[1].isPressed()) {
+					//SongPicker.reset();
+					Ambience.thread.forceKill();			
+					Ambience.thread.run();
+					SongLoader.loadFrom(Ambience.ambienceDir);
+
+					if (SongLoader.enabled)
+						Ambience.thread = new PlayerThread();
+
+					Minecraft mc = Minecraft.getInstance();
+					MusicTicker ticker = new NilMusicTicker(mc);
+					ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
+				}
 	}
 	
 	@SubscribeEvent
@@ -236,8 +269,9 @@ public class EventHandlers {
 
 		if (Ambience.previewArea != null)
 			if (Ambience.previewArea.getPos1() != null & Ambience.previewArea.getPos2() != null) {
-				SelectionBoxRenderer.drawBoundingBox(currentplayer.getPositionVector(), Ambience.previewArea.getPos1(),
-						Ambience.previewArea.getPos2(), true, 2,event.getPartialTicks(),event);
+				if(Ambience.previewArea.getPos1().x!=0 & Ambience.previewArea.getPos1().y!=0 & Ambience.previewArea.getPos1().z!=0 &
+				   Ambience.previewArea.getPos2().x!=0 & Ambience.previewArea.getPos2().y!=0 & Ambience.previewArea.getPos2().z!=0)
+					SelectionBoxRenderer.drawBoundingBox(currentplayer.getPositionVector(), Ambience.previewArea.getPos1(),	Ambience.previewArea.getPos2(), true, 2,event.getPartialTicks(),event);
 			}
 	}
 	

@@ -10,6 +10,7 @@ import net.minecraft.client.gui.widget.button.CheckboxButton;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -77,7 +78,7 @@ public class EditAreaScreen extends ContainerScreen<EditAreaContainer> {
 						currentArea.setPlayAtNight(PlayatNight.isChecked());
 						AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));
 						Ambience.sync = true;
-	
+							
 						this.close();
 					}
 				});
@@ -179,7 +180,7 @@ public class EditAreaScreen extends ContainerScreen<EditAreaContainer> {
 		if (AreaName.isFocused()) {
 			specialKey = AreaName.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 		}
-
+		
 		if (!specialKey) {
 			if (p_keyPressed_1_ != 340 & p_keyPressed_1_ != 341) {
 				if (p_keyPressed_3_ == 0) {

@@ -28,6 +28,7 @@ public class Area implements Comparator<Area>{
 	private boolean instantPlay = false;
 	private boolean playAtNight = false;
 	private int cubicArea =0;
+	private String SelectedBlock="";
 	
 	public boolean isPlayatNight() {
 		return playAtNight;
@@ -81,6 +82,14 @@ public class Area implements Comparator<Area>{
 
 	public String getName() {
 		return name;
+	}
+	
+	public String getSelectedBlock() {
+		return SelectedBlock;
+	}
+	
+	public String setSelectedBlock(String selectedBlock) {
+		return this.SelectedBlock =selectedBlock;
 	}
 
 	public Vec3d getPos1() {
@@ -137,11 +146,19 @@ public class Area implements Comparator<Area>{
 			posCompound.putDouble("x1", pos1.x);
 			posCompound.putDouble("y1", pos1.y);
 			posCompound.putDouble("z1", pos1.z);
+		}else {
+			posCompound.putDouble("x1", 0);
+			posCompound.putDouble("y1", 0);
+			posCompound.putDouble("z1", 0);
 		}
 		if(pos2!=null) {
 			posCompound.putDouble("x2", pos2.x);
 			posCompound.putDouble("y2", pos2.y);
 			posCompound.putDouble("z2", pos2.z);
+		}else {
+			posCompound.putDouble("x2", 0);
+			posCompound.putDouble("y2", 0);
+			posCompound.putDouble("z2", 0);
 		}
 		return posCompound;
 	}
@@ -190,7 +207,7 @@ public class Area implements Comparator<Area>{
 			}
 		}
 
-		if(Areas.size()>0) {
+		/*if(Areas.size()>0) {
 		//Adiciona a area selecionada na lista de areas
 			if(Ambience.selectedArea!=null) {				
 				Area area= Ambience.selectedArea;
@@ -206,7 +223,7 @@ public class Area implements Comparator<Area>{
 				}			
 			}
 		}
-
+*/
 		Ambience.multiArea=Areas.size();
 		
 		//Obtém a menor area	
@@ -243,7 +260,7 @@ public class Area implements Comparator<Area>{
 			setID(generateNewID());
 
 		CompoundNBT tagCompound = new CompoundNBT();
-		if(pos1 !=null & pos2!=null)
+		
 		tagCompound.put("Pos", getPosListTag()); // Coordinates init and final
 		tagCompound.putString("Name", getName()); // Area Name
 		tagCompound.putInt("D", getDimension()); // Dimension
@@ -251,7 +268,8 @@ public class Area implements Comparator<Area>{
 		tagCompound.putString("op", simplifyOperation()); // Operation
 		tagCompound.putBoolean("playNight", isPlayatNight()); // If should play at night over the night music or not
 		tagCompound.putBoolean("instP", isInstantPlay()); // If should play instantly on this region or not
-
+		tagCompound.putString("SelectedBlock", SelectedBlock); // Operation
+		
 		return tagCompound;
 	}
 	
@@ -262,7 +280,8 @@ public class Area implements Comparator<Area>{
 		area.setID(nbt.getInt("ID"));
 		area.setPlayAtNight(nbt.getBoolean("playNight"));
 		area.setInstantPlay(nbt.getBoolean("instP"));
-
+		area.setSelectedBlock(nbt.getString("SelectedBlock"));
+		
 		switch (nbt.getString("op")) {
 		case "c":
 			area.setOperation(Operation.CREATE);
@@ -289,17 +308,7 @@ public class Area implements Comparator<Area>{
 		Vec3d pos2 = new Vec3d(tagListPos.getDouble("x2"), tagListPos.getDouble("y2"),tagListPos.getDouble("z2"));
 		area.setPos1(pos1);
 		area.setPos2(pos2);
-		
-		/*CompoundNBT tagListAreas = nbt.getCompound("Pos"); // 10 indicates a list of NBTTagCompound
-		Iterator<INBT> iterator = tagListAreas.getList("Areas", 10).iterator();
-		while (iterator.hasNext()) {	
-			CompoundNBT tagListPos = nbt.getCompound("Pos");		
-			Vec3d pos1 = new Vec3d(tagListPos.getDouble("x1"), tagListPos.getDouble("y1"),tagListPos.getDouble("z1"));area.setPos1(pos1);
-			Vec3d pos2 = new Vec3d(tagListPos.getDouble("x2"), tagListPos.getDouble("y2"),tagListPos.getDouble("z2"));
-			area.setPos1(pos1);
-			area.setPos2(pos2);
-		}*/
-				
+						
 		return area;
 	}
 	

@@ -338,7 +338,7 @@ public class SpeakerScreen extends ContainerScreen<SpeakerContainer> {
 		this.ySize = 200;
 				
 		this.cancelBtn = new Button(this.width / 2 - 105, this.height / 4 + 120, 100, 20,
-				I18n.format("GUI.CancelButton"), (close) -> {					
+				I18n.format("GUI.CancelButton"), (close) -> {											
 					this.close();
 				});
 
@@ -364,6 +364,7 @@ public class SpeakerScreen extends ContainerScreen<SpeakerContainer> {
 						nbt.putInt("distance",DistanceSliderVal);
 						nbt.putInt("dimension",SpeakerContainer.dimension);
 						nbt.putBoolean("isAlarm",SpeakerContainer.isAlarm);
+						nbt.putBoolean("ClickedSpeakerOrAlarm", true);
 
 						AmbiencePackageHandler.sendToServer(new MyMessage(nbt));
 						
@@ -494,6 +495,13 @@ public class SpeakerScreen extends ContainerScreen<SpeakerContainer> {
 		if (DelayInput.isFocused()) {
 			specialKey = DelayInput.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 		}
+		
+		//Set the ClickedSpeakerOrAlarm variable in the Soundnizer to sync the variable 
+		/*if(p_keyPressed_1_==256) {
+			CompoundNBT nbt = new CompoundNBT();
+			nbt.putBoolean("ClickedSpeakerOrAlarm", false);
+			AmbiencePackageHandler.sendToServer(new MyMessage(nbt));
+		}*/
 
 		if (!specialKey) {
 			if (p_keyPressed_1_ != 340 & p_keyPressed_1_ != 341) {

@@ -149,12 +149,12 @@ public class EventHandlersServer {
 			if (data.listAreas != null)
 				Ambience.setWorldData(data.GetArasforWorld(world));
 
-			/*if (data.listAreas.size() > 0) {
+			if (data.listAreas.size() > 0) {
 				CompoundNBT nbt = WorldData.SerializeThis(Ambience.getWorldData().listAreas);
 						
 				AmbiencePackageHandler.sendToClient(new MyMessage(nbt),(ServerPlayerEntity) event.getPlayer());
 				
-			}*/
+			}
 		//});
 	}
 	

@@ -440,8 +440,8 @@ public final class SongPicker {
 						//	Border border = new Border(area.getPos1(), area.getPos2());
 						//	if(border.p1 !=null & border.p2 !=null)
 						//	if (border.contains(player.getPosition()) & areasMap.containsKey(area.getName())) {
-								
-						Area currentArea = Area.getPlayerStandingArea(player);
+						
+						Area currentArea = Area.getPlayerStandingArea(player);												
 						if(currentArea!=null & currentArea==area) {
 								if(night & area.isPlayatNight()) {
 									if(area.isInstantPlay())

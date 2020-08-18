@@ -10,6 +10,7 @@ import net.minecraft.client.gui.widget.button.CheckboxButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -40,7 +41,7 @@ public class CreateAreaScreen extends ContainerScreen<GuiContainerMod> {
 		// this.ySize = 112;
 
 		this.cancelBtn = new Button(this.width / 2 - 105, this.height / 4 + 120, 100, 20,
-				I18n.format("GUI.CancelButton"), (close) -> {					
+				I18n.format("GUI.CancelButton"), (close) -> {	
 					this.close();
 				});
 
@@ -60,6 +61,7 @@ public class CreateAreaScreen extends ContainerScreen<GuiContainerMod> {
 						Ambience.sync = true;
 	
 						Ambience.selectedArea=new Area("Area1");
+												
 						this.close();
 					}
 				});
@@ -156,7 +158,7 @@ public class CreateAreaScreen extends ContainerScreen<GuiContainerMod> {
 		if (AreaName.isFocused()) {
 			specialKey = AreaName.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 		}
-
+		
 		if (!specialKey) {
 			if (p_keyPressed_1_ != 340 & p_keyPressed_1_ != 341) {
 				if (p_keyPressed_3_ == 0) {

@@ -30,7 +30,7 @@ public class SpeakerContainer extends Container {
 	}
 
 	public SpeakerContainer(int id, int delay, String selectedSound, BlockPos pos, boolean loop, float distance,
-			String openGui, int index,int dimension) {
+			String openGui, int index,int dimension,boolean isAlarm) {
 		super(ModContainerTypes.SPEAKER_CONTAINER.get(), id);
 
 		this.id = id;
@@ -42,6 +42,7 @@ public class SpeakerContainer extends Container {
 		this.openGui = openGui;
 		this.index = index;
 		this.dimension=dimension;
+		this.isAlarm=isAlarm;
 	}
 
 	protected SpeakerContainer(ContainerType<?> type, int id) {
