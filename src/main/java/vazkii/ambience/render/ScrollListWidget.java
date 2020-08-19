@@ -1,5 +1,7 @@
 package vazkii.ambience.render;
 
+import java.util.Map;
+
 import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -15,6 +17,9 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.ModContainer;
+import vazkii.ambience.SongPicker;
+import vazkii.ambience.Screens.GuiContainerMod;
 import vazkii.ambience.Screens.SpeakerContainer;
 import vazkii.ambience.Screens.SpeakerScreen;
 import vazkii.ambience.Util.Handlers.SoundHandler;
@@ -36,6 +41,27 @@ public class ScrollListWidget extends ExtendedList<ScrollListWidget.SoundEntry> 
 			}
 		}
 
+		if (this.getSelected() != null) {
+			this.centerScrollOn(this.getSelected());
+		}
+	}
+	
+	public ScrollListWidget(Minecraft mcIn, int width, int height, FontRenderer font, String selectedItem) {
+		//super(mcIn, width - 52, 120, height / 2 - 61, height / 2 - 15, 15);
+		super(mcIn, width - 52, 120, height / 2 - 71, height / 2 - 4, 15);
+		setLeftPos(23);
+		
+		for (Map.Entry<String, String[]> entry : SongPicker.areasMap.entrySet()) {
+		    System.out.println(entry.getKey() + "/" + entry.getValue());
+		    
+		    ScrollListWidget.SoundEntry soundEntry = new SoundEntry(entry.getKey(), font);
+			this.addEntry(soundEntry);
+
+			if (entry.getKey().contains(selectedItem)) {
+				this.setSelected(soundEntry);
+			}
+		}
+				
 		if (this.getSelected() != null) {
 			this.centerScrollOn(this.getSelected());
 		}

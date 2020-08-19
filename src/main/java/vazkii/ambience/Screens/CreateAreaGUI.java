@@ -19,6 +19,7 @@ import vazkii.ambience.Ambience;
 import vazkii.ambience.World.Biomes.Area.Operation;
 import vazkii.ambience.network.AmbiencePackageHandler;
 import vazkii.ambience.network.MyMessage;
+import vazkii.ambience.render.ScrollListWidget;
 
 @OnlyIn(Dist.CLIENT)
 public class CreateAreaGUI extends Screen {
@@ -28,6 +29,8 @@ public class CreateAreaGUI extends Screen {
 	private TextFieldWidget AreaName;
 	private CheckboxButton instaPlayChk;
 	private CheckboxButton PlayatNight;
+
+	private ScrollListWidget list;
 
 	private static final ResourceLocation texture = new ResourceLocation("ambience:textures/gui/edit_window_back.png");
 	
@@ -144,6 +147,8 @@ public class CreateAreaGUI extends Screen {
 	      this.renderBackground();
 	      this.drawCenteredString(this.font, this.title.getFormattedText(), this.width / 2, 40, 16777215);
 		
+
+			this.list.render(mouseX, mouseY, partialTicks);
 		
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		int relX = (this.width - WIDTH) / 2;
