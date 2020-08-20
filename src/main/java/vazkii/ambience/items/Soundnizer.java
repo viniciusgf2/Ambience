@@ -2,6 +2,7 @@ package vazkii.ambience.items;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -13,6 +14,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -60,6 +62,7 @@ public class Soundnizer extends ItemBase {
 		if (Ambience.selectedArea == null)
 			Ambience.selectedArea = new Area("Area1");
 
+		
 		// Client
 		if (worldIn.isRemote) {
 			BlockPos Position2=null;
@@ -71,9 +74,9 @@ public class Soundnizer extends ItemBase {
 			if (lookingAt.hitInfo == null && lookingAt.getType() != RayTraceResult.Type.BLOCK) {
 				firstclick = false;
 			} else {
-				blockName = worldIn.getBlockState(((BlockRayTraceResult) lookingAt).getPos()).getBlock().getRegistryName().getPath();
+				blockName = worldIn.getBlockState(((BlockRayTraceResult) lookingAt).getPos()).getBlock().getRegistryName().getPath();				
 			}
-
+			
 			if (lookingAt != null && lookingAt.getType() == RayTraceResult.Type.BLOCK & !blockName.contains("speaker")
 					& !blockName.contains("alarm")) {
 				Position2 = ((BlockRayTraceResult) lookingAt).getPos();
@@ -90,7 +93,7 @@ public class Soundnizer extends ItemBase {
 					Ambience.selectedArea.setDimension(playerIn.dimension.getId());
 					Ambience.previewArea.setPos2(Ambience.selectedArea.getPos2());
 
-								
+
 					// Create AREA
 					// Minecraft.getInstance().displayGuiScreen(new CreateAreaGUI());
 
@@ -128,7 +131,8 @@ public class Soundnizer extends ItemBase {
 		// if (!worldIn.isRemote & lookingAt.hitInfo == null && lookingAt.getType() !=
 		// RayTraceResult.Type.BLOCK) {
 		if (!worldIn.isRemote) {
-
+					
+			
 			Area currentArea = Area.getPlayerStandingArea(playerIn);
 			
 			if(!clickedSpeakerOrAlarm ) {
@@ -174,7 +178,7 @@ public class Soundnizer extends ItemBase {
 									}
 									else {
 									// EditAreaGUI.currentArea = currentArea;
-									if (Ambience.selectedArea.getSelectedBlock()=="") {
+									if (Ambience.selectedArea.getSelectedBlock()=="" & currentArea!=null) {
 				
 										// Ambience.selectedArea = currentArea;
 										currentArea.setOperation(Operation.OPENEDIT);
@@ -280,6 +284,8 @@ public class Soundnizer extends ItemBase {
 				Ambience.selectedArea.setOperation(Operation.SELECT);
 				Ambience.selectedArea.setName("Area1");
 
+				
+				
 				if (Ambience.selectedArea.getPos2() != null)
 					Ambience.selectedArea.setPos2(new Vec3d(Ambience.selectedArea.getPos2().getX(),
 							Ambience.selectedArea.getPos2().getY(), Ambience.selectedArea.getPos2().getZ()));
