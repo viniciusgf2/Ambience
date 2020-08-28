@@ -116,6 +116,7 @@ public class EventHandlersServer {
 
 	}
 
+	//Injection of events to the particles
 	@SubscribeEvent
 	@OnlyIn(value = Dist.CLIENT)
 	public void onWorldLoad(WorldEvent.Load ev) {

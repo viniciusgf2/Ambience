@@ -39,6 +39,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.ambience.Screens.SpeakerContainer;
@@ -149,14 +150,15 @@ public class SongSwitcher extends Block {
 
 		Area currentArea = Area.getBlockStandingArea(pos);
 
-		if (worldIn.getPlayers().get(0) instanceof ServerPlayerEntity) {
-
+		if (worldIn instanceof ServerWorld) {		
+		
 			if (currentArea != null) {
 				// currentArea.setRedstoneStrength(worldIn.getRedstonePowerFromNeighbors(fromPos));
 				currentArea.setRedstoneStrength(getRedstonePowerFromNeighbors(fromPos, worldIn));
 				currentArea.setOperation(Operation.EDIT);
 
-				AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));
+				AmbiencePackageHandler.sendToAll(new MyMessage(currentArea.SerializeThis()));
+				//AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));
 
 				if (getRedstonePowerFromNeighbors(fromPos, worldIn)!=0) {
 					setState(true,worldIn,pos,"red","");
@@ -182,6 +184,8 @@ public class SongSwitcher extends Block {
 
 		if (worldIn.getPlayers().get(0) instanceof ServerPlayerEntity) {
 
+			
+		}else {
 			if (currentArea != null) {
 				
 				int power=0;
@@ -245,12 +249,20 @@ public class SongSwitcher extends Block {
 	public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state) {
 
 		PlayerEntity player = (PlayerEntity) worldIn.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
-		Area currentArea = Area.getBlockStandingArea(pos);
+	
+		
+		if (player instanceof ServerPlayerEntity) {
 
-		currentArea.setRedstoneStrength(0);
-		currentArea.setOperation(Operation.EDIT);
+			
+		}else {
+			Area currentArea = Area.getBlockStandingArea(pos);
 
-		AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));
+			currentArea.setRedstoneStrength(0);
+			currentArea.setOperation(Operation.EDIT);
+
+			AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));
+		}
+		
 
 		super.onPlayerDestroy(worldIn, pos, state);
 	}
@@ -258,16 +270,17 @@ public class SongSwitcher extends Block {
 	// Stops the Sound on Explosion Destroy
 	@Override
 	public void onExplosionDestroy(World worldIn, BlockPos pos, Explosion explosionIn) {
-
-		PlayerEntity player = (PlayerEntity) worldIn.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
-		Area currentArea = Area.getBlockStandingArea(pos);
-
-		currentArea.setRedstoneStrength(0);
-		currentArea.setOperation(Operation.EDIT);
-
-		AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));
-
-		super.onExplosionDestroy(worldIn, pos, explosionIn);
+		if (worldIn instanceof ServerWorld) {			
+			PlayerEntity player = (PlayerEntity) worldIn.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
+			Area currentArea = Area.getBlockStandingArea(pos);
+	
+			currentArea.setRedstoneStrength(0);
+			currentArea.setOperation(Operation.EDIT);
+	
+			AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));
+	
+			super.onExplosionDestroy(worldIn, pos, explosionIn);
+		}
 	}
 
 }

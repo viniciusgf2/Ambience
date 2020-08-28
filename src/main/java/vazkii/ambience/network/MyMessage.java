@@ -216,6 +216,10 @@ public class MyMessage {
 									if(Ambience.previewArea.getName()=="Area1")
 										Ambience.previewArea = new Area("Area1");
 									break;
+								case EDIT:
+									area.setOperation(Operation.EDIT);
+									AmbiencePackageHandler.sendToServer(new MyMessage(area.SerializeThis()));
+									break;
 								case SELECT:Ambience.selectedArea = area;
 									Ambience.previewArea = area;
 									break;
