@@ -299,7 +299,7 @@ public class AlarmTileEntity extends TileEntity implements ITickableTileEntity{
 												
 						this.getWorld().playSound((PlayerEntity) null, this.pos.getX(), this.pos.getY(), this.pos.getZ(),
 								ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:" + selectedSound)),
-								SoundCategory.NEUTRAL, (float) distance, (float) 1);
+								SoundCategory.BLOCKS, (float) distance, (float) 1);
 					}
 	
 				if (!loop & countPlay == 0)// Play one time if loop is disabled
@@ -310,7 +310,7 @@ public class AlarmTileEntity extends TileEntity implements ITickableTileEntity{
 						
 						this.getWorld().playSound((PlayerEntity) null, this.pos.getX(), this.pos.getY(), this.pos.getZ(),
 								ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:" + selectedSound)),
-								SoundCategory.NEUTRAL, (float) distance, (float) 1);
+								SoundCategory.BLOCKS, (float) distance, (float) 1);
 						countPlay++;
 					}
 				}
@@ -346,7 +346,7 @@ public class AlarmTileEntity extends TileEntity implements ITickableTileEntity{
 						this.cooldown = delay + (songLenght* 20);
 						this.getWorld().playSound((PlayerEntity) null, this.pos.getX(), this.pos.getY(), this.pos.getZ(),
 								ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:" + selectedSound)),
-								SoundCategory.NEUTRAL, (float) distance, (float) 1);
+								SoundCategory.BLOCKS, (float) distance, (float) 1);
 					}
 				}
 	

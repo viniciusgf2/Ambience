@@ -2,10 +2,15 @@ package vazkii.ambience.Util.Handlers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.DripParticle;
+import net.minecraft.client.particle.IParticleFactory;
+import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.client.particle.SplashParticle;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -13,9 +18,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.play.ServerPlayNetHandler;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.gui.MinecraftServerGui;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
@@ -35,13 +42,17 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.PlayerThread;
 import vazkii.ambience.SongPicker;
+import vazkii.ambience.Util.SplashFactory2;
 import vazkii.ambience.Util.WorldData;
+import vazkii.ambience.Util.particles.DripLavaParticleFactory;
+import vazkii.ambience.Util.particles.DripWaterParticleFactory;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.network.AmbiencePackageHandler;
 import vazkii.ambience.network.MyMessage;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import net.minecraftforge.server.ServerMain;
@@ -55,11 +66,6 @@ public class EventHandlersServer {
 	public EventHandlersServer() {
 		attackingTimer = attackFadeTime;
 	}
-
-	/*@SubscribeEvent
-	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		
-	}*/
 
 	String mobName = null;
 
@@ -112,6 +118,69 @@ public class EventHandlersServer {
 
 	@SubscribeEvent
 	@OnlyIn(value = Dist.CLIENT)
+	public void onWorldLoad(WorldEvent.Load ev) {
+
+		Minecraft mc = Minecraft.getInstance();
+		if (mc.particles != null) {
+			try {
+				// get existing splash particle factory
+
+				// do Map<ResourceLocation, IParticleFactory<?>> facts = Minecraft.getInstance().particles.factories;
+				Map<ResourceLocation, IParticleFactory<?>> facts = ObfuscationReflectionHelper.getPrivateValue(ParticleManager.class, mc.particles, "field_178932_g");
+				IParticleFactory pf = facts.get(ParticleTypes.SPLASH.getRegistryName());
+
+				// check that it's the vanilla one
+				if (pf instanceof SplashParticle.Factory) {
+					// inject custom splash particle factory
+					mc.particles.registerFactory(ParticleTypes.SPLASH, SplashFactory2::new);
+					IParticleFactory npf = facts.get(ParticleTypes.SPLASH.getRegistryName());
+
+					// check that it worked
+					if (npf instanceof SplashFactory2) {
+						// wrap the original factory to copy the sprite data
+						((SplashFactory2) npf).wrap((SplashParticle.Factory) pf);
+					}
+				}
+				
+				//For Dripping Water on water inside caves
+				pf = facts.get(ParticleTypes.DRIPPING_WATER.getRegistryName());
+				
+				// check that it's the vanilla one
+				if (pf instanceof DripParticle.DrippingWaterFactory) {
+					// inject custom splash particle factory
+					mc.particles.registerFactory(ParticleTypes.DRIPPING_WATER, DripWaterParticleFactory::new);
+					IParticleFactory npf = facts.get(ParticleTypes.DRIPPING_WATER.getRegistryName());
+
+					// check that it worked
+					if (npf instanceof DripWaterParticleFactory) {
+						// wrap the original factory to copy the sprite data
+						((DripWaterParticleFactory) npf).wrap((DripParticle.DrippingWaterFactory) pf);
+					}
+				}
+				
+				//For Dripping Lava on ground
+				pf = facts.get(ParticleTypes.DRIPPING_LAVA.getRegistryName());
+				
+				// check that it's the vanilla one
+				if (pf instanceof DripParticle.DrippingLavaFactory) {
+					// inject custom splash particle factory
+					mc.particles.registerFactory(ParticleTypes.DRIPPING_LAVA, DripLavaParticleFactory::new);
+					IParticleFactory npf = facts.get(ParticleTypes.DRIPPING_LAVA.getRegistryName());
+
+					// check that it worked
+					if (npf instanceof DripLavaParticleFactory) {
+						// wrap the original factory to copy the sprite data
+						((DripLavaParticleFactory) npf).wrap((DripParticle.DrippingLavaFactory) pf);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@SubscribeEvent
+	@OnlyIn(value = Dist.CLIENT)
 	public void onRenderOverlay(RenderGameOverlayEvent.Text event) {
 		if (!Minecraft.getInstance().gameSettings.showDebugInfo)
 			return;
@@ -133,55 +202,34 @@ public class EventHandlersServer {
 
 	// Server Side
 	@SubscribeEvent
-	//@OnlyIn(value = Dist.DEDICATED_SERVER)
 	public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+		Ambience.selectedArea = null;
 
-		// server.deferTask(taskIn)
-		//Minecraft.getInstance().enqueue(() -> {
+		WorldData data = new WorldData();
 
-			Ambience.selectedArea = null;
+		ServerWorld world = (ServerWorld) event.getPlayer().world;
+		data.GetArasforWorld(world);
 
-			WorldData data = new WorldData();
+		if (data.listAreas != null)
+			Ambience.setWorldData(data.GetArasforWorld(world));
 
-			ServerWorld world = (ServerWorld) event.getPlayer().world;
-			data.GetArasforWorld(world);
+		if (data.listAreas.size() > 0) {
+			CompoundNBT nbt = WorldData.SerializeThis(Ambience.getWorldData().listAreas);
 
-			if (data.listAreas != null)
-				Ambience.setWorldData(data.GetArasforWorld(world));
+			AmbiencePackageHandler.sendToClient(new MyMessage(nbt), (ServerPlayerEntity) event.getPlayer());
 
-			if (data.listAreas.size() > 0) {
-				CompoundNBT nbt = WorldData.SerializeThis(Ambience.getWorldData().listAreas);
-						
-				AmbiencePackageHandler.sendToClient(new MyMessage(nbt),(ServerPlayerEntity) event.getPlayer());
-				
-			}
-		//});
+		}
 	}
-	
-	int waitTime = 0;
 
-	@SubscribeEvent	
-	public void onServerTick(ServerTickEvent event) { // this
-		// most certainly WILL fire, even in single player, see for yourself:
-		// Sync data betwen all the players when player create a new area
-				
-		
-		
-	/*	if (Ambience.sync & event.side == LogicalSide.SERVER) {
-			waitTime++;
-
-			if (waitTime > 50) {
-				waitTime = 0;
-				Ambience.sync = false;
-
-				
-			//	AmbiencePackageHandler.sendToServer(new MyMessage(Ambience.selectedArea.SerializeThis()));
-				
-				//CompoundNBT nbt = WorldData.SerializeThis(Ambience.getWorldData().listAreas);
-				//nbt.putBoolean("sync", true);
-
-				//NetworkHandler4.sendToAll(new MyMessage4(nbt));
-			}
-		}*/
-	}
+	/*
+	 * int waitTime = 0;
+	 * 
+	 * @SubscribeEvent public void onServerTick(ServerTickEvent event) { // this //
+	 * most certainly WILL fire, even in single player, see for yourself: // Sync
+	 * data betwen all the players when player create a new area
+	 * 
+	 * 
+	 * 
+	 * }
+	 */
 }

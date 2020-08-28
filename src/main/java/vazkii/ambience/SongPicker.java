@@ -45,8 +45,10 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import vazkii.ambience.Util.SplashFactory2;
 import vazkii.ambience.Util.Handlers.EventHandlers;
 import vazkii.ambience.Util.Handlers.EventHandlersServer;
+import vazkii.ambience.Util.particles.DripWaterParticleFactory;
 import vazkii.ambience.World.Biomes.Area;
 
 @OnlyIn(value = Dist.CLIENT)
@@ -71,6 +73,7 @@ public final class SongPicker {
 	public static final String EVENT_FALLING = "falling";
 	public static final String EVENT_ELYTRA = "flyingelytra";
 	public static final String EVENT_UNDERWATER = "underwater";
+	public static final String EVENT_DRIPWATERINCAVE = "dripwaterincave";
 	public static final String EVENT_UNDERGROUND = "underground";
 	public static final String EVENT_DEEP_UNDEGROUND = "deepUnderground";
 	public static final String EVENT_HIGH_UP = "highUp";
@@ -97,7 +100,8 @@ public final class SongPicker {
 	public static final Random rand = new Random();
 
 	public static int songTimer = 0;
-
+	private static int uncountDripWater=0;
+	
 	public static boolean areaSongsLoaded = false;
 	public static boolean falling = false;
 	
@@ -380,6 +384,27 @@ public final class SongPicker {
 				songs = getSongsForEvent(EVENT_UNDERWATER);
 			if (songs != null)
 				return songs;
+		}
+		
+		if(DripWaterParticleFactory.dripsCount>0) {
+			boolean underground = !world.canSeeSky(pos);
+
+			uncountDripWater++;
+			if(uncountDripWater >50 & DripWaterParticleFactory.dripsCount>=0) {
+				DripWaterParticleFactory.dripsCount--;
+				uncountDripWater=0;
+			}
+			
+			if (underground) {
+				String[] songs=null;
+				//Songs for other dimensions
+				if (dimension <-1 | dimension >1 )
+					songs = getSongsForEvent(EVENT_DRIPWATERINCAVE+"\\"+dimension);
+				else
+					songs = getSongsForEvent(EVENT_DRIPWATERINCAVE);
+				if (songs != null)
+					return songs;
+			}
 		}
 				
 		if(player.fallDistance>15) 
