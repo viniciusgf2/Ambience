@@ -43,5 +43,41 @@
                 "stream": false
             }
         ]
+    },
+     "wdrop1": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:wdrop1",
+                "stream": false
+            }
+        ]
+    },
+     "wdrop2": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:wdrop2",
+                "stream": false
+            }
+        ]
+    },
+     "wdrop3": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:wdrop3",
+                "stream": false
+            }
+        ]
+    },
+     "wdrop4": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:wdrop4",
+                "stream": false
+            }
+        ]
     }
 }

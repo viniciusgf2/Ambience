@@ -1,6 +1,7 @@
 package vazkii.ambience.Util.Handlers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.core.config.plugins.util.ResolverUtil.Test;
 import org.lwjgl.input.Keyboard;
@@ -10,6 +11,10 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.particle.IParticleFactory;
+import net.minecraft.client.particle.ParticleDrip;
+import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.client.particle.ParticleRain;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,6 +22,8 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.event.ClickEvent;
@@ -30,19 +37,25 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.NilMusicTicker;
 import vazkii.ambience.PlayerThread;
 import vazkii.ambience.SongLoader;
 import vazkii.ambience.SongPicker;
+import vazkii.ambience.Util.particles.DripLavaParticleFactory;
+import vazkii.ambience.Util.particles.DripWaterParticleFactory;
 
 public class EventHandlers {
 
@@ -159,6 +172,35 @@ public class EventHandlers {
 			ambience.attacked = false;
 		}
 
+	}
+	
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void onWorldLoad(WorldEvent.Load ev) {
+		Minecraft mc = Minecraft.getMinecraft();
+		
+		if (mc.effectRenderer != null) 
+		{
+			try {
+				
+				Map<ResourceLocation, IParticleFactory> facts = ObfuscationReflectionHelper.getPrivateValue(ParticleManager.class, mc.effectRenderer, "particleTypes");
+				IParticleFactory pf = facts.get(EnumParticleTypes.DRIP_WATER.getParticleID());
+		
+				if (pf instanceof ParticleDrip.WaterFactory) {
+				
+					mc.effectRenderer.registerParticle(EnumParticleTypes.DRIP_WATER.getParticleID(), new DripWaterParticleFactory());
+				}	
+				
+				pf = facts.get(EnumParticleTypes.DRIP_LAVA.getParticleID());				
+				if (pf instanceof ParticleDrip.LavaFactory) {
+				
+					mc.effectRenderer.registerParticle(EnumParticleTypes.DRIP_LAVA.getParticleID(), new DripLavaParticleFactory());
+				}		
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	// FUNCIONA Quando player ataca alguma coisa

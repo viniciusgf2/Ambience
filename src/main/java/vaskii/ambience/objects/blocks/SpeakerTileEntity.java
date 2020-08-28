@@ -189,7 +189,7 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 						this.getWorld().playSound((EntityPlayer) null, this.pos.getX(), this.pos.getY(), this.pos.getZ(),
 								(net.minecraft.util.SoundEvent) net.minecraft.util.SoundEvent.REGISTRY
 										.getObject(new ResourceLocation("ambience:" + selectedSound)),
-								SoundCategory.NEUTRAL, (float) distance, (float) 1);
+								SoundCategory.BLOCKS, (float) distance, (float) 1);
 					}
 	
 				if (!loop & countPlay == 0)// Play one time if loop is disabled
@@ -199,7 +199,7 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 						this.getWorld().playSound((EntityPlayer) null, this.pos.getX(), this.pos.getY(), this.pos.getZ(),
 								(net.minecraft.util.SoundEvent) net.minecraft.util.SoundEvent.REGISTRY
 										.getObject(new ResourceLocation("ambience:" + selectedSound)),
-								SoundCategory.NEUTRAL, (float) distance, (float) 1);
+								SoundCategory.BLOCKS, (float) distance, (float) 1);
 						countPlay++;
 					}
 				}
@@ -233,7 +233,7 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 					if (world.isBlockIndirectlyGettingPowered(pos) > 0) {
 						this.cooldown = delay + (songLenght* 20);
 						this.getWorld().playSound((EntityPlayer) null, this.pos.getX(), this.pos.getY(), this.pos.getZ(),
-								(net.minecraft.util.SoundEvent) net.minecraft.util.SoundEvent.REGISTRY.getObject(new ResourceLocation("ambience:" + selectedSound)),SoundCategory.NEUTRAL, (float) distance, (float) 1);
+								(net.minecraft.util.SoundEvent) net.minecraft.util.SoundEvent.REGISTRY.getObject(new ResourceLocation("ambience:" + selectedSound)),SoundCategory.BLOCKS, (float) distance, (float) 1);
 					}
 				}
 	
