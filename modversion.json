@@ -1,6 +1,7 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/ambience-extras/files",
-   "1.15.2": {    
+   "1.15.2": {
+    "1.0.4" : "New Block - The Song Switcher added, it changes the music that is playing in a region depending on the intensity of the redstone signal. (it's perfect when creating minigames)\nNew Feature - Added an event to detect dripping water on water inside caves.\nNew Feature - Added sound effects for water and lava dripping for more immerssion.\nCHANGE - Changed the SoundCategory for the speaker and the alarm blocks from NEUTRAL to BLOCKS so you can adjust the volume for these blocks in the sound options.",
     "1.0.3" : "BUGFIX - Fixed keyboard events not triggering events to reload the configs or force play\nBUGFIX - Fixed sync between clients on selected regions\nBUGFIX - Fixed sync between clients on alarms and speakers settings\nBUGFIX - Fixed alarm not playing\nBUGFIX - Fixed alarm and speaker not stopping the sound immediately after turn off redstone\nBUGFIX - Fixed the alarm and speaker not dropping itself when broken\nCHANGE - Added the list of areas in the create/edit regions screen",
     "1.0.2" : "BUGFIX - Not able to create or edit regions on Server.s\nChange - Added the button to delete regions.",
     "1.0.1" : "BUGFIX - The speaker wasn't getting the lenght of the playing sound causing it to overlap the audio\nBUGFIX - The selected Area weren't beeing created, now its working for creation and edit\nCHANGE - Added the Show Selected Area button in the edit Area Screen",
@@ -17,8 +18,8 @@
     "1.4.3": "CHANGE - The mobs from mowzie's mobs were hard codded to always play the BOSS event music, now it's respecting the settings from the ambience.properties file\nBUGFIX- Some times if you go to fast over biomes the audio fade out and won't fade in again, now it's working fine."
   },
   "promos": {
-    "1.15.2-latest": "1.0.3",
-    "1.15.2-recommended": "1.0.3",
+    "1.15.2-latest": "1.0.4",
+    "1.15.2-recommended": "1.0.4",
     "1.12.2-latest": "1.4.6",
     "1.12.2-recommended": "1.4.6"  
   }
