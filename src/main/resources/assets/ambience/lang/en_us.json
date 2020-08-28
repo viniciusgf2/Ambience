@@ -24,6 +24,8 @@
 	"block.ambience.speaker": "Speaker",
 	"Speaker.Desc": "Plays a sound when activated by redstone",
 	"Alarm.Desc": "Plays a sound and flashs light when activated by redstone",
+	"block.ambience.songswitcher": "Song Switcher",
+	"songswitcher.Desc": "Charge a region with redstone power the music changes depending on the signal strength",
 	"Bell.Desc": "Sacred bell from the Consil of WaterSheep",
 
 	"block.ambience.alarm": "Alarm",

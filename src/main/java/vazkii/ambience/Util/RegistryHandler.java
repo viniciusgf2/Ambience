@@ -10,6 +10,7 @@ import vazkii.ambience.Ambience;
 import vazkii.ambience.blocks.Alarm;
 import vazkii.ambience.blocks.BlockItemBase;
 import vazkii.ambience.blocks.Speaker;
+import vazkii.ambience.blocks.SongSwitcher;
 import vazkii.ambience.items.Soundnizer;
 
 public class RegistryHandler {
@@ -33,6 +34,8 @@ public class RegistryHandler {
 
 	//Blocks
 	public static final RegistryObject<Block> Speaker =  BLOCKS.register("speaker", () -> new Speaker(""));
+	public static final RegistryObject<Block> SongSwitcher =  BLOCKS.register("songswitcher", () -> new SongSwitcher(""));
+	public static final RegistryObject<Block> SongSwitcher_lit =  BLOCKS.register("songswitcher_lit", () -> new SongSwitcher(""));
 	//public static final RegistryObject<Block> Alarm =  BLOCKS.register("alarm", Alarm::new);
 
 	public static final RegistryObject<Block> block_Alarm_WHITE =  BLOCKS.register("alarm_white", () -> new Alarm("white",false));
@@ -68,6 +71,8 @@ public class RegistryHandler {
 	
 	//Block Items
 	public static final RegistryObject<Item> Speaker_Item = ITEMS.register("speaker", () -> new BlockItemBase(Speaker.get()));
+	public static final RegistryObject<Item> SongSwitcher_Item = ITEMS.register("songswitcher", () -> new BlockItemBase(SongSwitcher.get()));
+	public static final RegistryObject<Item> SongSwitcher_Item_lit = ITEMS.register("songswitcher_lit", () -> new BlockItemBase(SongSwitcher_lit.get()));
 
 	public static final RegistryObject<Item> Alarm_WHITE_Item = ITEMS.register("alarm_white", () -> new BlockItemBase(block_Alarm_WHITE.get()));
 	public static final RegistryObject<Item> Alarm_RED_Item = ITEMS.register("alarm_red", () -> new BlockItemBase(block_Alarm_RED.get()));

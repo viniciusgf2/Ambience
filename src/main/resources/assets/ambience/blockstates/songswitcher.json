@@ -1,0 +1,27 @@
+{
+  "variants": {   
+    "facing=north": {
+      "model": "ambience:block/songswitcher"
+    },
+    "facing=east": {
+      "model": "ambience:block/songswitcher",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "ambience:block/songswitcher",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ambience:block/songswitcher",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "ambience:block/songswitcher",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "ambience:block/songswitcher",
+      "x": 90
+    }
+  }
+}

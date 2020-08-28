@@ -47,9 +47,6 @@ public class Ambience {
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
         
-
-	//public static final String[] OBF_MC_MUSIC_TICKER = { "aM", "field_147126_aw", "mcMusicTicker" };
-	//public static final String[] OBF_MAP_BOSS_INFOS = { "g", "field_184060_g", "mapBossInfos" };
 	public static final String OBF_MC_MUSIC_TICKER = "field_147126_aw";
 	public static final String OBF_MAP_BOSS_INFOS ="field_184060_g";
 
@@ -85,14 +82,7 @@ public class Ambience {
 	}
 
 	public static Ambience instance;
-	
-	/*@SidedProxy(clientSide = Reference.CLIENT , serverSide= Reference.COMMON)
-	public static CommonProxy proxy;
-		
-	@OnlyIn(value = Dist.CLIENT)
-	public static ClientProxy proxyClient;
-	*/
-			
+				
 	public Ambience() {
 				
 		//Register the Config File
@@ -110,12 +100,7 @@ public class Ambience {
         IEventBus bus=FMLJavaModLoadingContext.get().getModEventBus();
         ModContainerTypes.CONTAINER_TYPES.register(bus);
         ModTileEntityTypes.TILE_ENTITY_TYPES.register(bus);
-        
-        
-      
-       // FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerContainers);
-        
-
+          
         //Registra Items/Blocos
         RegistryHandler.init();        
         
@@ -127,23 +112,7 @@ public class Ambience {
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
-	
-	
-	
-
-  /*  public void registerContainers(RegistryEvent.Register<ContainerType<?>> event){
-    	DeferredRegister<ContainerType<?>> CONTAINER_TYPES = new DeferredRegister<>(ForgeRegistries.CONTAINERS, Ambience.MODID);
-    	
-    	RegistryObject<ContainerType<MyContainer>> GUI_CONTAINER = CONTAINER_TYPES.register("my_container", () -> IForgeContainerType.create(MyContainer::new));
-    	
-    	//event.getRegistry().register(IForgeContainerType.create(MyContainer::new).setRegistryName(new ResourceLocation(Ambience.MODID, "my_container")));
-    }*/
-    
-/*	 public  void registerContainers(RegistryEvent.Register<ContainerType<?>> event){
-	        event.getRegistry().register(IForgeContainerType.create(GuiContainerMod::new));
-	    }
-*/	
-	
+		
 	//PREINIT
 	private void setup(final FMLCommonSetupEvent event)
     {							
@@ -160,19 +129,12 @@ public class Ambience {
     private void doClientStuff(final FMLClientSetupEvent event) {
 
 		EventHandlers.registerKeyBindings();
-		
-		
-		//if(FMLEnvironment.dist== Dist.CLIENT)
-		//Registra as telas
-	   // ScreenManager.registerFactory(ModContainerTypes.GUI_CONTAINER.get(), CreateAreaScreen::new);
-		
+			
     	SongLoader.loadFrom(ambienceDir);
 		
 		if(SongLoader.enabled)
 			thread = new PlayerThread();
-		
-		//proxy.init(event);
-					
+							
 		Minecraft mc = Minecraft.getInstance();
 		MusicTicker ticker = new NilMusicTicker(mc);
 		ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, OBF_MC_MUSIC_TICKER);
@@ -183,32 +145,32 @@ public class Ambience {
     private void enqueueIMC(final InterModEnqueueEvent event)
     {    	
         // some example code to dispatch IMC to another mod
-        InterModComms.sendTo("examplemod", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
+        //InterModComms.sendTo("examplemod", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
     }
 
     private void processIMC(final InterModProcessEvent event)
     {    	
         // some example code to receive and process InterModComms from other mods
-        LOGGER.info("Got IMC {}", event.getIMCStream().
+      /*  LOGGER.info("Got IMC {}", event.getIMCStream().
                 map(m->m.getMessageSupplier().get()).
-                collect(Collectors.toList()));
+                collect(Collectors.toList()));*/
     }
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
         // do something when the server starts
-        LOGGER.info("HELLO from server starting");
+      //  LOGGER.info("HELLO from server starting");
     }
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
     // Event bus for receiving Registry Events)
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
-        @SubscribeEvent
+       /* @SubscribeEvent
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
             // register a new block here
             LOGGER.info("HELLO from Register Block");
-        }
+        }*/
         
         @SubscribeEvent
     	public static void onSoundRegister(final RegistryEvent.Register<SoundEvent> event) {
@@ -232,7 +194,4 @@ public class Ambience {
 	        return new ItemStack(RegistryHandler.Soundnizer.get());
 	      }
 	}; 
-       
-   
-
 }

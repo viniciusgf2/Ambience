@@ -451,8 +451,18 @@ public final class SongPicker {
 								}else if(!night) {
 									if(area.isInstantPlay())
 										EventHandlers.playInstant();
-								
-									return areasMap.get(area.getName());									
+																		
+									if(area.getRedstoneStrength()==0) {									
+										return areasMap.get(area.getName());	
+									}else {			
+										String[] songs= areasMap.get(area.getName()+"."+area.getRedstoneStrength());	
+										
+										if(songs!=null)
+											return songs;
+										else						
+											return areasMap.get(area.getName());	
+											
+									}
 								}
 						}
 							//}

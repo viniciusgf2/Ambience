@@ -151,6 +151,7 @@ public class WorldData extends WorldSavedData implements Supplier{
 			tagCompound.putInt("ID",area.getID());
 			tagCompound.putBoolean("playNight", area.isPlayatNight());
 			tagCompound.putBoolean("instP", area.isInstantPlay());
+			tagCompound.putInt("RedstoneStrength",area.getRedstoneStrength());
 			tagList.add(tagCompound);
 		}
 
@@ -175,6 +176,7 @@ public class WorldData extends WorldSavedData implements Supplier{
 			tagCompound.putInt("ID",area.getID());
 			tagCompound.putBoolean("playNight",area.isPlayatNight());
 			tagCompound.putBoolean("instP",area.isInstantPlay());
+			tagCompound.putInt("RedstoneStrength",area.getRedstoneStrength());
 			nbt.put("Area"+count++, tagCompound);
 		}
 		
@@ -203,6 +205,7 @@ public class WorldData extends WorldSavedData implements Supplier{
 			area.setID(areaCompound.getInt("ID"));
 			area.setPlayAtNight(areaCompound.getBoolean("playNight"));
 			area.setInstantPlay(areaCompound.getBoolean("instP"));
+			area.setRedstoneStrength(areaCompound.getInt("RedstoneStrength"));
 			
 			CompoundNBT tagListPos = areaCompound.getCompound("Pos");		
 			Vec3d pos1 = new Vec3d(tagListPos.getDouble("x1"), tagListPos.getDouble("y1"),tagListPos.getDouble("z1"));area.setPos1(pos1);

@@ -85,9 +85,25 @@ public final class SongLoader {
 					if (biome != null)
 							SongPicker.biomeMap.put(biome,props.getProperty(s).split(","));
 					} else if (keyType.equals("area")) {
-						String event = tokens[1];
-
-						SongPicker.areasMap.put(event, props.getProperty(s).split(","));
+						//String event = tokens[1];
+						//SongPicker.areasMap.put(event, props.getProperty(s).split(","));
+						
+						String event = "";
+						
+						if(tokens.length>2) 							
+						{
+							//event=tokens[2];
+							//SongPicker.eventMap.put(event+"\\"+ dimID, props.getProperty(s).split(","));
+							
+							event = tokens[2];
+							SongPicker.areasMap.put(tokens[1]+"."+event, props.getProperty(s).split(","));
+						}
+						else
+						{
+							event = tokens[1];
+							SongPicker.areasMap.put(event, props.getProperty(s).split(","));
+						}
+						
 					} else if (keyType.equals("mob")) {
 						String event = tokens[1];
 

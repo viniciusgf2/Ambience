@@ -22,6 +22,8 @@
 	"block.ambience.speaker": "Caixa de Som",
 	"Alarm.Desc": "Toca um som e pisca a luz quando ativado por redstone",
 	"Speaker.Desc": "Toca um som quando ativado por redstone",
+	"block.ambience.songswitcher": "Song Switcher",
+	"songswitcher.Desc": "Carrega uma regiao com poder de redstone, a musica muda dependendo da intensidade do sinal.",
 	"Bell.Desc": "Sino sagrado do Conselho das Ovelhas",
 
 	"block.ambience.alarm": "Alarme",

@@ -33,11 +33,13 @@ public class ScrollListWidget extends ExtendedList<ScrollListWidget.SoundEntry> 
 		setLeftPos(23);
 
 		for (String sound : SoundHandler.SOUNDS) {
-			ScrollListWidget.SoundEntry soundEntry = new SoundEntry(sound, font);
-			this.addEntry(soundEntry);
-
-			if (sound.contains(SpeakerContainer.selectedSound)) {
-				this.setSelected(soundEntry);
+			if(!sound.contains(".")) {
+				ScrollListWidget.SoundEntry soundEntry = new SoundEntry(sound, font);
+				this.addEntry(soundEntry);
+	
+				if (sound.contains(SpeakerContainer.selectedSound)) {
+					this.setSelected(soundEntry);
+				}
 			}
 		}
 
@@ -52,13 +54,15 @@ public class ScrollListWidget extends ExtendedList<ScrollListWidget.SoundEntry> 
 		setLeftPos(23);
 		
 		for (Map.Entry<String, String[]> entry : SongPicker.areasMap.entrySet()) {
-		    System.out.println(entry.getKey() + "/" + entry.getValue());
+		    //System.out.println(entry.getKey() + "/" + entry.getValue());
 		    
-		    ScrollListWidget.SoundEntry soundEntry = new SoundEntry(entry.getKey(), font);
-			this.addEntry(soundEntry);
-
-			if (entry.getKey().contains(selectedItem)) {
-				this.setSelected(soundEntry);
+			if(!entry.getKey().contains(".")) {
+			    ScrollListWidget.SoundEntry soundEntry = new SoundEntry(entry.getKey(), font);
+				this.addEntry(soundEntry);
+		
+				if (entry.getKey().contains(selectedItem)) {
+					this.setSelected(soundEntry);
+				}
 			}
 		}
 				
