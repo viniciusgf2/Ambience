@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
+title: "[BUG]"
 labels: ''
 assignees: ''
 
@@ -29,6 +29,9 @@ If applicable, add screenshots to help explain your problem.
 **Mods used or modpack (please complete the following information):**
  - Mods 
  - Modpacks
+
+**Mod Version used:
+-Mod Version
 
 **Please send the followings files to help track the issue:
 -..\ambience_music\ambience.properties
