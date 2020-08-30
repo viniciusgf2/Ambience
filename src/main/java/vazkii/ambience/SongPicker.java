@@ -43,6 +43,7 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import vazkii.ambience.Util.SplashFactory2;
 import vazkii.ambience.Util.Handlers.EventHandlers;
 import vazkii.ambience.Util.Handlers.EventHandlersServer;
 import vazkii.ambience.Util.particles.DripWaterParticleFactory;
@@ -383,12 +384,12 @@ public final class SongPicker {
 				return songs;
 		}
 		
-		if(DripWaterParticleFactory.dripsCount>0) {
+		if(SplashFactory2.dripsCount>0) {
 			boolean underground = !world.canSeeSky(pos);
 
 			uncountDripWater++;
-			if(uncountDripWater >50 & DripWaterParticleFactory.dripsCount>=0) {
-				DripWaterParticleFactory.dripsCount--;
+			if(uncountDripWater >50 & SplashFactory2.dripsCount>=0) {
+				SplashFactory2.dripsCount--;
 				uncountDripWater=0;
 			}
 			
