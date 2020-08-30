@@ -65,6 +65,15 @@ public class Soundnizer extends ItemBase {
 		
 		// Client
 		if (worldIn.isRemote) {
+			
+			
+			//TEST ******
+			/*CompoundNBT nbt2 = new CompoundNBT();
+			nbt2.putString("InterMod", "oi");
+			AmbiencePackageHandler.sendToServer(new MyMessage(nbt2));
+			*///***********
+			
+			
 			BlockPos Position2=null;
 			RayTraceResult lookingAt = Minecraft.getInstance().objectMouseOver;
 			rightclick = true;

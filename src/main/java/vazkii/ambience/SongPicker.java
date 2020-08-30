@@ -164,12 +164,20 @@ public final class SongPicker {
 		 				
 		BlockPos pos = new BlockPos(player);
 
-		AmbienceEventEvent event = new AmbienceEventEvent.Pre(world, pos);
+		/*AmbienceEventEvent event = new AmbienceEventEvent.Pre(world, pos);
 		MinecraftForge.EVENT_BUS.post(event);
 		String[] eventr = getSongsForEvent(event.event);
-		if (eventr != null)
-			return eventr;
+		if (eventr != null) {
+			
+			player.sendStatusMessage((ITextComponent) new StringTextComponent("funcionou"),(true));
 
+			return eventr;
+		}*/
+		
+		if(Ambience.ExternalEvent.event!="")
+		{
+			return  getSongsForEvent(Ambience.ExternalEvent.event);
+		}
 		
 		BossOverlayGui bossOverlay = mc.ingameGUI.getBossOverlay();
 		Map<UUID, BossInfo> map = ObfuscationReflectionHelper.getPrivateValue(BossOverlayGui.class, bossOverlay,Ambience.OBF_MAP_BOSS_INFOS);
@@ -578,11 +586,11 @@ public final class SongPicker {
 				return songs;
 		}
 
-		event = new AmbienceEventEvent.Post(world, pos);
+		/*event = new AmbienceEventEvent.Post(world, pos);
 		MinecraftForge.EVENT_BUS.post(event);
 		eventr = getSongsForEvent(event.event);
 		if (eventr != null)
-			return eventr;	
+			return eventr;	*/
 
 		if (world != null) {
 			if(Ambience.instantPlaying) {

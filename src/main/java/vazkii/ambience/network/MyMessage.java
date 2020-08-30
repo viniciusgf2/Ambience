@@ -3,12 +3,17 @@ package vazkii.ambience.network;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkDirection;
@@ -61,6 +66,14 @@ public class MyMessage {
 				//Sync the clicked alarm or speaker to the server
 				Soundnizer.clickedSpeakerOrAlarm=EventSound.getBoolean("ClickedSpeakerOrAlarm");
 							
+				
+				//*****************
+				/*if(EventSound.getString("InterMod") != null) {			
+					((PlayerEntity)context.get().getSender()).sendStatusMessage((ITextComponent) new StringTextComponent("externalEvent"),(true));
+				}*/				
+				//******************
+				
+				
 				// Save the speaker gui configs
 				if (EventSound.getString("SoundEvent") != null & !EventSound.getString("SoundEvent").isEmpty()) {
 

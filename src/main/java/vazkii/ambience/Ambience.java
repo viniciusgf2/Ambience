@@ -53,8 +53,7 @@ public class Ambience {
 	public static PlayerThread thread;
 	
 	public static Boolean attacked=false;
-	public static Boolean forcePlay=false;
-	
+	public static Boolean forcePlay=false;	
 
 	public static File ambienceDir;
 	public static File resourcesDir;
@@ -66,12 +65,12 @@ public class Ambience {
 	private static WorldData worldData=new WorldData();
 	
 	public static boolean sync=false;	
-	public static boolean instantPlaying=false;
-	
+	public static boolean instantPlaying=false;	
 	public static boolean overideBackMusicDimension=false;//Overide the custom dimensions back music if there is custom music
-	public static boolean showUpdateNotification=false;
-	
+	public static boolean showUpdateNotification=false;	
 	public static int dimension=-25412;
+	
+	public static AmbienceEventEvent ExternalEvent;
 	
 	public static WorldData getWorldData() {
 		return worldData;
