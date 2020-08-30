@@ -70,7 +70,7 @@ public class Ambience {
 	public static boolean showUpdateNotification=false;	
 	public static int dimension=-25412;
 	
-	public static AmbienceEventEvent ExternalEvent;
+	public static AmbienceEventEvent ExternalEvent= new AmbienceEventEvent();
 	
 	public static WorldData getWorldData() {
 		return worldData;

@@ -14,6 +14,10 @@ public class AmbienceEventEvent extends Event {
 	public World world;
 	public BlockPos pos;
 	
+	public AmbienceEventEvent() {
+		this.event="";
+	}
+	
 	public AmbienceEventEvent(String event) {
 		this.event=event;
 	}
