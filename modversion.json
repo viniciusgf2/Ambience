@@ -1,6 +1,7 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/ambience-extras/files",
    "1.15.2": {
+    "1.0.5" : "BUG FIX - Fixed a bug that causes the game to crash when you break a Song Switcher\nNEW FEATURE - Updated the API for other modders add their own custom events to the Ambience -  Extras mod",	   
     "1.0.4.2" : "BUGFIX - Fixed a crash when inside caves with lava",
     "1.0.4.1" : "BUGFIX - Fixed a crash when you enter a world and was not possible to create some water particles",
     "1.0.4" : "New Block - The Song Switcher added, it changes the music that is playing in a region depending on the intensity of the redstone signal. (it's perfect when creating minigames)\nNew Feature - Added an event to detect dripping water on water inside caves.\nNew Feature - Added sound effects for water and lava dripping for more immerssion.\nCHANGE - Changed the SoundCategory for the speaker and the alarm blocks from NEUTRAL to BLOCKS so you can adjust the volume for these blocks in the sound options.",
@@ -20,8 +21,8 @@
     "1.4.3": "CHANGE - The mobs from mowzie's mobs were hard codded to always play the BOSS event music, now it's respecting the settings from the ambience.properties file\nBUGFIX- Some times if you go to fast over biomes the audio fade out and won't fade in again, now it's working fine."
   },
   "promos": {
-    "1.15.2-latest": "1.0.4.2",
-    "1.15.2-recommended": "1.0.4.2",
+    "1.15.2-latest": "1.0.5",
+    "1.15.2-recommended": "1.0.5",
     "1.12.2-latest": "1.4.6",
     "1.12.2-recommended": "1.4.6"  
   }
