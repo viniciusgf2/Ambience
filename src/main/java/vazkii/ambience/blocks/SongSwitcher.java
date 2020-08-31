@@ -257,10 +257,12 @@ public class SongSwitcher extends Block {
 		}else {
 			Area currentArea = Area.getBlockStandingArea(pos);
 
-			currentArea.setRedstoneStrength(0);
-			currentArea.setOperation(Operation.EDIT);
-
-			AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));
+			if(currentArea !=null) {
+				currentArea.setRedstoneStrength(0);
+				currentArea.setOperation(Operation.EDIT);
+	
+				AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));
+			}
 		}
 		
 
