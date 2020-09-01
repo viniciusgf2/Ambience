@@ -268,18 +268,20 @@ public class Ambience {
 	@SubscribeEvent
 	public void onBackgroundMusic(PlaySoundEvent event) {
 		
-		WorldClient world=Minecraft.getMinecraft().world;
-				
-		if(world!=null)
-			dimension=world.provider.getDimension();
-		
-		if(event.getSound().getCategory() == SoundCategory.MUSIC)
-		if((SongLoader.enabled & (dimension>=-1 & dimension<=1) | overideBackMusicDimension)) {
-						
-			if(event.isCancelable()) 
-				event.setCanceled(true);
+		if(SongLoader.enabled) {
+			WorldClient world=Minecraft.getMinecraft().world;
+					
+			if(world!=null)
+				dimension=world.provider.getDimension();
 			
-			event.setResultSound(null);
+			if(event.getSound().getCategory() == SoundCategory.MUSIC)
+			if((SongLoader.enabled & (dimension>=-1 & dimension<=1) | overideBackMusicDimension)) {
+							
+				if(event.isCancelable()) 
+					event.setCanceled(true);
+				
+				event.setResultSound(null);
+			}
 		}
 	}
 	

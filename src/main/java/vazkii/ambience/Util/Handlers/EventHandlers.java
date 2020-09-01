@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.logging.log4j.core.config.plugins.util.ResolverUtil.Test;
 import org.lwjgl.input.Keyboard;
 
+import com.google.common.collect.Maps;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import net.minecraft.client.Minecraft;
@@ -15,6 +16,7 @@ import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.ParticleDrip;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.particle.ParticleRain;
+import net.minecraft.client.particle.ParticleSplash;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -182,20 +184,29 @@ public class EventHandlers {
 		if (mc.effectRenderer != null) 
 		{
 			try {
-				
-				Map<ResourceLocation, IParticleFactory> facts = ObfuscationReflectionHelper.getPrivateValue(ParticleManager.class, mc.effectRenderer, "particleTypes");
+								
+				ParticleManager instance = mc.effectRenderer;								
+				Map<Integer, IParticleFactory> facts= ObfuscationReflectionHelper.getPrivateValue(ParticleManager.class, instance, "field_178932_g");				
 				IParticleFactory pf = facts.get(EnumParticleTypes.DRIP_WATER.getParticleID());
 		
 				if (pf instanceof ParticleDrip.WaterFactory) {
 				
-					mc.effectRenderer.registerParticle(EnumParticleTypes.DRIP_WATER.getParticleID(), new DripWaterParticleFactory());
-				}	
+					instance.registerParticle(EnumParticleTypes.DRIP_WATER.getParticleID(), new DripWaterParticleFactory());
+					
+					IParticleFactory npf = facts.get(5);
+									
+					// check that it worked
+					// wrap the original factory to copy the sprite data
+					if(npf instanceof DripWaterParticleFactory)
+						((DripWaterParticleFactory) npf).wrap((ParticleDrip.WaterFactory)pf);
+					
+				}				
 				
 				pf = facts.get(EnumParticleTypes.DRIP_LAVA.getParticleID());				
 				if (pf instanceof ParticleDrip.LavaFactory) {
 				
 					mc.effectRenderer.registerParticle(EnumParticleTypes.DRIP_LAVA.getParticleID(), new DripLavaParticleFactory());
-				}		
+				}	
 				
 			} catch (Exception e) {
 				e.printStackTrace();

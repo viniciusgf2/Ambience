@@ -1,14 +1,17 @@
 package vazkii.ambience.Util.particles;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleDrip;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -39,6 +42,13 @@ public class DripWaterParticleFactory extends ParticleDrip.WaterFactory {
 					if (dripsCount <= 10)
 						dripsCount++;
 				}
+				
+				/*if (worldIn.getBlockState(new BlockPos(xCoordIn,yCoordIn-2,zCoordIn)).getMaterial() == Material.WATER) {
+					if (dripsCount <= 10)
+						dripsCount++;
+				}*/
+				
+				
 				// play the sound
 				float vol = MathHelper.clamp(0.1f, 0f, 1f);
 
@@ -52,9 +62,17 @@ public class DripWaterParticleFactory extends ParticleDrip.WaterFactory {
 			return null;
 		}
 	}
+	//field_151586_h
 
 	public static int getRandom(int min, int max) {
 		int x = (int) ((Math.random() * ((max - min) + 1)) + min);
 		return x;
+	}
+	
+	public void wrap(ParticleDrip.WaterFactory real) {
+		// do: this.spriteSet = real.spriteSet;
+		String spr = ObfuscationReflectionHelper.getPrivateValue(ParticleDrip.WaterFactory.class, real,"spriteSet");
+		ObfuscationReflectionHelper.setPrivateValue(ParticleDrip.WaterFactory.class, this, spr,"spriteSet");
+
 	}
 }
