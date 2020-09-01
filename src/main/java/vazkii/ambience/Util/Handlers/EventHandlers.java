@@ -229,20 +229,24 @@ public class EventHandlers {
 	@SubscribeEvent
 	public static void onBackgroundMusic(final PlaySoundEvent event) {
 		
-		ClientWorld world=Minecraft.getInstance().world;
-			
-		if(world!=null)
-			Ambience.dimension=world.dimension.getType().getId();
-		
-		if(event.getSound().getCategory() == SoundCategory.MUSIC)
-			if(Ambience.dimension>=-1 & Ambience.dimension<=1 | Ambience.overideBackMusicDimension) {
-							
-				if(event.isCancelable()) 
-					event.setCanceled(true);
+		if(SongLoader.enabled) {
+			ClientWorld world=Minecraft.getInstance().world;
 				
-				event.setResultSound(null);
-			}
+			if(world!=null)
+				Ambience.dimension=world.dimension.getType().getId();
+			
+			if(event.getSound().getCategory() == SoundCategory.MUSIC)
+				if(Ambience.dimension>=-1 & Ambience.dimension<=1 | Ambience.overideBackMusicDimension) {
+								
+					if(event.isCancelable()) 
+						event.setCanceled(true);
+					
+					event.setResultSound(null);
+				}
+		}
 	}
+	
+	
 	
 	
 
