@@ -23,11 +23,10 @@ public class DripLavaParticleFactory extends ParticleDrip.LavaFactory {
     	// the splash particle is used in several ways, so there's some checks to tell if this is a splash from a drip.
         // the splash when moving in water has speed, while drips and fishing splashes don't
          	
-    	if(xSpeedIn == 0 && ySpeedIn == 0 && ySpeedIn == 0) {            	
-           
+    	if(xSpeedIn == 0 && ySpeedIn == 0 && ySpeedIn == 0) {    
         	// play the sound
-            float vol = MathHelper.clamp(0.1f, 0f, 1f);
-                    
+            float vol = MathHelper.clamp(0.1f, 0f, 1f);                    
+                                    
             worldIn.playSound(xCoordIn, yCoordIn, zCoordIn, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.AMBIENT, vol, 1f, false);                        
         }
 	

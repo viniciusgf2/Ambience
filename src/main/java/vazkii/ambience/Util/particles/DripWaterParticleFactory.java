@@ -42,13 +42,7 @@ public class DripWaterParticleFactory extends ParticleDrip.WaterFactory {
 					if (dripsCount <= 10)
 						dripsCount++;
 				}
-				
-				/*if (worldIn.getBlockState(new BlockPos(xCoordIn,yCoordIn-2,zCoordIn)).getMaterial() == Material.WATER) {
-					if (dripsCount <= 10)
-						dripsCount++;
-				}*/
-				
-				
+						
 				// play the sound
 				float vol = MathHelper.clamp(0.1f, 0f, 1f);
 

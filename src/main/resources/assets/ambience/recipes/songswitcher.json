@@ -1,0 +1,42 @@
+{
+  "group": "ambience",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012",
+    "345",
+    "678"
+  ],
+  "key": {
+    "0": {
+      "item": "minecraft:glass_pane"
+    },
+    "1": {
+      "item": "minecraft:glass_pane"
+    },
+    "2": {
+      "item": "minecraft:glass_pane"
+    },
+    "3": {
+      "item": "minecraft:glass_pane"
+    },
+    "4": {
+      "item": "minecraft:redstone_block"
+    },
+    "5": {
+      "item": "minecraft:glass_pane"
+    },
+    "6": {
+      "item": "minecraft:glass_pane"
+    },
+    "7": {
+      "item": "minecraft:stone_pressure_plate"
+    },
+    "8": {
+      "item": "minecraft:glass_pane"
+    }
+  },
+  "result": {
+    "item": "ambience:songswitcher",
+    "count": 1
+  }
+}

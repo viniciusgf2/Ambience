@@ -41,7 +41,6 @@ public class ServerTickHandler {
 		
 		if (Ambience.sync) {
 
-			
 			waitTime++;
 			
 			if(waitTime>50) {

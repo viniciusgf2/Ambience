@@ -193,19 +193,19 @@ public class EventHandlers {
 				
 					instance.registerParticle(EnumParticleTypes.DRIP_WATER.getParticleID(), new DripWaterParticleFactory());
 					
-					IParticleFactory npf = facts.get(5);
+					//IParticleFactory npf = facts.get(5);
 									
 					// check that it worked
 					// wrap the original factory to copy the sprite data
-					if(npf instanceof DripWaterParticleFactory)
-						((DripWaterParticleFactory) npf).wrap((ParticleDrip.WaterFactory)pf);
+					//if(npf instanceof DripWaterParticleFactory)
+						//((DripWaterParticleFactory) npf).wrap((ParticleDrip.WaterFactory)pf);
 					
 				}				
 				
 				pf = facts.get(EnumParticleTypes.DRIP_LAVA.getParticleID());				
 				if (pf instanceof ParticleDrip.LavaFactory) {
 				
-					mc.effectRenderer.registerParticle(EnumParticleTypes.DRIP_LAVA.getParticleID(), new DripLavaParticleFactory());
+					instance.registerParticle(EnumParticleTypes.DRIP_LAVA.getParticleID(), new DripLavaParticleFactory());
 				}	
 				
 			} catch (Exception e) {

@@ -33,8 +33,24 @@ public class BlockBase extends Block implements IHasModel{
 		
 		BlockInit.BLOCKS.add(this);
 		  
-		itemBlock = new AlarmItemBLock(this).setRegistryName(this.getRegistryName());		
-		ItemInit.ITEMS.add(itemBlock);	
+		if(this instanceof Alarm) {
+			itemBlock = new AlarmItemBLock(this).setRegistryName(this.getRegistryName());		
+			ItemInit.ITEMS.add(itemBlock);	
+		}else {
+			itemBlock = new ItemBlock(this).setRegistryName(this.getRegistryName());		
+			ItemInit.ITEMS.add(itemBlock);
+		}
+			
+			/* if(this instanceof Speaker) {
+			itemBlock = new ItemBlock(this).setRegistryName(this.getRegistryName());		
+			ItemInit.ITEMS.add(itemBlock);	
+		}else if(this instanceof SongSwitcher) {
+			itemBlock = new ItemBlock(this).setRegistryName(this.getRegistryName());		
+			ItemInit.ITEMS.add(itemBlock);	
+		}else if(this instanceof Bell) {
+			itemBlock = new ItemBlock(this).setRegistryName(this.getRegistryName());		
+			ItemInit.ITEMS.add(itemBlock);	
+		}*/
 	}
 	
 	@Override

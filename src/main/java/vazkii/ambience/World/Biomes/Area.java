@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.Util.Border;
@@ -24,7 +25,7 @@ public class Area implements Comparator<Area>{
 	}
 
 	private Operation operation;
-	private int Dimension, ID;
+	private int Dimension, ID, redstoneStrength;
 	private String name;
 	private boolean instantPlay = false;
 	private boolean playAtNight = false;
@@ -62,6 +63,14 @@ public class Area implements Comparator<Area>{
 
 	public void setDimension(int dimension) {
 		Dimension = dimension;
+	}
+	
+	public int getRedstoneStrength() {
+		return redstoneStrength;
+	}
+
+	public void setRedstoneStrength(int Strength) {
+		redstoneStrength = Strength;
 	}
 
 	public int getID() {
@@ -214,6 +223,34 @@ public class Area implements Comparator<Area>{
 		return null;
 	}
 	
+	// Returns the area that player is standing
+	public static Area getBlockStandingArea(BlockPos pos) 
+	{	
+		List<Area> Areas = new ArrayList<Area>();
+		
+		//Obtém todas as areas que o player esta dentro
+		if (Ambience.getWorldData().listAreas != null) {
+
+			for (Area area : Ambience.getWorldData().listAreas) {
+				
+					Border border = new Border(area.getPos1(), area.getPos2());
+					if (border.p1 != null & border.p2 != null)
+						if (border.contains(new Vec3d(pos.getX(),pos.getY(),pos.getZ()))) {								
+							Areas.add(area);
+						}					
+			}
+		}
+		
+		//Obtém a menor area	
+		if(Areas.size()>0) {
+			Area minArea=Collections.min(Areas,new Area());
+			
+			return minArea;
+		}
+
+		return null;
+	}
+	
 	@Override
 	public int compare(Area a, Area b) {
 		 if (a.cubicArea < b.cubicArea)
@@ -245,7 +282,8 @@ public class Area implements Comparator<Area>{
 		tagCompound.setString("op", simplifyOperation()); // Operation
 		tagCompound.setBoolean("playNight", isPlayatNight()); // If should play at night over the night music or not
 		tagCompound.setBoolean("instP", isInstantPlay()); // If should play instantly on this region or not
-
+		tagCompound.setInteger("RedstoneStrength", getRedstoneStrength()); // RedstoneStrength
+		
 		return tagCompound;
 	}
 
@@ -256,6 +294,7 @@ public class Area implements Comparator<Area>{
 		area.setID(nbt.getInteger("ID"));
 		area.setPlayAtNight(nbt.getBoolean("playNight"));
 		area.setInstantPlay(nbt.getBoolean("instP"));
+		area.setRedstoneStrength(nbt.getInteger("RedstoneStrength"));
 
 		switch (nbt.getString("op")) {
 		case "c":
@@ -302,6 +341,7 @@ public class Area implements Comparator<Area>{
 			area.setID(areaCompound.getInteger("ID"));
 			area.setPlayAtNight(areaCompound.getBoolean("playNight"));
 			area.setInstantPlay(areaCompound.getBoolean("instP"));
+			area.setRedstoneStrength(areaCompound.getInteger("RedstoneStrength"));
 			localListAreas.add(area);
 
 			NBTTagList tagListPos = areaCompound.getTagList("Pos", 10);

@@ -135,6 +135,7 @@ public class WorldData extends WorldSavedData {
 			tagCompound.setInteger("ID",area.getID());
 			tagCompound.setBoolean("playNight", area.isPlayatNight());
 			tagCompound.setBoolean("instP", area.isInstantPlay());
+			tagCompound.setInteger("RedstoneStrength",area.getRedstoneStrength());
 			tagList.appendTag(tagCompound);
 		}
 
@@ -161,6 +162,7 @@ public class WorldData extends WorldSavedData {
 			tagCompound.setInteger("ID",area.getID());
 			tagCompound.setBoolean("playNight",area.isPlayatNight());
 			tagCompound.setBoolean("instP",area.isInstantPlay());
+			tagCompound.setInteger("RedstoneStrength",area.getRedstoneStrength());
 			nbt.setTag("Area"+count++, tagCompound);
 		}
 		
@@ -185,6 +187,7 @@ public class WorldData extends WorldSavedData {
 			area.setID(areaCompound.getInteger("ID"));
 			area.setPlayAtNight(areaCompound.getBoolean("playNight"));
 			area.setInstantPlay(areaCompound.getBoolean("instP"));
+			area.setRedstoneStrength(areaCompound.getInteger("RedstoneStrength"));
 			
 			listAreas.add(area);
 			NBTTagList tagListPos = areaCompound.getTagList("Pos", 10);

@@ -9,17 +9,18 @@ import vaskii.ambience.objects.blocks.Alarm;
 import vaskii.ambience.objects.blocks.Bell;
 import vaskii.ambience.objects.blocks.BlockBase;
 import vaskii.ambience.objects.blocks.Speaker;
+import vaskii.ambience.objects.blocks.SongSwitcher;
 
 public class BlockInit {
 
 	public static final List<BlockBase> BLOCKS = new ArrayList<BlockBase>();
 	
-	public static final BlockBase block_Speaker= new Speaker("speaker", Material.IRON);
+	public static final BlockBase block_Speaker = new Speaker("speaker", Material.IRON);
+	public static final BlockBase SongSwitcher = new SongSwitcher("songswitcher", Material.WOOD,false);
+	public static final BlockBase SongSwitcher_lit = new SongSwitcher("songswitcher_lit", Material.WOOD,true);
+	
 	public static final BlockBase block_Alarm_WHITE= new Alarm("alarm_white", Material.GLASS,false,0);
 	public static final BlockBase block_Alarm_lit_WHITE= new Alarm("alarm_lit_white", Material.GLASS,true,0);
-	
-//	public static final BlockBase block_Alarm_lit_red= new Alarm("alarm_lit_red", Material.GLASS,true,1);
-
 	public static final BlockBase block_Alarm_RED= new Alarm("alarm_red", Material.GLASS,false,1);
 	public static final BlockBase block_Alarm_ORANGE= new Alarm("alarm_orange", Material.GLASS,false,2);	
 	public static final BlockBase block_Alarm_YELLOW= new Alarm("alarm_yellow", Material.GLASS,false,3);

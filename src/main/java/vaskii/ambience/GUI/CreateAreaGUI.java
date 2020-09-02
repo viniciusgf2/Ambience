@@ -259,7 +259,7 @@ public class CreateAreaGUI extends GuiScreen {
 			// Send the selected area to the server to save it
 			NetworkHandler4.sendToServer(new MyMessage4(Ambience.selectedArea.SerializeThis()));
 			Ambience.sync = true;
-			// Ambience.selectedArea.resetSelection();
+			//Ambience.selectedArea.resetSelection();
 
 			this.mc.player.closeScreen();
 		}

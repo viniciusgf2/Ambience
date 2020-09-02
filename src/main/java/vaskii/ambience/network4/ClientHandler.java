@@ -56,9 +56,7 @@ public class ClientHandler implements IMessageHandler<MyMessage4, IMessage> {
 			Speaker.loop=BlockSelected.getBoolean("loop");
 			Speaker.Distance=BlockSelected.getFloat("distance");
 			SpeakerEditGUI.SelectedItemIndex=BlockSelected.getInteger("index");
-			
-		//System.out.println(BlockSelected.getString("GUISpeaker") + BlockSelected.getString("selectedSound") +  BlockSelected.getInteger("delay"));
-						
+									
 			BlockPos pos = new BlockPos(0,0,0);
 				
 			NBTTagList tagListPos = BlockSelected.getTagList("pos", 10);
@@ -69,11 +67,8 @@ public class ClientHandler implements IMessageHandler<MyMessage4, IMessage> {
 				pos=pos1;
 			}
 			
-			//if (player.getHeldItemMainhand().getDisplayName().contains("Soundnizer")) {
 			if(BlockSelected.getString("openGui").contains("open")){
-				player.openGui(Ambience.instance, 3, player.world,pos.getX(), pos.getY(), pos.getZ());	
-					
-				//Minecraft.getMinecraft().displayGuiScreen(new SpeakerGUI(null, Minecraft.getMinecraft().gameSettings, Minecraft.getMinecraft().getLanguageManager()));
+				player.openGui(Ambience.instance, 3, player.world,pos.getX(), pos.getY(), pos.getZ());				
 			}
 			
 			//Para de tocar um som no cliente se não estiver recebendo sinal de redstone		
@@ -89,6 +84,7 @@ public class ClientHandler implements IMessageHandler<MyMessage4, IMessage> {
 				Ambience.getWorldData().listAreas = Area.DeSerializeList(message.getToSend());
 				if(Ambience.selectedArea!=null)
 				Ambience.selectedArea.resetSelection();
+				Ambience.previewArea.resetSelection();
 			}
 		}
 

@@ -212,7 +212,7 @@ public final class SongPicker {
 
 		// Boss and Enemies Battle Musics******************
 
-		if (Ambience.attacked & !horde) {			
+		if (Ambience.attacked) {			
 				try {
 					String[] songs = null;
 					int countEntities = 0;
@@ -235,6 +235,21 @@ public final class SongPicker {
 					
 					if (mobMap.containsKey(mobName) & countEntities>0 & !(mob instanceof EntityPlayer))
 						return mobMap.get(mobName);			
+				}
+				
+				//**Play horde musig				
+				if (countEntities > 5) {
+					horde=true;
+					songs=null;
+					//Songs for other dimensions
+					if (dimension <-1 | dimension >1 )
+						songs = getSongsForEvent(EVENT_HORDE+"\\"+dimension);
+					else
+						songs = getSongsForEvent(EVENT_HORDE);
+					if (songs != null)
+						return songs;
+				}else {
+					horde=false;
 				}
 				
 				//****************
@@ -288,7 +303,7 @@ public final class SongPicker {
 				return songs;
 		}
 
-		int monsterCount = world.getEntitiesWithinAABB(EntityMob.class, new AxisAlignedBB(player.posX - 16,
+		/*int monsterCount = world.getEntitiesWithinAABB(EntityMob.class, new AxisAlignedBB(player.posX - 16,
 				player.posY - 8, player.posZ - 16, player.posX + 16, player.posY + 8, player.posZ + 16)).size();
 		if (monsterCount > 5) {
 			horde=true;
@@ -302,7 +317,7 @@ public final class SongPicker {
 				return songs;
 		}else {
 			horde=false;
-		}
+		}*/
 
 		if (player.fishEntity != null) {
 			String[] songs=null;
@@ -486,7 +501,17 @@ public final class SongPicker {
 									if(area.isInstantPlay())
 										EventHandlers.playInstant();
 								
-									return areasMap.get(area.getName());									
+									if(area.getRedstoneStrength()==0) {									
+										return areasMap.get(area.getName());	
+									}else {			
+										String[] songs= areasMap.get(area.getName()+"."+area.getRedstoneStrength());	
+										
+										if(songs!=null)
+											return songs;
+										else						
+											return areasMap.get(area.getName());	
+											
+									}								
 								}
 						}
 							//}

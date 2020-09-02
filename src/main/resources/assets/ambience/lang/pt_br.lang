@@ -16,6 +16,7 @@ Soundnizer.Desc=Configura uma regiao para tocar um som.
 
 Alarm.Desc=Toca um som e pisca a luz quando ativado por redstone
 Speaker.Desc=Toca um som quando ativado por redstone
+SongSwitcher.Desc=Carrega uma regiao com poder de redstone, a musica muda dependendo da intensidade do sinal.
 Bell.Desc=Sino sagrado do Conselho das Ovelhas
 
 tile.alarm.name=Alarme
@@ -48,6 +49,7 @@ tile.alarm_pink.name=Alarme Rosa Acesso
 tile.alarm_brown.name=Alarme Marrom Acesso
 
 tile.speaker.name=Caixa de Som
+tile.songswitcher.name=Trocador de música
 tile.bell.name=Sino Cerimonial
 
 Options.Reload=Recarrega as configs de músicas
