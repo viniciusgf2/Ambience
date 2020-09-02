@@ -22,6 +22,7 @@ import net.minecraft.client.gui.GuiScreenWorking;
 import net.minecraft.client.gui.GuiSleepMP;
 import net.minecraft.client.gui.GuiWinGame;
 import net.minecraft.client.multiplayer.GuiConnecting;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -182,8 +183,7 @@ public final class SongPicker {
 		}
 		
 		GuiBossOverlay bossOverlay = mc.ingameGUI.getBossOverlay();
-		Map<UUID, BossInfoClient> map = ReflectionHelper.getPrivateValue(GuiBossOverlay.class, bossOverlay,
-				Ambience.OBF_MAP_BOSS_INFOS);
+		Map<UUID, BossInfoClient> map = ReflectionHelper.getPrivateValue(GuiBossOverlay.class, bossOverlay,	Ambience.OBF_MAP_BOSS_INFOS);
 		if (!map.isEmpty()) {
 			try {
 				BossInfoClient first = map.get(map.keySet().iterator().next());
@@ -208,9 +208,25 @@ public final class SongPicker {
 					if (songs != null)
 						return songs;
 				}
+								
+
+				 //Makes the mob. event have high priority over the boss
+				 String[] tokens = type.split(":");				 
+				 if(tokens.length>1) {
+					 //player.sendStatusMessage(new TextComponentString( tokens[1] ),(true));
+					 if (mobMap.containsKey(tokens[1]))
+							return mobMap.get(tokens[1]);	
+				 }else {
+					 if (mobMap.containsKey(type))
+					 // player.sendStatusMessage(new TextComponentString( type ),(true));
+							return mobMap.get(type);	
+				 }
+					
+				
 			} catch (NullPointerException e) {
 			}
 
+			
 			String[] songs = getSongsForEvent(EVENT_BOSS);
 			if (songs != null)
 				return songs;
