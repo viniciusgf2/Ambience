@@ -113,8 +113,10 @@ public final class SongLoader {
 						}
 					} else if (keyType.equals("mob")) {
 						String event = tokens[1];
-
-						SongPicker.mobMap.put(event, props.getProperty(s).split(","));
+						
+						String mobName = joinTokensExceptFirst(tokens).replaceAll("\\+", " ");
+						
+						SongPicker.mobMap.put(mobName, props.getProperty(s).split(","));
 					}else if (keyType.equals("dimension")) {
 						String event = "";
 						
