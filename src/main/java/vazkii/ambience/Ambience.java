@@ -84,6 +84,9 @@ public class Ambience {
 	public static boolean overideBackMusicDimension=false;
 	public static boolean showUpdateNotification=false;
 	
+	//The API for the creation of external events from other mods
+	public static AmbienceEventEvent ExternalEvent= new AmbienceEventEvent();
+	
 	public static WorldData getWorldData() {
 		return worldData;
 	}

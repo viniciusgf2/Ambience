@@ -11,7 +11,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "1.12.2-1.4.6"
+version = "1.12.2-1.5.0"
 group = "vazkii.ambience" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Ambience"
 
@@ -41,7 +41,7 @@ repositories {
 }
 
 dependencies {
-	compileOnly 'com.github.goxr3plus:jaudiotagger:V2.2.6'
+	compile 'com.github.goxr3plus:jaudiotagger:V2.2.6'
 	//compile files("./libs/MoreBiomes-1.12.2-1.0.jar")
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..

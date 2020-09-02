@@ -184,8 +184,8 @@ public class CreateAreaGUI extends GuiScreen {
 			
 						
 			for (Map.Entry<String, String[]> entry : SongPicker.areasMap.entrySet()) {
-			    
-			    strings.add(entry.getKey());				
+				if(!entry.getKey().contains(".")) 
+					strings.add(entry.getKey());				
 			}
 			
 			areasList = new GuiScrollingList(this.mc, 212, 0, this.guiTop ,	this.height - this.guiTop - 48, this.guiLeft - 18, 14) {

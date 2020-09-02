@@ -169,12 +169,18 @@ public final class SongPicker {
 
 		BlockPos pos = new BlockPos(player);
 
-		AmbienceEventEvent event = new AmbienceEventEvent.Pre(world, pos);
+		/*AmbienceEventEvent event = new AmbienceEventEvent.Pre(world, pos);
 		MinecraftForge.EVENT_BUS.post(event);
 		String[] eventr = getSongsForEvent(event.event);
 		if (eventr != null)
 			return eventr;
-
+		 */
+		
+		if(Ambience.ExternalEvent.event!="")
+		{
+			return  getSongsForEvent(Ambience.ExternalEvent.event);
+		}
+		
 		GuiBossOverlay bossOverlay = mc.ingameGUI.getBossOverlay();
 		Map<UUID, BossInfoClient> map = ReflectionHelper.getPrivateValue(GuiBossOverlay.class, bossOverlay,
 				Ambience.OBF_MAP_BOSS_INFOS);
@@ -237,20 +243,7 @@ public final class SongPicker {
 						return mobMap.get(mobName);			
 				}
 				
-				//**Play horde musig				
-				if (countEntities > 5) {
-					horde=true;
-					songs=null;
-					//Songs for other dimensions
-					if (dimension <-1 | dimension >1 )
-						songs = getSongsForEvent(EVENT_HORDE+"\\"+dimension);
-					else
-						songs = getSongsForEvent(EVENT_HORDE);
-					if (songs != null)
-						return songs;
-				}else {
-					horde=false;
-				}
+				
 				
 				//****************
 				
@@ -266,6 +259,21 @@ public final class SongPicker {
 				//Termina a musica de ataque
 				if (mobName == null || countEntities < 1  || EventHandlers.attackingTimer-- < 0) {
 					Ambience.attacked = false;
+				}
+				
+				//**Play horde musig				
+				if (countEntities > 5) {
+					horde=true;
+					songs=null;
+					//Songs for other dimensions
+					if (dimension <-1 | dimension >1 )
+						songs = getSongsForEvent(EVENT_HORDE+"\\"+dimension);
+					else
+						songs = getSongsForEvent(EVENT_HORDE);
+					if (songs != null)
+						return songs;
+				}else {
+					horde=false;
 				}
 
 				if (songs != null)
@@ -604,12 +612,13 @@ public final class SongPicker {
 				return songs;
 		}
 
-		event = new AmbienceEventEvent.Post(world, pos);
+		/*event = new AmbienceEventEvent.Post(world, pos);
 		MinecraftForge.EVENT_BUS.post(event);
 		eventr = getSongsForEvent(event.event);
 		if (eventr != null)
 			return eventr;	
-
+		 */
+		
 		if (world != null) {
 			if(Ambience.instantPlaying) {
 				EventHandlers.playInstant();
