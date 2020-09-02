@@ -1,4 +1,4 @@
-item.soundnizer.name=Звуковик
+item.soundnizer.name=Звуковичок
 
 GUI.ConfirmButton=Принять
 GUI.DeleteButton=Удалить регион
@@ -15,6 +15,7 @@ Soundnizer.Alert=Вы должны быть в выбранном регионе
 Soundnizer.Desc=Позволяет создать регион для проигрывания звуков.
 
 Speaker.Desc=Проигрывает звук, когда подключен к редстоун-сети.
+SongSwitcher.Desc=Проигрывает звуки, основываясь на силе заряда редстоун-сети.
 Alarm.Desc=Проигрывает звук и мигает, когда подключен к редстоун-сети.
 Bell.Desc=Просто делает динь-дон.
 
@@ -48,6 +49,7 @@ tile.alarm_lit_pink.name=Розовый сигнальный маячок
 tile.alarm_lit_brown.name=Коричневый сигнальный маячок
 
 tile.speaker.name=Громкоговоритель
+tile.songswitcher.name=Аудиоплеер
 tile.bell.name=Колокол
 
 Options.Reload=Перезагрузить конфиг
