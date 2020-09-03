@@ -61,5 +61,9 @@
 
 	"Options.Reload": "Reload the configs from Ambience",
 
-	"itemGroup.AmbienceTab": "Ambience"
+	"itemGroup.AmbienceTab": "Ambience",
+	
+	"Ambience.ReloadTitle": "Ambience Configurations",
+	"Ambience.Reload": "Configs Reloaded success!",
+	"Ambience.Force": "Trying to reload Ambience."
 }

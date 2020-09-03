@@ -144,7 +144,7 @@ public class EventHandlersServer {
 				}
 				
 				//For Dripping Water on water inside caves
-				/*pf = facts.get(ParticleTypes.DRIPPING_WATER.getRegistryName());
+				pf = facts.get(ParticleTypes.DRIPPING_WATER.getRegistryName());
 				
 				// check that it's the vanilla one
 				if (pf instanceof DripParticle.DrippingWaterFactory) {
@@ -157,24 +157,23 @@ public class EventHandlersServer {
 						// wrap the original factory to copy the sprite data
 						((DripWaterParticleFactory) npf).wrap((DripParticle.DrippingWaterFactory) pf);
 					}
-				}*/
+				}
 				
-				//For Dripping Lava on ground
-				/*facts = ObfuscationReflectionHelper.getPrivateValue(ParticleManager.class, mc.particles, "field_178932_g");				
-				pf = facts.get(ParticleTypes.DRIPPING_LAVA.getRegistryName());
+				//For Dripping Lava on ground		
+				pf = facts.get(ParticleTypes.LANDING_LAVA.getRegistryName());
 				
 				// check that it's the vanilla one
-				if (pf instanceof DripParticle.DrippingLavaFactory) {
+				if (pf instanceof DripParticle.LandingLavaFactory) {
 					// inject custom splash particle factory
-					mc.particles.registerFactory(ParticleTypes.DRIPPING_LAVA, DripLavaParticleFactory::new);
-					IParticleFactory npf = facts.get(ParticleTypes.DRIPPING_LAVA.getRegistryName());
+					mc.particles.registerFactory(ParticleTypes.LANDING_LAVA, DripLavaParticleFactory::new);
+					IParticleFactory npf = facts.get(ParticleTypes.LANDING_LAVA.getRegistryName());
 					
 					// check that it worked
 					if (npf instanceof DripLavaParticleFactory) {
 						// wrap the original factory to copy the sprite data
-						((DripLavaParticleFactory) npf).wrap((DripParticle.DrippingLavaFactory) pf);
+						((DripLavaParticleFactory) npf).wrap((DripParticle.LandingLavaFactory) pf);
 					}
-				}*/
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

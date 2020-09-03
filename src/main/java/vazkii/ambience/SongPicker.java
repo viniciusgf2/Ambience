@@ -205,6 +205,17 @@ public final class SongPicker {
 					if (songs != null)
 						return songs;
 				}
+				
+				//Makes the mob. event have high priority over the boss
+				 String[] tokens = type.split(":");				 
+				 if(tokens.length>1) {
+					 if (mobMap.containsKey(tokens[1]))
+							return mobMap.get(tokens[1]);	
+				 }else {
+					 if (mobMap.containsKey(type))
+							return mobMap.get(type);	
+				 }
+				 
 			} catch (NullPointerException e) {
 			}
 
@@ -215,7 +226,7 @@ public final class SongPicker {
 
 		// Boss and Enemies Battle Musics******************
 
-		if (Ambience.attacked & !horde) {			
+		if (Ambience.attacked) {			
 				try {
 					String[] songs = null;
 					int countEntities = 0;
@@ -250,6 +261,21 @@ public final class SongPicker {
 				//Termina a musica de ataque
 				if (mobName == null || countEntities < 1 || EventHandlersServer.attackingTimer-- < 0) {
 					Ambience.attacked = false;
+				}
+				
+				//**Play horde musig				
+				if (countEntities > 5) {
+					horde=true;
+					songs=null;
+					//Songs for other dimensions
+					if (dimension <-1 | dimension >1 )
+						songs = getSongsForEvent(EVENT_HORDE+"\\"+dimension);
+					else
+						songs = getSongsForEvent(EVENT_HORDE);
+					if (songs != null)
+						return songs;
+				}else {
+					horde=false;
 				}
 
 				if (songs != null)
@@ -287,7 +313,7 @@ public final class SongPicker {
 				return songs;
 		}
 
-		int monsterCount = world.getEntitiesWithinAABB(MonsterEntity.class, new AxisAlignedBB(player.getPosX() - 16,
+		/*int monsterCount = world.getEntitiesWithinAABB(MonsterEntity.class, new AxisAlignedBB(player.getPosX() - 16,
 				player.getPosY() - 8, player.getPosZ() - 16, player.getPosX() + 16, player.getPosY() + 8, player.getPosZ() + 16)).size();
 		if (monsterCount > 5) {
 			horde=true;
@@ -301,7 +327,7 @@ public final class SongPicker {
 				return songs;
 		}else {
 			horde=false;
-		}
+		}*/
 
 		if (player.fishingBobber != null) {
 			String[] songs=null;
@@ -392,12 +418,12 @@ public final class SongPicker {
 				return songs;
 		}
 		
-		if(SplashFactory2.dripsCount>0) {
+		if(DripWaterParticleFactory.dripsCount>0) {
 			boolean underground = !world.canSeeSky(pos);
 
 			uncountDripWater++;
-			if(uncountDripWater >50 & SplashFactory2.dripsCount>=0) {
-				SplashFactory2.dripsCount--;
+			if(uncountDripWater >50 & DripWaterParticleFactory.dripsCount>=0) {
+				DripWaterParticleFactory.dripsCount--;
 				uncountDripWater=0;
 			}
 			

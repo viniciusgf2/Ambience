@@ -60,4 +60,9 @@
 	"Options.Reload": "Recarrega as configs de músicas",
 
 	"itemGroup.AmbienceTab": "Ambience"
+	
+	"Ambience.ReloadTitle": "Configurações do Ambience",
+	"Ambience.Reload": "Configs recarregadas!",
+	"Ambience.Force": "Tentando recarregar Ambience"
+	
 }

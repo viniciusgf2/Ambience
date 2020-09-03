@@ -2,12 +2,14 @@ package vazkii.ambience.Util.Handlers;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
+import net.minecraft.client.gui.toasts.SystemToast;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -209,6 +211,8 @@ public class EventHandlers {
 					MusicTicker ticker = new NilMusicTicker(mc);
 
 					ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
+					
+					SystemToast.addOrUpdate(mc.getToastGui(), SystemToast.Type.TUTORIAL_HINT, (ITextComponent) new TranslationTextComponent("Ambience.ReloadTitle"), (ITextComponent) new TranslationTextComponent("Ambience.Reload"));
 				}
 				
 				if (keyBindings[1].isPressed()) {
@@ -223,26 +227,32 @@ public class EventHandlers {
 					Minecraft mc = Minecraft.getInstance();
 					MusicTicker ticker = new NilMusicTicker(mc);
 					ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
+					
+					SystemToast.addOrUpdate(mc.getToastGui(), SystemToast.Type.TUTORIAL_HINT, (ITextComponent) new TranslationTextComponent("Ambience.ReloadTitle"), (ITextComponent) new TranslationTextComponent("Ambience.Force"));
 				}
 	}
 	
 	@SubscribeEvent
 	public static void onBackgroundMusic(final PlaySoundEvent event) {
 		
-		ClientWorld world=Minecraft.getInstance().world;
-			
-		if(world!=null)
-			Ambience.dimension=world.dimension.getType().getId();
-		
-		if(event.getSound().getCategory() == SoundCategory.MUSIC)
-			if(Ambience.dimension>=-1 & Ambience.dimension<=1 | Ambience.overideBackMusicDimension) {
-							
-				if(event.isCancelable()) 
-					event.setCanceled(true);
+		if(SongLoader.enabled) {
+			ClientWorld world=Minecraft.getInstance().world;
 				
-				event.setResultSound(null);
-			}
+			if(world!=null)
+				Ambience.dimension=world.dimension.getType().getId();
+			
+			if(event.getSound().getCategory() == SoundCategory.MUSIC)
+				if(Ambience.dimension>=-1 & Ambience.dimension<=1 | Ambience.overideBackMusicDimension) {
+								
+					if(event.isCancelable()) 
+						event.setCanceled(true);
+					
+					event.setResultSound(null);
+				}
+		}
 	}
+	
+	
 	
 	
 
