@@ -1,6 +1,7 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/ambience-extras/files",
    "1.15.2": {
+    "1.0.5.1" : "NEW FEATURE - Added sound effects for dripping water and lava to the mod.\nCHANGE - The horde music will only play now if you hit or get attacked by a mob where there are 5 or more hostiles mobs nearby\nBUGFIX - The name returned from the mobs from the boss mobs here returning wrong, now it is ignoring the modid and getting only the name.\nBUGFIX - Mobs with spaces in the name, weren't being mapped correctly.",
     "1.0.5" : "BUG FIX - Fixed a bug that causes the game to crash when you break a Song Switcher\nNEW FEATURE - Updated the API for other modders add their own custom events to the Ambience -  Extras mod",	   
     "1.0.4.2" : "BUGFIX - Fixed a crash when inside caves with lava",
     "1.0.4.1" : "BUGFIX - Fixed a crash when you enter a world and was not possible to create some water particles",
@@ -22,8 +23,8 @@
 	"1.5.0": "NEW FEATURE - Added the Song Switcher from the 1.15.2 into this version.\nNEW FEATURE - Added sound effects for dripping water and lava to the mod.\nCHANGE - Fixed the old API to follow the new rules from the wiki.\nCHANGE - The horde music will only play now if you hit or get attacked by a mob where there are 5 or more hostiles mobs nearby.\nBUGFIX - The name returned from the mobs from the Mowzies mobs here returning wrong, they where returning like mowziesmobs:ferrous_wroughtnaut so the events wouldn't work if you put [mob.ferrous_wroughtnaut] now it will work.\nBUGFIX - Mobs with spaces in the name weren't being mapped correctly."
   },
   "promos": {
-    "1.15.2-latest": "1.0.5",
-    "1.15.2-recommended": "1.0.5",
+    "1.15.2-latest": "1.0.5.1",
+    "1.15.2-recommended": "1.0.5.1",
     "1.12.2-latest": "1.5.0",
     "1.12.2-recommended": "1.5.0"  
   }
