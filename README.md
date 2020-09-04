@@ -1,4 +1,4 @@
-# Ambience
+# Ambience [![](http://cf.way2muchnoise.eu/ambience-extras.svg) ![](http://cf.way2muchnoise.eu/versions/ambience-extras.svg)](https://www.curseforge.com/minecraft/mc-mods/ambience-extras)
 It's a mod that enable you to add your own musics in minecraft and adds useful tools and blocks for you to create regions to play specific musics or by the use of redstone you can interate with machines and other mechanics to play sounds in your world to add immersion.
 
 See the [wiki](https://github.com/viniciusgf2/Ambience/wiki) for more information.
