@@ -17,7 +17,7 @@ Soundnizer.Desc=Configures a region to play a sound.
 Speaker.Desc=Plays a sound when activated by redstone
 SongSwitcher.Desc=Charge a region with redstone power the music changes depending on the signal strength
 Alarm.Desc=Plays a sound and flashs light when activated by redstone
-Bell.Desc=Sacred bell from the Consil of WaterSheep
+Bell.Desc=Sacred bell from the Watersheep Council
 
 tile.alarm.name=Alarm
 tile.alarm_white.name=Alarm White
@@ -50,7 +50,7 @@ tile.alarm_lit_brown.name=Alarm Brown Lit
 
 tile.speaker.name=Speaker
 tile.songswitcher.name=Song Switcher
-tile.bell.name=Bell of Consil of WaterSheep
+tile.bell.name=Watersheep Council Bell
 
 Options.Reload=Reload the configs from Ambience
 
