@@ -1,0 +1,57 @@
+item.soundnizer.name=Звуковичок
+
+GUI.ConfirmButton=Принять
+GUI.DeleteButton=Удалить регион
+GUI.SaveButton=Сохранить регион
+GUI.ShowArea=Показать регион
+GUI.AreaNameLbl=Название региона:
+GUI.AreaNameField=Название
+GUI.InstantPlayChk=Мгновенная проигровка
+GUI.SelectSoundLbl=Звук:
+GUI.anoite=Проигрывать ночью
+
+Soundnizer.Position=Позиция
+Soundnizer.Alert=Вы должны быть в выбранном регионе.
+Soundnizer.Desc=Позволяет создать регион для проигрывания звуков.
+
+Speaker.Desc=Проигрывает звук, когда подключен к редстоун-сети.
+SongSwitcher.Desc=Проигрывает звуки, основываясь на силе заряда редстоун-сети.
+Alarm.Desc=Проигрывает звук и мигает, когда подключен к редстоун-сети.
+Bell.Desc=Просто делает динь-дон.
+
+tile.alarm.name=Сигнальный маячок
+tile.alarm_white.name=Белый сигнальный маячок
+tile.alarm_red.name=Красный сигнальный маячок
+tile.alarm_orange.name=Оранжевый сигнальный маячок
+tile.alarm_yellow.name=Желтый сигнальный маячок
+tile.alarm_lime.name=Лаймовый сигнальный маячок
+tile.alarm_green.name=Зеленый сигнальный маячок
+tile.alarm_lightblue.name=Голубой сигнальный маячок
+tile.alarm_cyan.name=Бирюзовый сигнальный маячок
+tile.alarm_blue.name=Синий сигнальный маячок
+tile.alarm_purple.name=Пурпурный сигнальный маячок
+tile.alarm_magenta.name=Фиолетовый сигнальный маячок
+tile.alarm_pink.name=Розовый сигнальный маячок
+tile.alarm_brown.name=Коричневый сигнальный маячок
+
+tile.alarm_lit.name=Сигнальный маячок
+tile.alarm_lit_red.name=Красный сигнальный маячок
+tile.alarm_lit_orange.name=Оранжевый сигнальный маячок
+tile.alarm_lit_yellow.name=Желтый сигнальный маячок
+tile.alarm_lit_lime.name=Лаймовый сигнальный маячок
+tile.alarm_lit_green.name=Зеленый сигнальный маячок
+tile.alarm_lit_lightblue.name=Голубой сигнальный маячок
+tile.alarm_lit_cyan.name=Бирюзовый сигнальный маячок
+tile.alarm_lit_blue.name=Синий сигнальный маячок
+tile.alarm_lit_purple.name=Пурпурный сигнальный маячок
+tile.alarm_lit_magenta.name=Фиолетовый сигнальный маячок
+tile.alarm_lit_pink.name=Розовый сигнальный маячок
+tile.alarm_lit_brown.name=Коричневый сигнальный маячок
+
+tile.speaker.name=Громкоговоритель
+tile.songswitcher.name=Аудиоплеер
+tile.bell.name=Колокол
+
+Options.Reload=Перезагрузить конфиг
+
+itemGroup.AmbienceTab=Ambience
