@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SoundList;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
@@ -42,13 +43,10 @@ import vazkii.ambience.network.MyMessage;
 
 public class Soundnizer extends ItemBase {
 
-	/*
-	 * public Soundnizer() { super(); maxStackSize = 64;
-	 * 
-	 * if (!FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-	 * I18n.format("Soundnizer.Position"); I18n.format("Soundnizer.Alert");
-	 * I18n.format("Soundnizer.Desc"); } }
-	 */
+	public Soundnizer(int Maxdamage) {
+		super(Maxdamage);
+
+	}
 
 	private boolean rightclick = false;
 	public static boolean firstclick = false;
@@ -64,16 +62,7 @@ public class Soundnizer extends ItemBase {
 
 		
 		// Client
-		if (worldIn.isRemote) {
-			
-			
-			//TEST ******
-			/*CompoundNBT nbt2 = new CompoundNBT();
-			nbt2.putString("InterMod", "oi");
-			AmbiencePackageHandler.sendToServer(new MyMessage(nbt2));
-			*///***********
-			
-			
+		if (worldIn.isRemote) {								
 			BlockPos Position2=null;
 			RayTraceResult lookingAt = Minecraft.getInstance().objectMouseOver;
 			rightclick = true;
@@ -86,8 +75,7 @@ public class Soundnizer extends ItemBase {
 				blockName = worldIn.getBlockState(((BlockRayTraceResult) lookingAt).getPos()).getBlock().getRegistryName().getPath();				
 			}
 			
-			if (lookingAt != null && lookingAt.getType() == RayTraceResult.Type.BLOCK & !blockName.contains("speaker")
-					& !blockName.contains("alarm")) {
+			if (lookingAt != null && lookingAt.getType() == RayTraceResult.Type.BLOCK & !blockName.contains("speaker")	& !blockName.contains("alarm")) {
 				Position2 = ((BlockRayTraceResult) lookingAt).getPos();
 
 				if (!playerIn.isSneaking()) {
@@ -100,11 +88,7 @@ public class Soundnizer extends ItemBase {
 
 					Ambience.selectedArea.setPos2(new Vec3d(Position2.getX(), Position2.getY(), Position2.getZ()));
 					Ambience.selectedArea.setDimension(playerIn.dimension.getId());
-					Ambience.previewArea.setPos2(Ambience.selectedArea.getPos2());
-
-
-					// Create AREA
-					// Minecraft.getInstance().displayGuiScreen(new CreateAreaGUI());
+					Ambience.previewArea.setPos2(Ambience.selectedArea.getPos2());				
 
 				} else {
 					if (Ambience.selectedArea != null)
@@ -118,7 +102,10 @@ public class Soundnizer extends ItemBase {
 			}
 			
 
-			if (!playerIn.isSneaking() & !blockName.contains("alarm") & !blockName.contains("speaker")) {
+			//Border border = new Border(Ambience.selectedArea.getPos1(), Ambience.selectedArea.getPos2());
+			
+
+			if ( !playerIn.isSneaking() & !blockName.contains("alarm") & !blockName.contains("speaker")) {
 				// envia a posição selecionada para o server
 				Ambience.selectedArea.setOperation(Operation.SELECT);
 				Ambience.selectedArea.setName("Area1");
@@ -136,9 +123,9 @@ public class Soundnizer extends ItemBase {
 			
 		}
 
+		//
 		// Server
-		// if (!worldIn.isRemote & lookingAt.hitInfo == null && lookingAt.getType() !=
-		// RayTraceResult.Type.BLOCK) {
+		//
 		if (!worldIn.isRemote) {
 					
 			
@@ -243,8 +230,9 @@ public class Soundnizer extends ItemBase {
 					Ambience.previewArea = new Area("Area1");
 					Ambience.selectedArea.setOperation(Operation.SELECT);
 	
-					Ambience.selectedArea.setPos1(Vec3d.ZERO);
-					Ambience.selectedArea.setPos2(Vec3d.ZERO);
+					Ambience.selectedArea.resetSelection();
+					//Ambience.selectedArea.setPos1(Vec3d.ZERO);
+					//Ambience.selectedArea.setPos2(Vec3d.ZERO);
 					AmbiencePackageHandler.sendToAll(new MyMessage(Ambience.selectedArea.SerializeThis()));
 					
 					//AmbiencePackageHandler.sendToClient(new MyMessage(Ambience.selectedArea.SerializeThis()),
@@ -277,10 +265,9 @@ public class Soundnizer extends ItemBase {
 				blockName = entity.world.getBlockState(((BlockRayTraceResult) lookingAt).getPos()).getBlock().getRegistryName().getPath();
 			}
 			
-			if (lookingAt != null && lookingAt.getType() == RayTraceResult.Type.BLOCK) {
+			if (lookingAt != null && lookingAt.getType() == RayTraceResult.Type.BLOCK & !blockName.contains("Speaker") & !blockName.contains("Alarm")) {
 				BlockPos Position1 = ((BlockRayTraceResult) lookingAt).getPos();
-				// if (Position1.getType() != Type.MISS & !testBlock.contains("Speaker") &
-				// !testBlock.contains("Alarm")) {
+				
 				((PlayerEntity) entity).sendStatusMessage(new TranslationTextComponent(
 						((I18n.format("Soundnizer.Position") + " 1 = x:") + "" + ((int) Position1.getX()) + "" + (" y:")
 								+ "" + ((int) Position1.getY()) + "" + (" z:") + "" + ((int) Position1.getZ()))),
@@ -288,18 +275,12 @@ public class Soundnizer extends ItemBase {
 				// Defines the selected area Pos 1
 				Ambience.selectedArea.setPos1(new Vec3d(Position1.getX(), Position1.getY(), Position1.getZ()));
 				Ambience.previewArea.setPos1(Ambience.selectedArea.getPos1());
-
+				if(Ambience.selectedArea.getPos2()!=null)
+					Ambience.selectedArea.setPos2(new Vec3d(Ambience.selectedArea.getPos2().getX(),	Ambience.selectedArea.getPos2().getY(), Ambience.selectedArea.getPos2().getZ()));				
+			
 				// envia a posição selecionada para o server
 				Ambience.selectedArea.setOperation(Operation.SELECT);
-				Ambience.selectedArea.setName("Area1");
-
-				
-				
-				if (Ambience.selectedArea.getPos2() != null)
-					Ambience.selectedArea.setPos2(new Vec3d(Ambience.selectedArea.getPos2().getX(),
-							Ambience.selectedArea.getPos2().getY(), Ambience.selectedArea.getPos2().getZ()));
-
-				Ambience.selectedArea.setPos1(new Vec3d(Position1.getX(), Position1.getY(), Position1.getZ()));
+				Ambience.selectedArea.setName("Area1");	
 				Ambience.selectedArea.setInstantPlay(false);
 				Ambience.selectedArea.setPlayAtNight(false);
 				Ambience.selectedArea.setSelectedBlock(blockName);

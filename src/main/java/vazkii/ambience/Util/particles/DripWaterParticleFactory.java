@@ -32,27 +32,30 @@ public class DripWaterParticleFactory extends DripParticle.DrippingWaterFactory 
 		// if this is a splash from a drip.
 
 		try {
-			// the splash when moving in water has speed, while drips and fishing splashes
-			// don't
-			if (xSpeed == 0 && ySpeed == 0 && zSpeed == 0) {
-
-				//Check if is hitting a water block 
-				if (!worldIn.getBlockState(new BlockPos(x, y + 2, z)).getBlockState().getFluidState().isEmpty()) {
-
-					int playerCount=worldIn.getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(x - 8,y-8, z - 8, x + 16, y + 2, z + 8)).size();                	                		
-										
-					Vec3d vector=new Vec3d(x,y,z);
-	            	BlockRayTraceResult rayTraceResult = worldIn.rayTraceBlocks(new RayTraceContext(vector, vector.add(new Vec3d(0,1,0).scale(-25)),RayTraceContext.BlockMode.OUTLINE,  RayTraceContext.FluidMode.ANY,worldIn.getClosestPlayer(x, y, z)));
-	            	
-	            	// check that the block below isn't fluid since fishing splashes have water below
-	                if (worldIn.getBlockState(rayTraceResult.getPos()).getBlock().getRegistryName().toString().contains("water")) {
-					
-						if (dripsCount <= 10 & playerCount>0)
-							dripsCount++;
-	                }
-					// play the sound
-					float vol = MathHelper.clamp(1, 0f, 1f);
-					worldIn.playSound(x, y, z, SoundEvents.BLOCK_BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.AMBIENT, vol,1f, false);
+			if(!worldIn.isRaining()) 
+			{
+				// the splash when moving in water has speed, while drips and fishing splashes
+				// don't
+				if (xSpeed == 0 && ySpeed == 0 && zSpeed == 0) {
+	
+					//Check if is hitting a water block 
+					if (!worldIn.getBlockState(new BlockPos(x, y + 2, z)).getBlockState().getFluidState().isEmpty()) {
+	
+						int playerCount=worldIn.getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(x - 8,y-8, z - 8, x + 16, y + 2, z + 8)).size();                	                		
+											
+						Vec3d vector=new Vec3d(x,y,z);
+		            	BlockRayTraceResult rayTraceResult = worldIn.rayTraceBlocks(new RayTraceContext(vector, vector.add(new Vec3d(0,1,0).scale(-25)),RayTraceContext.BlockMode.OUTLINE,  RayTraceContext.FluidMode.ANY,worldIn.getClosestPlayer(x, y, z)));
+		            	
+		            	// check that the block below isn't fluid since fishing splashes have water below
+		                if (worldIn.getBlockState(rayTraceResult.getPos()).getBlock().getRegistryName().toString().contains("water")) {
+						
+							if (dripsCount <= 10 & playerCount>0)
+								dripsCount++;
+		                }
+						// play the sound
+						float vol = MathHelper.clamp(1, 0f, 1f);
+						worldIn.playSound(x, y, z, SoundEvents.BLOCK_BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.AMBIENT, vol,1f, false);
+					}
 				}
 			}
 

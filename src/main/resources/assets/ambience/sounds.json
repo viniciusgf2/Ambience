@@ -1,18 +1,27 @@
 {    
-     "bell1": {
+    "horn1": {
         "category": "block",
         "sounds": [
             {
-                "name": "ambience:bell_use01",
+                "name": "ambience:horn1",
                 "stream": false
             }
         ]
     },
-     "bell2": {
+	"horn2": {
         "category": "block",
         "sounds": [
             {
-                "name": "ambience:bell_use02",
+                "name": "ambience:horn2",
+                "stream": false
+            }
+        ]
+    },
+     "horn3": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:horn3",
                 "stream": false
             }
         ]

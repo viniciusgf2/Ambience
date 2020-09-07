@@ -1,14 +1,34 @@
 package vazkii.ambience.network;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.PropertyMap;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.scoreboard.Team;
+import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
@@ -18,7 +38,9 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.ambience.Ambience;
+import vazkii.ambience.SongPicker;
 import vazkii.ambience.Screens.SpeakerContainer;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.World.Biomes.Area;
@@ -26,6 +48,11 @@ import vazkii.ambience.World.Biomes.Area.Operation;
 import vazkii.ambience.blocks.AlarmTileEntity;
 import vazkii.ambience.blocks.SpeakerTileEntity;
 import vazkii.ambience.items.Soundnizer;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class MyMessage {
 
@@ -60,20 +87,29 @@ public class MyMessage {
 			if (ctx.getDirection() == NetworkDirection.PLAY_TO_SERVER) {
 				// This is the player the packet was sent to the server from
 
+
+				
 				CompoundNBT EventSound = data;
 				ServerWorld world = ctx.getSender().server.getWorld(DimensionType.getById(data.getInt("dimension")));
 
+												
+				//Send to the clients the force play values
+				if(EventSound.contains("forcedPlayID")) {	
+					for(String players : getOppedList()){
+			            if(players.contains(ctx.getSender().getDisplayName().getString())) {			            				            	
+			            	CompoundNBT nbt = new CompoundNBT();
+							nbt.putBoolean("forcedPlay",EventSound.getBoolean("forcedPlay"));
+							nbt.putInt("forcedPlayID", EventSound.getInt("forcedPlayID"));
+							AmbiencePackageHandler.sendToAll(new MyMessage(nbt));	
+			            }
+			        }
+					
+					
+				}
+				
 				//Sync the clicked alarm or speaker to the server
 				Soundnizer.clickedSpeakerOrAlarm=EventSound.getBoolean("ClickedSpeakerOrAlarm");
-							
-				
-				//*****************
-				/*if(EventSound.getString("InterMod") != null) {			
-					((PlayerEntity)context.get().getSender()).sendStatusMessage((ITextComponent) new StringTextComponent("externalEvent"),(true));
-				}*/				
-				//******************
-				
-				
+											
 				// Save the speaker gui configs
 				if (EventSound.getString("SoundEvent") != null & !EventSound.getString("SoundEvent").isEmpty()) {
 
@@ -157,20 +193,8 @@ public class MyMessage {
 					case SELECT:
 						Ambience.selectedArea = area;
 						Ambience.previewArea = area;
-						Soundnizer.BlockName= EventSound.getString("BlockName");
-						// envia a posição selecionada para o server
-						Ambience.selectedArea.setOperation(Operation.SELECT);
-						Ambience.selectedArea.setName("Area1");
-
-						if (Ambience.selectedArea.getPos1() != null)
-							Ambience.selectedArea.setPos1(new Vec3d(Ambience.selectedArea.getPos1().getX(),
-									Ambience.selectedArea.getPos1().getY(), Ambience.selectedArea.getPos1().getZ()));
-
-						Ambience.selectedArea.setPos2(new Vec3d(area.getPos2().getX(), area.getPos2().getY(), area.getPos2().getZ()));
-						Ambience.selectedArea.setPos1(new Vec3d(area.getPos1().getX(), area.getPos1().getY(), area.getPos1().getZ()));
-						Ambience.selectedArea.setInstantPlay(false);
-						Ambience.selectedArea.setPlayAtNight(false);
-						Ambience.selectedArea.setSelectedBlock(area.getSelectedBlock());
+						Soundnizer.BlockName= area.getSelectedBlock();
+						// envia a posição selecionada para todos						
 						AmbiencePackageHandler.sendToAll(new MyMessage(Ambience.selectedArea.SerializeThis()));
 						
 						break;					
@@ -188,9 +212,18 @@ public class MyMessage {
 
 			}
 
+			//
+			// CLIENT SIDE
+			//
 			else {
 
 				CompoundNBT EventSound = data;
+				
+				//Send to the clients the force play values
+				if(EventSound.contains("forcedPlayID")) {										
+					SongPicker.forcePlayID=EventSound.getInt("forcedPlayID");
+					Ambience.forcePlay=EventSound.getBoolean("forcedPlay");										
+				}
 				
 				if(data.getString("op")=="") {
 					// Update the informations on the client when opening the Speaker Screen
@@ -203,11 +236,10 @@ public class MyMessage {
 							SpeakerContainer.pos = new BlockPos(EventSound.getCompound("pos").getInt("x"),EventSound.getCompound("pos").getInt("y"), EventSound.getCompound("pos").getInt("z"));
 							SpeakerContainer.isAlarm = EventSound.getBoolean("isAlarm");
 							context.get().setPacketHandled(true);
-							// }
-	
+								
 							// Stops the playing sound on the client
 							if (EventSound.getString("stop").contains("stop")) {
-								Minecraft.getInstance().getSoundHandler().stop(new ResourceLocation(EventSound.getString("sound")), SoundCategory.NEUTRAL);
+								Minecraft.getInstance().getSoundHandler().stop(new ResourceLocation(EventSound.getString("sound")), SoundCategory.BLOCKS);
 							}
 					 }
 				 }
@@ -233,7 +265,8 @@ public class MyMessage {
 									area.setOperation(Operation.EDIT);
 									AmbiencePackageHandler.sendToServer(new MyMessage(area.SerializeThis()));
 									break;
-								case SELECT:Ambience.selectedArea = area;
+								case SELECT:
+									Ambience.selectedArea = area;
 									Ambience.previewArea = area;
 									break;
 							}
@@ -253,5 +286,34 @@ public class MyMessage {
 
 		AmbiencePackageHandler.sendToClient(new MyMessage(Ambience.selectedArea.SerializeThis()),ctx.getSender());
 		
+	}
+	
+	private List<String> getOppedList() {
+		List ops=new ArrayList<String>();
+		try {
+			InputStream stream = new FileInputStream(PlayerList.FILE_OPS);
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
+			JsonParser parser = new JsonParser();
+			JsonElement obj = parser.parse(reader);
+									
+			if (obj != null) {
+				String[] arrOfStr = obj.toString().split("\"name\":\"");
+				List<String> result = new ArrayList<String>();
+
+				for (int i = 1; i < arrOfStr.length; i++) {
+					String[] arrOfStr2=arrOfStr[i].split(",");
+					//System.out.println(arrOfStr2[0].replace("\"",""));
+					ops.add(arrOfStr2[0].replace("\"",""));
+				}				 	
+			}					
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return ops;
 	}
 }

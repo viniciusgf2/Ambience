@@ -1,11 +1,26 @@
 package vazkii.ambience.Util.Handlers;
 
+import com.sun.jna.platform.KeyboardUtils;
+
+import net.minecraft.client.KeyboardListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.gui.toasts.SystemToast;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.PanicGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.monster.ZombieEntity;
+import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -17,6 +32,7 @@ import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.VersionChecker;
@@ -25,12 +41,18 @@ import net.minecraftforge.fml.VersionChecker.Status;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.loading.FMLCommonLaunchHandler;
 import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.NilMusicTicker;
 import vazkii.ambience.PlayerThread;
 import vazkii.ambience.SongLoader;
 import vazkii.ambience.SongPicker;
+import vazkii.ambience.items.Horn;
+import vazkii.ambience.network.AmbiencePackageHandler;
+import vazkii.ambience.network.MyMessage;
+import vazkii.ambience.render.HornRender;
 import vazkii.ambience.render.SelectionBoxRenderer;
 
 //@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
@@ -51,13 +73,12 @@ public class EventHandlers {
 	public static boolean fadeIn = false;
 	public static int silenceTicks = 0;
 		
-	// public static boolean attacked = false;
 	public static KeyBinding[] keyBindings;
 
 	public EventHandlers() {		
 
 	}
-	
+			
 	public static void playInstant() {		
 		fadeOutTicks = FADE_DURATION;
 		silenceTicks = SILENCE_DURATION;
@@ -69,10 +90,21 @@ public class EventHandlers {
 	}
 	
 	public static void registerKeyBindings() {
-		keyBindings = new KeyBinding[2];
+		keyBindings = new KeyBinding[12];
 		
 		keyBindings[0] = new KeyBinding("Options.Reload", 80 , "Ambience");
 		keyBindings[1] = new KeyBinding("Force Play", 79, "Ambience");
+		
+		keyBindings[2] = new KeyBinding("Options.Shortcut1", 97, "Ambience");
+		keyBindings[3] = new KeyBinding("Options.Shortcut2", 97, "Ambience");
+		keyBindings[4] = new KeyBinding("Options.Shortcut3", 98, "Ambience");
+		keyBindings[5] = new KeyBinding("Options.Shortcut4", 99, "Ambience");
+		keyBindings[6] = new KeyBinding("Options.Shortcut5", 100, "Ambience");
+		keyBindings[7] = new KeyBinding("Options.Shortcut6", 101, "Ambience");
+		keyBindings[8] = new KeyBinding("Options.Shortcut7", 102, "Ambience");
+		keyBindings[9] = new KeyBinding("Options.Shortcut8", 103, "Ambience");
+		keyBindings[10] = new KeyBinding("Options.Shortcut9", 104, "Ambience");
+		keyBindings[11] = new KeyBinding("Options.Shortcut10", 104, "Ambience");
 
 		// register all the key bindings
 		for (int i = 0; i < keyBindings.length; ++i) {
@@ -80,7 +112,7 @@ public class EventHandlers {
 		}
 	}
 	
-	/*@SubscribeEvent
+/*	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		// check each enumerated key binding type for pressed and take appropriate
 		// action
@@ -111,7 +143,7 @@ public class EventHandlers {
 			Minecraft mc = Minecraft.getInstance();
 			MusicTicker ticker = new NilMusicTicker(mc);
 			ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
-		}
+		}		
 	}*/
 
 	
@@ -196,40 +228,67 @@ public class EventHandlers {
 		
 		
 		//KEYBOARD EVENTS HANDLER
-		// check each enumerated key binding type for pressed and take appropriate
-				// action
-				if (keyBindings[0].isPressed()) {
-					SongPicker.reset();
-					//Ambience.thread.forceKill();			
-					//Ambience.thread.run();
-					SongLoader.loadFrom(Ambience.ambienceDir);
+		// check each enumerated key binding type for pressed and take appropriate action
+		if (keyBindings[0].isPressed()) {
+			SongPicker.reset();
+			SongLoader.loadFrom(Ambience.ambienceDir);
 
-					//if (SongLoader.enabled)
-						//Ambience.thread = new PlayerThread();
+			Minecraft mc = Minecraft.getInstance();
+			MusicTicker ticker = new NilMusicTicker(mc);
 
-					Minecraft mc = Minecraft.getInstance();
-					MusicTicker ticker = new NilMusicTicker(mc);
+			ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
+			
+			SystemToast.addOrUpdate(mc.getToastGui(), SystemToast.Type.TUTORIAL_HINT, (ITextComponent) new TranslationTextComponent("Ambience.ReloadTitle"), (ITextComponent) new TranslationTextComponent("Ambience.Reload"));
+		}
+		
+		if (keyBindings[1].isPressed()) {
+			//SongPicker.reset();
+			Ambience.thread.forceKill();			
+			Ambience.thread.run();
+			SongLoader.loadFrom(Ambience.ambienceDir);
 
-					ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
-					
-					SystemToast.addOrUpdate(mc.getToastGui(), SystemToast.Type.TUTORIAL_HINT, (ITextComponent) new TranslationTextComponent("Ambience.ReloadTitle"), (ITextComponent) new TranslationTextComponent("Ambience.Reload"));
-				}
-				
-				if (keyBindings[1].isPressed()) {
-					//SongPicker.reset();
-					Ambience.thread.forceKill();			
-					Ambience.thread.run();
-					SongLoader.loadFrom(Ambience.ambienceDir);
+			if (SongLoader.enabled)
+				Ambience.thread = new PlayerThread();
 
-					if (SongLoader.enabled)
-						Ambience.thread = new PlayerThread();
-
-					Minecraft mc = Minecraft.getInstance();
-					MusicTicker ticker = new NilMusicTicker(mc);
-					ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
-					
-					SystemToast.addOrUpdate(mc.getToastGui(), SystemToast.Type.TUTORIAL_HINT, (ITextComponent) new TranslationTextComponent("Ambience.ReloadTitle"), (ITextComponent) new TranslationTextComponent("Ambience.Force"));
-				}
+			Minecraft mc = Minecraft.getInstance();
+			MusicTicker ticker = new NilMusicTicker(mc);
+			ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
+			
+			SystemToast.addOrUpdate(mc.getToastGui(), SystemToast.Type.TUTORIAL_HINT, (ITextComponent) new TranslationTextComponent("Ambience.ReloadTitle"), (ITextComponent) new TranslationTextComponent("Ambience.Force"));
+		}
+		
+		
+		//Shortcuts keys
+		if (keyBindings[2].isPressed()) { ToggleForcePlay(0); }
+		if (keyBindings[3].isPressed()) { ToggleForcePlay(1); }
+		if (keyBindings[4].isPressed()) { ToggleForcePlay(2); }
+		if (keyBindings[5].isPressed()) { ToggleForcePlay(3); }
+		if (keyBindings[6].isPressed()) { ToggleForcePlay(4); }
+		if (keyBindings[7].isPressed()) { ToggleForcePlay(5); }
+		if (keyBindings[8].isPressed()) { ToggleForcePlay(6); }
+		if (keyBindings[9].isPressed()) { ToggleForcePlay(7); }
+		if (keyBindings[10].isPressed()) { ToggleForcePlay(8); }
+		if (keyBindings[11].isPressed()) { ToggleForcePlay(9); }						
+	}
+	
+	private static void ToggleForcePlay(int id) {		
+		Minecraft mc = Minecraft.getInstance();		
+		if(Ambience.forcePlay) {
+			Ambience.forcePlay=false;
+		}else {
+			Ambience.forcePlay=true;
+			//SystemToast.addOrUpdate(mc.getToastGui(), SystemToast.Type.TUTORIAL_HINT, (ITextComponent) new TranslationTextComponent("ForcePlay.Playing"), (ITextComponent) new StringTextComponent(song[0]));
+		}
+		SongPicker.forcePlayID=id;
+		
+		if(mc.player.isSneaking())
+		{			
+			CompoundNBT nbt = new CompoundNBT();
+			nbt.putBoolean("forcedPlay", Ambience.forcePlay);
+			nbt.putInt("forcedPlayID", SongPicker.forcePlayID);
+			AmbiencePackageHandler.sendToServer(new MyMessage(nbt));
+		
+		}		
 	}
 	
 	@SubscribeEvent
@@ -251,11 +310,7 @@ public class EventHandlers {
 				}
 		}
 	}
-	
-	
-	
-	
-
+			
 	public static void changeSongTo(String song) 
 	{		
 		//para de tocar as musicas caso esteja em outra dimensão
@@ -272,7 +327,7 @@ public class EventHandlers {
 			fadeIn=true;
 		}
 	}
-		
+				
 	@SubscribeEvent
 	public static void onWorldRenderLast(RenderWorldLastEvent event) {
 		PlayerEntity currentplayer = Minecraft.getInstance().player;
@@ -283,6 +338,9 @@ public class EventHandlers {
 				   Ambience.previewArea.getPos2().x!=0 & Ambience.previewArea.getPos2().y!=0 & Ambience.previewArea.getPos2().z!=0)
 					SelectionBoxRenderer.drawBoundingBox(currentplayer.getPositionVector(), Ambience.previewArea.getPos1(),	Ambience.previewArea.getPos2(), true, 2,event.getPartialTicks(),event);
 			}
+
+		//Render the Horn sound effect
+		HornRender.drawBoundingBox(currentplayer.getPositionVec(), event.getPartialTicks(),event, currentplayer.world,currentplayer);
 	}
 	
 	public static boolean show=false;

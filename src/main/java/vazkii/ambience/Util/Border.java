@@ -23,7 +23,7 @@ public class Border {
 	}
 
 	public boolean contains(Vec3d vec3d) {
-		if (vec3d == null) {
+		if (vec3d == null | p1==null | p2==null) {
 			return false;
 		}
 		return vec3d.x >= p1.getX() && vec3d.x <= p2.getX() 

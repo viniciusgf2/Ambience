@@ -158,12 +158,11 @@ public class SongSwitcher extends Block {
 				currentArea.setOperation(Operation.EDIT);
 
 				AmbiencePackageHandler.sendToAll(new MyMessage(currentArea.SerializeThis()));
-				//AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));
 
 				if (getRedstonePowerFromNeighbors(fromPos, worldIn)!=0) {
-					setState(true,worldIn,pos,"red","");
+					setState(true,worldIn,pos,state);
 				}else {
-					setState(false,worldIn,pos,"red","");					
+					setState(false,worldIn,pos,state);					
 				}
 			}
 		}
@@ -181,6 +180,9 @@ public class SongSwitcher extends Block {
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 		
 		Area currentArea = Area.getBlockStandingArea(pos);
+
+
+		worldIn.setBlockState(pos,RegistryHandler.SongSwitcher_lit.get().getDefaultState().with(FACING, state.get(FACING)),2);		
 
 		if (worldIn.getPlayers().get(0) instanceof ServerPlayerEntity) {
 
@@ -204,9 +206,9 @@ public class SongSwitcher extends Block {
 				AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));
 
 				if (power !=0) {
-					setState(true,worldIn,pos,"red","");
+					setState(true,worldIn,pos,state);
 				}else {
-					setState(false,worldIn,pos,"red","");					
+					setState(false,worldIn,pos,state);					
 				}
 			}
 		}
@@ -232,14 +234,13 @@ public class SongSwitcher extends Block {
 	}
 
 	// Acende e apaga a luz
-	public void setState(boolean active, World worldIn, BlockPos pos, String color, String selectedSound) {
-		BlockState iblockstate = worldIn.getBlockState(pos);
-
+	public void setState(boolean active, World worldIn, BlockPos pos, BlockState state) {
+		
 		if (active) {
-			worldIn.setBlockState(pos,RegistryHandler.SongSwitcher_lit.get().getDefaultState().with(FACING, iblockstate.get(FACING)),2);		
+			worldIn.setBlockState(pos,RegistryHandler.SongSwitcher_lit.get().getDefaultState().with(FACING, state.get(FACING)),2);		
 
 		} else {
-			worldIn.setBlockState(pos,RegistryHandler.SongSwitcher.get().getDefaultState().with(FACING, iblockstate.get(FACING)), 2);
+			worldIn.setBlockState(pos,RegistryHandler.SongSwitcher.get().getDefaultState().with(FACING, state.get(FACING)), 2);
 		}
 
 	}

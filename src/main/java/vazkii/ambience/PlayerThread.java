@@ -4,7 +4,9 @@ import java.io.InputStream;
 
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.util.SoundCategory;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import vazkii.ambience.Util.Handlers.EventHandlers;
 import vazkii.ambience.thirdparty.javazoom.jl.player.AudioDevice;
 import vazkii.ambience.thirdparty.javazoom.jl.player.JavaSoundAudioDevice;
@@ -52,19 +54,33 @@ public class PlayerThread extends Thread {
 					if(player != null)
 						resetPlayer();
 					InputStream stream = SongLoader.getStream();
-					if(stream == null)
+					if(stream == null) {
 						continue;
+						//Tries to reload the Thread if it "crashes"
+					/*	Ambience.thread.forceKill();			
+						Ambience.thread.run();
+						SongLoader.loadFrom(Ambience.ambienceDir);
+
+						if (SongLoader.enabled)
+							Ambience.thread = new PlayerThread();
+
+						Minecraft mc = Minecraft.getInstance();
+						MusicTicker ticker = new NilMusicTicker(mc);
+						ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);*/
+					}
 					
 					player = new AdvancedPlayer(stream);
 					queued = false;
 				}
 
 				boolean played = false;
-				if(player != null && player.getAudioDevice() != null && realGain > MIN_GAIN) {
-					setGain(fadeGains[0]);
-					player.play();
-					playing = true;
-					played = true;
+				if(player != null) {
+					if(player != null && player.getAudioDevice() != null && realGain > MIN_GAIN) {
+						setGain(fadeGains[0]);
+						player.play();
+						playing = true;
+						played = true;
+					}
 				}
 
 				if(played && !queued)

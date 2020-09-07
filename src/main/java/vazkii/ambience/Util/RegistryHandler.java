@@ -12,6 +12,7 @@ import vazkii.ambience.blocks.BlockItemBase;
 import vazkii.ambience.blocks.Speaker;
 import vazkii.ambience.blocks.SongSwitcher;
 import vazkii.ambience.items.Soundnizer;
+import vazkii.ambience.items.Horn;
 
 public class RegistryHandler {
 	
@@ -28,10 +29,10 @@ public class RegistryHandler {
 	}
 	
 	//Items
-	public static final RegistryObject<Soundnizer> Soundnizer =  ITEMS.register("soundnizer", Soundnizer::new);
+	public static final RegistryObject<Soundnizer> Soundnizer =  ITEMS.register("soundnizer", () -> new Soundnizer(0));
+	public static final RegistryObject<Horn> Horn =  ITEMS.register("horn", () -> new Horn(20));
 	
 	
-
 	//Blocks
 	public static final RegistryObject<Block> Speaker =  BLOCKS.register("speaker", () -> new Speaker(""));
 	public static final RegistryObject<Block> SongSwitcher =  BLOCKS.register("songswitcher", () -> new SongSwitcher(""));

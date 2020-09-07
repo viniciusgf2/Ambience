@@ -55,5 +55,21 @@ public class SoundHandler {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		
+		ResourceLocation location = new ResourceLocation(Ambience.MODID, "horn1");
+		SoundEvent soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("horn1");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Ambience.MODID, "horn2");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("horn2");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Ambience.MODID, "horn3");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("horn3");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
 	}
 }

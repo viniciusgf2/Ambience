@@ -1,5 +1,7 @@
 package vazkii.ambience;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,9 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.AudioHeader;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.overlay.BossOverlayGui;
@@ -17,11 +22,13 @@ import net.minecraft.client.gui.screen.DisconnectedScreen;
 import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.gui.screen.SleepInMultiplayerScreen;
 import net.minecraft.client.gui.screen.WinGameScreen;
+import net.minecraft.client.gui.toasts.SystemToast;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.BoatEntity;
 import net.minecraft.entity.item.minecart.MinecartEntity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.monster.GuardianEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.passive.horse.HorseEntity;
@@ -48,6 +55,7 @@ import vazkii.ambience.Util.Handlers.EventHandlers;
 import vazkii.ambience.Util.Handlers.EventHandlersServer;
 import vazkii.ambience.Util.particles.DripWaterParticleFactory;
 import vazkii.ambience.World.Biomes.Area;
+import vazkii.ambience.blocks.SpeakerTileEntity;
 
 @OnlyIn(value = Dist.CLIENT)
 public final class SongPicker {
@@ -73,6 +81,7 @@ public final class SongPicker {
 	public static final String EVENT_UNDERWATER = "underwater";
 	public static final String EVENT_DRIPWATERINCAVE = "dripwaterincave";
 	public static final String EVENT_UNDERGROUND = "underground";
+	public static final String EVENT_OCEANMONUMENT = "oceanMonument";
 	public static final String EVENT_DEEP_UNDEGROUND = "deepUnderground";
 	public static final String EVENT_HIGH_UP = "highUp";
 	public static final String EVENT_VILLAGE = "village";
@@ -104,6 +113,10 @@ public final class SongPicker {
 	public static boolean falling = false;
 	
 	public static boolean horde=false;
+	
+	public static int forcePlayID=-1;
+	public static boolean ForcePlaying=false;
+	public static int musicLenght=0;
 	
 	public static void reset() {
 		eventMap.clear();
@@ -179,6 +192,45 @@ public final class SongPicker {
 			return  getSongsForEvent(Ambience.ExternalEvent.event);
 		}
 		
+		// ******************
+		if (Ambience.forcePlay ) {
+			String[] songs = getSongsForEvent("shortcut"+forcePlayID);
+			
+			if(songs!=null & !ForcePlaying) {
+				String[] song= {songs[0]};	
+				ForcePlaying=true;
+				musicLenght=getSongLenght(song[0]);					
+			}
+
+			if(songs!=null)
+			{		
+				//Pick only the first music in the shortcut event and ignore the rest	
+				String[] song= {songs[0]};	
+								
+				if(song!=null) {				
+					// Para a musica no fim dela
+					if (songTimer > musicLenght * 39) {
+						Ambience.forcePlay = false;
+						ForcePlaying=false;
+						songTimer = 0;
+					} else
+						songTimer++;
+				}
+				
+				return song;
+			}
+			else {
+				Ambience.forcePlay=false;
+			}
+			
+			return null;
+		}else {
+			ForcePlaying=false;
+			songTimer=0;
+		}
+
+		// ******************
+		
 		BossOverlayGui bossOverlay = mc.ingameGUI.getBossOverlay();
 		Map<UUID, BossInfo> map = ObfuscationReflectionHelper.getPrivateValue(BossOverlayGui.class, bossOverlay,Ambience.OBF_MAP_BOSS_INFOS);
 		if (!map.isEmpty()) {
@@ -225,7 +277,6 @@ public final class SongPicker {
 		}
 
 		// Boss and Enemies Battle Musics******************
-
 		if (Ambience.attacked) {			
 				try {
 					String[] songs = null;
@@ -262,7 +313,7 @@ public final class SongPicker {
 				if (mobName == null || countEntities < 1 || EventHandlersServer.attackingTimer-- < 0) {
 					Ambience.attacked = false;
 				}
-				
+								
 				//**Play horde musig				
 				if (countEntities > 5) {
 					horde=true;
@@ -283,23 +334,24 @@ public final class SongPicker {
 			} catch (Exception ex) {
 				System.out.println(ex.getMessage());
 			}
+		}else {
+			
+			//Ocean Temple music
+			String[] songs = null;
+			int guardianCount = world.getEntitiesWithinAABB(GuardianEntity.class, new AxisAlignedBB(player.getPosX() - 30,
+					player.getPosY() - 8, player.getPosZ() - 30, player.getPosX() + 30, player.getPosY() + 8, player.getPosZ() + 30)).size();
+			if (guardianCount > 3) {	
+				//Songs for other dimensions
+				if (dimension <-1 | dimension >1 )
+					songs = getSongsForEvent(EVENT_OCEANMONUMENT+"\\"+dimension);
+				else
+					songs = getSongsForEvent(EVENT_OCEANMONUMENT);
+				if (songs != null)
+					return songs;
+			}
 		}
-
-		if (Ambience.forcePlay) {
-			String[] songs = { "Boss3" };
-
-			// Para a musica no fim dela
-			if (songTimer > 5400) {
-				Ambience.forcePlay = false;
-				songTimer = 0;
-			} else
-				songTimer++;
-
-			return songs;
-		}
-
-		// ******************
-
+		
+		
 		float hp = player.getHealth();
 		if (hp < 7) {
 			String[] songs=null;
@@ -553,17 +605,17 @@ public final class SongPicker {
 						songs = getSongsForEvent(EVENT_UNDERGROUND);
 					if (songs != null)
 						return songs;
+				}else if (world.isRaining()) {
+					String[] songs=null;
+					//Songs for other dimensions
+					if (dimension <-1 | dimension >1 )
+						songs = getSongsForEvent(EVENT_RAIN+"\\"+dimension);
+					else
+						songs = getSongsForEvent(EVENT_RAIN);
+					if (songs != null)
+						return songs;
 				}
-			} else if (world.isRaining()) {
-				String[] songs=null;
-				//Songs for other dimensions
-				if (dimension <-1 | dimension >1 )
-					songs = getSongsForEvent(EVENT_RAIN+"\\"+dimension);
-				else
-					songs = getSongsForEvent(EVENT_RAIN);
-				if (songs != null)
-					return songs;
-			}
+			} 
 
 			if (pos.getY() > 128) {
 				String[] songs=null;
@@ -611,7 +663,7 @@ public final class SongPicker {
 			if (songs != null)
 				return songs;
 		}
-
+		
 		/*event = new AmbienceEventEvent.Post(world, pos);
 		MinecraftForge.EVENT_BUS.post(event);
 		eventr = getSongsForEvent(event.event);
@@ -689,5 +741,27 @@ public final class SongPicker {
 
 	public static String getSongName(String song) {
 		return song == null ? "" : song.replaceAll("([^A-Z])([A-Z])", "$1 $2");
+	}
+	
+	
+	private static int getSongLenght(String song) {
+		
+		int songLenght=0;
+		// Obtém o tempo do som selecionado********************
+		File f = new File(Ambience.ambienceDir+"\\music", song + ".mp3");
+
+		if (f.isFile()) {
+			try {
+				AudioFile af = AudioFileIO.read(f);
+				AudioHeader ah = af.getAudioHeader();
+				songLenght = ah.getTrackLength();
+			} catch (Exception e) {
+
+			}
+		}else {
+			songLenght=0;
+		}
+		// ****************************************************
+		return songLenght;
 	}
 }

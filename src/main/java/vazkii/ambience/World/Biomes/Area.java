@@ -155,20 +155,13 @@ public class Area implements Comparator<Area>{
 			posCompound.putDouble("x1", pos1.x);
 			posCompound.putDouble("y1", pos1.y);
 			posCompound.putDouble("z1", pos1.z);
-		}else {
-			posCompound.putDouble("x1", 0);
-			posCompound.putDouble("y1", 0);
-			posCompound.putDouble("z1", 0);
 		}
 		if(pos2!=null) {
 			posCompound.putDouble("x2", pos2.x);
 			posCompound.putDouble("y2", pos2.y);
 			posCompound.putDouble("z2", pos2.z);
-		}else {
-			posCompound.putDouble("x2", 0);
-			posCompound.putDouble("y2", 0);
-			posCompound.putDouble("z2", 0);
 		}
+		
 		return posCompound;
 	}
 
@@ -342,9 +335,12 @@ public class Area implements Comparator<Area>{
 		}
 
 		CompoundNBT tagListPos = nbt.getCompound("Pos");		
-		Vec3d pos1 = new Vec3d(tagListPos.getDouble("x1"), tagListPos.getDouble("y1"),tagListPos.getDouble("z1"));area.setPos1(pos1);
+		Vec3d pos1 = new Vec3d(tagListPos.getDouble("x1"), tagListPos.getDouble("y1"),tagListPos.getDouble("z1"));		
 		Vec3d pos2 = new Vec3d(tagListPos.getDouble("x2"), tagListPos.getDouble("y2"),tagListPos.getDouble("z2"));
+		
+		if(pos1.getX()!=0 & pos1.getY()!=0 & pos1.getZ()!=0)
 		area.setPos1(pos1);
+		if(pos2.getX()!=0 & pos2.getY()!=0 & pos2.getZ()!=0)
 		area.setPos2(pos2);
 						
 		return area;

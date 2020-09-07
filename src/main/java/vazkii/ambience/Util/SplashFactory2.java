@@ -26,31 +26,20 @@ public class SplashFactory2 extends SplashParticle.Factory {
         super(p_i50679_1_);
     }
 
-    public Particle makeParticle(BasicParticleType typeIn, World worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        // the splash particle is used in several ways, so there's some checks to tell if this is a splash from a drip.
-    	     
-            // the splash when moving in water has speed, while drips and fishing splashes don't
+    public Particle makeParticle(BasicParticleType typeIn, World worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) 
+    {      	     
+    	if(!worldIn.isRaining()) 
+		{
             if(xSpeed == 0 && ySpeed == 0 && zSpeed == 0) {            	
-                // check that the block below isn't fluid since fishing splashes have water below
                 if (worldIn.getBlockState(new BlockPos(x, y -1, z)).getFluidState().isEmpty()) {
-
-
-                	//if(!worldIn.isRaining()) {
-	                //	List<LivingEntity> entities = worldIn.getEntitiesWithinAABB(LivingEntity.class,
-	    				//		new AxisAlignedBB(player.getPosX() - 16, player.getPosY() - 16, player.getPosZ() - 16, player.getPosX() + 16,player.getPosY() + 16, player.getPosZ() + 16));
-	                	
-	                	/*int playerCount=worldIn.getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(x - 8,y-8, z - 8, x + 16, y + 2, z + 8)).size();
-	                	if (dripsCount <= 10 & playerCount>0)
-							dripsCount++;
-	                	*/
-	                	// play the sound
-	                    float vol = MathHelper.clamp(1, 0f, 1f);
-	                    worldIn.playSound(x, y, z, SoundEvents.BLOCK_BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.AMBIENT, vol, 1f, false);
-                	//}
+	                // play the sound
+	                float vol = MathHelper.clamp(1, 0f, 1f);
+	                worldIn.playSound(x, y, z, SoundEvents.BLOCK_BUBBLE_COLUMN_BUBBLE_POP, SoundCategory.AMBIENT, vol, 1f, false);                	
                 }   
             }        
-	        // make the particle
-	        return super.makeParticle(typeIn, worldIn, x, y, z, xSpeed, ySpeed, zSpeed);    	
+		}
+    	
+	    return super.makeParticle(typeIn, worldIn, x, y, z, xSpeed, ySpeed, zSpeed);    	
     }
 
     public void wrap(SplashParticle.Factory real){

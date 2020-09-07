@@ -18,6 +18,9 @@
 	"Soundnizer.Position": "Posicao",
 	"Soundnizer.Alert": "Voce deve estar dentro de uma regiao selecionada para criar uma nova!",
 	"Soundnizer.Desc": "Configura uma regiao para tocar um som.",
+		
+	"item.ambience.horn": "Chifre dos deuses",
+	"Horn.Desc": "Um item muito poderoso que causa medo no coração de seus inimigos e encoraja seus aliados no campo de batalha.",
 
 	"block.ambience.speaker": "Caixa de Som",
 	"Alarm.Desc": "Toca um som e pisca a luz quando ativado por redstone",
@@ -54,7 +57,18 @@
 	"block.ambience.alarm_lit_magenta": "Alarme Magenta Acesso",
 	"block.ambience.alarm_lit_pink": "Alarme Rosa Acesso",
 	"block.ambience.alarm_lit_brown": "Alarme Marrom Acesso",
-
+	
+	"Options.Shortcut1": "Tocar Musica Atalho 0",
+	"Options.Shortcut2": "Tocar Musica Atalho 1",
+	"Options.Shortcut3": "Tocar Musica Atalho 2",
+	"Options.Shortcut4": "Tocar Musica Atalho 3",
+	"Options.Shortcut5": "Tocar Musica Atalho 4",
+	"Options.Shortcut6": "Tocar Musica Atalho 5",
+	"Options.Shortcut7": "Tocar Musica Atalho 6",
+	"Options.Shortcut8": "Tocar Musica Atalho 7",
+	"Options.Shortcut9": "Tocar Musica Atalho 8",
+	"Options.Shortcut10": "Tocar Musica Atalho 9",
+	
 	"tile.bell.name": "Sino Cerimonial",
 
 	"Options.Reload": "Recarrega as configs de músicas",
@@ -64,5 +78,5 @@
 	"Ambience.ReloadTitle": "Configurações do Ambience",
 	"Ambience.Reload": "Configs recarregadas!",
 	"Ambience.Force": "Tentando recarregar Ambience"
-	
+	"ForcePlay.Playing": "Tocando Agora:"
 }

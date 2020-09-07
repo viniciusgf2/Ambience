@@ -3,42 +3,40 @@ package vazkii.ambience.Util.Handlers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.DripParticle;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.particle.SplashParticle;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.play.ServerPlayNetHandler;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.gui.MinecraftServerGui;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.common.ForgeConfig.Server;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.ServerTickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.PlayerThread;
 import vazkii.ambience.SongPicker;
@@ -46,28 +44,33 @@ import vazkii.ambience.Util.SplashFactory2;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.Util.particles.DripLavaParticleFactory;
 import vazkii.ambience.Util.particles.DripWaterParticleFactory;
-import vazkii.ambience.World.Biomes.Area;
+import vazkii.ambience.items.Horn;
 import vazkii.ambience.network.AmbiencePackageHandler;
 import vazkii.ambience.network.MyMessage;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
-import net.minecraftforge.server.ServerMain;
+import vazkii.ambience.render.HornRender;
 
 @Mod.EventBusSubscriber(modid = Ambience.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventHandlersServer {
 
 	public int attackFadeTime = 300;
 	public static int attackingTimer;
-
+	String mobName = null;
+	
 	public EventHandlersServer() {
 		attackingTimer = attackFadeTime;
 	}
 
-	String mobName = null;
+	@SubscribeEvent
+	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+			
+		if (Horn.fadeOutTimer > 0)
+			Horn.fadeOutTimer--;
+		
+		if (Horn.fadeOutTimer > 0 & Horn.fadeOutTimer<300)
+		{			
+			Horn.repelEntities(event.player.world,event.player,1D);
+		}
+	}
 
 	// Quando alguma coisa ataca o player
 	@SubscribeEvent
@@ -79,8 +82,7 @@ public class EventHandlersServer {
 			attackingTimer = attackFadeTime;
 
 			EventHandlers.playInstant();
-		}
-
+		}		
 	}
 
 	// FUNCIONA Quando player ataca alguma coisa
@@ -112,11 +114,10 @@ public class EventHandlersServer {
 		// When Player dies
 		if (event.getEntity() instanceof PlayerEntity & event.getEntity() == Minecraft.getInstance().player) {
 			Ambience.attacked = false;
-		}
-
+		}		
 	}
 
-	//Injection of events to the particles
+	// Injection of events to the particles
 	@SubscribeEvent
 	@OnlyIn(value = Dist.CLIENT)
 	public void onWorldLoad(WorldEvent.Load ev) {
@@ -126,8 +127,10 @@ public class EventHandlersServer {
 			try {
 				// get existing splash particle factory
 
-				// do Map<ResourceLocation, IParticleFactory<?>> facts = Minecraft.getInstance().particles.factories;
-				Map<ResourceLocation, IParticleFactory<?>> facts = ObfuscationReflectionHelper.getPrivateValue(ParticleManager.class, mc.particles, "field_178932_g");
+				// do Map<ResourceLocation, IParticleFactory<?>> facts =
+				// Minecraft.getInstance().particles.factories;
+				Map<ResourceLocation, IParticleFactory<?>> facts = ObfuscationReflectionHelper
+						.getPrivateValue(ParticleManager.class, mc.particles, "field_178932_g");
 				IParticleFactory pf = facts.get(ParticleTypes.SPLASH.getRegistryName());
 
 				// check that it's the vanilla one
@@ -142,10 +145,10 @@ public class EventHandlersServer {
 						((SplashFactory2) npf).wrap((SplashParticle.Factory) pf);
 					}
 				}
-				
-				//For Dripping Water on water inside caves
+
+				// For Dripping Water on water inside caves
 				pf = facts.get(ParticleTypes.DRIPPING_WATER.getRegistryName());
-				
+
 				// check that it's the vanilla one
 				if (pf instanceof DripParticle.DrippingWaterFactory) {
 					// inject custom splash particle factory
@@ -158,16 +161,16 @@ public class EventHandlersServer {
 						((DripWaterParticleFactory) npf).wrap((DripParticle.DrippingWaterFactory) pf);
 					}
 				}
-				
-				//For Dripping Lava on ground		
+
+				// For Dripping Lava on ground
 				pf = facts.get(ParticleTypes.LANDING_LAVA.getRegistryName());
-				
+
 				// check that it's the vanilla one
 				if (pf instanceof DripParticle.LandingLavaFactory) {
 					// inject custom splash particle factory
 					mc.particles.registerFactory(ParticleTypes.LANDING_LAVA, DripLavaParticleFactory::new);
 					IParticleFactory npf = facts.get(ParticleTypes.LANDING_LAVA.getRegistryName());
-					
+
 					// check that it worked
 					if (npf instanceof DripLavaParticleFactory) {
 						// wrap the original factory to copy the sprite data
@@ -221,16 +224,4 @@ public class EventHandlersServer {
 
 		}
 	}
-
-	/*
-	 * int waitTime = 0;
-	 * 
-	 * @SubscribeEvent public void onServerTick(ServerTickEvent event) { // this //
-	 * most certainly WILL fire, even in single player, see for yourself: // Sync
-	 * data betwen all the players when player create a new area
-	 * 
-	 * 
-	 * 
-	 * }
-	 */
 }

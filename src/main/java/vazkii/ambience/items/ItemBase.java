@@ -6,8 +6,8 @@ import vazkii.ambience.Ambience;
 
 public class ItemBase extends Item{
 
-	public ItemBase() {
-		super(new Item.Properties().group(Ambience.customItemGroup));
+	public ItemBase(int Maxdamage) {
+		super(new Item.Properties().group(Ambience.customItemGroup).maxDamage(Maxdamage));
 		// TODO Auto-generated constructor stub
 	}	
 }
