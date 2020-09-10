@@ -237,19 +237,20 @@ public class Ocarina extends ItemBase {
 		tooltip.add((ITextComponent) new StringTextComponent(I18n.format("Ocarina.Desc")));
 	}
 
+	//Set how much time to close the playing screen depending on the music played
 	public static int getDelayStopTime() {
 		switch (songName) {
 		case "sunssong":
-			stoopedPlayedFadeOut = 100;
+			stoopedPlayedFadeOut = 200;
 			break;
 		case "songofstorms":
-			stoopedPlayedFadeOut = 100;
+			stoopedPlayedFadeOut = 250;
 			break;
 		case "bolerooffire":
-			stoopedPlayedFadeOut = 800;
+			stoopedPlayedFadeOut = 900;
 			break;
 		default:
-			stoopedPlayedFadeOut = 100;
+			stoopedPlayedFadeOut = 200;
 			break;
 		}
 

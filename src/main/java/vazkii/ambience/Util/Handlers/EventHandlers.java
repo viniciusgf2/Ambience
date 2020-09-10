@@ -2,6 +2,8 @@ package vazkii.ambience.Util.Handlers;
 
 import java.awt.Color;
 
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
@@ -9,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.toasts.SystemToast;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
@@ -487,15 +490,19 @@ public class EventHandlers {
 		HornRender.drawBoundingBox(currentplayer.getPositionVec(), event.getPartialTicks(),event, currentplayer.world,currentplayer);
 	}
 	
-
+	public static final ResourceLocation Ocarina_OVERLAY_FX = new ResourceLocation(Ambience.MODID, "textures/gui/ocarina_overlays_fx.png");	   
     public static final ResourceLocation Ocarina_OVERLAYS = new ResourceLocation(Ambience.MODID, "textures/gui/ocarina_overlays.png");
     
+    public static float fx_rotateCount=0;
+    public static float fx_zoomCount=0;
 	@SubscribeEvent
     public static void onOverlayRender(RenderGameOverlayEvent.Post event) {
-        Minecraft mc = Minecraft.getInstance();
+		fx_rotateCount+=0.1f;
+		//Renders the Ocarina's cinematic effect
+		Minecraft mc = Minecraft.getInstance();
         if (event.getType() == ElementType.ALL) {
             MainWindow res = event.getWindow();
-            if (mc.player != null /*& Ocarina.playing*/) 
+            if (mc.player != null) 
             {
             	ItemStack item = mc.player.getHeldItem(Hand.MAIN_HAND) == null? mc.player.getHeldItem(Hand.OFF_HAND) : mc.player.getHeldItem(Hand.MAIN_HAND);
             	
@@ -507,12 +514,87 @@ public class EventHandlers {
 	                 int y = (int) (1+event.getWindow().getGuiScaleFactor());
 	                                   
 	                 int py=(int) Math.abs(zoomCount-70);
+
+	                 Vector4f color=new Vector4f(1,1,0,1);	 
 	                 
-	                 Vector4f color=new Vector4f(0.4f,1,0.4f,0.05f);
-	                 RenderSystem.pushMatrix();
-	                
+	                	 
+	                 
+	                 //*******************************************************
+	                 //FX ------------------------
+	                 
+	                 if(Ocarina.runningCommand) {
+	                	 
+	                	 if (fx_zoomCount > zoomAmount) {
+	                		 fx_zoomCount -= zoomSpeed;
+	     	                if (fx_zoomCount < zoomAmount) {
+	     	                	fx_zoomCount = zoomAmount;
+	     	                }
+	     	            }	        
+	                 }else{
+	                	 if (fx_zoomCount < 70) {
+	                		 fx_zoomCount += zoomSpeed;
+	                         if (fx_zoomCount > 70) {
+	                        	 fx_zoomCount = 70;
+	                         }
+	                     }
+	                 }	
+	                 if(fx_zoomCount!=70)
+	                // if(Ocarina.runningCommand) 
+	                 {
+	     			
+	                	 switch (Ocarina.songName) {
+		                 	case "sunssong" : color=new Vector4f(1,1,0,1);break;
+		                 	case "songofstorms" : color=new Vector4f(0.7f,0.6f,1,1);break;
+		                 	case "bolerooffire" : color=new Vector4f(1,0.3f,0,1);break;		                 	
+		                 	default : color=new Vector4f(1,1,1,1);break;
+		                 }   
+	                	 
+	                 RenderSystem.pushMatrix();	                
+
+	                // int opacity=(int)(262-(6.2f*zoomCount-179));
+	                 float opacity=(int)(17-(zoomCount/8));	                 
+	                 opacity=(opacity * 1.15f)/15;
+	                 
+	                 double angle = 2 * Math.PI * fx_rotateCount / 150;
+	     			 float x2 = (float) Math.cos(angle);	  
+	     			 float scaleFade=(40+(fx_zoomCount-70))/20;
+	                 	     			 
+	     			 //FX2
+	                 RenderSystem.translatef(x, res.getScaledHeight()/2,0);
+	                 RenderSystem.rotatef(-fx_rotateCount/2, 0, 0, 10);
+	                 RenderSystem.scalef((1+x2/7)+scaleFade, (1+x2/7)+scaleFade, 1);
+	                 RenderSystem.color4f(color.getX(), color.getY(), color.getZ(), opacity );
+	                 		                	     
+	                 //rendering	                 	                 
+	            	 mc.getTextureManager().bindTexture(Ocarina_OVERLAY_FX);            	
+	                 AbstractGui.blit(-res.getScaledWidth(), (int)(-res.getScaledHeight()*1.5f), res.getScaledWidth()*2, res.getScaledHeight()*3,  res.getScaledWidth()*2, res.getScaledHeight()*3, res.getScaledWidth()*2, res.getScaledHeight()*3);
+	                 	 
+	                 RenderSystem.color4f(1F, 1F, 1F, 1);
+	                 RenderSystem.popMatrix();
+	     			 
+	     			 //FX1
+	     			 x2 = (float) Math.cos(angle) * 1.5f;
+	                 RenderSystem.pushMatrix();	        
+	     			 RenderSystem.translatef(x, res.getScaledHeight()/2,0);
+	                 RenderSystem.rotatef(fx_rotateCount, 0, 0, 10);
+	                 RenderSystem.scalef((1+x2/9)+scaleFade, (1+x2/9)+scaleFade, 1);
+	                 RenderSystem.color4f(color.getX(), color.getY(), color.getZ(), opacity );
+	                 		                	     
+	                 //rendering	                 	                 
+	            	 mc.getTextureManager().bindTexture(Ocarina_OVERLAY_FX);            	
+	                 AbstractGui.blit(-res.getScaledWidth(), (int)(-res.getScaledHeight()*1.5f), res.getScaledWidth()*2, res.getScaledHeight()*3,  res.getScaledWidth()*2, res.getScaledHeight()*3, res.getScaledWidth()*2, res.getScaledHeight()*3);
+	                 	 
+	                 RenderSystem.color4f(1F, 1F, 1F, 1);
+	                 RenderSystem.popMatrix();
+	                 
+	                 }
+	                 //********************************************************
+	                 
+	                 RenderSystem.pushMatrix();	 
+	                 color=new Vector4f(1,1,1,1);	 
 	                 RenderSystem.color4f(color.getX(), color.getY(), color.getZ(), 1);
-	                 	                 
+	                 	                
+	            	    
 	                 //Bottom Overlay
 	            	 mc.getTextureManager().bindTexture(Ocarina_OVERLAYS);            	
 	                 AbstractGui.blit(0, 0, 0, 0, width, y+(int)(py*1.1)-10, 256, 256);
