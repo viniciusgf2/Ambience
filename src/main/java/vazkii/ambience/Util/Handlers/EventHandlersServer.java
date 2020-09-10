@@ -84,11 +84,17 @@ public class EventHandlersServer {
 			Horn.repelEntities(event.player.world, event.player, 1D);
 		}
 				
-				
+		
+		/*event.player.world.playSound(event.player, event.player.getPosition(),
+				ForgeRegistries.SOUND_EVENTS
+						.getValue(new ResourceLocation("ambience:ocarina" + Ocarina.key_id)),
+				SoundCategory.PLAYERS, 0.5f, 1);
+			*/	
+		
 		if(Ocarina.playing & !Ocarina.runningCommand) {
 		
 			if (Ocarina.key_id != -1 & Ocarina.actualPressedKeys.size() == 1) {
-				Ocarina.playNote(Ocarina.key_id);
+				Ocarina.playNote(Ocarina.key_id,event.player);
 
 				if(event.player.world.isRemote)
 					Ocarina.checkMusicNotes();
@@ -153,10 +159,8 @@ public class EventHandlersServer {
 					SoundCategory.PLAYERS, 0.5f, 1);
 		}
 		
-		if(delayMatch > 80 & delayMatch <85) {
-			
-			Ocarina.stoopedPlayedFadeOut = Ocarina.getDelayStopTime();		
-			System.out.println("SUN SONG");
+		if(delayMatch > 80 & delayMatch <85) {			
+			Ocarina.stoopedPlayedFadeOut = Ocarina.getDelayStopTime();	
 			event.player.world.playSound(event.player, event.player.getPosition(),
 					ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:" + Ocarina.songName)),
 					SoundCategory.PLAYERS, 0.5f, 1);

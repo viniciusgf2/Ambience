@@ -8,6 +8,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkDirection;
@@ -45,6 +47,8 @@ public class OcarinaMessage {
 			// if(FMLEnvironment.dist == Dist.DEDICATED_SERVER) {
 			if (ctx.getDirection() == NetworkDirection.PLAY_TO_SERVER) {
 
+				PlayerEntity player=ctx.getSender();
+				
 				if(data.contains("actualPressedKeys")) {
 					Ocarina.key_id=data.getInt("keyPressed");
 					
@@ -77,10 +81,10 @@ public class OcarinaMessage {
 				}
 				else if(data.contains("setWeather")) {
 					
-					PlayerEntity player=ctx.getSender();
+					
 					//boolean chuva=setWeather(player.world.isRaining(),player);
 					boolean chuva=false;
-					if(!player.world.isRaining()) {	
+					if(!player.world.isRaining() & !player.world.isThundering()) {	
 						//Thunder
 						player.world.getWorldInfo().setClearWeatherTime(0);
 						player.world.getWorldInfo().setRainTime(6000);
@@ -109,6 +113,13 @@ public class OcarinaMessage {
 					Ocarina.hasMatch=true;
 					Ocarina.songName=data.getString("songName");
 					Ocarina.runningCommand=true;
+				}else if(data.contains("setFireResistance")) {					
+					Ocarina.hasMatch=true;
+					Ocarina.songName=data.getString("songName");
+					Ocarina.runningCommand=true;
+					
+					player.addPotionEffect(new EffectInstance(Effects.GLOWING, 60*20, 3));
+					player.addPotionEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 90*20, 3));
 				}
 			}
 
@@ -132,7 +143,7 @@ public class OcarinaMessage {
 	private boolean setWeather(boolean chuva,PlayerEntity player) {
 		if(!chuva) {	
 			//Thunder
-			player.world.setRainStrength(1);
+			//player.world.setRainStrength(1);
 			player.world.getWorldInfo().setClearWeatherTime(0);
 			player.world.getWorldInfo().setRainTime(6000);
 			player.world.getWorldInfo().setThunderTime(6000);
@@ -143,7 +154,7 @@ public class OcarinaMessage {
 										
 		}else {
 			//Clear Weather
-			player.world.setRainStrength(0);
+			//player.world.setRainStrength(0);
 			player.world.getWorldInfo().setClearWeatherTime(6000);
 			player.world.getWorldInfo().setRainTime(0);
 			player.world.getWorldInfo().setThunderTime(0);

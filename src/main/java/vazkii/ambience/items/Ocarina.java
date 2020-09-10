@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.rmi.CORBA.Util;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -24,6 +26,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.ambience.Ambience;
+import vazkii.ambience.Util.Utils;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.blocks.Speaker;
 import vazkii.ambience.network.AmbiencePackageHandler;
@@ -109,7 +112,7 @@ public class Ocarina extends ItemBase {
 			playerIn.setActiveHand(handIn);
 			playing = true;					
 			this.player = playerIn;
-
+			
 			return ActionResult.resultConsume(itemstack);
 		}
 	}	
@@ -120,13 +123,15 @@ public class Ocarina extends ItemBase {
 	public static boolean checkMusicNotes() {
 
 		countCorrect = 0;
-
-		List<String> subList = new ArrayList<String>();
+		
 		if (pressedKeys.size() >= 6) {
-			subList = pressedKeys.subList(pressedKeys.size() - 6, pressedKeys.size());
 			
 			songName = "";
+			int correctLenght=0;
 			for (Entry<String, String[]> entry : songsMap.entrySet()) {
+				correctLenght=entry.getValue().length;
+				List<String> subList = new ArrayList<String>();
+				subList = pressedKeys.subList((int)Utils.clamp(pressedKeys.size() - entry.getValue().length, 0, 16) , pressedKeys.size());
 				countCorrect = 0;
 				// Compare each entry from the last 5 played notes
 				for (int i = 0; i < subList.size(); i++) {
@@ -140,22 +145,23 @@ public class Ocarina extends ItemBase {
 
 				}
 
-				if (countCorrect >= 6)
+				if (countCorrect >= correctLenght)
 					break;
 
 			}
 
-			if (countCorrect >= 6 & !runningCommand) {
+			if (countCorrect >= correctLenght & !runningCommand) {
 				Ocarina.old_key_id = -1;
 				Ocarina.key_id = -1;
 				hasMatch = true;
 
+				CompoundNBT nbt = new CompoundNBT();
 				switch (songName) {
 				case "sunssong":
 					if (setDayTime) {
 						setDayTime = false;
 
-						CompoundNBT nbt = new CompoundNBT();
+						nbt = new CompoundNBT();
 						nbt.putBoolean("setDayTime", setDayTime);
 						nbt.putString("songName", songName);
 						OcarinaPackageHandler.sendToServer(new OcarinaMessage(nbt));
@@ -163,21 +169,24 @@ public class Ocarina extends ItemBase {
 					} else {
 						setDayTime = true;
 
-						CompoundNBT nbt = new CompoundNBT();
+						nbt = new CompoundNBT();
 						nbt.putBoolean("setDayTime", setDayTime);
 						nbt.putString("songName", songName);
 						OcarinaPackageHandler.sendToServer(new OcarinaMessage(nbt));
 					}
 					break;
 				case "songofstorms":
-					CompoundNBT nbt = new CompoundNBT();
 					nbt.putBoolean("setWeather", player.world.isRaining());
 					nbt.putString("songName", songName);
 					OcarinaPackageHandler.sendToServer(new OcarinaMessage(nbt));
 
 					break;
 				case "bolerooffire":
-
+					nbt = new CompoundNBT();
+					nbt.putBoolean("setFireResistance", true);
+					nbt.putString("songName", songName);
+					OcarinaPackageHandler.sendToServer(new OcarinaMessage(nbt));
+					
 					break;
 				}
 
@@ -194,7 +203,7 @@ public class Ocarina extends ItemBase {
 		return false;
 	}
 
-	public static void playNote(int note) {
+	public static void playNote(int note, PlayerEntity player) {
 		player.world.playSound(player, player.getPosition(),
 				ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:ocarina" + note)),
 				SoundCategory.PLAYERS, 0.5f, 1);
@@ -237,7 +246,7 @@ public class Ocarina extends ItemBase {
 			stoopedPlayedFadeOut = 100;
 			break;
 		case "bolerooffire":
-			stoopedPlayedFadeOut = 1100;
+			stoopedPlayedFadeOut = 800;
 			break;
 		default:
 			stoopedPlayedFadeOut = 100;
