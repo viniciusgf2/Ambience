@@ -136,42 +136,7 @@ public class EventHandlers {
 				e.setCanceled(true);
 		}
 	}
-	
-/*	@SubscribeEvent
-	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		// check each enumerated key binding type for pressed and take appropriate
-		// action
-		if (keyBindings[0].isPressed()) {
-			SongPicker.reset();
-			//Ambience.thread.forceKill();			
-			//Ambience.thread.run();
-			SongLoader.loadFrom(Ambience.ambienceDir);
-
-			//if (SongLoader.enabled)
-				//Ambience.thread = new PlayerThread();
-
-			Minecraft mc = Minecraft.getInstance();
-			MusicTicker ticker = new NilMusicTicker(mc);
-
-			ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
-		}
 		
-		if (keyBindings[1].isPressed()) {
-			//SongPicker.reset();
-			Ambience.thread.forceKill();			
-			Ambience.thread.run();
-			SongLoader.loadFrom(Ambience.ambienceDir);
-
-			if (SongLoader.enabled)
-				Ambience.thread = new PlayerThread();
-
-			Minecraft mc = Minecraft.getInstance();
-			MusicTicker ticker = new NilMusicTicker(mc);
-			ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
-		}		
-	}*/
-
-	
 	@SubscribeEvent
 	public static void onTick(final ClientTickEvent event) {
 		if(Ambience.thread == null)
@@ -252,35 +217,7 @@ public class EventHandlers {
 		}
 		
 		
-		//KEYBOARD EVENTS HANDLER
-		// check each enumerated key binding type for pressed and take appropriate action
-		if (keyBindings[0].isPressed()) {
-			SongPicker.reset();
-			SongLoader.loadFrom(Ambience.ambienceDir);
-
-			Minecraft mc = Minecraft.getInstance();
-			MusicTicker ticker = new NilMusicTicker(mc);
-
-			ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
-			
-			SystemToast.addOrUpdate(mc.getToastGui(), SystemToast.Type.TUTORIAL_HINT, (ITextComponent) new TranslationTextComponent("Ambience.ReloadTitle"), (ITextComponent) new TranslationTextComponent("Ambience.Reload"));
-		}
 		
-		if (keyBindings[1].isPressed()) {
-			//SongPicker.reset();
-			Ambience.thread.forceKill();			
-			Ambience.thread.run();
-			SongLoader.loadFrom(Ambience.ambienceDir);
-
-			if (SongLoader.enabled)
-				Ambience.thread = new PlayerThread();
-
-			Minecraft mc = Minecraft.getInstance();
-			MusicTicker ticker = new NilMusicTicker(mc);
-			ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
-			
-			SystemToast.addOrUpdate(mc.getToastGui(), SystemToast.Type.TUTORIAL_HINT, (ITextComponent) new TranslationTextComponent("Ambience.ReloadTitle"), (ITextComponent) new TranslationTextComponent("Ambience.Force"));
-		}
 						
 		//
 		//  Change camera mode for the ocarina  =================
@@ -302,6 +239,38 @@ public class EventHandlers {
 	public static void keyEvent(InputEvent.KeyInputEvent event) {
 				
 		if(Minecraft.getInstance().isGameFocused()) {
+			
+			//KEYBOARD EVENTS HANDLER
+			// check each enumerated key binding type for pressed and take appropriate action
+			if (keyBindings[0].isPressed()) {
+				SongPicker.reset();
+				SongLoader.loadFrom(Ambience.ambienceDir);
+
+				Minecraft mc = Minecraft.getInstance();
+				MusicTicker ticker = new NilMusicTicker(mc);
+
+				ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
+				
+				SystemToast.addOrUpdate(mc.getToastGui(), SystemToast.Type.TUTORIAL_HINT, (ITextComponent) new TranslationTextComponent("Ambience.ReloadTitle"), (ITextComponent) new TranslationTextComponent("Ambience.Reload"));
+			}
+			
+			if (keyBindings[1].isPressed()) {
+				//SongPicker.reset();
+				Ambience.thread.forceKill();			
+				Ambience.thread.run();
+				SongLoader.loadFrom(Ambience.ambienceDir);
+
+				if (SongLoader.enabled)
+					Ambience.thread = new PlayerThread();
+
+				Minecraft mc = Minecraft.getInstance();
+				MusicTicker ticker = new NilMusicTicker(mc);
+				ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);
+				
+				SystemToast.addOrUpdate(mc.getToastGui(), SystemToast.Type.TUTORIAL_HINT, (ITextComponent) new TranslationTextComponent("Ambience.ReloadTitle"), (ITextComponent) new TranslationTextComponent("Ambience.Force"));
+			}
+			
+			
 			//Shortcuts keys
 			if (keyBindings[2].isPressed()) { ToggleForcePlay(0); }
 			if (keyBindings[3].isPressed()) { ToggleForcePlay(1); }
@@ -490,13 +459,18 @@ public class EventHandlers {
 		HornRender.drawBoundingBox(currentplayer.getPositionVec(), event.getPartialTicks(),event, currentplayer.world,currentplayer);
 	}
 	
-	public static final ResourceLocation Ocarina_OVERLAY_FX = new ResourceLocation(Ambience.MODID, "textures/gui/ocarina_overlays_fx.png");	   
-    public static final ResourceLocation Ocarina_OVERLAYS = new ResourceLocation(Ambience.MODID, "textures/gui/ocarina_overlays.png");
-    
+	/*public static final ResourceLocation Ocarina_OVERLAY_FX = new ResourceLocation(Ambience.MODID, "textures/gui/ocarina_overlays_fx.png");	   
+    public static final ResourceLocation Ocarina_OVERLAYS = new ResourceLocation(Ambience.MODID, "textures/gui/ocarina_overlays.png");    
     public static float fx_rotateCount=0;
-    public static float fx_zoomCount=0;
+    public static float fx_zoomCount=0;*/
 	@SubscribeEvent
-    public static void onOverlayRender(RenderGameOverlayEvent.Post event) {
+    public static void onOverlayRender(RenderGameOverlayEvent.Post event) 
+	{
+		
+		Ocarina.renderFX(event, zoomCount, zoomAmount, zoomSpeed);
+		
+		
+		/*
 		fx_rotateCount+=0.1f;
 		//Renders the Ocarina's cinematic effect
 		Minecraft mc = Minecraft.getInstance();
@@ -635,7 +609,7 @@ public class EventHandlers {
 	                 RenderSystem.popMatrix();
     			}
             }
-        }
+        }*/
 	}
 		
 	public static boolean show=false;
@@ -667,18 +641,7 @@ public class EventHandlers {
 				}
 			}
 		}
-	}
-	
-	/*private static int colorToInt(int IAlpha,int IRed, int IGreen, int IBlue) {
-		
-		int alpha = IAlpha & 0xFF;
-		int red = IRed & 0xFF;
-		int green = IGreen & 0xFF;
-		int blue = IBlue & 0xFF;
-
-		return  (alpha << 24) + (red << 16) + (green << 8) + (blue);		
-	}
-	*/
+	}	
 }
 
 

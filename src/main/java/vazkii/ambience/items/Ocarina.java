@@ -8,7 +8,12 @@ import java.util.Map.Entry;
 
 import javax.rmi.CORBA.Util;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
@@ -24,6 +29,8 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.Util.Utils;
@@ -217,12 +224,6 @@ public class Ocarina extends ItemBase {
 		Ocarina.old_key_id = Ocarina.key_id;
 	}
 
-	/*
-	 * private static void removePressedKey(int key) {
-	 * if(Ocarina.pressedKeys.size()>0 && Ocarina.actualPressedKeys.contains(key)) {
-	 * Ocarina.pressedKeys.remove((Object)key); } }
-	 */
-
 	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
 
 		if (runningCommand) {
@@ -255,5 +256,172 @@ public class Ocarina extends ItemBase {
 		}
 
 		return stoopedPlayedFadeOut;
+	}
+	
+	public static final ResourceLocation Ocarina_OVERLAY_FX = new ResourceLocation(Ambience.MODID, "textures/gui/ocarina_overlays_fx.png");	   
+    public static final ResourceLocation Ocarina_OVERLAYS = new ResourceLocation(Ambience.MODID, "textures/gui/ocarina_overlays.png");
+    public static float fx_rotateCount=0;
+    public static float fx_zoomCount=70;
+	public static void renderFX(RenderGameOverlayEvent.Post event,float zoomCount,float zoomAmount,double zoomSpeed) {
+
+		if(fx_zoomCount!=70)
+			fx_rotateCount+=0.1f;
+		else
+			fx_rotateCount=70;
+			
+		//Renders the Ocarina's cinematic effect
+		Minecraft mc = Minecraft.getInstance();
+        if (event.getType() == ElementType.ALL) {
+            MainWindow res = event.getWindow();
+            if (mc.player != null) 
+            {
+            	ItemStack item = mc.player.getHeldItem(Hand.MAIN_HAND) == null? mc.player.getHeldItem(Hand.OFF_HAND) : mc.player.getHeldItem(Hand.MAIN_HAND);
+            	
+    			if (item.getItem() instanceof Ocarina) 
+    			{
+            	
+	            	 int width = 2048;
+	            	 int x = res.getScaledWidth() / 2;
+	                 int y = (int) (1+event.getWindow().getGuiScaleFactor());
+	                                   
+
+	                 Vector4f color=new Vector4f(1,1,0,1);	 
+	                 
+	                 if(Ocarina.runningCommand) 
+	                 {
+	                 
+	                 //*******************************************************
+	                 //FX ------------------------
+	                 
+	                 if(Ocarina.runningCommand) {
+	                	 
+	                	 if (fx_zoomCount > zoomAmount) {
+	                		 fx_zoomCount -= zoomSpeed;
+	     	                if (fx_zoomCount < zoomAmount) {
+	     	                	fx_zoomCount = zoomAmount;
+	     	                }
+	     	            }	        
+	                 }else{
+	                	 if (fx_zoomCount < 70) {
+	                		 fx_zoomCount += zoomSpeed;
+	                         if (fx_zoomCount > 70) {
+	                        	 fx_zoomCount = 70;
+	                         }
+	                     }
+	                 }	
+	                 if(fx_zoomCount!=70)
+	                // if(Ocarina.runningCommand) 
+	                 {
+	     			
+	                	 switch (Ocarina.songName) {
+		                 	case "sunssong" : color=new Vector4f(1,1,0,1);break;
+		                 	case "songofstorms" : color=new Vector4f(0.7f,0.6f,1,1);break;
+		                 	case "bolerooffire" : color=new Vector4f(1,0.3f,0,1);break;		                 	
+		                 	default : color=new Vector4f(1,1,1,1);break;
+		                 }   
+	                	             
+
+	                // int opacity=(int)(262-(6.2f*zoomCount-179));
+	                 float opacity=(int)(17-(zoomCount/8));	                 
+	                 opacity=(opacity * 1.15f)/15;
+	                 
+	                 double angle = 2 * Math.PI * fx_rotateCount / 150;
+	     			 float x2 = (float) Math.cos(angle);	  
+	     			 float scaleFade=(40+(fx_zoomCount-70))/20;
+	                 	     			 
+	     			 //FX2
+
+	                 RenderSystem.pushMatrix();	    
+	                 RenderSystem.translatef(x, res.getScaledHeight()/2,0);
+	                 RenderSystem.rotatef(-fx_rotateCount/2, 0, 0, 10);
+	                 RenderSystem.scalef((1+x2/7)+scaleFade, (1+x2/7)+scaleFade, 1);
+	                 RenderSystem.color4f(color.getX(), color.getY(), color.getZ(), opacity );
+	                 		                	     
+	                 //rendering	                 	                 
+	            	 mc.getTextureManager().bindTexture(Ocarina_OVERLAY_FX);            	
+	                 AbstractGui.blit(-res.getScaledWidth(), (int)(-res.getScaledHeight()*1.5f), res.getScaledWidth()*2, res.getScaledHeight()*3,  res.getScaledWidth()*2, res.getScaledHeight()*3, res.getScaledWidth()*2, res.getScaledHeight()*3);
+	                 	 
+	                 RenderSystem.color4f(1F, 1F, 1F, 1);
+	                 RenderSystem.popMatrix();
+	     			 
+	     			 //FX1
+	     			 x2 = (float) Math.cos(angle) * 1.5f;
+	                 RenderSystem.pushMatrix();	        
+	     			 RenderSystem.translatef(x, res.getScaledHeight()/2,0);
+	                 RenderSystem.rotatef(fx_rotateCount, 0, 0, 10);
+	                 RenderSystem.scalef((1+x2/9)+scaleFade, (1+x2/9)+scaleFade, 1);
+	                 RenderSystem.color4f(color.getX(), color.getY(), color.getZ(), opacity );
+	                 		                	     
+	                 //rendering	                 	                 
+	            	 mc.getTextureManager().bindTexture(Ocarina_OVERLAY_FX);            	
+	                 AbstractGui.blit(-res.getScaledWidth(), (int)(-res.getScaledHeight()*1.5f), res.getScaledWidth()*2, res.getScaledHeight()*3,  res.getScaledWidth()*2, res.getScaledHeight()*3, res.getScaledWidth()*2, res.getScaledHeight()*3);
+	                 	 
+	                 RenderSystem.color4f(1F, 1F, 1F, 1);
+	                 RenderSystem.popMatrix();
+	                 
+	                 }
+	                 //********************************************************
+	                 
+	               
+	                 	             
+	            	
+	                   
+	                 
+	                	 RenderSystem.pushMatrix();	 
+	 	                 color=new Vector4f(1,1,1,1);	 
+	 	                 RenderSystem.color4f(color.getX(), color.getY(), color.getZ(), 1);
+	 	                 
+		                 y = res.getScaledHeight()/2;
+		             	
+		                 String s=I18n.format("Ocarina.Played");
+		                 float scale = 1.25F*(int)event.getWindow().getGuiScaleFactor()/2.5f;
+		                 RenderSystem.scalef(scale, scale, scale);
+		                 
+		                 //Text renderer
+		                 int opacity=(int)(262-(6.2f*zoomCount-179));
+		                // int opacity=(int)((6.2f*zoomCount-179));
+		                 int textColor= Utils.colorToInt(opacity,255,255,255);                  
+		                 int totalTextLeng= mc.fontRenderer.getStringWidth(s)/2;
+		                 int px= (int) (x/scale)-30;
+		                 int py2= (int) (y/scale)+70;
+		                 
+		                 String songNameText="";
+		                 mc.fontRenderer.drawStringWithShadow(s, px - totalTextLeng, py2, textColor);
+		                 switch (Ocarina.songName) {
+		                 	case "sunssong" : songNameText="Sun's Song"; textColor=Utils.colorToInt(opacity,255,255,0);break;
+		                 	case "songofstorms" : songNameText="Song of Storms"; textColor=Utils.colorToInt(opacity,180,155,255);break;
+		                 	case "bolerooffire" : songNameText="Bolero of Fire"; textColor=Utils.colorToInt(opacity,255,0,0);break;
+		                 	
+		                 	default : textColor=Utils.colorToInt(opacity,255,0,0);break;
+		                 }                 
+		                 mc.fontRenderer.drawStringWithShadow(songNameText, px+3 + mc.fontRenderer.getStringWidth("Sun's Song")/1.5f, py2, textColor);
+		                 RenderSystem.color4f(1F, 1F, 1F, 1);
+	                     RenderSystem.popMatrix();
+		                    
+	                 }
+
+	                 y = (int) (1+event.getWindow().getGuiScaleFactor());
+	                 int py=(int) Math.abs(zoomCount-70);
+	                 
+	                 RenderSystem.pushMatrix();	 
+	                 color=new Vector4f(1,1,1,1);	 
+	                 RenderSystem.color4f(color.getX(), color.getY(), color.getZ(), 1);
+	                 
+	                 
+	                 //Top Overlay
+	            	 mc.getTextureManager().bindTexture(Ocarina_OVERLAYS);            	
+	                 AbstractGui.blit(0, 0, 0, 0, width, y+(int)(py*1.1)-10, 256, 256);
+	                                  
+	                 //Bottom Overlay
+	                 y = res.getScaledHeight()+5 /(int)(1+event.getWindow().getGuiScaleFactor());
+	            	 mc.getTextureManager().bindTexture(Ocarina_OVERLAYS);            	
+	                 AbstractGui.blit(0, y-(int)(py*1.1)+10, 0, 0, width, 100, 256, 256);
+	                 
+	                 RenderSystem.color4f(1F, 1F, 1F, 1);
+	                 RenderSystem.popMatrix();
+	                 
+    			}
+            }
+        }
 	}
 }

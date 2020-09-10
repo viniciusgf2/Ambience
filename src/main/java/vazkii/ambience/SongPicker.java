@@ -190,7 +190,7 @@ public final class SongPicker {
 		
 		//Silences all the musics while playing the ocarina
 		if(Ocarina.playing) {
-			String[] song={"silent"};	
+			String[] song={"silent"};
 			return song;
 		}
 		
