@@ -71,5 +71,31 @@ public class SoundHandler {
 		soundEvent.setRegistryName("horn3");
 		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
 		
+		for(int i=1;i<=5;i++) {
+			location = new ResourceLocation(Ambience.MODID, "ocarina"+i);
+			soundEvent = new SoundEvent(location);
+			soundEvent.setRegistryName("ocarina"+i);
+			ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		}
+		
+		location = new ResourceLocation(Ambience.MODID, "match_sound");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("match_sound");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Ambience.MODID, "sunssong");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("sunssong");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);	
+		
+		location = new ResourceLocation(Ambience.MODID, "songofstorms");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("songofstorms");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Ambience.MODID, "bolerooffire");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("bolerooffire");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
 	}
 }

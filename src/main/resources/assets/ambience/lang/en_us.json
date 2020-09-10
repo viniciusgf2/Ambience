@@ -63,11 +63,13 @@
 	"Options.Shortcut3": "Play Music Shortcut 2",
 	"Options.Shortcut4": "Play Music Shortcut 3",
 	"Options.Shortcut5": "Play Music Shortcut 4",
-	"Options.Shortcut6": "Play Music Shortcut 5",
-	"Options.Shortcut7": "Play Music Shortcut 6",
-	"Options.Shortcut8": "Play Music Shortcut 7",
-	"Options.Shortcut9": "Play Music Shortcut 8",
-	"Options.Shortcut10": "Play Music Shortcut 9",
+	
+	"Options.Ocarina1": "Ocarina Btn 1",	
+	"Options.Ocarina2": "Ocarina Btn 2",
+	"Options.Ocarina3": "Ocarina Btn 3",
+	"Options.Ocarina4": "Ocarina Btn 4",
+	"Options.Ocarina5": "Ocarina Btn 5",	
+	"Ocarina.Played": "You played the ",
 
 	"tile.bell.name": "Watersheep Council Bell",
 

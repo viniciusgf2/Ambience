@@ -13,6 +13,7 @@ import vazkii.ambience.blocks.Speaker;
 import vazkii.ambience.blocks.SongSwitcher;
 import vazkii.ambience.items.Soundnizer;
 import vazkii.ambience.items.Horn;
+import vazkii.ambience.items.Ocarina;
 
 public class RegistryHandler {
 	
@@ -31,6 +32,7 @@ public class RegistryHandler {
 	//Items
 	public static final RegistryObject<Soundnizer> Soundnizer =  ITEMS.register("soundnizer", () -> new Soundnizer(0));
 	public static final RegistryObject<Horn> Horn =  ITEMS.register("horn", () -> new Horn(20));
+	public static final RegistryObject<Ocarina> Ocarina =  ITEMS.register("ocarina", () -> new Ocarina(20));
 	
 	
 	//Blocks

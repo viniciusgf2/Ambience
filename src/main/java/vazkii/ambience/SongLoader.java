@@ -8,12 +8,16 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.Set;
 
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
+import vazkii.ambience.items.Ocarina;
 public final class SongLoader {
 
 	public static File mainDir;
@@ -30,6 +34,8 @@ public final class SongLoader {
 
 			props.load(new FileReader(config));
 			
+			//Reset the mappings on load/reload
+			resetMaps();
 			//Adds the Notification propertie to the ambience.properties file if the player don't have this 
 			if(props.getProperty("ShowUpdateNotifications") ==null) 
 			{								
@@ -109,6 +115,10 @@ public final class SongLoader {
 						String mobName = joinTokensExceptFirst(tokens).replaceAll("\\+", " ");
 						
 						SongPicker.mobMap.put(mobName, props.getProperty(s).split(","));
+					}else if (keyType.equals("ocarina")) {
+						String event = tokens[1];						
+						
+						Ocarina.songsMap.put(tokens[1], props.getProperty(s).split(","));
 					}else if (keyType.equals("dimension")) {
 						String event = "";
 						
@@ -146,6 +156,17 @@ public final class SongLoader {
 			musicDir.mkdir();
 
 		mainDir = musicDir;
+	}
+	
+	public static void resetMaps()
+	{		
+		SongPicker.eventMap=new HashMap<String, String[]>();
+		SongPicker.biomeMap= new HashMap<Biome, String[]>();
+		SongPicker.areasMap = new HashMap<String, String[]>();	
+		SongPicker.mobMap = new HashMap<String, String[]>();	
+		SongPicker.primaryTagMap = new HashMap<Type, String[]>();
+		SongPicker.secondaryTagMap = new HashMap<Type, String[]>();	
+		Ocarina.songsMap=new HashMap<String, String[]>();
 	}
 
 	public static void initConfig(File f) {

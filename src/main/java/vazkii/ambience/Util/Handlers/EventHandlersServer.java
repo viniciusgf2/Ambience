@@ -3,6 +3,7 @@ package vazkii.ambience.Util.Handlers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Stream;
 
 import net.minecraft.client.Minecraft;
@@ -10,6 +11,7 @@ import net.minecraft.client.particle.DripParticle;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.particle.SplashParticle;
+import net.minecraft.command.impl.TimeCommand;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
@@ -24,6 +26,8 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -37,6 +41,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.PlayerThread;
 import vazkii.ambience.SongPicker;
@@ -45,8 +50,11 @@ import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.Util.particles.DripLavaParticleFactory;
 import vazkii.ambience.Util.particles.DripWaterParticleFactory;
 import vazkii.ambience.items.Horn;
+import vazkii.ambience.items.Ocarina;
 import vazkii.ambience.network.AmbiencePackageHandler;
 import vazkii.ambience.network.MyMessage;
+import vazkii.ambience.network.OcarinaMessage;
+import vazkii.ambience.network.OcarinaPackageHandler;
 import vazkii.ambience.render.HornRender;
 
 @Mod.EventBusSubscriber(modid = Ambience.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -55,22 +63,167 @@ public class EventHandlersServer {
 	public int attackFadeTime = 300;
 	public static int attackingTimer;
 	String mobName = null;
-	
+
 	public EventHandlersServer() {
 		attackingTimer = attackFadeTime;
 	}
 
+	public int countNote = 0;
+	public int delayMatch = 0;
+
+	boolean played_match = false;
+	boolean settingDay = false,settingNight = false;
+	
 	@SubscribeEvent
-	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-			
+	public void onPlayerTick(TickEvent.WorldTickEvent.PlayerTickEvent event) {
+
 		if (Horn.fadeOutTimer > 0)
 			Horn.fadeOutTimer--;
-		
-		if (Horn.fadeOutTimer > 0 & Horn.fadeOutTimer<300)
-		{			
-			Horn.repelEntities(event.player.world,event.player,1D);
+
+		if (Horn.fadeOutTimer > 0 & Horn.fadeOutTimer < 300) {
+			Horn.repelEntities(event.player.world, event.player, 1D);
 		}
-	}
+				
+				
+		if(Ocarina.playing & !Ocarina.runningCommand) {
+		
+			if (Ocarina.key_id != -1 & Ocarina.actualPressedKeys.size() == 1) {
+				Ocarina.playNote(Ocarina.key_id);
+
+				if(event.player.world.isRemote)
+					Ocarina.checkMusicNotes();
+			}
+		}
+		
+
+		
+		if(!event.player.world.isRemote) {
+			World world=event.player.world;
+						
+			long time = world.getDayTime() % 24000;
+			boolean night = time > 13300 && time < 23200;
+						
+			if(Ocarina.setDayTime & night)
+			{
+				if(!settingNight) {
+					settingDay=true;
+					event.player.world.setDayTime(event.player.world.getDayTime()+10);		
+				}else {
+					Ocarina.setDayTime=false;
+					
+					CompoundNBT nbt = new CompoundNBT();
+					nbt.putBoolean("setDayTime",false);					
+					OcarinaPackageHandler.sendToClient(new OcarinaMessage(nbt), (ServerPlayerEntity) event.player);
+				}
+			}else if(Ocarina.setDayTime & !night){
+				
+				if(!settingDay) {
+					settingNight=true;
+					event.player.world.setDayTime(event.player.world.getDayTime()+10);
+				}
+				else {
+					Ocarina.setDayTime=false;
+					
+					CompoundNBT nbt = new CompoundNBT();
+					nbt.putBoolean("setDayTime",false);					
+					OcarinaPackageHandler.sendToClient(new OcarinaMessage(nbt), (ServerPlayerEntity) event.player);
+				}
+			}
+			else {
+				Ocarina.setDayTime=false;
+				settingDay=false;
+				settingNight=false;				
+			}
+		}
+		
+		//
+		// Ocarina ******
+		//
+		
+		// Apply a little delay to let the looping play the match song
+		if (Ocarina.hasMatch) {
+			delayMatch++;
+		}
+		
+		if (delayMatch > 40 & delayMatch<45) {
+			
+			Ocarina.stoopedPlayedFadeOut = Ocarina.getDelayStopTime();		
+			event.player.world.playSound(event.player, event.player.getPosition(),
+					ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:match_sound")),
+					SoundCategory.PLAYERS, 0.5f, 1);
+		}
+		
+		if(delayMatch > 80 & delayMatch <85) {
+			
+			Ocarina.stoopedPlayedFadeOut = Ocarina.getDelayStopTime();		
+			System.out.println("SUN SONG");
+			event.player.world.playSound(event.player, event.player.getPosition(),
+					ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:" + Ocarina.songName)),
+					SoundCategory.PLAYERS, 0.5f, 1);
+		}
+		
+	/*	if (countNote < 10) {
+			countNote++;
+
+			if (countNote > 20) {
+				countNote = 0;
+				Ocarina.key_id = -1;
+			}
+		}
+
+		// Apply a little delay to let the looping play the match song
+		if (Ocarina.hasMatch) {
+			delayMatch++;
+		}
+		
+		if (delayMatch > 40 & delayMatch<45) {
+			
+			Ocarina.stoopedPlayedFadeOut = Ocarina.getDelayStopTime();		
+			event.player.world.playSound(event.player, event.player.getPosition(),
+					ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:match_sound")),
+					SoundCategory.PLAYERS, 0.5f, 1);
+		}
+		
+		if(delayMatch > 80 & delayMatch <85) {
+			
+			Ocarina.stoopedPlayedFadeOut = Ocarina.getDelayStopTime();		
+			System.out.println("SUN SONG");
+			event.player.world.playSound(event.player, event.player.getPosition(),
+					ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:" + Ocarina.songName)),
+					SoundCategory.PLAYERS, 0.5f, 1);
+		}
+		
+		// Ocarina.playingNote=false;
+		if (Ocarina.playing & !Ocarina.runningCommand) {
+
+			if (Ocarina.key_id != -1) {
+				if (Ocarina.actualPressedKeys.size() == 1) {
+					
+					Ocarina.checkMusicNotes();
+					Ocarina.addPressedKey(Ocarina.key_id);
+					
+					event.player.world.playSound(event.player, event.player.getPosition(),
+							ForgeRegistries.SOUND_EVENTS
+									.getValue(new ResourceLocation("ambience:ocarina" + Ocarina.key_id)),
+							SoundCategory.PLAYERS, 0.5f, 1);
+				}
+			}
+		} else {
+			countNote = 0;
+		}*/
+
+		if (Ocarina.stoopedPlayedFadeOut >= -1)
+			Ocarina.stoopedPlayedFadeOut--;
+
+		if (Ocarina.stoopedPlayedFadeOut == 0) {
+			Ocarina.playing = false;
+			Ocarina.hasMatch = false;
+			Ocarina.runningCommand = false;
+			//Ocarina.songName="";
+			delayMatch = 0;
+		}		
+		
+	}	
 
 	// Quando alguma coisa ataca o player
 	@SubscribeEvent
@@ -82,7 +235,7 @@ public class EventHandlersServer {
 			attackingTimer = attackFadeTime;
 
 			EventHandlers.playInstant();
-		}		
+		}
 	}
 
 	// FUNCIONA Quando player ataca alguma coisa
@@ -114,7 +267,7 @@ public class EventHandlersServer {
 		// When Player dies
 		if (event.getEntity() instanceof PlayerEntity & event.getEntity() == Minecraft.getInstance().player) {
 			Ambience.attacked = false;
-		}		
+		}
 	}
 
 	// Injection of events to the particles
@@ -208,7 +361,7 @@ public class EventHandlersServer {
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
 		Ambience.selectedArea = null;
-
+		
 		WorldData data = new WorldData();
 
 		ServerWorld world = (ServerWorld) event.getPlayer().world;

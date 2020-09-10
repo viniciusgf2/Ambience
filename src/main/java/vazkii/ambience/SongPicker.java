@@ -56,6 +56,7 @@ import vazkii.ambience.Util.Handlers.EventHandlersServer;
 import vazkii.ambience.Util.particles.DripWaterParticleFactory;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.blocks.SpeakerTileEntity;
+import vazkii.ambience.items.Ocarina;
 
 @OnlyIn(value = Dist.CLIENT)
 public final class SongPicker {
@@ -96,12 +97,12 @@ public final class SongPicker {
 	public static final String EVENT_CREDITS = "credits";
 	public static final String EVENT_GENERIC = "generic";
 
-	public static final Map<String, String[]> eventMap = new HashMap<String, String[]>();
-	public static final Map<Biome, String[]> biomeMap = new HashMap<Biome, String[]>();
-	public static final Map<String, String[]> areasMap = new HashMap<String, String[]>();	
-	public static final Map<String, String[]> mobMap = new HashMap<String, String[]>();	
-	public static final Map<BiomeDictionary.Type, String[]> primaryTagMap = new HashMap<Type, String[]>();
-	public static final Map<BiomeDictionary.Type, String[]> secondaryTagMap = new HashMap<Type, String[]>();	
+	public static Map<String, String[]> eventMap = new HashMap<String, String[]>();
+	public static Map<Biome, String[]> biomeMap = new HashMap<Biome, String[]>();
+	public static Map<String, String[]> areasMap = new HashMap<String, String[]>();	
+	public static Map<String, String[]> mobMap = new HashMap<String, String[]>();	
+	public static Map<BiomeDictionary.Type, String[]> primaryTagMap = new HashMap<Type, String[]>();
+	public static Map<BiomeDictionary.Type, String[]> secondaryTagMap = new HashMap<Type, String[]>();	
 	//public static final List<String> speakerMap = new ArrayList<String>();
 	
 	public static final Random rand = new Random();
@@ -186,6 +187,12 @@ public final class SongPicker {
 
 			return eventr;
 		}*/
+		
+		//Silences all the musics while playing the ocarina
+		if(Ocarina.playing) {
+			String[] song={"silent"};	
+			return song;
+		}
 		
 		if(Ambience.ExternalEvent.event!="")
 		{

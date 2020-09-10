@@ -39,6 +39,7 @@ import vazkii.ambience.Util.Handlers.EventHandlersServer;
 import vazkii.ambience.Util.Handlers.SoundHandler;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.network.AmbiencePackageHandler;
+import vazkii.ambience.network.OcarinaPackageHandler;
 
 @Mod(Ambience.MODID)
 public class Ambience {	
@@ -107,6 +108,7 @@ public class Ambience {
                 
         //Init the Network Handler
         AmbiencePackageHandler.register();
+        OcarinaPackageHandler.register();
        
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

@@ -19,6 +19,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import vazkii.ambience.Util.Border;
+import vazkii.ambience.Util.Utils;
 import vazkii.ambience.items.Horn;
 
 public class HornRender {
@@ -80,10 +81,10 @@ public class HornRender {
 			buffer.pos(matrix, (float) pos.getX() + x2,
 					(float) pos.getY() - 1 + (float) Math.cos(i * Math.PI + (float) Math.cos(count)) / 8,
 					(float) pos.getZ() + y2)
-					.color(clamp(color2.getX() + (float) Math.cos(count), 0.85f, 1),
-							clamp(color2.getY() + (float) Math.cos(count), 0.85f, 1),
-							clamp(color2.getZ() + (float) Math.cos(count), 1, 1f),
-							clamp(0.8f - (float) Math.cos(count), 0f, 1f))
+					.color(Utils.clamp(color2.getX() + (float) Math.cos(count), 0.85f, 1),
+							Utils.clamp(color2.getY() + (float) Math.cos(count), 0.85f, 1),
+							Utils.clamp(color2.getZ() + (float) Math.cos(count), 1, 1f),
+							Utils.clamp(0.8f - (float) Math.cos(count), 0f, 1f))
 					.endVertex(); // A
 		}
 
@@ -98,10 +99,10 @@ public class HornRender {
 			buffer.pos(matrix, (float) pos.getX() + x2,
 					(float) pos.getY() - 1 + (float) Math.cos(i * Math.PI + (float) Math.cos(count)) / 8,
 					(float) pos.getZ() + y2)
-					.color(clamp(color2.getX() + (float) Math.cos(count), 0.9f, 1f),
-							clamp(color2.getY() + (float) Math.cos(count), 0.95f, 1f),
-							clamp(color2.getZ() + (float) Math.cos(count), 1f, 1f),
-							clamp(0.8f - (float) Math.cos(count), 0f, 1f))
+					.color(Utils.clamp(color2.getX() + (float) Math.cos(count), 0.9f, 1f),
+							Utils.clamp(color2.getY() + (float) Math.cos(count), 0.95f, 1f),
+							Utils.clamp(color2.getZ() + (float) Math.cos(count), 1f, 1f),
+							Utils.clamp(0.8f - (float) Math.cos(count), 0f, 1f))
 					.endVertex(); // A
 		}
 		/*
@@ -117,9 +118,5 @@ public class HornRender {
 		 * / 8 .color(color2.getX(),color2.getY(),color2.getZ(),clamp(0.8f - (float)
 		 * Math.cos(count), 0f, 1f)).endVertex(); // A }
 		 */
-	}
-
-	public static float clamp(float value, float min, float max) {
-		return Math.max(min, Math.min(max, value));
 	}
 }

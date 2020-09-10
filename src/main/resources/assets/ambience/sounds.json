@@ -25,5 +25,86 @@
                 "stream": false
             }
         ]
+    },
+     "ocarina1": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:ocarina1",
+                "stream": false
+            }
+        ]
+    },
+     "ocarina2": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:ocarina2",
+                "stream": false
+            }
+        ]
+    },
+     "ocarina3": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:ocarina3",
+                "stream": false
+            }
+        ]
+    },
+     "ocarina4": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:ocarina4",
+                "stream": false
+            }
+        ]
+    },
+     "ocarina5": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:ocarina5",
+                "stream": false
+            }
+        ]
+    },
+     "match_sound": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:match_sound",
+                "stream": false
+            }
+        ]
+    },
+     "sunssong": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:sunssong",
+                "stream": false
+            }
+        ]
+    },
+     "songofstorms": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:songofstorms",
+                "stream": false
+            }
+        ]
+    },
+     "bolerooffire": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:bolerooffire",
+                "stream": false
+            }
+        ]
     }
 }
