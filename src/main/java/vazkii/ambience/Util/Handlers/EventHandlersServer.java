@@ -45,6 +45,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.PlayerThread;
 import vazkii.ambience.SongPicker;
+import vazkii.ambience.Util.RegistryHandler;
 import vazkii.ambience.Util.SplashFactory2;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.Util.particles.DripLavaParticleFactory;
@@ -69,14 +70,15 @@ public class EventHandlersServer {
 	}
 
 	public int countNote = 0;
-	public int delayMatch = 0;
 
 	boolean played_match = false;
 	boolean settingDay = false,settingNight = false;
 	
+	public Ocarina Ocarina=new Ocarina(20);
+	
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.WorldTickEvent.PlayerTickEvent event) {
-
+	
 		if (Horn.fadeOutTimer > 0)
 			Horn.fadeOutTimer--;
 
@@ -84,25 +86,7 @@ public class EventHandlersServer {
 			Horn.repelEntities(event.player.world, event.player, 1D);
 		}
 				
-		
-		/*event.player.world.playSound(event.player, event.player.getPosition(),
-				ForgeRegistries.SOUND_EVENTS
-						.getValue(new ResourceLocation("ambience:ocarina" + Ocarina.key_id)),
-				SoundCategory.PLAYERS, 0.5f, 1);
-			*/	
-		
-		if(Ocarina.playing & !Ocarina.runningCommand) {
-		
-			if (Ocarina.key_id != -1 & Ocarina.actualPressedKeys.size() == 1) {
-				Ocarina.playNote(Ocarina.key_id,event.player);
-
-				if(event.player.world.isRemote)
-					Ocarina.checkMusicNotes();
-			}
-		}
-		
-
-		
+		//Set the time of the day when the Ocarina played the Sun's Song
 		if(!event.player.world.isRemote) {
 			World world=event.player.world;
 						
@@ -140,93 +124,7 @@ public class EventHandlersServer {
 				settingDay=false;
 				settingNight=false;				
 			}
-		}
-		
-		//
-		// Ocarina ******
-		//
-		
-		// Apply a little delay to let the looping play the match song
-		if (Ocarina.hasMatch) {
-			delayMatch++;
-		}
-		
-		if (delayMatch > 40 & delayMatch<45) {
-			
-			Ocarina.stoopedPlayedFadeOut = Ocarina.getDelayStopTime();		
-			event.player.world.playSound(event.player, event.player.getPosition(),
-					ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:match_sound")),
-					SoundCategory.PLAYERS, 0.5f, 1);
-		}
-		
-		if(delayMatch > 80 & delayMatch <85) {			
-			Ocarina.stoopedPlayedFadeOut = Ocarina.getDelayStopTime();	
-			event.player.world.playSound(event.player, event.player.getPosition(),
-					ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:" + Ocarina.songName)),
-					SoundCategory.PLAYERS, 0.5f, 1);
-		}
-		
-	/*	if (countNote < 10) {
-			countNote++;
-
-			if (countNote > 20) {
-				countNote = 0;
-				Ocarina.key_id = -1;
-			}
-		}
-
-		// Apply a little delay to let the looping play the match song
-		if (Ocarina.hasMatch) {
-			delayMatch++;
-		}
-		
-		if (delayMatch > 40 & delayMatch<45) {
-			
-			Ocarina.stoopedPlayedFadeOut = Ocarina.getDelayStopTime();		
-			event.player.world.playSound(event.player, event.player.getPosition(),
-					ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:match_sound")),
-					SoundCategory.PLAYERS, 0.5f, 1);
-		}
-		
-		if(delayMatch > 80 & delayMatch <85) {
-			
-			Ocarina.stoopedPlayedFadeOut = Ocarina.getDelayStopTime();		
-			System.out.println("SUN SONG");
-			event.player.world.playSound(event.player, event.player.getPosition(),
-					ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:" + Ocarina.songName)),
-					SoundCategory.PLAYERS, 0.5f, 1);
-		}
-		
-		// Ocarina.playingNote=false;
-		if (Ocarina.playing & !Ocarina.runningCommand) {
-
-			if (Ocarina.key_id != -1) {
-				if (Ocarina.actualPressedKeys.size() == 1) {
-					
-					Ocarina.checkMusicNotes();
-					Ocarina.addPressedKey(Ocarina.key_id);
-					
-					event.player.world.playSound(event.player, event.player.getPosition(),
-							ForgeRegistries.SOUND_EVENTS
-									.getValue(new ResourceLocation("ambience:ocarina" + Ocarina.key_id)),
-							SoundCategory.PLAYERS, 0.5f, 1);
-				}
-			}
-		} else {
-			countNote = 0;
-		}*/
-
-		if (Ocarina.stoopedPlayedFadeOut >= -1)
-			Ocarina.stoopedPlayedFadeOut--;
-
-		if (Ocarina.stoopedPlayedFadeOut == 0) {
-			Ocarina.playing = false;
-			Ocarina.hasMatch = false;
-			Ocarina.runningCommand = false;
-			//Ocarina.songName="";
-			delayMatch = 0;
-		}		
-		
+		}	
 	}	
 
 	// Quando alguma coisa ataca o player

@@ -97,5 +97,25 @@ public class SoundHandler {
 		soundEvent = new SoundEvent(location);
 		soundEvent.setRegistryName("bolerooffire");
 		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Ambience.MODID, "horsesong");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("horsesong");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Ambience.MODID, "preludeoflight");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("preludeoflight");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Ambience.MODID, "serenadeofwater");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("serenadeofwater");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Ambience.MODID, "minuetofforest");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("minuetofforest");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
 	}
 }

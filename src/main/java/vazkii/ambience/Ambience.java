@@ -40,6 +40,7 @@ import vazkii.ambience.Util.Handlers.SoundHandler;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.network.AmbiencePackageHandler;
 import vazkii.ambience.network.OcarinaPackageHandler;
+import vazkii.ambience.items.Ocarina;
 
 @Mod(Ambience.MODID)
 public class Ambience {	
@@ -55,6 +56,7 @@ public class Ambience {
 	
 	public static Boolean attacked=false;
 	public static Boolean forcePlay=false;	
+	public static boolean playingJuckebox=false;
 
 	public static File ambienceDir;
 	public static File resourcesDir;
@@ -72,7 +74,7 @@ public class Ambience {
 	public static int dimension=-25412;
 	
 	public static AmbienceEventEvent ExternalEvent= new AmbienceEventEvent();
-	
+		
 	public static WorldData getWorldData() {
 		return worldData;
 	}

@@ -20,6 +20,7 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -29,6 +30,7 @@ import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -54,6 +56,8 @@ import vazkii.ambience.network.MyMessage;
 public class SongSwitcher extends Block {
 
 	public static final DirectionProperty FACING = DirectionalBlock.FACING;
+	public static final IntegerProperty DIRECTION = IntegerProperty.create("direction", 0, 3);
+	
 	public static final VoxelShape SHAPE_S = VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2, 2, 1, 14, 14, 4),
 			Block.makeCuboidShape(1.7763568394002505e-15, 0, 0, 16, 16, 2), IBooleanFunction.OR);
 
@@ -123,23 +127,26 @@ public class SongSwitcher extends Block {
 	}
 
 	@Override
-	public BlockState rotate(BlockState state, Rotation rot) {
-		return state.with(FACING, rot.rotate(state.get(FACING)));
+	public BlockState rotate(BlockState state, Rotation rot) {				
+		return state.with(FACING, rot.rotate(state.get(FACING))).with(DIRECTION, state.get(DIRECTION));
 	}
+	
+	
 
 	@Override
 	public BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return state.rotate(mirrorIn.toRotation(state.get(FACING)));
+		return state.rotate(mirrorIn.toRotation(state.get(FACING))).with(DIRECTION, state.get(DIRECTION));
 	}
 
 	@Override
 	protected void fillStateContainer(Builder<Block, BlockState> builder) {
 		builder.add(FACING);
+		builder.add(DIRECTION);
 	}
 
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {		
-		return this.getDefaultState().with(FACING, context.getFace());
+		return this.getDefaultState().with(FACING, context.getFace()).with(DIRECTION,0);
 	}
 
 		
@@ -181,8 +188,10 @@ public class SongSwitcher extends Block {
 		
 		Area currentArea = Area.getBlockStandingArea(pos);
 
-
-		worldIn.setBlockState(pos,RegistryHandler.SongSwitcher_lit.get().getDefaultState().with(FACING, state.get(FACING)),2);		
+		
+		int dir = MathHelper.floor((double)(placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		worldIn.setBlockState(pos,RegistryHandler.SongSwitcher.get().getDefaultState().with(FACING, state.get(FACING)).with(DIRECTION, dir),2);		
+		 
 
 		if (worldIn.getPlayers().get(0) instanceof ServerPlayerEntity) {
 
@@ -237,10 +246,10 @@ public class SongSwitcher extends Block {
 	public void setState(boolean active, World worldIn, BlockPos pos, BlockState state) {
 		
 		if (active) {
-			worldIn.setBlockState(pos,RegistryHandler.SongSwitcher_lit.get().getDefaultState().with(FACING, state.get(FACING)),2);		
+			worldIn.setBlockState(pos,RegistryHandler.SongSwitcher_lit.get().getDefaultState().with(FACING, state.get(FACING)).with(DIRECTION, state.get(DIRECTION)),2);		
 
 		} else {
-			worldIn.setBlockState(pos,RegistryHandler.SongSwitcher.get().getDefaultState().with(FACING, state.get(FACING)), 2);
+			worldIn.setBlockState(pos,RegistryHandler.SongSwitcher.get().getDefaultState().with(FACING, state.get(FACING)).with(DIRECTION, state.get(DIRECTION)), 2);
 		}
 
 	}

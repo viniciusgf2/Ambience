@@ -106,5 +106,41 @@
                 "stream": false
             }
         ]
+    },
+     "horsesong": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:horsesong",
+                "stream": false
+            }
+        ]
+    },
+     "preludeoflight": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:preludeoflight",
+                "stream": false
+            }
+        ]
+    },
+     "serenadeofwater": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:serenadeofwater",
+                "stream": false
+            }
+        ]
+    },
+     "minuetofforest": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:minuetofforest",
+                "stream": false
+            }
+        ]
     }
 }

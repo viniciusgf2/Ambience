@@ -92,6 +92,12 @@ public class MyMessage {
 				CompoundNBT EventSound = data;
 				ServerWorld world = ctx.getSender().server.getWorld(DimensionType.getById(data.getInt("dimension")));
 
+				//For the Juckebox event
+				if(EventSound.contains("playingJuckebox")) {					
+	            	CompoundNBT nbt = new CompoundNBT();
+					nbt.putBoolean("playingJuckebox",EventSound.getBoolean("playingJuckebox"));
+					AmbiencePackageHandler.sendToAll(new MyMessage(nbt));						
+				}
 												
 				//Send to the clients the force play values
 				if(EventSound.contains("forcedPlayID")) {	
@@ -218,6 +224,11 @@ public class MyMessage {
 			else {
 
 				CompoundNBT EventSound = data;
+				
+				//For the juckebox event
+				if(EventSound.contains("playingJuckebox")) {					
+		            Ambience.playingJuckebox=EventSound.getBoolean("playingJuckebox");		
+				}
 				
 				//Send to the clients the force play values
 				if(EventSound.contains("forcedPlayID")) {										

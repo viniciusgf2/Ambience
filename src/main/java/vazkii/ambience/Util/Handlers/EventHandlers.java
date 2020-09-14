@@ -6,6 +6,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.JukeboxBlock;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
@@ -18,13 +20,19 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.MusicDiscItem;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.storage.loot.LootPool;
+import net.minecraft.world.storage.loot.TableLootEntry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.InputEvent;
@@ -32,6 +40,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
+import net.minecraftforge.client.event.sound.SoundEvent.SoundSourceEvent;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -58,6 +68,7 @@ import vazkii.ambience.network.OcarinaMessage;
 import vazkii.ambience.network.OcarinaPackageHandler;
 import vazkii.ambience.render.HornRender;
 import vazkii.ambience.render.SelectionBoxRenderer;
+import vazkii.ambience.Util.RegistryHandler;
 
 //@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 @Mod.EventBusSubscriber(modid = Ambience.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
@@ -81,6 +92,29 @@ public class EventHandlers {
 
 	public EventHandlers() {		
 
+	}
+	
+	//add the items to the Loot tables
+	@SubscribeEvent
+	public static void onLootLoad(LootTableLoadEvent event) {
+	    if (event.getName().equals(new ResourceLocation("minecraft:chests/simple_dungeon"))) {
+	       event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation("ambience:chests/simple_dungeon"))).build());
+	    }
+	    else if (event.getName().equals(new ResourceLocation("minecraft:chests/pillager_outpost"))) {
+	       event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation("ambience:chests/pillager_outpost"))).build());
+	    }
+	    else if (event.getName().equals(new ResourceLocation("minecraft:chests/underwater_ruin_big")))
+	    {
+		       event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation("ambience:chests/underwater_ruin_big"))).build());
+		}
+	    else if (event.getName().equals(new ResourceLocation("minecraft:chests/buried_treasure")))
+	    {
+		       event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation("ambience:chests/buried_treasure"))).build());
+		}
+	    else if (event.getName().equals(new ResourceLocation("minecraft:chests/abandoned_mineshaft")))
+	    {
+		       event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation("ambience:chests/abandoned_mineshaft"))).build());
+		}
 	}
 			
 	public static void playInstant() {		
@@ -127,13 +161,28 @@ public class EventHandlers {
 			return;
 		}
 
-		//If you have an ocarina in hand you can't interact with other blocks
 		if (e.getFace() != null) {
-
+			
+			//If you have an ocarina in hand you can't interact with other blocks
 			ItemStack item = e.getPlayer().getHeldItem(e.getHand());
-
 			if (item.getItem() instanceof Ocarina)
 				e.setCanceled(true);
+			
+			//If interact with a playing juckebox it will stop the music if playing (works only for 1 at a time)
+			if(e.getPlayer().isServerWorld()) {
+				Block juckebox=e.getPlayer().world.getBlockState(e.getPos()).getBlock();
+				if(juckebox instanceof JukeboxBlock){
+					if(Ambience.playingJuckebox)
+					{						
+						//Update the juckebox state everyone in the server
+						CompoundNBT nbt = new CompoundNBT();
+						nbt.putBoolean("playingJuckebox",false);
+						AmbiencePackageHandler.sendToServer(new MyMessage(nbt));
+						
+						SongPicker.lastPlayerPos=e.getPlayer().getPosition();
+					}
+				}
+			}
 		}
 	}
 		
@@ -215,15 +264,11 @@ public class EventHandlers {
 			if(Ambience.thread != null)
 				Ambience.thread.setRealGain();
 		}
-		
-		
-		
-						
+										
 		//
-		//  Change camera mode for the ocarina  =================
-		//
-		//if (keyBindings[12].isPressed())
-		if(Ocarina.playing)
+		//  Change camera mode for the ocarina when starting playing the Ocarina =================
+		//		
+		if(RegistryHandler.Ocarina.get().playing)
 		{
 			if(cameraChanged==false) {
 				cameraChanged=true;			
@@ -269,48 +314,51 @@ public class EventHandlers {
 				
 				SystemToast.addOrUpdate(mc.getToastGui(), SystemToast.Type.TUTORIAL_HINT, (ITextComponent) new TranslationTextComponent("Ambience.ReloadTitle"), (ITextComponent) new TranslationTextComponent("Ambience.Force"));
 			}
-			
-			
+						
 			//Shortcuts keys
 			if (keyBindings[2].isPressed()) { ToggleForcePlay(0); }
 			if (keyBindings[3].isPressed()) { ToggleForcePlay(1); }
 			if (keyBindings[4].isPressed()) { ToggleForcePlay(2); }
 			if (keyBindings[5].isPressed()) { ToggleForcePlay(3); }
 			if (keyBindings[6].isPressed()) { ToggleForcePlay(4); }
-				
+							
 			//Ocarina keys
 			if (keyBindings[7].isPressed()) { addPressedKey(1);	}else {	removePressedKey(1); }	
 			if (keyBindings[8].isPressed()) { addPressedKey(2);	}else {	removePressedKey(2); }	
 			if (keyBindings[9].isPressed()) { addPressedKey(3);	}else {	removePressedKey(3); }	
 			if (keyBindings[10].isPressed()) { addPressedKey(4);}else {	removePressedKey(4); }	
-			if (keyBindings[11].isPressed()) { addPressedKey(5);}else {	removePressedKey(5); }	
-			
-			
+			if (keyBindings[11].isPressed()) { addPressedKey(5);}else {	removePressedKey(5); }				
 		}
 	}
 	
+	public static boolean key_released;
+	
 	private static void addPressedKey(int key) {
+		Ocarina Ocarina=RegistryHandler.Ocarina.get();		
+		
 		Ocarina.key_id=key; 
-		if(!Ocarina.actualPressedKeys.contains(Ocarina.key_id)) {
+		if(!Ocarina.actualPressedKeys.contains(Ocarina.key_id) | Ocarina.actualPressedKeys.size()==0) {
 			Ocarina.actualPressedKeys.add(Ocarina.key_id);
-			
+						
 			//Add the pressedKey to list of keys to check for musics on the client side
-			Ocarina.addPressedKey(key);
-			
-			syncKeysServer(key);
+			Ocarina.addPressedKey(key);			
 		}
+		
+		syncKeysServer(key);
 	}
 	
 	private static void removePressedKey(int key) {
+				
+		Ocarina Ocarina=RegistryHandler.Ocarina.get();		
 		if(Ocarina.actualPressedKeys.size()>0 && Ocarina.actualPressedKeys.contains(key)) {				
-			Ocarina.actualPressedKeys.remove((Object)key);
-
-			syncKeysServer(key);
+			Ocarina.actualPressedKeys.remove((Object)key);			
 		}
+		//syncKeysServer(key);
 	}
 	
 	//Sync the pressed keys with the server
 	private static void syncKeysServer(int key) {
+		Ocarina Ocarina=RegistryHandler.Ocarina.get();		
 		String keys="";
 		for(Integer actualKey : Ocarina.actualPressedKeys) {
 			keys+=actualKey+",";
@@ -319,6 +367,8 @@ public class EventHandlers {
 		CompoundNBT nbt = new CompoundNBT();
 		nbt.putInt("keyPressed", key);
 		nbt.putString("actualPressedKeys", keys);
+		nbt.putBoolean("playing", Ocarina.playing);
+		nbt.putBoolean("runningCommand", Ocarina.runningCommand);
 		OcarinaPackageHandler.sendToServer(new OcarinaMessage(nbt));
 	}
 	
@@ -336,7 +386,7 @@ public class EventHandlers {
 	@SubscribeEvent
     public static void onFOVModifierEvent(EntityViewRenderEvent.FOVModifier event) {
 				
-		if(Ocarina.playing) {
+		if(RegistryHandler.Ocarina.get().playing) {
 			Minecraft mc = Minecraft.getInstance();			     
 			ItemStack item = mc.player.getHeldItem(Hand.MAIN_HAND) == null? mc.player.getHeldItem(Hand.OFF_HAND) : mc.player.getHeldItem(Hand.MAIN_HAND);
         	
@@ -353,6 +403,7 @@ public class EventHandlers {
 		        event.setFOV(zoomCount);
 	            return;
 			}else {
+				//Return the camera mode to the old one if the item breaks in your hand
             	setCameraMode(oldCameraMode);				
 			}
 		}		
@@ -371,11 +422,15 @@ public class EventHandlers {
             //reset to the old camera when stopped playing the ocarina
             if(zoomCount>oldFOV-1)
             {
+            	Ocarina Ocarina=RegistryHandler.Ocarina.get();
+
+				//Return the camera mode to the old one before starting playing
             	setCameraMode(oldCameraMode);
             	cameraChanged=false;
             	Ocarina.pressedKeys.clear();
             	Ocarina.old_key_id=-1;
             	Ocarina.runningCommand=false;
+            	
             	Ocarina.songName="";
             	
             	//Syncs with the server
@@ -416,7 +471,8 @@ public class EventHandlers {
 			if(world!=null)
 				Ambience.dimension=world.dimension.getType().getId();
 			
-			if(event.getSound().getCategory() == SoundCategory.MUSIC)
+			if(event.getSound().getCategory() == SoundCategory.MUSIC) {
+
 				if(Ambience.dimension>=-1 & Ambience.dimension<=1 | Ambience.overideBackMusicDimension) {
 								
 					if(event.isCancelable()) 
@@ -424,6 +480,12 @@ public class EventHandlers {
 					
 					event.setResultSound(null);
 				}
+			}else if(event.getSound().getCategory() == SoundCategory.RECORDS) {				
+				//Update the juckebox state everyone in the server
+				CompoundNBT nbt = new CompoundNBT();
+				nbt.putBoolean("playingJuckebox",true);
+				AmbiencePackageHandler.sendToServer(new MyMessage(nbt));
+			}
 		}
 	}
 			
@@ -459,157 +521,12 @@ public class EventHandlers {
 		HornRender.drawBoundingBox(currentplayer.getPositionVec(), event.getPartialTicks(),event, currentplayer.world,currentplayer);
 	}
 	
-	/*public static final ResourceLocation Ocarina_OVERLAY_FX = new ResourceLocation(Ambience.MODID, "textures/gui/ocarina_overlays_fx.png");	   
-    public static final ResourceLocation Ocarina_OVERLAYS = new ResourceLocation(Ambience.MODID, "textures/gui/ocarina_overlays.png");    
-    public static float fx_rotateCount=0;
-    public static float fx_zoomCount=0;*/
+	//Renders the Ocarina Overlays Cinematic Effects
 	@SubscribeEvent
     public static void onOverlayRender(RenderGameOverlayEvent.Post event) 
 	{
-		
-		Ocarina.renderFX(event, zoomCount, zoomAmount, zoomSpeed);
-		
-		
-		/*
-		fx_rotateCount+=0.1f;
-		//Renders the Ocarina's cinematic effect
-		Minecraft mc = Minecraft.getInstance();
-        if (event.getType() == ElementType.ALL) {
-            MainWindow res = event.getWindow();
-            if (mc.player != null) 
-            {
-            	ItemStack item = mc.player.getHeldItem(Hand.MAIN_HAND) == null? mc.player.getHeldItem(Hand.OFF_HAND) : mc.player.getHeldItem(Hand.MAIN_HAND);
-            	
-    			if (item.getItem() instanceof Ocarina) 
-    			{
-            	
-	            	 int width = 2048;
-	            	 int x = res.getScaledWidth() / 2;
-	                 int y = (int) (1+event.getWindow().getGuiScaleFactor());
-	                                   
-	                 int py=(int) Math.abs(zoomCount-70);
-
-	                 Vector4f color=new Vector4f(1,1,0,1);	 
-	                 
-	                	 
-	                 
-	                 //*******************************************************
-	                 //FX ------------------------
-	                 
-	                 if(Ocarina.runningCommand) {
-	                	 
-	                	 if (fx_zoomCount > zoomAmount) {
-	                		 fx_zoomCount -= zoomSpeed;
-	     	                if (fx_zoomCount < zoomAmount) {
-	     	                	fx_zoomCount = zoomAmount;
-	     	                }
-	     	            }	        
-	                 }else{
-	                	 if (fx_zoomCount < 70) {
-	                		 fx_zoomCount += zoomSpeed;
-	                         if (fx_zoomCount > 70) {
-	                        	 fx_zoomCount = 70;
-	                         }
-	                     }
-	                 }	
-	                 if(fx_zoomCount!=70)
-	                // if(Ocarina.runningCommand) 
-	                 {
-	     			
-	                	 switch (Ocarina.songName) {
-		                 	case "sunssong" : color=new Vector4f(1,1,0,1);break;
-		                 	case "songofstorms" : color=new Vector4f(0.7f,0.6f,1,1);break;
-		                 	case "bolerooffire" : color=new Vector4f(1,0.3f,0,1);break;		                 	
-		                 	default : color=new Vector4f(1,1,1,1);break;
-		                 }   
-	                	 
-	                 RenderSystem.pushMatrix();	                
-
-	                // int opacity=(int)(262-(6.2f*zoomCount-179));
-	                 float opacity=(int)(17-(zoomCount/8));	                 
-	                 opacity=(opacity * 1.15f)/15;
-	                 
-	                 double angle = 2 * Math.PI * fx_rotateCount / 150;
-	     			 float x2 = (float) Math.cos(angle);	  
-	     			 float scaleFade=(40+(fx_zoomCount-70))/20;
-	                 	     			 
-	     			 //FX2
-	                 RenderSystem.translatef(x, res.getScaledHeight()/2,0);
-	                 RenderSystem.rotatef(-fx_rotateCount/2, 0, 0, 10);
-	                 RenderSystem.scalef((1+x2/7)+scaleFade, (1+x2/7)+scaleFade, 1);
-	                 RenderSystem.color4f(color.getX(), color.getY(), color.getZ(), opacity );
-	                 		                	     
-	                 //rendering	                 	                 
-	            	 mc.getTextureManager().bindTexture(Ocarina_OVERLAY_FX);            	
-	                 AbstractGui.blit(-res.getScaledWidth(), (int)(-res.getScaledHeight()*1.5f), res.getScaledWidth()*2, res.getScaledHeight()*3,  res.getScaledWidth()*2, res.getScaledHeight()*3, res.getScaledWidth()*2, res.getScaledHeight()*3);
-	                 	 
-	                 RenderSystem.color4f(1F, 1F, 1F, 1);
-	                 RenderSystem.popMatrix();
-	     			 
-	     			 //FX1
-	     			 x2 = (float) Math.cos(angle) * 1.5f;
-	                 RenderSystem.pushMatrix();	        
-	     			 RenderSystem.translatef(x, res.getScaledHeight()/2,0);
-	                 RenderSystem.rotatef(fx_rotateCount, 0, 0, 10);
-	                 RenderSystem.scalef((1+x2/9)+scaleFade, (1+x2/9)+scaleFade, 1);
-	                 RenderSystem.color4f(color.getX(), color.getY(), color.getZ(), opacity );
-	                 		                	     
-	                 //rendering	                 	                 
-	            	 mc.getTextureManager().bindTexture(Ocarina_OVERLAY_FX);            	
-	                 AbstractGui.blit(-res.getScaledWidth(), (int)(-res.getScaledHeight()*1.5f), res.getScaledWidth()*2, res.getScaledHeight()*3,  res.getScaledWidth()*2, res.getScaledHeight()*3, res.getScaledWidth()*2, res.getScaledHeight()*3);
-	                 	 
-	                 RenderSystem.color4f(1F, 1F, 1F, 1);
-	                 RenderSystem.popMatrix();
-	                 
-	                 }
-	                 //********************************************************
-	                 
-	                 RenderSystem.pushMatrix();	 
-	                 color=new Vector4f(1,1,1,1);	 
-	                 RenderSystem.color4f(color.getX(), color.getY(), color.getZ(), 1);
-	                 	                
-	            	    
-	                 //Bottom Overlay
-	            	 mc.getTextureManager().bindTexture(Ocarina_OVERLAYS);            	
-	                 AbstractGui.blit(0, 0, 0, 0, width, y+(int)(py*1.1)-10, 256, 256);
-	                                  
-	                 //Top Overlay
-	                 y = res.getScaledHeight()+5 /(int)(1+event.getWindow().getGuiScaleFactor());
-	            	 mc.getTextureManager().bindTexture(Ocarina_OVERLAYS);            	
-	                 AbstractGui.blit(0, y-(int)(py*1.1)+10, 0, 0, width, 100, 256, 256);
-	                   
-	                 if(Ocarina.runningCommand) 
-	                 {
-		                 y = res.getScaledHeight()/2; ///(int)(1+event.getWindow().getGuiScaleFactor());
-		             	
-		                 String s=I18n.format("Ocarina.Played");
-		                 float scale = 1.25F*(int)event.getWindow().getGuiScaleFactor()/2.5f;
-		                 RenderSystem.scalef(scale, scale, scale);
-		                 
-		                 //Text renderer
-		                 int opacity=(int)(262-(6.2f*zoomCount-179));
-		                // int opacity=(int)((6.2f*zoomCount-179));
-		                 int textColor= Utils.colorToInt(opacity,255,255,255);                  
-		                 int totalTextLeng= mc.fontRenderer.getStringWidth(s)/2;
-		                 int px= (int) (x/scale)-30;
-		                 int py2= (int) (y/scale)+70;
-		                 
-		                 String songNameText="";
-		                 mc.fontRenderer.drawStringWithShadow(s, px - totalTextLeng, py2, textColor);
-		                 switch (Ocarina.songName) {
-		                 	case "sunssong" : songNameText="Sun's Song"; textColor=Utils.colorToInt(opacity,255,255,0);break;
-		                 	case "songofstorms" : songNameText="Song of Storms"; textColor=Utils.colorToInt(opacity,180,155,255);break;
-		                 	case "bolerooffire" : songNameText="Bolero of Fire"; textColor=Utils.colorToInt(opacity,255,0,0);break;
-		                 	
-		                 	default : textColor=Utils.colorToInt(opacity,255,0,0);break;
-		                 }                 
-		                 mc.fontRenderer.drawStringWithShadow(songNameText, px+3 + mc.fontRenderer.getStringWidth("Sun's Song")/1.5f, py2, textColor);
-	                 }
-	                 RenderSystem.color4f(1F, 1F, 1F, 1);
-	                 RenderSystem.popMatrix();
-    			}
-            }
-        }*/
+		Ocarina Ocarina=RegistryHandler.Ocarina.get();
+		Ocarina.renderFX(event, zoomCount, zoomAmount, zoomSpeed,20);		
 	}
 		
 	public static boolean show=false;
@@ -643,6 +560,3 @@ public class EventHandlers {
 		}
 	}	
 }
-
-
-

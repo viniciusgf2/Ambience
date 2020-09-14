@@ -30,7 +30,12 @@ import net.minecraft.entity.item.minecart.MinecartEntity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.GuardianEntity;
 import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.passive.PigEntity;
+import net.minecraft.entity.passive.RabbitEntity;
+import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -38,6 +43,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -50,6 +56,7 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import vazkii.ambience.Util.RegistryHandler;
 import vazkii.ambience.Util.SplashFactory2;
 import vazkii.ambience.Util.Handlers.EventHandlers;
 import vazkii.ambience.Util.Handlers.EventHandlersServer;
@@ -88,6 +95,8 @@ public final class SongPicker {
 	public static final String EVENT_VILLAGE = "village";
 	public static final String EVENT_VILLAGE_NIGHT = "villageNight";
 	public static final String EVENT_MINECART = "minecart";
+	public static final String EVENT_RANCH = "ranch";
+	public static final String EVENT_RANCH_NIGHT = "ranchNight";
 	public static final String EVENT_BOAT = "boat";
 	public static final String EVENT_HORSE = "horse";
 	public static final String EVENT_PIG = "pig";
@@ -112,13 +121,15 @@ public final class SongPicker {
 	
 	public static boolean areaSongsLoaded = false;
 	public static boolean falling = false;
-	
 	public static boolean horde=false;
 	
 	public static int forcePlayID=-1;
 	public static boolean ForcePlaying=false;
 	public static int musicLenght=0;
+	public static Ocarina Ocarina;
 	
+	public static BlockPos lastPlayerPos=new BlockPos(Vec3d.ZERO);
+			
 	public static void reset() {
 		eventMap.clear();
 		biomeMap.clear();
@@ -133,6 +144,7 @@ public final class SongPicker {
 		PlayerEntity player = mc.player;
 		World world = mc.world;
 		int dimension=0;
+		Ocarina = RegistryHandler.Ocarina.get();
 		
 		if(world!=null)
 			dimension=world.dimension.getType().getId();	
@@ -237,6 +249,14 @@ public final class SongPicker {
 		}
 
 		// ******************
+
+		double distance = Math.sqrt(player.getDistanceSq(lastPlayerPos.getX(), lastPlayerPos.getY(), lastPlayerPos.getZ()));
+				
+		if(Ambience.playingJuckebox & distance<50) {
+			String[] song={"silent"};
+			
+			return song;
+		}
 		
 		BossOverlayGui bossOverlay = mc.ingameGUI.getBossOverlay();
 		Map<UUID, BossInfo> map = ObfuscationReflectionHelper.getPrivateValue(BossOverlayGui.class, bossOverlay,Ambience.OBF_MAP_BOSS_INFOS);
@@ -647,8 +667,28 @@ public final class SongPicker {
 			}
 		}
 
-		int villagerCount = world.getEntitiesWithinAABB(VillagerEntity.class, new AxisAlignedBB(player.getPosX() - 30,
-				player.getPosY() - 8, player.getPosZ() - 30, player.getPosX() + 30, player.getPosY() + 8, player.getPosZ() + 30)).size();
+
+
+		List<LivingEntity> EntitiesCount = world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(player.getPosX() - 30,
+				player.getPosY() - 8, player.getPosZ() - 30, player.getPosX() + 30, player.getPosY() + 8, player.getPosZ() + 30));
+
+		int villagerCount=0, countPassiveMobs=0;
+		
+		for (LivingEntity mob : EntitiesCount) {	
+			if(mob instanceof VillagerEntity) 
+				villagerCount++;		
+			
+			if (mob instanceof HorseEntity 
+				| mob instanceof CowEntity
+				| mob instanceof ChickenEntity 
+				| mob instanceof SheepEntity
+				| mob instanceof PigEntity 
+				| mob instanceof BeeEntity
+				| mob instanceof RabbitEntity
+			)
+				countPassiveMobs++;		
+		}
+		
 		if (villagerCount > 3) {
 			if (night) {
 				String[] songs=null;
@@ -667,6 +707,28 @@ public final class SongPicker {
 				songs = getSongsForEvent(EVENT_VILLAGE+"\\"+dimension);
 			else
 				songs = getSongsForEvent(EVENT_VILLAGE);
+			if (songs != null)
+				return songs;
+		}
+		
+		if(countPassiveMobs>15) {
+			if (night) {
+				String[] songs=null;
+				//Songs for other dimensions
+				if (dimension <-1 | dimension >1 )
+					songs = getSongsForEvent(EVENT_RANCH_NIGHT+"\\"+dimension);
+				else
+					songs = getSongsForEvent(EVENT_RANCH_NIGHT);
+				if (songs != null)
+					return songs;
+			}
+
+			String[] songs=null;
+			//Songs for other dimensions
+			if (dimension <-1 | dimension >1 )
+				songs = getSongsForEvent(EVENT_RANCH+"\\"+dimension);
+			else
+				songs = getSongsForEvent(EVENT_RANCH);
 			if (songs != null)
 				return songs;
 		}

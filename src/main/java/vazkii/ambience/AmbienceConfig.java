@@ -13,19 +13,66 @@ import net.minecraftforge.fml.config.ModConfig;
 public class AmbienceConfig {
 
 	public static class Common{
-		
+				
 		public final BooleanValue enabled;
+		public final BooleanValue sunsong_enabled;
+		public final BooleanValue songofstorms_enabled;
+		public final BooleanValue bolerooffire_enabled;
+		public final BooleanValue horsesong_enabled;
+		
+		public final BooleanValue preludeoflight_enabled;
+		public final BooleanValue serenadeofwater;
+		public final BooleanValue minuetofforest;
+		
 				
 		public Common(ForgeConfigSpec.Builder builder) {
 			builder.comment("Ambience Mod Configurations")
 				   .push("Ambience");
 			
-			enabled =builder.comment("Enables or disables the Ambience music at all")
+			enabled =builder.comment("Enables or disables the Ambience music at all [Default:true]")
 							.translation("ambience.configgui.enabled")
 							.worldRestart()
 							.define("enabled", true);
 			
-			builder.pop();
+			builder.comment("Ocarina Configurations")
+			   .push("Ocarina");
+			
+			sunsong_enabled =builder.comment("Enables or disables the Sun's Song [Default:true]")
+					.translation("ambience.configgui.sunsongenabled")
+					.worldRestart()
+					.define("Sun_Song", true);
+			
+			songofstorms_enabled =builder.comment("Enables or disables the Song of Storms [Default:true]")
+					.translation("ambience.configgui.songofstorms_enabled")
+					.worldRestart()
+					.define("Song_of_Storms", true);
+			
+			bolerooffire_enabled =builder.comment("Enables or disables the Bolero of Fire Song [Default:true]")
+					.translation("ambience.configgui.bolerooffire_enabled")
+					.worldRestart()
+					.define("Fire_Song", true);
+			
+			horsesong_enabled =builder.comment("Enables or disables the Horse's Song [Default:true]")
+					.translation("ambience.configgui.horsesong_enabled")
+					.worldRestart()
+					.define("Horse_Song", true);
+			//----------
+			preludeoflight_enabled =builder.comment("Enables or disables the Prelude of Light Song [Default:true]")
+					.translation("ambience.configgui.preludeoflight_enabled")
+					.worldRestart()
+					.define("Prelude_of_light_Song", true);
+			
+			serenadeofwater =builder.comment("Enables or disables the Serenade of Water Song [Default:true]")
+					.translation("ambience.configgui.serenadeofwater_enabled")
+					.worldRestart()
+					.define("Serenade_of_Water_Song", true);
+			
+			minuetofforest =builder.comment("Enables or disables the Minuet of Forest Song [Default:true]")
+					.translation("ambience.configgui.horsesong_enabled")
+					.worldRestart()
+					.define("Minuet_of_Forest_Song", true);
+
+			builder.pop(2);			
 		}
 	}
 		
@@ -33,8 +80,8 @@ public class AmbienceConfig {
 	public static final Common COMMON;
 	static {
 		final Pair<Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Common::new);
-		COMMON_SPEC =  specPair.getRight();
 		COMMON = specPair.getLeft();
+		COMMON_SPEC =  specPair.getRight();
 	}
 	
 	
@@ -45,6 +92,13 @@ public class AmbienceConfig {
 	
 	@SubscribeEvent
 	public static void onFileChanged(final ModConfig.Reloading event) {
+		ModConfig configs=event.getConfig();
 		
+		AmbienceConfig.COMMON.sunsong_enabled.set(configs.getConfigData().get("Ambience.Ocarina.Sun_Song"));
+		AmbienceConfig.COMMON.songofstorms_enabled.set(configs.getConfigData().get("Ambience.Ocarina.Song_of_Storms"));
+		AmbienceConfig.COMMON.bolerooffire_enabled.set(configs.getConfigData().get("Ambience.Ocarina.Fire_Song"));
+		AmbienceConfig.COMMON.horsesong_enabled.set(configs.getConfigData().get("Ambience.Ocarina.Horse_Song"));		
+		
+		System.out.println("Configs File Changed");
 	}
 }

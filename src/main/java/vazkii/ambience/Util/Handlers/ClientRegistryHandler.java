@@ -14,7 +14,7 @@ import vazkii.ambience.Util.ModContainerTypes;
 
 
 @Mod.EventBusSubscriber(modid = Ambience.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class RegistryHandler {
+public class ClientRegistryHandler {
 	
 	@SubscribeEvent
 	public static void clientRegistries(FMLClientSetupEvent event){

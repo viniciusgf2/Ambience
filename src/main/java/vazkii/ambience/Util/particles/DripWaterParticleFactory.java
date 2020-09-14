@@ -62,7 +62,7 @@ public class DripWaterParticleFactory extends DripParticle.DrippingWaterFactory 
 			// make the particle
 			return super.makeParticle(typeIn, worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
 		}catch (Exception e) {
-			return null;
+			return super.makeParticle(typeIn, worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
 		}
 	}
 

@@ -18,6 +18,8 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -36,6 +38,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
@@ -65,6 +69,7 @@ public class Horn extends ItemBase {
 
 	public static int fadeOutTimer;
 	public static boolean shouting=false;
+	public static PlayerEntity player;
 	public Horn(int Maxdamage) {
 		super(Maxdamage);
 
@@ -101,6 +106,24 @@ public class Horn extends ItemBase {
 			shouting=true;
 			//This timer is used to activate the horn effects (repels entities etc...)
 			fadeOutTimer=380;
+			
+			player=playerIn;
+			/*List<Entity> entities = worldIn.getEntitiesWithinAABB(Entity.class,	new AxisAlignedBB(playerIn.getPosX() - 20, playerIn.getPosY() - 10, playerIn.getPosZ() - 20, playerIn.getPosX() + 20,playerIn.getPosY() + 10, playerIn.getPosZ() + 20));
+			
+			for (Entity entity : entities) {
+				
+				System.out.println(entity.getDisplayName());
+				if (entity instanceof PlayerEntity) {			      
+					playerIn.addPotionEffect(new EffectInstance(Effects.SPEED, 60*20, 0));
+					playerIn.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 60*20, 3));
+				}
+				if (entity instanceof MonsterEntity)
+				{	
+					//Add fear to the heart of the enemies					
+					((MonsterEntity)entity).addPotionEffect(new EffectInstance(Effects.WEAKNESS, 5*20, 1));							      
+					((MonsterEntity)entity).goalSelector.addGoal(3, new AvoidEntityGoal<>((CreatureEntity)entity, PlayerEntity.class, 16.0F, 3.5D, 2.2D));					
+				}
+			}*/
 						
 			return ActionResult.resultConsume(itemstack);
 		}
@@ -117,8 +140,8 @@ public class Horn extends ItemBase {
 	public static void repelEntities(World worldIn, PlayerEntity playerIn,double force) {		
 		List<Entity> entities = worldIn.getEntitiesWithinAABB(Entity.class,	new AxisAlignedBB(playerIn.getPosX() - 20, playerIn.getPosY() - 10, playerIn.getPosZ() - 20, playerIn.getPosX() + 20,playerIn.getPosY() + 10, playerIn.getPosZ() + 20));
 		
-		BlockPos pos=playerIn.getPosition();
-		
+		BlockPos pos=player.getPosition();
+				
 		//Play the horn and apply some effects to the entities
 		if(shouting) {
 			shouting=false;
@@ -126,6 +149,42 @@ public class Horn extends ItemBase {
 			worldIn.playSound(playerIn, playerIn.getPosition(),
 			ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:horn" + rand)),SoundCategory.AMBIENT, 10, 1);			
 		}
+		
+		
+		//TESTE TAMED ENTITIES****************************
+		/*for (Entity entity : entities) {
+			if (entity instanceof HorseEntity) {
+
+				HorseEntity horse = ((HorseEntity) entity);
+				if (horse.getOwnerUniqueId().equals(playerIn.getUniqueID())) {
+
+					
+					int dir = MathHelper.floor((double)(playerIn.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+					int dirX=0;
+					int dirZ=0;
+					switch (dir) {
+						case 0: dirZ =-5;break;//South
+						case 1: dirX =5;break;//west
+						case 2: dirZ =5;break;//North
+						case 3: dirX =-5;break;//east
+					}
+					
+					Vec3d vector = new Vec3d(playerIn.getPosX()+dirX, 256, playerIn.getPosZ()+dirZ);
+					BlockRayTraceResult rayTraceResult = worldIn
+							.rayTraceBlocks(new RayTraceContext(vector, vector.add(new Vec3d(0, 1, 0).scale(-256)),
+									RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.ANY, playerIn));
+
+					
+					
+					horse.setPositionAndUpdate(rayTraceResult.getPos().getX(), rayTraceResult.getPos().getY()+2,
+							rayTraceResult.getPos().getZ());
+					
+					System.out.println("X= "+ (rayTraceResult.getPos().getX() + dirX ) +" Y:"+ (rayTraceResult.getPos().getY()) +" Z: " + (rayTraceResult.getPos().getZ()+dirZ));
+				}
+			}
+		}*/
+		
+		//*****************************
 		
 		//Calcs the knockback
 		if (worldIn.isRemote) {
@@ -135,8 +194,11 @@ public class Horn extends ItemBase {
 
 		for (Entity entity : entities) {
 			
+
+			
 			double distance = Math.sqrt(entity.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()));
 			if (distance < radius && distance != 0) {
+				
 				
 				if (distance < 1D) {
 					distance = 1D;
@@ -153,19 +215,23 @@ public class Horn extends ItemBase {
 				double yForce = angleOfAttack.y * knockbackMultiplier * reductionCoefficient;
 				double zForce = angleOfAttack.z * knockbackMultiplier * reductionCoefficient;
 				entity.setMotion(entity.getMotion().add(xForce, yForce, zForce));
+				
+				
+				//Encourages players nearby
+				if (entity instanceof PlayerEntity) {			      
+					playerIn.addPotionEffect(new EffectInstance(Effects.SPEED, 60*20, 0));
+					playerIn.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 60*20, 3));
+				}
+				if (entity instanceof MonsterEntity)
+				{	
+					//Add fear to the heart of the enemies					
+					((MonsterEntity)entity).addPotionEffect(new EffectInstance(Effects.WEAKNESS, 5*20, 1));							      
+					((MonsterEntity)entity).goalSelector.addGoal(3, new AvoidEntityGoal<>((CreatureEntity)entity, PlayerEntity.class, 16.0F, 3.5D, 2.2D));					
+				}	
+				
 			}
 		
-			//Encourages players nearby
-			if (entity instanceof PlayerEntity) {			      
-				playerIn.addPotionEffect(new EffectInstance(Effects.SPEED, 60*20, 0));
-				playerIn.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 60*20, 3));
-			}
-			if (entity instanceof MonsterEntity)
-			{	
-				//Add fear to the heart of the enemies					
-				((MonsterEntity)entity).addPotionEffect(new EffectInstance(Effects.WEAKNESS, 5*20, 1));							      
-				((MonsterEntity)entity).goalSelector.addGoal(3, new AvoidEntityGoal<>((CreatureEntity)entity, PlayerEntity.class, 16.0F, 3.5D, 2.2D));					
-			}				
+					
 		}
 	}
 

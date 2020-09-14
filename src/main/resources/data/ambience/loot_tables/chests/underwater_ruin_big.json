@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": {
+        "min": 1.0,
+        "max": 3.0,
+        "type": "minecraft:uniform"
+      },
+      "entries": [
+        {
+          "type": "item",
+          "weight": 30,
+          "name": "ambience:ocarina"
+        },
+        {
+          "type": "item",
+          "weight": 45,          
+          "name": "ambience:horn"
+        }        
+      ]
+    }    
+  ]
+}
