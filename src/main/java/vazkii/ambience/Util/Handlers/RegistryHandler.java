@@ -27,6 +27,7 @@ import vaskii.ambience.Init.BlockInit;
 import vaskii.ambience.Init.ItemInit;
 import vaskii.ambience.objects.blocks.Alarm;
 import vaskii.ambience.objects.blocks.BlockBase;
+import vaskii.ambience.render.HornRender;
 import vaskii.ambience.render.SelectionBoxRenderer;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.Util.IHasModel;
@@ -116,15 +117,5 @@ public class RegistryHandler {
 
 	}
 
-	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
-	public static void onWorldRenderLast(RenderWorldLastEvent event) {
-		EntityPlayerSP currentplayer = Minecraft.getMinecraft().player;
-
-		if (Ambience.previewArea != null)
-			if (Ambience.previewArea.getPos1() != null & Ambience.previewArea.getPos2() != null) {
-				SelectionBoxRenderer.drawBoundingBox(currentplayer.getPositionVector(), Ambience.previewArea.getPos1(),
-						Ambience.previewArea.getPos2(), true, 2,event.getPartialTicks());
-			}
-	}
+	
 }

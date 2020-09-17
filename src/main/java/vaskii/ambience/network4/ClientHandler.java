@@ -21,6 +21,7 @@ import vaskii.ambience.GUI.SpeakerGUI;
 import vaskii.ambience.objects.blocks.Speaker;
 import vaskii.ambience.objects.blocks.SpeakerTileEntity;
 import vazkii.ambience.Ambience;
+import vazkii.ambience.SongPicker;
 import vazkii.ambience.World.Biomes.Area;
 
 public class ClientHandler implements IMessageHandler<MyMessage4, IMessage> {
@@ -44,6 +45,17 @@ public class ClientHandler implements IMessageHandler<MyMessage4, IMessage> {
 		}*/
 		
 		NBTTagCompound BlockSelected = message.getToSend();
+		
+		//For the juckebox event
+		if(BlockSelected.hasKey("playingJuckebox")) {					
+            Ambience.playingJuckebox=BlockSelected.getBoolean("playingJuckebox");		
+		}
+		
+		//Send to the clients the force play values
+		if(BlockSelected.hasKey("forcedPlayID")) {										
+			SongPicker.forcePlayID=BlockSelected.getInteger("forcedPlayID");
+			Ambience.forcePlay=BlockSelected.getBoolean("forcedPlay");										
+		}
 						
 		//If has selectedSound Get the Speaker updated informations from the server and open the window in the client
 		//Else get the list of the areas

@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Level;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.FMLLog;
+import vaskii.ambience.objects.items.Ocarina;
 public final class SongLoader {
 
 	public static File mainDir;
@@ -117,6 +118,10 @@ public final class SongLoader {
 						String mobName = joinTokensExceptFirst(tokens).replaceAll("\\+", " ");
 						
 						SongPicker.mobMap.put(mobName, props.getProperty(s).split(","));
+					}else if (keyType.equals("ocarina")) {
+						String event = tokens[1];						
+						
+						Ocarina.songsMap.put(tokens[1], props.getProperty(s).split(","));
 					}else if (keyType.equals("dimension")) {
 						String event = "";
 						

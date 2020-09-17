@@ -7,14 +7,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import vazkii.ambience.Reference;
 
-public class NetworkHandler4 {
+public class OcarinaNetworkHandler {
 	public static SimpleNetworkWrapper INSTANCE;
 
 	public static void init() {
-		INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID);
-		INSTANCE.registerMessage(MyMessageHandler4.class, MyMessage4.class, 2, Side.SERVER);	
-
-		
+		INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID+"ocarina");
+		INSTANCE.registerMessage(OcarinaServerHandler.class, MyMessage4.class, 1, Side.SERVER);	
+		INSTANCE.registerMessage(OcarinaClientHandler.class, MyMessage4.class, 2, Side.CLIENT);
 	}
 	
 	public static void sendToServer(IMessage message) {

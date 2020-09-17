@@ -35,7 +35,7 @@ public class PlayerThread extends Thread {
 	volatile boolean queued = false;
 
 	volatile boolean kill = false;
-	volatile boolean playing = false;
+	public boolean playing = false;
 	
 	public PlayerThread() {
 		setDaemon(true);

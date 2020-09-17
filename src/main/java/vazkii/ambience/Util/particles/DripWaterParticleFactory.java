@@ -3,6 +3,7 @@ package vazkii.ambience.Util.particles;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleDrip;
+import net.minecraft.client.particle.ParticleSplash;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -16,7 +17,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class DripWaterParticleFactory extends ParticleDrip.WaterFactory {
+public class DripWaterParticleFactory extends ParticleSplash.Factory {
 
 	public static int dripsCount = 0;
 
@@ -29,7 +30,7 @@ public class DripWaterParticleFactory extends ParticleDrip.WaterFactory {
 		if (!worldIn.isRaining()) {
 			if (xSpeedIn == 0 && ySpeedIn == 0 && ySpeedIn == 0) {
 
-				Vec3d vector = new Vec3d(xCoordIn, yCoordIn, zCoordIn);
+				/*Vec3d vector = new Vec3d(xCoordIn, yCoordIn, zCoordIn);
 
 				RayTraceResult rayTraceResult = worldIn.rayTraceBlocks(vector,
 						vector.add(new Vec3d(0, 1, 0).scale(-25)), true);
@@ -37,11 +38,11 @@ public class DripWaterParticleFactory extends ParticleDrip.WaterFactory {
 				// check that the block below isn't fluid since fishing splashes have water
 				// below
 				if (worldIn.getBlockState(rayTraceResult.getBlockPos()).getBlock().getRegistryName().toString()
-						.contains("water")) {
+						.contains("water")) {*/
 
 					if (dripsCount <= 10)
 						dripsCount++;
-				}
+			//	}
 						
 				// play the sound
 				float vol = MathHelper.clamp(0.1f, 0f, 1f);
@@ -63,10 +64,10 @@ public class DripWaterParticleFactory extends ParticleDrip.WaterFactory {
 		return x;
 	}
 	
-	public void wrap(ParticleDrip.WaterFactory real) {
+	public void wrap(ParticleSplash.Factory real) {
 		// do: this.spriteSet = real.spriteSet;
-		String spr = ObfuscationReflectionHelper.getPrivateValue(ParticleDrip.WaterFactory.class, real,"spriteSet");
-		ObfuscationReflectionHelper.setPrivateValue(ParticleDrip.WaterFactory.class, this, spr,"spriteSet");
+		String spr = ObfuscationReflectionHelper.getPrivateValue(ParticleSplash.Factory.class, real,"field_151586_h");
+		ObfuscationReflectionHelper.setPrivateValue(ParticleSplash.Factory.class, this, spr,"field_151586_h");
 
 	}
 }

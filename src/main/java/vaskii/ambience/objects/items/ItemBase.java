@@ -1,6 +1,5 @@
 package vaskii.ambience.objects.items;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import vaskii.ambience.Init.ItemInit;
 import vazkii.ambience.Ambience;

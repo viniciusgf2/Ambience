@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+	    "name": "villageBlocksmith",
+      "rolls": {
+        "min": 0,
+        "max": 1.0,
+        "type": "minecraft:uniform"
+      },
+      "entries": [
+        {
+          "type": "item",
+          "weight": 40,
+          "name": "ambience:ocarina"
+        },
+        {
+          "type": "item",
+          "weight": 45,          
+          "name": "ambience:horn"
+        }        
+      ]
+    }    
+  ]
+}

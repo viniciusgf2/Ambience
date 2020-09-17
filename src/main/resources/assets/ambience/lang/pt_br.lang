@@ -1,4 +1,4 @@
-item.soundnizer.name=Soundnizer
+
 
 GUI.ConfirmButton=Confirmar
 GUI.DeleteButton=Deletar Regiao
@@ -13,6 +13,13 @@ GUI.anoite=Tocar a noite?
 Soundnizer.Position=Posicao
 Soundnizer.Alert=Voce deve estar dentro de uma regiao selecionada para criar uma nova!
 Soundnizer.Desc=Configura uma regiao para tocar um som.
+item.soundnizer.name=Soundnizer
+
+item.horn.name=Chifre dos deuses
+Horn.Desc=Um item muito poderoso que causa medo no coracao de seus inimigos e encoraja seus aliados no campo de batalha.
+
+item.ocarina.name=Ocarina
+Ocarina.Desc=Uma Ocarina que foi esquecida neste mundo por um homem com roupas verdes.
 
 Alarm.Desc=Toca um som e pisca a luz quando ativado por redstone
 Speaker.Desc=Toca um som quando ativado por redstone
@@ -52,6 +59,37 @@ tile.speaker.name=Caixa de Som
 tile.songswitcher.name=Trocador de música
 tile.bell.name=Sino Cerimonial
 
+Options.Shortcut1=Tocar Musica Atalho 1
+Options.Shortcut2=Tocar Musica Atalho 2
+Options.Shortcut3=Tocar Musica Atalho 3
+Options.Shortcut4=Tocar Musica Atalho 4
+Options.Shortcut5=Tocar Musica Atalho 5
+	
+Options.Ocarina1=Ocarina Btn 1
+Options.Ocarina2=Ocarina Btn 2
+Options.Ocarina3=Ocarina Btn 3
+Options.Ocarina4=Ocarina Btn 4
+Options.Ocarina5=Ocarina Btn 5
+Ocarina.Played=Voce tocou
+	
+Ocarina.sunssong=a Musica do Sol
+Ocarina.songofstorms=a Musica das Tempestades
+Ocarina.bolerooffire=o Bolero do Fogo
+Ocarina.horsesong=a Musica do Cavalo
+Ocarina.serenadeofwater=a Serenada da Agua
+Ocarina.preludeoflight=o Preludio da Luz
+Ocarina.minuetofforest=o Minueto da Floresta
+
 Options.Reload=Recarrega as configs de músicas
+
+Ambience.ReloadTitle=Configuracoes do Ambience
+Ambience.Reload=Configs recarregadas!
+Ambience.Force=Tentando recarregar Ambience
+ForcePlay.Playing=Tocando Agora:
+	
+ambience.configgui.sunsongenabled=Habilita ou desabilita a Sun's Song
+ambience.configgui.songofstorms_enabled=Habilita ou desabilita o Song of Storms
+ambience.configgui.bolerooffire_enabled=Habilita ou desabilita o Bolero of Fire
+ambience.configgui.horsesong_enabled=Habilita ou desabilita a Horse's Song"
 
 itemGroup.AmbienceTab=Ambience

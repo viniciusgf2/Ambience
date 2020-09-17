@@ -1,31 +1,4 @@
-{
-    "secret": {
-        "category": "block",
-        "sounds": [
-            {
-                "name": "ambience:secret",
-                "stream": false
-            }
-        ]
-    },
-    "gas": {
-        "category": "block",
-        "sounds": [
-            {
-                "name": "ambience:gas",
-                "stream": false
-            }
-        ]
-    },
-     "engine": {
-        "category": "block",
-        "sounds": [
-            {
-                "name": "ambience:engine",
-                "stream": false
-            }
-        ]
-    },
+{    
      "bell1": {
         "category": "block",
         "sounds": [
@@ -76,6 +49,150 @@
         "sounds": [
             {
                 "name": "ambience:wdrop4",
+                "stream": false
+            }
+        ]
+    },
+    "horn1": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:horn1",
+                "stream": false
+            }
+        ]
+    },
+	"horn2": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:horn2",
+                "stream": false
+            }
+        ]
+    },
+     "horn3": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:horn3",
+                "stream": false
+            }
+        ]
+    },
+     "ocarina1": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:ocarina1",
+                "stream": false
+            }
+        ]
+    },
+     "ocarina2": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:ocarina2",
+                "stream": false
+            }
+        ]
+    },
+     "ocarina3": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:ocarina3",
+                "stream": false
+            }
+        ]
+    },
+     "ocarina4": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:ocarina4",
+                "stream": false
+            }
+        ]
+    },
+     "ocarina5": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:ocarina5",
+                "stream": false
+            }
+        ]
+    },
+     "match_sound": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:match_sound",
+                "stream": false
+            }
+        ]
+    },
+     "sunssong": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:sunssong",
+                "stream": false
+            }
+        ]
+    },
+     "songofstorms": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:songofstorms",
+                "stream": false
+            }
+        ]
+    },
+     "bolerooffire": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:bolerooffire",
+                "stream": false
+            }
+        ]
+    },
+     "horsesong": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:horsesong",
+                "stream": false
+            }
+        ]
+    },
+     "preludeoflight": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:preludeoflight",
+                "stream": false
+            }
+        ]
+    },
+     "serenadeofwater": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:serenadeofwater",
+                "stream": false
+            }
+        ]
+    },
+     "minuetofforest": {
+        "category": "block",
+        "sounds": [
+            {
+                "name": "ambience:minuetofforest",
                 "stream": false
             }
         ]

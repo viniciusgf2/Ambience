@@ -114,6 +114,68 @@ public class SoundHandler {
 		soundEvent.setRegistryName("wdrop4");
 		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
 		SOUNDS.add("wdrop4");
+		
+		location = new ResourceLocation(Reference.MOD_ID, "horn1");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("horn1");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Reference.MOD_ID, "horn2");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("horn2");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Reference.MOD_ID, "horn3");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("horn3");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		for(int i=1;i<=5;i++) {
+			location = new ResourceLocation(Reference.MOD_ID, "ocarina"+i);
+			soundEvent = new SoundEvent(location);
+			soundEvent.setRegistryName("ocarina"+i);
+			ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		}
+		
+		location = new ResourceLocation(Reference.MOD_ID, "match_sound");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("match_sound");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Reference.MOD_ID, "sunssong");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("sunssong");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);	
+		
+		location = new ResourceLocation(Reference.MOD_ID, "songofstorms");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("songofstorms");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Reference.MOD_ID, "bolerooffire");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("bolerooffire");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Reference.MOD_ID, "horsesong");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("horsesong");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Reference.MOD_ID, "preludeoflight");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("preludeoflight");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Reference.MOD_ID, "serenadeofwater");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("serenadeofwater");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
+		
+		location = new ResourceLocation(Reference.MOD_ID, "minuetofforest");
+		soundEvent = new SoundEvent(location);
+		soundEvent.setRegistryName("minuetofforest");
+		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
 	}
 
 	/*
