@@ -632,15 +632,6 @@ public final class SongPicker {
 						songs = getSongsForEvent(EVENT_UNDERGROUND);
 					if (songs != null)
 						return songs;
-				}else if (world.isRaining()) {
-					String[] songs=null;
-					//Songs for other dimensions
-					if (dimension <-1 | dimension >1 )
-						songs = getSongsForEvent(EVENT_RAIN+"\\"+dimension);
-					else
-						songs = getSongsForEvent(EVENT_RAIN);
-					if (songs != null)
-						return songs;
 				}
 			} 
 
@@ -653,6 +644,17 @@ public final class SongPicker {
 					songs = getSongsForEvent(EVENT_HIGH_UP);
 				if (songs != null)
 					return songs;
+			}
+			// I moved rain event "trigger" here. This should fix problem with rain music that stop play when Player stay under any block but is still raining.
+			if (world.isRaining()) {
+					String[] songs=null;
+					//Songs for other dimensions
+					if (dimension <-1 | dimension >1 )
+						songs = getSongsForEvent(EVENT_RAIN+"\\"+dimension);
+					else
+						songs = getSongsForEvent(EVENT_RAIN);
+					if (songs != null)
+						return songs;
 			}
 
 			if (night) {
@@ -816,7 +818,7 @@ public final class SongPicker {
 	private static int getSongLenght(String song) {
 		
 		int songLenght=0;
-		// Obtém o tempo do som selecionado********************
+		// ObtÃ©m o tempo do som selecionado********************
 		File f = new File(Ambience.ambienceDir+"\\music", song + ".mp3");
 
 		if (f.isFile()) {
