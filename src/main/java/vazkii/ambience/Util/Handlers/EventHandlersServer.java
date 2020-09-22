@@ -41,6 +41,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.PlayerThread;
@@ -50,6 +51,9 @@ import vazkii.ambience.Util.SplashFactory2;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.Util.particles.DripLavaParticleFactory;
 import vazkii.ambience.Util.particles.DripWaterParticleFactory;
+import vazkii.ambience.commands.CreateAreaCommand;
+import vazkii.ambience.commands.DeleteAreaCommand;
+import vazkii.ambience.commands.UpdateAreaCommand;
 import vazkii.ambience.items.Horn;
 import vazkii.ambience.items.Ocarina;
 import vazkii.ambience.network.AmbiencePackageHandler;
@@ -64,17 +68,22 @@ public class EventHandlersServer {
 	public int attackFadeTime = 300;
 	public static int attackingTimer;
 	String mobName = null;
-
+	
+	public int countNote = 0;
+	boolean played_match = false;
+	boolean settingDay = false,settingNight = false;	
+	public Ocarina Ocarina=new Ocarina(20);
+	
 	public EventHandlersServer() {
 		attackingTimer = attackFadeTime;
 	}
 
-	public int countNote = 0;
-
-	boolean played_match = false;
-	boolean settingDay = false,settingNight = false;
-	
-	public Ocarina Ocarina=new Ocarina(20);
+	@SubscribeEvent
+	public void onServerStarting(final FMLServerStartingEvent event) {
+		CreateAreaCommand.register(event.getCommandDispatcher());
+		DeleteAreaCommand.register(event.getCommandDispatcher());
+		UpdateAreaCommand.register(event.getCommandDispatcher());
+	}
 	
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.WorldTickEvent.PlayerTickEvent event) {

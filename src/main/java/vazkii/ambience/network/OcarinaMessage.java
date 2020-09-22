@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.potion.EffectInstance;
@@ -99,50 +100,77 @@ public class OcarinaMessage {
 	            	Ocarina.runningCommand=false;
 	            	Ocarina.songName="";
 				}
-				else if(data.contains("setDayTime")) {
-					
-					if(AmbienceConfig.COMMON.sunsong_enabled.get())					
-						Ocarina.setDayTime=data.getBoolean("setDayTime");	
-					else	
-						Ocarina.setDayTime=false;
+			else if (data.contains("setDayTime")) {
+
+					if (player.experienceTotal >= 30) {
+						decreaseExp(player, 30);
 						
-						Ocarina.songName=data.getString("songName");
-						Ocarina.hasMatch=true;
-						Ocarina.runningCommand=true;
-						Ocarina.pos=Utils.NBTtoBlockPos(data.getCompound("pos"));
-					
+						if (AmbienceConfig.COMMON.sunsong_enabled.get())
+							Ocarina.setDayTime = data.getBoolean("setDayTime");
+						else
+							Ocarina.setDayTime = false;
+					}
+
+					Ocarina.songName = data.getString("songName");
+					Ocarina.hasMatch = true;
+					Ocarina.runningCommand = true;
+					Ocarina.pos = Utils.NBTtoBlockPos(data.getCompound("pos"));
+
+					//Damages the Ocarina on Play
+					ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+					itemstack.damageItem(1, player, (damage) -> {
+						damage.sendBreakAnimation(player.getActiveHand());
+
+						Ocarina.stoopedPlayedFadeOut = 100;
+						Ocarina.playing = false;
+					});
+
 				}
 				else if(data.contains("setWeather")) {
+						
+					if (player.experienceTotal >= 35) {
+						decreaseExp(player,35);
+						
+						if(AmbienceConfig.COMMON.songofstorms_enabled.get())
+						{
+							boolean chuva=false;
+							if(!player.world.isRaining() & !player.world.isThundering()) {	
+								//Thunder
+								player.world.getWorldInfo().setClearWeatherTime(0);
+								player.world.getWorldInfo().setRainTime(6000);
+								player.world.getWorldInfo().setThunderTime(6000);
+								player.world.getWorldInfo().setRaining(true);
+								player.world.getWorldInfo().setThundering(true);
+								//player.world.setRainStrength(1);
+								chuva=false;
+															
+							}else {
+								//Clear Weather
+							//	player.world.setRainStrength(0);
+								player.world.getWorldInfo().setClearWeatherTime(6000);
+								player.world.getWorldInfo().setRainTime(0);
+								player.world.getWorldInfo().setThunderTime(0);
+								player.world.getWorldInfo().setRaining(false);
+								player.world.getWorldInfo().setThundering(false);	
+								
+								chuva=true;
+							}
+		
+							CompoundNBT nbt = new CompoundNBT();
+							nbt.putBoolean("setWeather", chuva);
+							OcarinaPackageHandler.sendToAll(new OcarinaMessage(nbt));
 							
-					if(AmbienceConfig.COMMON.songofstorms_enabled.get())
-					{
-						boolean chuva=false;
-						if(!player.world.isRaining() & !player.world.isThundering()) {	
-							//Thunder
-							player.world.getWorldInfo().setClearWeatherTime(0);
-							player.world.getWorldInfo().setRainTime(6000);
-							player.world.getWorldInfo().setThunderTime(6000);
-							player.world.getWorldInfo().setRaining(true);
-							player.world.getWorldInfo().setThundering(true);
-							//player.world.setRainStrength(1);
-							chuva=false;
-														
-						}else {
-							//Clear Weather
-						//	player.world.setRainStrength(0);
-							player.world.getWorldInfo().setClearWeatherTime(6000);
-							player.world.getWorldInfo().setRainTime(0);
-							player.world.getWorldInfo().setThunderTime(0);
-							player.world.getWorldInfo().setRaining(false);
-							player.world.getWorldInfo().setThundering(false);	
-							
-							chuva=true;
 						}
-	
-						CompoundNBT nbt = new CompoundNBT();
-						nbt.putBoolean("setWeather", chuva);
-						OcarinaPackageHandler.sendToAll(new OcarinaMessage(nbt));
 					}
+					
+					//Damages the Ocarina on Play
+					ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+					itemstack.damageItem(1, player, (damage) -> {
+						damage.sendBreakAnimation(player.getActiveHand());
+
+						Ocarina.stoopedPlayedFadeOut = 100;
+						Ocarina.playing = false;
+					});
 					
 					Ocarina.hasMatch=true;
 					Ocarina.songName=data.getString("songName");
@@ -154,11 +182,23 @@ public class OcarinaMessage {
 					Ocarina.runningCommand=true;
 					Ocarina.pos=Utils.NBTtoBlockPos(data.getCompound("pos"));
 					
-					if(AmbienceConfig.COMMON.bolerooffire_enabled.get())
-					{
-						player.addPotionEffect(new EffectInstance(Effects.GLOWING, 60*20, 3));
-						player.addPotionEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 90*20, 2));
-					}
+					//Damages the Ocarina on Play
+					ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+					itemstack.damageItem(1, player, (damage) -> {
+						damage.sendBreakAnimation(player.getActiveHand());
+
+						Ocarina.stoopedPlayedFadeOut = 100;
+						Ocarina.playing = false;
+					});
+					
+					if (player.experienceTotal >= 25) {
+						decreaseExp(player,25);
+						if(AmbienceConfig.COMMON.bolerooffire_enabled.get())
+						{
+							player.addPotionEffect(new EffectInstance(Effects.GLOWING, 60*20, 3));
+							player.addPotionEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 90*20, 2));
+						}
+					}					
 				}
 				else if(data.contains("callHorse"))
 				{			
@@ -169,43 +209,59 @@ public class OcarinaMessage {
 					
 					BlockPos pos = Utils.NBTtoBlockPos(data.getCompound("pos"));
 					
-					if(AmbienceConfig.COMMON.horsesong_enabled.get())
-					{
-						List<Entity> entities =player.world.getEntitiesWithinAABB(Entity.class,	new AxisAlignedBB(pos.getX() - 128, pos.getY() - 64, pos.getZ() - 128, pos.getX() + 128,pos.getY() + 64, pos.getZ() + 128));
+					//Damages the Ocarina on Play
+					ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+					itemstack.damageItem(1, player, (damage) -> {
+						damage.sendBreakAnimation(player.getActiveHand());
+
+						Ocarina.stoopedPlayedFadeOut = 100;
+						Ocarina.playing = false;
+					});
+					
+					if (player.experienceTotal >= 15) {
 						
-						for (Entity entity : entities) {
-							if (entity instanceof HorseEntity) {
-	
-								HorseEntity horse = ((HorseEntity) entity);
-								if (horse.getOwnerUniqueId().equals(player.getUniqueID())) {
-									Ocarina.horseName=horse.getName().getFormattedText();
-									
-									int dir = MathHelper.floor((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-									int dirX=0;
-									int dirZ=0;
-									switch (dir) {
-										case 0: dirZ =7;break;//South
-										case 1: dirX =-7;break;//west
-										case 2: dirZ =-7;break;//North
-										case 3: dirX =7;break;//east
+						if(AmbienceConfig.COMMON.horsesong_enabled.get())
+						{
+							List<Entity> entities =player.world.getEntitiesWithinAABB(Entity.class,	new AxisAlignedBB(pos.getX() - 128, pos.getY() - 64, pos.getZ() - 128, pos.getX() + 128,pos.getY() + 64, pos.getZ() + 128));
+							
+							for (Entity entity : entities) {
+								if (entity instanceof HorseEntity) {
+		
+									HorseEntity horse = ((HorseEntity) entity);
+									if(horse.getOwnerUniqueId() != null)
+									if (horse.getOwnerUniqueId().equals(player.getUniqueID())) {
+										
+										decreaseExp(player,15);		
+										
+										Ocarina.horseName=horse.getName().getFormattedText();
+										
+										int dir = MathHelper.floor((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+										int dirX=0;
+										int dirZ=0;
+										switch (dir) {
+											case 0: dirZ =7;break;//South
+											case 1: dirX =-7;break;//west
+											case 2: dirZ =-7;break;//North
+											case 3: dirX =7;break;//east
+										}
+										
+										Vec3d vector = new Vec3d(pos.getX()+dirX, 256, pos.getZ()+dirZ);
+										BlockRayTraceResult rayTraceResult = player.world
+												.rayTraceBlocks(new RayTraceContext(vector, vector.add(new Vec3d(0, 1, 0).scale(-256)),
+														RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.ANY, player));
+		
+										
+		
+										double distance = Math.sqrt(entity.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()));
+										if(distance>20 & distance!=0) 
+										{
+										
+										horse.setPositionAndUpdate(rayTraceResult.getPos().getX(), rayTraceResult.getPos().getY()+2,
+												rayTraceResult.getPos().getZ());
+										}
+										
+										break;
 									}
-									
-									Vec3d vector = new Vec3d(pos.getX()+dirX, 256, pos.getZ()+dirZ);
-									BlockRayTraceResult rayTraceResult = player.world
-											.rayTraceBlocks(new RayTraceContext(vector, vector.add(new Vec3d(0, 1, 0).scale(-256)),
-													RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.ANY, player));
-	
-									
-	
-									double distance = Math.sqrt(entity.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()));
-									if(distance>20 & distance!=0) 
-									{
-									
-									horse.setPositionAndUpdate(rayTraceResult.getPos().getX(), rayTraceResult.getPos().getY()+2,
-											rayTraceResult.getPos().getZ());
-									}
-									
-									break;
 								}
 							}
 						}
@@ -221,9 +277,21 @@ public class OcarinaMessage {
 					Ocarina.runningCommand=true;
 					Ocarina.pos=Utils.NBTtoBlockPos(data.getCompound("pos"));
 					
-					if(AmbienceConfig.COMMON.preludeoflight_enabled.get())
-					{
-						player.addPotionEffect(new EffectInstance(Effects.NIGHT_VISION, 180*20, 2));
+					//Damages the Ocarina on Play
+					ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+					itemstack.damageItem(1, player, (damage) -> {
+						damage.sendBreakAnimation(player.getActiveHand());
+
+						Ocarina.stoopedPlayedFadeOut = 100;
+						Ocarina.playing = false;
+					});
+					
+					if (player.experienceTotal >= 25) {
+						decreaseExp(player,25);
+						if(AmbienceConfig.COMMON.preludeoflight_enabled.get())
+						{
+							player.addPotionEffect(new EffectInstance(Effects.NIGHT_VISION, 180*20, 2));
+						}
 					}
 				}else if(data.contains("setWaterBreathe")) {
 					Ocarina.hasMatch=true;
@@ -231,9 +299,21 @@ public class OcarinaMessage {
 					Ocarina.runningCommand=true;
 					Ocarina.pos=Utils.NBTtoBlockPos(data.getCompound("pos"));
 					
-					if(AmbienceConfig.COMMON.serenadeofwater.get())
-					{
-						player.addPotionEffect(new EffectInstance(Effects.WATER_BREATHING, 300*20, 2));
+					//Damages the Ocarina on Play
+					ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+					itemstack.damageItem(1, player, (damage) -> {
+						damage.sendBreakAnimation(player.getActiveHand());
+
+						Ocarina.stoopedPlayedFadeOut = 100;
+						Ocarina.playing = false;
+					});
+					
+					if (player.experienceTotal >= 30) {
+						decreaseExp(player,30);
+						if(AmbienceConfig.COMMON.serenadeofwater.get())
+						{
+							player.addPotionEffect(new EffectInstance(Effects.WATER_BREATHING, 300*20, 2));
+						}
 					}
 				}else if(data.contains("heal")) {
 					Ocarina.hasMatch=true;
@@ -241,9 +321,21 @@ public class OcarinaMessage {
 					Ocarina.runningCommand=true;
 					Ocarina.pos=Utils.NBTtoBlockPos(data.getCompound("pos"));
 					
-					if(AmbienceConfig.COMMON.minuetofforest.get())
-					{
-						player.addPotionEffect(new EffectInstance(Effects.REGENERATION, 90*20, 1));
+					//Damages the Ocarina on Play
+					ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+					itemstack.damageItem(1, player, (damage) -> {
+						damage.sendBreakAnimation(player.getActiveHand());
+
+						Ocarina.stoopedPlayedFadeOut = 100;
+						Ocarina.playing = false;
+					});
+					
+					if (player.experienceTotal >= 35) {
+						decreaseExp(player,35);
+						if(AmbienceConfig.COMMON.minuetofforest.get())
+						{
+							player.addPotionEffect(new EffectInstance(Effects.REGENERATION, 90*20, 1));
+						}
 					}
 				}
 			}
@@ -287,5 +379,34 @@ public class OcarinaMessage {
 			
 			return true;
 		}
+	}
+	
+	/** Decreases player's experience properly */
+	public static void decreaseExp(PlayerEntity player, float amount)
+	{
+	        if (player.experienceTotal - amount <= 0)
+	        {
+	            player.experienceLevel = 0;
+	            player.experience = 0;
+	            player.experienceTotal = 0;
+	            return;
+	        }
+	        
+	        player.experienceTotal -= amount;
+
+	        if (player.experience * (float)player.xpBarCap() <= amount)
+	        {
+	        	amount -= player.experience * (float)player.xpBarCap();
+	        	player.experience = 1.0f;
+	        	player.experienceLevel--;
+	        }
+
+	        while (player.xpBarCap() < amount)
+	        {
+	        	amount -= player.xpBarCap();
+	            player.experienceLevel--;
+	        }
+	        
+	        player.experience -= amount / (float)player.xpBarCap();
 	}
 }

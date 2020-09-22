@@ -59,7 +59,6 @@ public class HornRender {
 			drawLines(matrix, builder, pos, color, color2);
 
 			matrixStack.pop();
-			RenderSystem.disableDepthTest();
 			buffer.finish(RenderType.LINES);
 
 			RenderSystem.color4f(1, 1, 1, 1);

@@ -56,6 +56,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
 import vazkii.ambience.Ambience;
+import vazkii.ambience.AmbienceConfig;
 import vazkii.ambience.NilMusicTicker;
 import vazkii.ambience.PlayerThread;
 import vazkii.ambience.SongLoader;
@@ -79,7 +80,7 @@ public class EventHandlers {
 	
 	//public static final CreativeTabs AmbienceTab = new AmbienceTab("AmbienceTab");
 	private static final int WAIT_DURATION = 25;
-	public static final int FADE_DURATION = 25;
+	public static int FADE_DURATION = AmbienceConfig.COMMON.fadeDuration.get();
 	public static final int SILENCE_DURATION = 5;
 	
 	public static int waitTick = WAIT_DURATION;
@@ -128,7 +129,7 @@ public class EventHandlers {
 	}
 	
 	public static void registerKeyBindings() {
-		keyBindings = new KeyBinding[13];
+		keyBindings = new KeyBinding[12];
 		
 		keyBindings[0] = new KeyBinding("Options.Reload", 80 , "Ambience");
 		keyBindings[1] = new KeyBinding("Force Play", 79, "Ambience");
@@ -145,10 +146,7 @@ public class EventHandlers {
 		keyBindings[9] = new KeyBinding("Options.Ocarina3", 262, "Ambience");
 		keyBindings[10] = new KeyBinding("Options.Ocarina4", 263, "Ambience");
 		keyBindings[11] = new KeyBinding("Options.Ocarina5", 345, "Ambience");
-		
-		//Tests
-		keyBindings[12] = new KeyBinding("Tests", 78, "Ambience");
-
+			
 		// register all the key bindings
 		for (int i = 0; i < keyBindings.length; ++i) {
 			ClientRegistry.registerKeyBinding(keyBindings[i]);

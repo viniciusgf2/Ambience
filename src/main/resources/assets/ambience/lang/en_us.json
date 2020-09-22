@@ -78,8 +78,8 @@
 	"Ocarina.songofstorms": "Song of Storms",
 	"Ocarina.bolerooffire": "Bolero of Fire",
 	"Ocarina.horsesong": "Horse's Song",
-	"Ocarina.serenadeofwater": "Prelude of Light",
-	"Ocarina.preludeoflight": "Serenade of Water",
+	"Ocarina.serenadeofwater": "Serenade of Water",
+	"Ocarina.preludeoflight": "Prelude of Light",
 	"Ocarina.minuetofforest": "Minuet of Forest",
 
 	"tile.bell.name": "Watersheep Council Bell",
@@ -92,6 +92,8 @@
 	"Ambience.Reload": "Configs Reloaded success!",
 	"Ambience.Force": "Trying to reload Ambience.",
 	"ForcePlay.Playing": "Playing Now:",
+	
+	"commands.createarea": "Area created with success!",
 	
 	"ambience.configgui.sunsongenabled" : "Enables or disables the Sun's Song",
 	"ambience.configgui.songofstorms_enabled" : "Enables or disables the Song of Storms",

@@ -185,13 +185,6 @@ public class Ocarina extends ItemBase {
 		if (ret != null)
 			return ret;
 
-		itemstack.damageItem(1, playerIn, (damage) -> {
-			damage.sendBreakAnimation(playerIn.getActiveHand());
-
-			stoopedPlayedFadeOut = 100;
-			playing = false;
-		});
-
 		if (!playerIn.abilities.isCreativeMode && !flag) {
 			return ActionResult.resultFail(itemstack);
 		} else {
@@ -238,11 +231,20 @@ public class Ocarina extends ItemBase {
 
 			}
 
-			if (countCorrect >= correctLenght & !runningCommand) {
+			if (songsMap.size()>0 & countCorrect >= correctLenght & !runningCommand) {
 				old_key_id = -1;
 				key_id = -1;
 				hasMatch = true;
 
+				//Damage the ocarina
+				ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+				itemstack.damageItem(1, player, (damage) -> {
+					damage.sendBreakAnimation(player.getActiveHand());
+
+					stoopedPlayedFadeOut = 100;
+					playing = false;
+				});
+				
 				CompoundNBT nbt = new CompoundNBT();
 				switch (songName) {
 				case "sunssong":
@@ -457,8 +459,8 @@ public class Ocarina extends ItemBase {
 						float x2 = (float) Math.cos(angle);
 						float scaleFade = (40 + (fx_zoomCount - 70)) / 20;
 
-						
 						// FX2
+						RenderSystem.enableBlend();
 						RenderSystem.pushMatrix();
 						RenderSystem.translatef(x, res.getScaledHeight() / 2, 0);
 						RenderSystem.rotatef(-fx_rotateCount / 2, 0, 0, 10);
@@ -548,6 +550,7 @@ public class Ocarina extends ItemBase {
 						mc.fontRenderer.drawStringWithShadow(songNameText, px-(totalTextLeng/3)+res.getScaledWidth() / 2 / totalTextLeng +playedTextLeng , py2, textColor);
 						RenderSystem.color4f(1F, 1F, 1F, 1);
 						RenderSystem.popMatrix();
+						RenderSystem.disableBlend();
 
 					}else {
 						fx_rotateCount=0;
@@ -578,5 +581,5 @@ public class Ocarina extends ItemBase {
 				}
 			}
 		}
-	}
+	}	
 }

@@ -78,8 +78,8 @@
 	"Ocarina.songofstorms": "a Musica das Tempestades",
 	"Ocarina.bolerooffire": "o Bolero do Fogo",
 	"Ocarina.horsesong": "a Musica do Cavalo",
-	"Ocarina.serenadeofwater": "o Preludio da Luz",
-	"Ocarina.preludeoflight": "a Serenada da Agua",
+	"Ocarina.serenadeofwater": "a Serenada da Agua",
+	"Ocarina.preludeoflight": "o Preludio da Luz",
 	"Ocarina.minuetofforest": "o Minueto da Floresta",
 	
 	"tile.bell.name": "Sino Cerimonial",
@@ -92,6 +92,8 @@
 	"Ambience.Reload": "Configs recarregadas!",
 	"Ambience.Force": "Tentando recarregar Ambience",
 	"ForcePlay.Playing": "Tocando Agora:",
+	
+	"commands.createarea": "Area criada com sucesso!",
 	
 	"ambience.configgui.sunsongenabled" : "Habilita ou desabilita a Sun's Song",
 	"ambience.configgui.songofstorms_enabled" : "Habilita ou desabilita o Song of Storms",

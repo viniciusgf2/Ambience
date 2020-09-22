@@ -2,8 +2,11 @@ package vazkii.ambience;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
@@ -48,7 +51,7 @@ public class Ambience {
 	 
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
-        
+	
 	public static final String OBF_MC_MUSIC_TICKER = "field_147126_aw";
 	public static final String OBF_MAP_BOSS_INFOS ="field_184060_g";
 

@@ -642,7 +642,16 @@ public final class SongPicker {
 					if (songs != null)
 						return songs;
 				}
-			} 
+			} else if (world.isRaining()) {
+				String[] songs=null;
+				//Songs for other dimensions
+				if (dimension <-1 | dimension >1 )
+					songs = getSongsForEvent(EVENT_RAIN+"\\"+dimension);
+				else
+					songs = getSongsForEvent(EVENT_RAIN);
+				if (songs != null)
+					return songs;
+			}
 
 			if (pos.getY() > 128) {
 				String[] songs=null;
