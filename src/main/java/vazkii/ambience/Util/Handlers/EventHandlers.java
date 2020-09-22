@@ -108,7 +108,7 @@ public class EventHandlers {
 	
 	//public static final CreativeTabs AmbienceTab = new AmbienceTab("AmbienceTab");
 	private static final int WAIT_DURATION = 25;
-	public static final int FADE_DURATION = 25;
+	public static int FADE_DURATION = AmbienceConfig.fadeDuration;
 	public static final int SILENCE_DURATION = 5;
 	
 	public static int waitTick = WAIT_DURATION;
@@ -538,13 +538,13 @@ public class EventHandlers {
 	 */
 
 	public static void playInstant() {
-		Ambience.fadeOutTicks = Ambience.FADE_DURATION;
-		Ambience.silenceTicks = Ambience.SILENCE_DURATION;
-		Ambience.waitTick = 0;
+		EventHandlers.fadeOutTicks = EventHandlers.FADE_DURATION;
+		EventHandlers.silenceTicks = EventHandlers.SILENCE_DURATION;
+		EventHandlers.waitTick = 0;
 		Ambience.instantPlaying = true;
 
 		Ambience.thread.setGain(PlayerThread.fadeGains[0]);
-		Ambience.fadeIn = false;
+		EventHandlers.fadeIn = false;
 	}
 	
 	@SubscribeEvent

@@ -17,6 +17,10 @@ public class AmbienceConfig {
 	@Config.Name("Lava Dripping")
 	@Config.Comment("Enables or disables the Lava Dripping Sound Effect [Default:true]")			
 	public static Boolean lavaDripping_enabled = true;
+	
+	@Config.Name("Fade Duration")
+	@Config.Comment("Defines the sound volume fade in/out duration [Default:25]")			
+	public static int fadeDuration = 25;
 
 		@Config(category = "Ocarina", modid = Reference.MOD_ID)
 		public static class OcarinaMusics {

@@ -3,7 +3,6 @@ package vazkii.ambience.Util.Handlers;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -25,7 +24,7 @@ public class ServerTickHandler {
 
 	int waitTime=0;
 	boolean settingDay = false,settingNight = false;
-	
+
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.WorldTickEvent.PlayerTickEvent event) {
 

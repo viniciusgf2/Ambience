@@ -251,6 +251,17 @@ public class Area implements Comparator<Area>{
 		return null;
 	}
 	
+	public static Area getAreabyID(int id) {
+		for (Area area : Ambience.getWorldData().listAreas)
+		{	
+			if(area.ID==id) 
+			{
+				return area;
+			}
+		}					
+		return null;
+	}
+	
 	@Override
 	public int compare(Area a, Area b) {
 		 if (a.cubicArea < b.cubicArea)

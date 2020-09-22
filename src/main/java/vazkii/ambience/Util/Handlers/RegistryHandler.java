@@ -19,6 +19,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,6 +32,9 @@ import vaskii.ambience.render.HornRender;
 import vaskii.ambience.render.SelectionBoxRenderer;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.Util.IHasModel;
+import vazkii.ambience.commands.CreateAreaCommand;
+import vazkii.ambience.commands.RemoveAreaCommand;
+import vazkii.ambience.commands.UpdateAreaCommand;
 
 @EventBusSubscriber
 public class RegistryHandler {
@@ -117,5 +121,9 @@ public class RegistryHandler {
 
 	}
 
-	
+	public static void serverRegistries(FMLServerStartingEvent event) {
+		event.registerServerCommand(new CreateAreaCommand());
+		event.registerServerCommand(new RemoveAreaCommand());
+		event.registerServerCommand(new UpdateAreaCommand());
+	}
 }

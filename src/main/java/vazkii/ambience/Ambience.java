@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -25,6 +26,7 @@ import vaskii.ambience.network4.OcarinaNetworkHandler;
 import vaskii.ambience.tabs.AmbienceTab;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.Util.Handlers.EventHandlers;
+import vazkii.ambience.Util.Handlers.RegistryHandler;
 import vazkii.ambience.Util.Handlers.ServerTickHandler;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.proxy.ClientProxy;
@@ -35,9 +37,9 @@ public class Ambience {
 
 	public static final CreativeTabs AmbienceTab = new AmbienceTab("AmbienceTab");
 	
-	private static final int WAIT_DURATION = 25;
-	public static final int FADE_DURATION = 25;
-	public static final int SILENCE_DURATION = 5;
+	//private static final int WAIT_DURATION = 25;
+	//public static final int FADE_DURATION = 25;
+	//public static final int SILENCE_DURATION = 5;
 
 	public static final String[] OBF_MC_MUSIC_TICKER = { "aM", "field_147126_aw", "mcMusicTicker" };
 	public static final String[] OBF_MAP_BOSS_INFOS = { "g", "field_184060_g", "mapBossInfos" };
@@ -47,14 +49,7 @@ public class Ambience {
 	public static Boolean attacked=false;
 	public static Boolean forcePlay=false;
 	public static boolean playingJuckebox=false;
-	
-	public String currentSong;
-	public String nextSong;
-	public static int waitTick = WAIT_DURATION;
-	public static int fadeOutTicks = FADE_DURATION;
-	public static int fadeInTicks = FADE_DURATION-1;
-	public static boolean fadeIn = false;
-	public static int silenceTicks = 0;
+
 	public static File ambienceDir;
 	public static File resourcesDir;
 	
@@ -135,6 +130,8 @@ public class Ambience {
 		//Server Tick
 		FMLCommonHandler.instance().bus().register(new ServerTickHandler());
 				
+		
+		
 		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) return;
 		else
 		{			
@@ -149,5 +146,10 @@ public class Ambience {
 		Minecraft mc = Minecraft.getMinecraft();
 		MusicTicker ticker = new NilMusicTicker(mc);
 		ReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, OBF_MC_MUSIC_TICKER);		
-	}			
+	}	
+	
+	@EventHandler
+	public void initServer(FMLServerStartingEvent event) {
+	 	RegistryHandler.serverRegistries(event);
+	}
 }

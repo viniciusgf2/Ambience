@@ -160,9 +160,9 @@ public final class SongPicker {
 			{				
 				if(getSongsForEvent(EVENT_MAIN_MENU) !=null)
 					Ambience.overideBackMusicDimension=true;
-				else {
-					Ambience.fadeIn=true;
-					Ambience.fadeInTicks= Ambience.FADE_DURATION-1;	
+				else {					
+					EventHandlers.fadeIn=true;
+					EventHandlers.fadeInTicks= EventHandlers.FADE_DURATION-1;	
 					Ambience.overideBackMusicDimension=false;	
 				}
 			}
