@@ -73,7 +73,7 @@ public class CreateAreaCommand extends CommandBase{
 							sender.sendMessage(new TextComponentString(TextFormatting.YELLOW + "Name: "+area.getName()));
 							sender.sendMessage(new TextComponentString(TextFormatting.YELLOW + "Pos1: "+area.getPos1()));
 							sender.sendMessage(new TextComponentString(TextFormatting.YELLOW + "Pos2: "+area.getPos2()));
-							sender.sendMessage(new TextComponentString(TextFormatting.YELLOW + "Name: "+area.getDimension()));
+							sender.sendMessage(new TextComponentString(TextFormatting.YELLOW + "Dimension: "+area.getDimension()));
 							sender.sendMessage(new TextComponentString(TextFormatting.YELLOW + "Instant Play: "+area.isInstantPlay()));
 							sender.sendMessage(new TextComponentString(TextFormatting.YELLOW + "Play at night: "+area.isPlayatNight()));
 							sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "<-------------------------------->"));		
@@ -83,17 +83,11 @@ public class CreateAreaCommand extends CommandBase{
 				}
 				else if(args[0].equals("list")) {
 					
-					for (Area area : Ambience.getWorldData().listAreas) {
-						sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "<-------------------------------->"));
-						sender.sendMessage(new TextComponentString(TextFormatting.YELLOW + "ID: "+area.getID()));
-						sender.sendMessage(new TextComponentString(TextFormatting.YELLOW + "Name: "+area.getName()));
-						sender.sendMessage(new TextComponentString(TextFormatting.YELLOW + "Pos1: "+area.getPos1()));
-						sender.sendMessage(new TextComponentString(TextFormatting.YELLOW + "Pos2: "+area.getPos2()));
-						sender.sendMessage(new TextComponentString(TextFormatting.YELLOW + "Name: "+area.getDimension()));
-						sender.sendMessage(new TextComponentString(TextFormatting.YELLOW + "Instant Play: "+area.isInstantPlay()));
-						sender.sendMessage(new TextComponentString(TextFormatting.YELLOW + "Play at night: "+area.isPlayatNight()));
-						sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "<-------------------------------->"));
-					}
+					sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "<-------------------------------->"));		
+					for (Area area : Ambience.getWorldData().listAreas) {				
+						sender.sendMessage(new TextComponentString(TextFormatting.YELLOW + "Name: "+area.getName() + " ID: "+area.getID()+ " Pos1: "+area.getPos1()+ " Pos2: "+area.getPos2()));					
+					}	
+					sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "<-------------------------------->"));
 					
 						
 				}else {

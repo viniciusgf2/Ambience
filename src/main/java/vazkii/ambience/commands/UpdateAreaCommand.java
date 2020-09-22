@@ -147,7 +147,7 @@ public class UpdateAreaCommand extends CommandBase{
 						}
 					}
 		
-					if(args.length>11) {
+					if(args.length>9) {
 						if(!args[9].equals("true") & !args[9].equals("false")) 
 						{
 							commandValid=false;

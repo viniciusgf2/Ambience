@@ -249,9 +249,6 @@ public class Ocarina extends ItemBase {
 				key_id = -1;
 				hasMatch = true;
 
-				ItemStack itemstack = playerIn.getHeldItem(playerIn.getActiveHand());
-				itemstack.damageItem(1, playerIn);
-
 				NBTTagCompound nbt = new NBTTagCompound();
 				switch (songName) {
 				case "sunssong":
@@ -466,6 +463,8 @@ public class Ocarina extends ItemBase {
 						float x2 = (float) Math.cos(angle);
 						float scaleFade = (40 + (fx_zoomCount - 70)) / 40;
 						
+
+						GL11.glEnable(GL11.GL_BLEND);
 						// FX2
 						GL11.glPushMatrix();
 						GL11.glTranslatef(x, res.getScaledHeight() / 2, 0);
@@ -480,6 +479,7 @@ public class Ocarina extends ItemBase {
 								res.getScaledHeight() * 3, res.getScaledWidth() * 2, res.getScaledHeight() * 3);
 
 						GlStateManager.color(1F, 1F, 1F, 1);
+
 						GL11.glPopMatrix();
 
 						// FX1
@@ -500,7 +500,8 @@ public class Ocarina extends ItemBase {
 
 						GlStateManager.color(1F, 1F, 1F, 1);
 						GL11.glPopMatrix();
-
+						GL11.glDisable(GL11.GL_BLEND);
+						
 					// ********************************************************
 
 

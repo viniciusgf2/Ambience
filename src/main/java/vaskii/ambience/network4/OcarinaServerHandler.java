@@ -5,8 +5,10 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
@@ -75,48 +77,65 @@ public class OcarinaServerHandler implements IMessageHandler<MyMessage4, IMessag
 		}
 		else if(data.hasKey("setDayTime")) {
 			
-			if(AmbienceConfig.OcarinaMusics.sunsong_enabled)					
-				Ocarina.setDayTime=data.getBoolean("setDayTime");	
-			else	
-				Ocarina.setDayTime=false;
+			if (player.experienceTotal >= 30) {
+				decreaseExp(player, 30);
 				
-				Ocarina.songName=data.getString("songName");
-				Ocarina.hasMatch=true;
-				Ocarina.runningCommand=true;
-				Ocarina.pos=Utils.NBTtoBlockPos(data.getCompoundTag("pos"));
+				if(AmbienceConfig.OcarinaMusics.sunsong_enabled)					
+					Ocarina.setDayTime=data.getBoolean("setDayTime");	
+				else	
+					Ocarina.setDayTime=false;
+			}
+			
+			//Damages the Ocarina on Play
+			ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+			itemstack.damageItem(1, player);
+					
+			Ocarina.songName=data.getString("songName");
+			Ocarina.hasMatch=true;
+			Ocarina.runningCommand=true;
+			Ocarina.pos=Utils.NBTtoBlockPos(data.getCompoundTag("pos"));
 			
 		}
 		else if(data.hasKey("setWeather")) {
-					
-			if(AmbienceConfig.OcarinaMusics.songofstorms_enabled)
+			
+			if (player.experienceTotal >= 35) 
 			{
-				boolean chuva=false;
-				if(!player.world.isRaining() & !player.world.isThundering()) {	
-					//Thunder
-					player.world.getWorldInfo().setCleanWeatherTime(0);
-					player.world.getWorldInfo().setRainTime(6000);
-					player.world.getWorldInfo().setThunderTime(6000);
-					player.world.getWorldInfo().setRaining(true);
-					player.world.getWorldInfo().setThundering(true);
-					//player.world.setRainStrength(1);
-					chuva=false;
-												
-				}else {
-					//Clear Weather
-				//	player.world.setRainStrength(0);
-					player.world.getWorldInfo().setCleanWeatherTime(6000);
-					player.world.getWorldInfo().setRainTime(0);
-					player.world.getWorldInfo().setThunderTime(0);
-					player.world.getWorldInfo().setRaining(false);
-					player.world.getWorldInfo().setThundering(false);	
-					
-					chuva=true;
-				}	
-
-				NBTTagCompound nbt = new NBTTagCompound();
-				nbt.setBoolean("setWeather", chuva);				
-				OcarinaNetworkHandler.sendToAll(new MyMessage4(nbt));
+				decreaseExp(player,35);
+				
+				if(AmbienceConfig.OcarinaMusics.songofstorms_enabled)
+				{
+					boolean chuva=false;
+					if(!player.world.isRaining() & !player.world.isThundering()) {	
+						//Thunder
+						player.world.getWorldInfo().setCleanWeatherTime(0);
+						player.world.getWorldInfo().setRainTime(6000);
+						player.world.getWorldInfo().setThunderTime(6000);
+						player.world.getWorldInfo().setRaining(true);
+						player.world.getWorldInfo().setThundering(true);
+						//player.world.setRainStrength(1);
+						chuva=false;
+													
+					}else {
+						//Clear Weather
+					//	player.world.setRainStrength(0);
+						player.world.getWorldInfo().setCleanWeatherTime(6000);
+						player.world.getWorldInfo().setRainTime(0);
+						player.world.getWorldInfo().setThunderTime(0);
+						player.world.getWorldInfo().setRaining(false);
+						player.world.getWorldInfo().setThundering(false);	
+						
+						chuva=true;
+					}	
+	
+					NBTTagCompound nbt = new NBTTagCompound();
+					nbt.setBoolean("setWeather", chuva);				
+					OcarinaNetworkHandler.sendToAll(new MyMessage4(nbt));
+				}
 			}
+			
+			//Damages the Ocarina on Play
+			ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+			itemstack.damageItem(1, player);
 			
 			Ocarina.hasMatch=true;
 			Ocarina.songName=data.getString("songName");
@@ -128,10 +147,19 @@ public class OcarinaServerHandler implements IMessageHandler<MyMessage4, IMessag
 			Ocarina.runningCommand=true;
 			Ocarina.pos=Utils.NBTtoBlockPos(data.getCompoundTag("pos"));
 			
-			if(AmbienceConfig.OcarinaMusics.bolerooffire_enabled)
+			//Damages the Ocarina on Play
+			ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+			itemstack.damageItem(1, player);
+			
+			if (player.experienceTotal >= 25) 
 			{
-				player.addPotionEffect(new PotionEffect(MobEffects.GLOWING, 60 * 20, 3));
-				player.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 90 * 20, 2));
+				decreaseExp(player,25);
+				
+				if(AmbienceConfig.OcarinaMusics.bolerooffire_enabled)
+				{
+					player.addPotionEffect(new PotionEffect(MobEffects.GLOWING, 60 * 20, 3));
+					player.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 90 * 20, 2));
+				}
 			}
 		}
 		else if (data.hasKey("callHorse")) {
@@ -139,7 +167,11 @@ public class OcarinaServerHandler implements IMessageHandler<MyMessage4, IMessag
 			Ocarina.songName = data.getString("songName");
 			Ocarina.runningCommand = true;
 			Ocarina.pos = Utils.NBTtoBlockPos(data.getCompoundTag("pos"));
-
+			
+			//Damages the Ocarina on Play
+			ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+			itemstack.damageItem(1, player);
+			
 			BlockPos pos = Utils.NBTtoBlockPos(data.getCompoundTag("pos"));
 
 			if (AmbienceConfig.OcarinaMusics.horsesong_enabled) {
@@ -150,8 +182,12 @@ public class OcarinaServerHandler implements IMessageHandler<MyMessage4, IMessag
 				for (Entity entity : entities) {
 
 					EntityHorse horse = ((EntityHorse) entity);
-
+					
+					if(horse.getOwnerUniqueId() != null)
 					if (horse.getOwnerUniqueId() != null && horse.getOwnerUniqueId().equals(player.getUniqueID())) {
+						
+						decreaseExp(player,15);		
+						
 						Ocarina.horseName = horse.getName();
 
 						int dir = MathHelper.floor((double) (player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
@@ -189,15 +225,27 @@ public class OcarinaServerHandler implements IMessageHandler<MyMessage4, IMessag
 			Ocarina.runningCommand=true;
 			Ocarina.pos=Utils.NBTtoBlockPos(data.getCompoundTag("pos"));
 			
-			if(AmbienceConfig.OcarinaMusics.preludeoflight_enabled)
+			//Damages the Ocarina on Play
+			ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+			itemstack.damageItem(1, player);
+			
+			if (player.experienceTotal >= 25) 
 			{
-				player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 180 * 20, 2));
+				decreaseExp(player,25);
+				if(AmbienceConfig.OcarinaMusics.preludeoflight_enabled)
+				{
+					player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 180 * 20, 2));
+				}
 			}
 		}else if(data.hasKey("setWaterBreathe")) {
 			Ocarina.hasMatch=true;
 			Ocarina.songName=data.getString("songName");
 			Ocarina.runningCommand=true;
 			Ocarina.pos=Utils.NBTtoBlockPos(data.getCompoundTag("pos"));
+			
+			//Damages the Ocarina on Play
+			ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+			itemstack.damageItem(1, player);
 			
 			if(AmbienceConfig.OcarinaMusics.serenadeofwater)
 			{
@@ -209,12 +257,49 @@ public class OcarinaServerHandler implements IMessageHandler<MyMessage4, IMessag
 			Ocarina.runningCommand=true;
 			Ocarina.pos=Utils.NBTtoBlockPos(data.getCompoundTag("pos"));
 			
-			if(AmbienceConfig.OcarinaMusics.minuetofforest)
-			{
-				player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 90 * 20, 1));
+			//Damages the Ocarina on Play
+			ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+			itemstack.damageItem(1, player);
+			
+			if (player.experienceTotal >= 30) {
+				decreaseExp(player,30);
+				
+				if(AmbienceConfig.OcarinaMusics.minuetofforest)
+				{
+					player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 90 * 20, 1));
+				}
 			}
 		}
 		
 		return null;
+	}
+	
+	/** Decreases player's experience properly */
+	public static void decreaseExp(EntityPlayer player, float amount)
+	{
+	        if (player.experienceTotal - amount <= 0)
+	        {
+	            player.experienceLevel = 0;
+	            player.experience = 0;
+	            player.experienceTotal = 0;
+	            return;
+	        }
+	        
+	        player.experienceTotal -= amount;
+
+	        if (player.experience * (float)player.xpBarCap() <= amount)
+	        {
+	        	amount -= player.experience * (float)player.xpBarCap();
+	        	player.experience = 1.0f;
+	        	player.experienceLevel--;
+	        }
+
+	        while (player.xpBarCap() < amount)
+	        {
+	        	amount -= player.xpBarCap();
+	            player.experienceLevel--;
+	        }
+	        
+	        player.experience -= amount / (float)player.xpBarCap();
 	}
 }
