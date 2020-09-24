@@ -14,7 +14,9 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.MusicTicker;
+import net.minecraft.client.audio.SoundManager;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.toasts.SystemToast;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -24,6 +26,7 @@ import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.particle.ParticleRain;
 import net.minecraft.client.particle.ParticleSplash;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -547,84 +550,111 @@ public class EventHandlers {
 		EventHandlers.fadeIn = false;
 	}
 	
+	private float masterAudioCount=0;
 	@SubscribeEvent
 	public void onTick(ClientTickEvent event) {
 		if(Ambience.thread == null)
 			return;
 		
-		if(event.phase == Phase.END) {			
-			String songs = SongPicker.getSongsString();
-			String song = null;
+
+		
 			
-			if(songs != null) {
-				if(nextSong == null || !songs.contains(nextSong)) {
-					do {
-						song = SongPicker.getRandomSong();
-					} while(song.equals(currentSong) && songs.contains(","));
-				} else
-					song = nextSong;
-			}
-			
-			//Fade In gain***************
-			if(fadeIn) {
-				Ambience.thread.setGain(PlayerThread.fadeGains[fadeInTicks]);				
-			}			
-			if(Ambience.thread.gain<Ambience.thread.MAX_GAIN & fadeInTicks>0 /*& fadeIn*/) {			
-				fadeInTicks--;
-				fadeIn=true;
-			}else {
-				fadeIn=false;
-				fadeInTicks= FADE_DURATION-1;		
-			}
-			//***************
-			
-			if(songs != null && (!songs.equals(PlayerThread.currentSongChoices) || (song == null && PlayerThread.currentSong != null) || !Ambience.thread.playing)) {
-				if(nextSong != null && nextSong.equals(song))
-					waitTick--;				
+			if(event.phase == Phase.END) {			
+				String songs = SongPicker.getSongsString();
+				String song = null;
 				
-				if (!song.equals(currentSong)) {
-					if (currentSong != null && PlayerThread.currentSong != null && !PlayerThread.currentSong.equals(song) && songs.equals(PlayerThread.currentSongChoices))
-						currentSong = PlayerThread.currentSong;
-					else
-						nextSong = song;
-				} else if (nextSong != null && !songs.contains(nextSong))
-					nextSong = null;
+				if(songs != null) {
+					if(nextSong == null || !songs.contains(nextSong)) {
+						do {
+							song = SongPicker.getRandomSong();
+						} while(song.equals(currentSong) && songs.contains(","));
+					} else
+						song = nextSong;
+				}
 				
-				if(waitTick <= 0) {
-					if(PlayerThread.currentSong == null) {
-						currentSong = nextSong;
+				if(!Minecraft.getMinecraft().inGameHasFocus) {	
+					if(masterAudioCount>=0.05)
+						masterAudioCount-=0.05f;
+					
+					if(AmbienceConfig.lostFocusEnabled) {
+						//Mute the gameaudio on lost focus
+						Minecraft.getMinecraft().getSoundHandler().setSoundLevel(SoundCategory.MASTER, masterAudioCount);
+						fadeIn=true;		
+					}
+				}else {
+					
+					if(AmbienceConfig.lostFocusEnabled) {
+						//Return the game audio to the previous one
+						GameSettings settings = Minecraft.getMinecraft().gameSettings;
+						float musicGain = settings.getSoundLevel(SoundCategory.MUSIC) * settings.getSoundLevel(SoundCategory.MASTER);		
+						if(masterAudioCount <=musicGain) {						
+							masterAudioCount+=0.05f;
+							Minecraft.getMinecraft().getSoundHandler().setSoundLevel(SoundCategory.MASTER, masterAudioCount);
+						}
+					}
+					
+					//Fade In gain***************
+					if(fadeIn) {
+						Ambience.thread.setGain(PlayerThread.fadeGains[fadeInTicks]);				
+					}			
+					if(Ambience.thread.gain<Ambience.thread.MAX_GAIN & fadeInTicks>0 /*& fadeIn*/) {			
+						fadeInTicks--;
+						fadeIn=true;
+					}else {
+						fadeIn=false;
+						fadeInTicks= FADE_DURATION-1;		
+					}
+					//***************
+				}
+				
+				
+				if(songs != null && (!songs.equals(PlayerThread.currentSongChoices) || (song == null && PlayerThread.currentSong != null) || !Ambience.thread.playing)) {
+					if(nextSong != null && nextSong.equals(song))
+						waitTick--;				
+					
+					if (!song.equals(currentSong)) {
+						if (currentSong != null && PlayerThread.currentSong != null && !PlayerThread.currentSong.equals(song) && songs.equals(PlayerThread.currentSongChoices))
+							currentSong = PlayerThread.currentSong;
+						else
+							nextSong = song;
+					} else if (nextSong != null && !songs.contains(nextSong))
 						nextSong = null;
-						PlayerThread.currentSongChoices = songs;
-						changeSongTo(song);
-						fadeOutTicks = 0;
-						waitTick = WAIT_DURATION;
-					} else if(fadeOutTicks < FADE_DURATION) {
-						Ambience.thread.setGain(PlayerThread.fadeGains[fadeOutTicks]);
-						fadeOutTicks++;
-						silenceTicks = 0;
-					} else {
-						if(silenceTicks < SILENCE_DURATION) {
-							silenceTicks++;
-						} else {
+					
+					if(waitTick <= 0) {
+						if(PlayerThread.currentSong == null) {
+							currentSong = nextSong;
 							nextSong = null;
 							PlayerThread.currentSongChoices = songs;
 							changeSongTo(song);
 							fadeOutTicks = 0;
 							waitTick = WAIT_DURATION;
+						} else if(fadeOutTicks < FADE_DURATION) {
+							Ambience.thread.setGain(PlayerThread.fadeGains[fadeOutTicks]);
+							fadeOutTicks++;
+							silenceTicks = 0;
+						} else {
+							if(silenceTicks < SILENCE_DURATION) {
+								silenceTicks++;
+							} else {
+								nextSong = null;
+								PlayerThread.currentSongChoices = songs;
+								changeSongTo(song);
+								fadeOutTicks = 0;
+								waitTick = WAIT_DURATION;
+							}
 						}
 					}
+				} else {
+					nextSong = null;
+					//thread.setGain(PlayerThread.fadeGains[0]);
+					silenceTicks = 0;
+					fadeOutTicks = 0;
+					waitTick = WAIT_DURATION;
 				}
-			} else {
-				nextSong = null;
-				//thread.setGain(PlayerThread.fadeGains[0]);
-				silenceTicks = 0;
-				fadeOutTicks = 0;
-				waitTick = WAIT_DURATION;
+				
+				if(Ambience.thread != null)
+					Ambience.thread.setRealGain();
 			}
-			
-			if(Ambience.thread != null)
-				Ambience.thread.setRealGain();
-		}
 		
 		//
 		//  Change camera mode for the ocarina when starting playing the Ocarina =================

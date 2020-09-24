@@ -21,6 +21,10 @@ public class AmbienceConfig {
 	@Config.Name("Fade Duration")
 	@Config.Comment("Defines the sound volume fade in/out duration [Default:25]")			
 	public static int fadeDuration = 25;
+	
+	@Config.Name("Lost Focus Fade Out")
+	@Config.Comment("Fade Out Sound Volume on Game Lost Focus[Default:true]")			
+	public static Boolean lostFocusEnabled = true;
 
 		@Config(category = "Ocarina", modid = Reference.MOD_ID)
 		public static class OcarinaMusics {

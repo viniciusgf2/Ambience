@@ -46,6 +46,11 @@ public class ClientHandler implements IMessageHandler<MyMessage4, IMessage> {
 		
 		NBTTagCompound BlockSelected = message.getToSend();
 		
+		//For the inside Structure Checker
+		if(BlockSelected.hasKey("StructureName")) {					            
+            SongPicker.StructureName=BlockSelected.getString("StructureName");
+		}
+		
 		//For the juckebox event
 		if(BlockSelected.hasKey("playingJuckebox")) {					
             Ambience.playingJuckebox=BlockSelected.getBoolean("playingJuckebox");		

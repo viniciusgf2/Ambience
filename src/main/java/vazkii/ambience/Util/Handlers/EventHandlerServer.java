@@ -1,11 +1,26 @@
 package vazkii.ambience.Util.Handlers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityMobSpawner;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.ChunkGeneratorHell;
+import net.minecraft.world.gen.ChunkGeneratorOverworld;
+import net.minecraft.world.gen.ChunkProviderServer;
+import net.minecraft.world.gen.IChunkGenerator;
+import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -20,14 +35,125 @@ import vazkii.ambience.Ambience;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.World.Biomes.Area;
 
-public class ServerTickHandler {
+public class EventHandlerServer {
 
 	int waitTime=0;
 	boolean settingDay = false,settingNight = false;
 
+/*	@SubscribeEvent
+	public void dungeonDetect(PopulateChunkEvent e)
+	{
+		
+		EntityPlayer player= Minecraft.getMinecraft().player;// w.playerEntities.get(0);
+		BlockPos pos = player.getPosition();
+			
+		World world = e.getWorld();	
+		IChunkProvider prov = world.getChunkProvider();
+		
+		if (prov instanceof ChunkProviderServer) {
+			ChunkProviderServer serverProv = (ChunkProviderServer) prov;
+			
+				System.out.println(serverProv.isInsideStructure(world, "Fortress", pos));			
+			
+		}
+		
+		
+		
+		//--------------------------------------------------
+		
+		World w = e.getWorld();
+		if(w.isRemote)
+			return;
+		Chunk chunk = w.getChunkFromChunkCoords(e.getChunkX(), e.getChunkZ() );
+		IChunkGenerator gen = e.getGenerator();
+		
+
+		EntityPlayer player= Minecraft.getMinecraft().player;// w.playerEntities.get(0);
+		
+
+		if(player!=null) {
+			BlockPos pos = player.getPosition();
+			boolean mineshaft = false;
+			boolean stronghold = false;
+			boolean netherfortress = false;
+			boolean mansion = false;//has spawner in secret room here
+			
+			if(gen instanceof ChunkGeneratorOverworld)
+			{
+				ChunkGeneratorOverworld gen2 = (ChunkGeneratorOverworld)gen;
+				mineshaft = gen2.isInsideStructure(w, "Mineshaft", pos);
+				stronghold = gen2.isInsideStructure(w, "Stronghold", pos);
+				mansion = gen2.isInsideStructure(w, "Mansion", pos);
+			}
+			else if(gen instanceof ChunkGeneratorHell)
+			{				
+				ChunkGeneratorHell gen3 = (ChunkGeneratorHell)gen;
+				netherfortress = gen3.isInsideStructure(w, "Fortress", pos);
+			}
+			
+			
+			System.out.println("Inside Fortress:" +netherfortress);
+		}
+	}*/
+
+	
+	public String insideStructureName="";
+	public String StructureName="";
+	public String OldStructureName="";
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.WorldTickEvent.PlayerTickEvent event) {
 
+		
+		//Check if Player is inside a Structure----------------------------------------------------
+		EntityPlayer player= event.player;// w.playerEntities.get(0);
+		BlockPos pos = player.getPosition();
+			
+		World world2 = player.world;	
+		IChunkProvider prov = world2.getChunkProvider();
+		
+		if (prov instanceof ChunkProviderServer) {
+			ChunkProviderServer serverProv = (ChunkProviderServer) prov;
+			
+			if(serverProv.isInsideStructure(world2, "Fortress", pos)) {
+				StructureName="fortress";
+			}
+			else if(serverProv.isInsideStructure(world2, "Stronghold", pos)) {
+				StructureName="stronghold";
+			}
+			else if(serverProv.isInsideStructure(world2, "Mansion", pos)) {
+				StructureName="mansion";
+			}
+			else if(serverProv.isInsideStructure(world2, "Monument", pos)) {
+				StructureName="oceanMonument";
+			}
+			else if(serverProv.isInsideStructure(world2, "Mineshaft", pos)) {
+				StructureName="mineshaft";
+			}
+			else if(serverProv.isInsideStructure(world2, "Temple", pos)) {
+				StructureName="desertTemple";
+			}
+			else if(serverProv.isInsideStructure(world2, "Village", pos)) {
+				StructureName="village";
+			}
+			else {
+				StructureName="";
+			}
+			
+		}
+				
+		if(!OldStructureName.equals(StructureName)) {
+			System.out.println(StructureName);	
+			
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("StructureName", StructureName);			
+							
+			NetworkHandler4.sendToClient(new MyMessage4(nbt), (EntityPlayerMP) player);
+		}
+
+		OldStructureName=StructureName;
+		//------------------------------------------------------------------------------------------
+		
+		
 		if (Horn.fadeOutTimer > 0)
 			Horn.fadeOutTimer--;
 

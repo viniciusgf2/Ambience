@@ -27,7 +27,7 @@ import vaskii.ambience.tabs.AmbienceTab;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.Util.Handlers.EventHandlers;
 import vazkii.ambience.Util.Handlers.RegistryHandler;
-import vazkii.ambience.Util.Handlers.ServerTickHandler;
+import vazkii.ambience.Util.Handlers.EventHandlerServer;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.proxy.ClientProxy;
 import vazkii.ambience.proxy.CommonProxy;
@@ -128,7 +128,7 @@ public class Ambience {
 	public void init(FMLInitializationEvent event) {
 
 		//Server Tick
-		FMLCommonHandler.instance().bus().register(new ServerTickHandler());
+		FMLCommonHandler.instance().bus().register(new EventHandlerServer());
 				
 		
 		

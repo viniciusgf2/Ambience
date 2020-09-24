@@ -124,6 +124,7 @@ public final class SongPicker {
 	public static Ocarina Ocarina;
 
 	public static BlockPos lastPlayerPos=new BlockPos(Vec3d.ZERO);
+	public static String StructureName="";
 	
 	public static void reset() {
 		eventMap.clear();
@@ -182,7 +183,7 @@ public final class SongPicker {
 			return getSongsForEvent(EVENT_GAMEOVER);
 
 		BlockPos pos = new BlockPos(player);
-
+			
 		/*AmbienceEventEvent event = new AmbienceEventEvent.Pre(world, pos);
 		MinecraftForge.EVENT_BUS.post(event);
 		String[] eventr = getSongsForEvent(event.event);
@@ -324,23 +325,8 @@ public final class SongPicker {
 			} catch (Exception ex) {
 				System.out.println(ex.getMessage());
 			}
-		}else {			
-			//Ocean Temple music
-			String[] songs = null;
-			
-			int guardianCount = world.getEntitiesWithinAABB(EntityGuardian.class, new AxisAlignedBB(player.getPosition().getX() - 30,
-					player.getPosition().getY() - 8, player.getPosition().getZ() - 30, player.getPosition().getX() + 30, player.getPosition().getY() + 8, player.getPosition().getZ() + 30)).size();
-			if (guardianCount > 3) {	
-				//Songs for other dimensions
-				if (dimension <-1 | dimension >1 )
-					songs = getSongsForEvent(EVENT_OCEANMONUMENT+"\\"+dimension);
-				else
-					songs = getSongsForEvent(EVENT_OCEANMONUMENT);
-				if (songs != null)
-					return songs;
-			}
 		}
-
+		
 		// ******************
 		if (Ambience.forcePlay ) {
 			String[] songs = getSongsForEvent("shortcut"+forcePlayID);
@@ -391,6 +377,20 @@ public final class SongPicker {
 			
 			if (songs != null)
 				return songs;
+		}
+		
+		//Events for the World Structures
+		if(StructureName!="") 
+		{		
+			String[] songs=null;
+			//Songs for other dimensions
+			if (dimension <-1 | dimension >1 )
+				songs = getSongsForEvent(StructureName+"\\"+dimension);
+			else
+				songs = getSongsForEvent(StructureName);
+			
+			if (songs != null)
+				return songs;		
 		}
 
 		/*int monsterCount = world.getEntitiesWithinAABB(EntityMob.class, new AxisAlignedBB(player.posX - 16,
