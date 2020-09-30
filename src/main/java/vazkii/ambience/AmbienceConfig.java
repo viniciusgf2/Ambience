@@ -23,11 +23,13 @@ public class AmbienceConfig {
 		public final BooleanValue sunsong_enabled;
 		public final BooleanValue songofstorms_enabled;
 		public final BooleanValue bolerooffire_enabled;
-		public final BooleanValue horsesong_enabled;
-		
+		public final BooleanValue horsesong_enabled;		
 		public final BooleanValue preludeoflight_enabled;
 		public final BooleanValue serenadeofwater;
 		public final BooleanValue minuetofforest;
+		
+		public final BooleanValue lostFocusEnabled;
+		public final BooleanValue structuresCinematic;
 		
 		public final IntValue fadeDuration;
 				
@@ -44,6 +46,14 @@ public class AmbienceConfig {
 			fadeDuration = builder.comment("Defines the sound volume fade in/out duration [Default:25]")
 					.worldRestart()
 					.defineInRange("Fade_Duration",25,1,500);
+			
+			lostFocusEnabled =builder.comment("Fade Out Sound Volume on Game Lost Focus[Default:true]")					
+					.worldRestart()
+					.define("Lost_Focus_FadeOut", true);
+			
+			structuresCinematic =builder.comment("Show a cinematic enty with a image on enter a structure[Default:true]")					
+					.worldRestart()
+					.define("Structures_Cinematic", true);
 			
 			builder.comment("Ocarina Configurations")
 			   .push("Ocarina");
@@ -111,23 +121,15 @@ public class AmbienceConfig {
 			AmbienceConfig.COMMON.songofstorms_enabled.set(configs.getConfigData().get("Ambience.Ocarina.Song_of_Storms"));
 			AmbienceConfig.COMMON.bolerooffire_enabled.set(configs.getConfigData().get("Ambience.Ocarina.Fire_Song"));
 			AmbienceConfig.COMMON.horsesong_enabled.set(configs.getConfigData().get("Ambience.Ocarina.Horse_Song"));
+						
+			AmbienceConfig.COMMON.lostFocusEnabled.set(configs.getConfigData().get("Ambience.Lost_Focus_FadeOut"));
+			AmbienceConfig.COMMON.structuresCinematic.set(configs.getConfigData().get("Ambience.Structures_Cinematic"));
 			
 			//Reloads the Thread --------------------
 			EventHandlers.FADE_DURATION= AmbienceConfig.COMMON.fadeDuration.get();			
 			EventHandlers.fadeOutTicks = EventHandlers.FADE_DURATION;
 			EventHandlers.fadeInTicks = EventHandlers.FADE_DURATION-1;
-			
-			/*Ambience.thread.forceKill();			
-			Ambience.thread.run();
-			SongLoader.loadFrom(Ambience.ambienceDir);
-
-			if (SongLoader.enabled)
-				Ambience.thread = new PlayerThread();
-
-			Minecraft mc = Minecraft.getInstance();
-			MusicTicker ticker = new NilMusicTicker(mc);
-			ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, Ambience.OBF_MC_MUSIC_TICKER);*/
-			
+									
 			PlayerThread.fadeGains = new float[EventHandlers.FADE_DURATION];
 			float totaldiff = PlayerThread.MIN_GAIN - PlayerThread.MAX_GAIN;
 			float diff = totaldiff / PlayerThread.fadeGains.length;

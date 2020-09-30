@@ -1,6 +1,9 @@
 package vazkii.ambience;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,12 +17,14 @@ import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.AudioHeader;
 
+import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.overlay.BossOverlayGui;
 import net.minecraft.client.gui.screen.ConnectingScreen;
 import net.minecraft.client.gui.screen.DeathScreen;
 import net.minecraft.client.gui.screen.DisconnectedScreen;
 import net.minecraft.client.gui.screen.IngameMenuScreen;
+import net.minecraft.client.gui.screen.OptionsSoundsScreen;
 import net.minecraft.client.gui.screen.SleepInMultiplayerScreen;
 import net.minecraft.client.gui.screen.WinGameScreen;
 import net.minecraft.client.gui.toasts.SystemToast;
@@ -41,6 +46,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -56,6 +63,7 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.ambience.Util.RegistryHandler;
 import vazkii.ambience.Util.SplashFactory2;
 import vazkii.ambience.Util.Handlers.EventHandlers;
@@ -64,6 +72,7 @@ import vazkii.ambience.Util.particles.DripWaterParticleFactory;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.blocks.SpeakerTileEntity;
 import vazkii.ambience.items.Ocarina;
+import vazkii.ambience.render.CinematicRender;
 
 @OnlyIn(value = Dist.CLIENT)
 public final class SongPicker {
@@ -110,9 +119,10 @@ public final class SongPicker {
 	public static Map<Biome, String[]> biomeMap = new HashMap<Biome, String[]>();
 	public static Map<String, String[]> areasMap = new HashMap<String, String[]>();	
 	public static Map<String, String[]> mobMap = new HashMap<String, String[]>();	
+	public static Map<String, Long> cinematicMap = new HashMap<String, Long>();	
 	public static Map<BiomeDictionary.Type, String[]> primaryTagMap = new HashMap<Type, String[]>();
 	public static Map<BiomeDictionary.Type, String[]> secondaryTagMap = new HashMap<Type, String[]>();	
-	//public static final List<String> speakerMap = new ArrayList<String>();
+	public static List<String> transitionsMap = new ArrayList<String>();
 	
 	public static final Random rand = new Random();
 
@@ -129,6 +139,7 @@ public final class SongPicker {
 	public static Ocarina Ocarina;
 	
 	public static BlockPos lastPlayerPos=new BlockPos(Vec3d.ZERO);
+	public static String StructureName;
 			
 	public static void reset() {
 		eventMap.clear();
@@ -148,6 +159,11 @@ public final class SongPicker {
 		
 		if(world!=null)
 			dimension=world.dimension.getType().getId();	
+		
+		if (mc.currentScreen instanceof OptionsSoundsScreen) {
+			GameSettings settings = Minecraft.getInstance().gameSettings;
+			EventHandlers.oldVolume=settings.getSoundLevel(SoundCategory.MASTER);
+		}
 				
 		if (mc.currentScreen instanceof ConnectingScreen)
 			return getSongsForEvent(EVENT_CONNECTING);
@@ -173,7 +189,7 @@ public final class SongPicker {
 						
 			return getSongsForEvent(EVENT_MAIN_MENU);
 		}
-		
+				
 		if (mc.currentScreen instanceof IngameMenuScreen)
 			return getSongsForEvent(EVENT_PAUSE);
 			
@@ -189,7 +205,7 @@ public final class SongPicker {
 			return getSongsForEvent(EVENT_CREDITS);		
 		 				
 		BlockPos pos = new BlockPos(player);
-
+		
 		/*AmbienceEventEvent event = new AmbienceEventEvent.Pre(world, pos);
 		MinecraftForge.EVENT_BUS.post(event);
 		String[] eventr = getSongsForEvent(event.event);
@@ -210,7 +226,7 @@ public final class SongPicker {
 		{
 			return  getSongsForEvent(Ambience.ExternalEvent.event);
 		}
-		
+				
 		// ******************
 		if (Ambience.forcePlay ) {
 			String[] songs = getSongsForEvent("shortcut"+forcePlayID);
@@ -361,21 +377,6 @@ public final class SongPicker {
 			} catch (Exception ex) {
 				System.out.println(ex.getMessage());
 			}
-		}else {
-			
-			//Ocean Temple music
-			String[] songs = null;
-			int guardianCount = world.getEntitiesWithinAABB(GuardianEntity.class, new AxisAlignedBB(player.getPosX() - 30,
-					player.getPosY() - 8, player.getPosZ() - 30, player.getPosX() + 30, player.getPosY() + 8, player.getPosZ() + 30)).size();
-			if (guardianCount > 3) {	
-				//Songs for other dimensions
-				if (dimension <-1 | dimension >1 )
-					songs = getSongsForEvent(EVENT_OCEANMONUMENT+"\\"+dimension);
-				else
-					songs = getSongsForEvent(EVENT_OCEANMONUMENT);
-				if (songs != null)
-					return songs;
-			}
 		}
 		
 		
@@ -486,16 +487,7 @@ public final class SongPicker {
 			}
 		}
 
-		if (player.isInWater() & !Ambience.attacked) {
-			String[] songs=null;
-			//Songs for other dimensions
-			if (dimension <-1 | dimension >1 )
-				songs = getSongsForEvent(EVENT_UNDERWATER+"\\"+dimension);
-			else
-				songs = getSongsForEvent(EVENT_UNDERWATER);
-			if (songs != null)
-				return songs;
-		}
+		
 		
 		if(DripWaterParticleFactory.dripsCount>0) {
 			boolean underground = !world.canSeeSky(pos);
@@ -583,16 +575,22 @@ public final class SongPicker {
 									if(area.isInstantPlay())
 										EventHandlers.playInstant();
 								
+
+									getTransition(world,player,area.getName().toLowerCase(),false);
 									return areasMap.get(area.getName());
 								}else if(!night) {
 									if(area.isInstantPlay())
 										EventHandlers.playInstant();
 																		
-									if(area.getRedstoneStrength()==0) {									
+									if(area.getRedstoneStrength()==0) {			
+
+										getTransition(world,player,area.getName().toLowerCase(),false);
 										return areasMap.get(area.getName());	
 									}else {			
 										String[] songs= areasMap.get(area.getName()+"."+area.getRedstoneStrength());	
 										
+
+										getTransition(world,player,area.getName().toLowerCase(),false);
 										if(songs!=null)
 											return songs;
 										else						
@@ -607,7 +605,66 @@ public final class SongPicker {
 				}				
 			}
 		}
+		
 
+		//cinematicMap.clear();
+		
+		//Events for the World Structures
+		if(StructureName!="") 
+		{								
+			String[] songs=null;
+			//Songs for other dimensions
+			if (dimension <-1 | dimension >1 )
+				songs = getSongsForEvent(StructureName+"\\"+dimension);
+			else
+				songs = getSongsForEvent(StructureName);
+			
+				//1577 73 -278 - Desert Temple
+				//645 40 335 - Ocean Monument
+				//1366 75 18 - EndCity 
+			/*if(AmbienceConfig.COMMON.structuresCinematic.get())
+				if(getDays(StructureName)==null) {										
+					if(transitionsMap.contains(StructureName)) {
+						
+						if(!cinematicMap.containsKey(StructureName))
+						world.playSound(player, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ(),
+								ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("minecraft:block.end_portal.spawn")),
+								SoundCategory.BLOCKS, (float) 10, (float) 1);
+						
+						cinematicMap.put(StructureName, world.getGameTime() / 24000);		
+						CinematicRender.AREA_LOGO=new ResourceLocation(Ambience.MODID,"textures/transitions/"+StructureName.toLowerCase()+".png");						
+						CinematicRender.ativated=true;
+					}
+				}
+				else 
+				{
+					Long days;		
+					long daysPassed = world.getGameTime() / 24000;
+					days=getDays(StructureName);
+					
+					if(daysPassed-days>=1) {
+						removeDays(StructureName);
+					}						
+				}*/
+			
+			getTransition(world,player,StructureName,true);
+			
+			if (songs != null) 
+			{
+				return songs;	
+			}
+		}
+		
+		if (player.isInWater() & !Ambience.attacked) {
+			String[] songs=null;
+			//Songs for other dimensions
+			if (dimension <-1 | dimension >1 )
+				songs = getSongsForEvent(EVENT_UNDERWATER+"\\"+dimension);
+			else
+				songs = getSongsForEvent(EVENT_UNDERWATER);
+			if (songs != null)
+				return songs;
+		}
 		
 		if (world.dimension.isSurfaceWorld()) {
 			boolean underground = !world.canSeeSky(pos);
@@ -808,6 +865,22 @@ public final class SongPicker {
 			return null;
 		}
 	}
+	
+	public static Long removeDays(String structureName) {
+		
+		if (cinematicMap.containsKey(structureName))
+			return cinematicMap.remove(structureName);
+
+		return null;
+	}
+	
+	public static Long getDays(String structureName) {
+		
+		if (cinematicMap.containsKey(structureName))
+			return cinematicMap.get(structureName);
+
+		return null;
+	}
 
 	public static String[] getSongsForEvent(String event) {
 		
@@ -841,5 +914,33 @@ public final class SongPicker {
 		}
 		// ****************************************************
 		return songLenght;
+	}
+	
+	private static void getTransition(World world, PlayerEntity player, String structureName, boolean playSound) {
+
+		if(AmbienceConfig.COMMON.structuresCinematic.get())
+			if(getDays(structureName)==null) {										
+				if(transitionsMap.contains(structureName)) {
+					
+					if(!cinematicMap.containsKey(structureName) & playSound)
+					world.playSound(player, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ(),
+							ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("minecraft:block.end_portal.spawn")),
+							SoundCategory.BLOCKS, (float) 10, (float) 1);
+					
+					cinematicMap.put(structureName, world.getGameTime() / 24000);		
+					CinematicRender.AREA_LOGO=new ResourceLocation(Ambience.MODID,"textures/transitions/"+structureName.toLowerCase()+".png");						
+					CinematicRender.ativated=true;
+				}
+			}
+			else 
+			{
+				Long days;		
+				long daysPassed = world.getGameTime() / 24000;
+				days=getDays(structureName);
+				
+				if(daysPassed-days>=1) {
+					removeDays(structureName);
+				}						
+			}
 	}
 }

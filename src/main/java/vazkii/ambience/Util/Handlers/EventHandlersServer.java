@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
 
+import net.minecraft.advancements.criterion.LocationPredicate;
+import net.minecraft.advancements.criterion.PositionTrigger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.DripParticle;
 import net.minecraft.client.particle.IParticleFactory;
@@ -27,7 +29,12 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.AbstractChunkProvider;
+import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -74,6 +81,10 @@ public class EventHandlersServer {
 	boolean settingDay = false,settingNight = false;	
 	public Ocarina Ocarina=new Ocarina(20);
 	
+	public String insideStructureName="";
+	public String StructureName="";
+	public String OldStructureName="";
+	
 	public EventHandlersServer() {
 		attackingTimer = attackFadeTime;
 	}
@@ -88,6 +99,72 @@ public class EventHandlersServer {
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.WorldTickEvent.PlayerTickEvent event) {
 	
+		if(!event.player.world.isRemote)
+		{
+			//Check if Player is inside a Structure----------------------------------------------------
+			PlayerEntity player= event.player;// w.playerEntities.get(0);
+			BlockPos pos = player.getPosition();
+	
+			World world2 = player.world;	
+			AbstractChunkProvider prov = world2.getChunkProvider();
+	
+			if (prov instanceof AbstractChunkProvider) {
+									
+				if(LocationPredicate.forFeature(Feature.NETHER_BRIDGE).test((ServerWorld) world2, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ())) {
+					StructureName="fortress";
+				}
+				else if(LocationPredicate.forFeature(Feature.STRONGHOLD).test((ServerWorld) world2, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ())) {
+					StructureName="stronghold";
+				}
+				else if(LocationPredicate.forFeature(Feature.WOODLAND_MANSION).test((ServerWorld) world2, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ())) {
+					StructureName="mansion";
+				}
+				else if(LocationPredicate.forFeature(Feature.OCEAN_MONUMENT).test((ServerWorld) world2, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ())) {
+					StructureName="oceanmonument";
+				}
+				else if(LocationPredicate.forFeature(Feature.MINESHAFT).test((ServerWorld) world2, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ())) {
+					StructureName="mineshaft";
+				}
+				else if(LocationPredicate.forFeature(Feature.DESERT_PYRAMID).test((ServerWorld) world2, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ())) {
+					StructureName="deserttemple";
+				}
+				else if(LocationPredicate.forFeature(Feature.END_CITY).test((ServerWorld) world2, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ())) {
+					StructureName="endcity";
+				}
+				else if(LocationPredicate.forFeature(Feature.IGLOO).test((ServerWorld) world2, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ())) {
+					StructureName="igloo";
+				}
+				else if(LocationPredicate.forFeature(Feature.JUNGLE_TEMPLE).test((ServerWorld) world2, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ())) {
+					StructureName="jungletemple";
+				}
+				else if(LocationPredicate.forFeature(Feature.OCEAN_RUIN).test((ServerWorld) world2, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ())) {
+					StructureName="oceanruin";
+				}
+				else if(LocationPredicate.forFeature(Feature.PILLAGER_OUTPOST).test((ServerWorld) world2, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ())) {
+					StructureName="pillageroutpost";
+				}
+				else if(LocationPredicate.forFeature(Feature.SHIPWRECK).test((ServerWorld) world2, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ())) {
+					StructureName="shipwreck";
+				}
+				else if(LocationPredicate.forFeature(Feature.SWAMP_HUT).test((ServerWorld) world2, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ())) {
+					StructureName="swamphut";
+				}				
+				else {
+					StructureName="";
+				}
+			}
+	
+			if(!OldStructureName.equals(StructureName)) {					
+				CompoundNBT nbt = new CompoundNBT();
+				nbt.putString("StructureName", StructureName);			
+	
+				AmbiencePackageHandler.sendToClient(new MyMessage(nbt), (ServerPlayerEntity) player);
+			}
+	
+			OldStructureName=StructureName;
+		}
+		//------------------------------------------------------------------------------------------
+		
 		if (Horn.fadeOutTimer > 0)
 			Horn.fadeOutTimer--;
 
@@ -189,6 +266,7 @@ public class EventHandlersServer {
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.particles != null) {
 			try {
+				SongPicker.cinematicMap.clear();
 				// get existing splash particle factory
 
 				// do Map<ResourceLocation, IParticleFactory<?>> facts =

@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -36,6 +37,20 @@ public final class SongLoader {
 			
 			//Reset the mappings on load/reload
 			resetMaps();
+			
+			//List transition logos file names*********************************************
+			File folder = new File(Ambience.resourcesDir + "\\textures\\transitions\\");
+			File[] listOfFiles = folder.listFiles();
+
+			for (int i = 0; i < listOfFiles.length; i++) {
+			  if (listOfFiles[i].isFile()) {
+			   // System.out.println("File " + listOfFiles[i].getName());			    
+			    SongPicker.transitionsMap.add(listOfFiles[i].getName().toLowerCase().replace(".png", ""));
+			  }
+			}
+			//***********************************************************
+			
+
 			//Adds the Notification propertie to the ambience.properties file if the player don't have this 
 			if(props.getProperty("ShowUpdateNotifications") ==null) 
 			{								
@@ -166,6 +181,7 @@ public final class SongLoader {
 		SongPicker.mobMap = new HashMap<String, String[]>();	
 		SongPicker.primaryTagMap = new HashMap<Type, String[]>();
 		SongPicker.secondaryTagMap = new HashMap<Type, String[]>();	
+		SongPicker.transitionsMap = new ArrayList<String>();
 		Ocarina.songsMap=new HashMap<String, String[]>();
 	}
 

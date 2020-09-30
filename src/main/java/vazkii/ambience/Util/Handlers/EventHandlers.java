@@ -8,6 +8,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.JukeboxBlock;
+import net.minecraft.client.GameSettings;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
@@ -67,6 +68,7 @@ import vazkii.ambience.network.AmbiencePackageHandler;
 import vazkii.ambience.network.MyMessage;
 import vazkii.ambience.network.OcarinaMessage;
 import vazkii.ambience.network.OcarinaPackageHandler;
+import vazkii.ambience.render.CinematicRender;
 import vazkii.ambience.render.HornRender;
 import vazkii.ambience.render.SelectionBoxRenderer;
 import vazkii.ambience.Util.RegistryHandler;
@@ -88,8 +90,13 @@ public class EventHandlers {
 	public static int fadeInTicks = FADE_DURATION-1;
 	public static boolean fadeIn = false;
 	public static int silenceTicks = 0;
+	private static float masterAudioCount=0;
 		
 	public static KeyBinding[] keyBindings;
+	public static float oldVolume;
+	
+
+	public static CinematicRender cinematic=new CinematicRender();
 
 	public EventHandlers() {		
 
@@ -129,6 +136,9 @@ public class EventHandlers {
 	}
 	
 	public static void registerKeyBindings() {
+		GameSettings settings = Minecraft.getInstance().gameSettings;
+		oldVolume=settings.getSoundLevel(SoundCategory.MASTER);
+		
 		keyBindings = new KeyBinding[12];
 		
 		keyBindings[0] = new KeyBinding("Options.Reload", 80 , "Ambience");
@@ -182,7 +192,7 @@ public class EventHandlers {
 				}
 			}
 		}
-	}
+	}	
 		
 	@SubscribeEvent
 	public static void onTick(final ClientTickEvent event) {
@@ -201,6 +211,26 @@ public class EventHandlers {
 				} else
 					song = nextSong;
 			}
+
+			GameSettings settings = Minecraft.getInstance().gameSettings;			
+			if (!Minecraft.getInstance().isGameFocused()) {
+				if (masterAudioCount >= 0.1f)
+					masterAudioCount -= 0.05f;
+
+				if (AmbienceConfig.COMMON.lostFocusEnabled.get()) {
+					// Mute the gameaudio on lost focus
+					settings.setSoundLevel(SoundCategory.MASTER, masterAudioCount);
+				}
+			} else {
+
+				if (AmbienceConfig.COMMON.lostFocusEnabled.get()) {
+					// Return the game audio to the previous one
+					if (masterAudioCount <= Utils.clamp(oldVolume, 0.1f, 1f)) {
+						masterAudioCount += 0.05f;
+						settings.setSoundLevel(SoundCategory.MASTER, masterAudioCount);
+					}
+				}
+			}
 			
 			//Fade In gain***************
 			if(fadeIn) {
@@ -214,6 +244,7 @@ public class EventHandlers {
 				fadeInTicks= FADE_DURATION-1;		
 			}
 			//***************
+			
 			
 			if(songs != null && (!songs.equals(PlayerThread.currentSongChoices) || (song == null && PlayerThread.currentSong != null) || !Ambience.thread.playing)) {
 				if(nextSong != null && nextSong.equals(song))
@@ -525,6 +556,9 @@ public class EventHandlers {
 	{
 		Ocarina Ocarina=RegistryHandler.Ocarina.get();
 		Ocarina.renderFX(event, zoomCount, zoomAmount, zoomSpeed,20);		
+		
+		//Render the Transitions
+		cinematic.renderFX(event, zoomCount, zoomAmount, zoomSpeed, 20);
 	}
 		
 	public static boolean show=false;
@@ -534,6 +568,11 @@ public class EventHandlers {
 		
 		int py=(int) Math.abs(zoomCount-70);         
 		if (event.getType() == ElementType.HOTBAR & py>10)
+		{
+			event.setCanceled(true);
+		}
+		
+		if (event.getType() == ElementType.HOTBAR &  Math.abs(CinematicRender.fx_zoomCount-70)> 10)
 		{
 			event.setCanceled(true);
 		}

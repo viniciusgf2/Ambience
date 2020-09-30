@@ -225,6 +225,11 @@ public class MyMessage {
 
 				CompoundNBT EventSound = data;
 				
+				//For the inside Structure Checker
+				if(EventSound.contains("StructureName")) {					            
+		            SongPicker.StructureName=EventSound.getString("StructureName");
+				}
+				
 				//For the juckebox event
 				if(EventSound.contains("playingJuckebox")) {					
 		            Ambience.playingJuckebox=EventSound.getBoolean("playingJuckebox");		
