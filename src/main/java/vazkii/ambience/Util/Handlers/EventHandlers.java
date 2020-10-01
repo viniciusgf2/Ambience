@@ -7,6 +7,7 @@ import javax.swing.text.ChangedCharSetException;
 
 import org.apache.logging.log4j.core.config.plugins.util.ResolverUtil.Test;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 
 import com.google.common.collect.Maps;
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -18,6 +19,11 @@ import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.audio.SoundManager;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.GuiIngameMenu;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiOptions;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiScreenOptionsSounds;
 import net.minecraft.client.gui.toasts.SystemToast;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.IParticleFactory;
@@ -93,6 +99,7 @@ import vaskii.ambience.network4.NetworkHandler4;
 import vaskii.ambience.network4.OcarinaNetworkHandler;
 import vaskii.ambience.objects.items.Horn;
 import vaskii.ambience.objects.items.Ocarina;
+import vaskii.ambience.render.CinematicRender;
 import vaskii.ambience.render.HornRender;
 import vaskii.ambience.render.SelectionBoxRenderer;
 import vazkii.ambience.Ambience;
@@ -101,6 +108,7 @@ import vazkii.ambience.NilMusicTicker;
 import vazkii.ambience.PlayerThread;
 import vazkii.ambience.SongLoader;
 import vazkii.ambience.SongPicker;
+import vazkii.ambience.Util.Utils;
 import vazkii.ambience.Util.particles.DripLavaParticleFactory;
 import vazkii.ambience.Util.particles.DripWaterParticleFactory;
 
@@ -124,6 +132,10 @@ public class EventHandlers {
 	public static int attackingTimer;
 	static Entity currentplayer;
 	public static KeyBinding[] keyBindings;
+	public static float oldVolume;
+
+	public static CinematicRender cinematic=new CinematicRender();
+	
 	public Ambience ambience;
 	
 	static int oldCameraMode = 0;
@@ -165,6 +177,8 @@ public class EventHandlers {
 	public EventHandlers(Ambience amb) {
 		this.ambience = amb;
 		attackingTimer = attackFadeTime;
+		GameSettings settings = Minecraft.getMinecraft().gameSettings;
+		oldVolume=settings.getSoundLevel(SoundCategory.MASTER);
 
 		currentplayer = Minecraft.getMinecraft().player;
 		// declare an array of key bindings
@@ -239,6 +253,9 @@ public class EventHandlers {
 	{
 		Ocarina Ocarina=(Ocarina) ItemInit.itemOcarina;
 		Ocarina.renderFX(event, zoomCount, zoomAmount, zoomSpeed,20);		
+		
+		//Render the Transitions
+		cinematic.renderFX(event, zoomCount, zoomAmount, zoomSpeed, 20);
 	}
 	
 	private void setCameraMode(int mode) {
@@ -469,6 +486,7 @@ public class EventHandlers {
 	@SideOnly(Side.CLIENT)
 	public void onWorldLoad(WorldEvent.Load ev) {
 		Minecraft mc = Minecraft.getMinecraft();
+		SongPicker.cinematicMap.clear();
 		
 		if (mc.effectRenderer != null) 
 		{
@@ -549,17 +567,31 @@ public class EventHandlers {
 		Ambience.thread.setGain(PlayerThread.fadeGains[0]);
 		EventHandlers.fadeIn = false;
 	}
-	
+
+	boolean focused=false;
 	private float masterAudioCount=0;
 	@SubscribeEvent
 	public void onTick(ClientTickEvent event) {
 		if(Ambience.thread == null)
 			return;
-		
-
-		
-			
-			if(event.phase == Phase.END) {			
+					
+			if(event.phase == Phase.END) {		
+				
+				//Checks if the screen is focused or not
+				if (Display.isCreated())
+			    {
+			        if (focused && !Display.isActive())
+			        {
+			            focused = false;
+			            //shutdown lighting
+			        }
+			        else if (!focused && Display.isActive())
+			        {
+			            focused = true;
+			            //restart lighting
+			        }
+			    }
+				
 				String songs = SongPicker.getSongsString();
 				String song = null;
 				
@@ -572,27 +604,26 @@ public class EventHandlers {
 						song = nextSong;
 				}
 				
-				if(!Minecraft.getMinecraft().inGameHasFocus) {	
-					if(masterAudioCount>=0.05)
-						masterAudioCount-=0.05f;
-					
-					if(AmbienceConfig.lostFocusEnabled) {
-						//Mute the gameaudio on lost focus
-						Minecraft.getMinecraft().getSoundHandler().setSoundLevel(SoundCategory.MASTER, masterAudioCount);
-						fadeIn=true;		
+				GameSettings settings = Minecraft.getMinecraft().gameSettings;			
+				if (!focused) {
+					if (masterAudioCount >= 0.1f)
+						masterAudioCount -= 0.05f;
+
+					if (AmbienceConfig.lostFocusEnabled) {
+						// Mute the gameaudio on lost focus
+						settings.setSoundLevel(SoundCategory.MASTER, masterAudioCount);
 					}
-				}else {
-					
-					if(AmbienceConfig.lostFocusEnabled) {
-						//Return the game audio to the previous one
-						GameSettings settings = Minecraft.getMinecraft().gameSettings;
-						float musicGain = settings.getSoundLevel(SoundCategory.MUSIC) * settings.getSoundLevel(SoundCategory.MASTER);		
-						if(masterAudioCount <=musicGain) {						
-							masterAudioCount+=0.05f;
-							Minecraft.getMinecraft().getSoundHandler().setSoundLevel(SoundCategory.MASTER, masterAudioCount);
+				} else {
+
+					if (AmbienceConfig.lostFocusEnabled) {
+						// Return the game audio to the previous one
+						if (masterAudioCount < Utils.clamp(oldVolume, 0.1f, 1f)) {
+							masterAudioCount += 0.05f;
+							settings.setSoundLevel(SoundCategory.MASTER, masterAudioCount);
 						}
 					}
-					
+				}
+				
 					//Fade In gain***************
 					if(fadeIn) {
 						Ambience.thread.setGain(PlayerThread.fadeGains[fadeInTicks]);				
@@ -605,7 +636,7 @@ public class EventHandlers {
 						fadeInTicks= FADE_DURATION-1;		
 					}
 					//***************
-				}
+				
 				
 				
 				if(songs != null && (!songs.equals(PlayerThread.currentSongChoices) || (song == null && PlayerThread.currentSong != null) || !Ambience.thread.playing)) {
@@ -750,6 +781,7 @@ public class EventHandlers {
 
 		//Render the Horn sound effect
 		HornRender.drawBoundingBox(currentplayer.getPositionVector(), event.getPartialTicks(), event, currentplayer.world, currentplayer);
+		
 	}
 
 	public static boolean show = false;
@@ -760,6 +792,11 @@ public class EventHandlers {
 		
 		int py=(int) Math.abs(zoomCount-70);         
 		if (event.getType() == ElementType.HOTBAR & py>10)
+		{
+			event.setCanceled(true);
+		}
+		
+		if (event.getType() == ElementType.HOTBAR &  Math.abs(CinematicRender.fx_zoomCount-70)> 10)
 		{
 			event.setCanceled(true);
 		}

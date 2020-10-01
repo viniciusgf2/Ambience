@@ -142,11 +142,12 @@ public class EventHandlerServer {
 		}
 				
 		if(!OldStructureName.equals(StructureName)) {
-			System.out.println(StructureName);	
-			
+		
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setString("StructureName", StructureName);			
-							
+				
+			
+			if(!player.world.isRemote)
 			NetworkHandler4.sendToClient(new MyMessage4(nbt), (EntityPlayerMP) player);
 		}
 

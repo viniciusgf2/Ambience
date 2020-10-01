@@ -10,6 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.Set;
@@ -35,6 +37,21 @@ public final class SongLoader {
 		try {
 
 			props.load(new FileReader(config));
+			
+			//Reset the mappings on load/reload
+			resetMaps();
+			
+			//List transition logos file names*********************************************
+			File folder = new File(Ambience.resourcesDir + "\\textures\\transitions\\");
+			File[] listOfFiles = folder.listFiles();
+
+			for (int i = 0; i < listOfFiles.length; i++) {
+			  if (listOfFiles[i].isFile()) {
+			   // System.out.println("File " + listOfFiles[i].getName());			    
+			    SongPicker.transitionsMap.add(listOfFiles[i].getName().toLowerCase().replace(".png", ""));
+			  }
+			}
+			//***********************************************************
 			
 			//Adds the Notification propertie to the ambience.properties file if the player don't have this 
 			if(props.getProperty("ShowUpdateNotifications") ==null) 
@@ -159,6 +176,18 @@ public final class SongLoader {
 			musicDir.mkdir();
 
 		mainDir = musicDir;
+	}
+	
+	public static void resetMaps()
+	{		
+		SongPicker.eventMap=new HashMap();
+		SongPicker.biomeMap= new HashMap();
+		SongPicker.areasMap = new HashMap();
+		SongPicker.mobMap = new HashMap();
+		SongPicker.primaryTagMap =new HashMap();
+		SongPicker.secondaryTagMap =new HashMap();
+		SongPicker.transitionsMap = new ArrayList<String>();
+		Ocarina.songsMap=new HashMap<String, String[]>();
 	}
 
 	public static void initConfig(File f) {

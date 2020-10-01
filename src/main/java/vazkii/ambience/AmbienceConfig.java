@@ -26,6 +26,10 @@ public class AmbienceConfig {
 	@Config.Comment("Fade Out Sound Volume on Game Lost Focus[Default:true]")			
 	public static Boolean lostFocusEnabled = true;
 
+	@Config.Name("Cinematic Transitions")
+	@Config.Comment("Show a cinematic enty with a image on enter a structure[Default:true]")		
+	public static Boolean structuresCinematic = true;
+
 		@Config(category = "Ocarina", modid = Reference.MOD_ID)
 		public static class OcarinaMusics {
 			/*@Config.Name("Wings")

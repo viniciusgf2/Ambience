@@ -1,6 +1,7 @@
 package vazkii.ambience;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +21,11 @@ import net.minecraft.client.gui.GuiBossOverlay;
 import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiIngameMenu;
+import net.minecraft.client.gui.GuiScreenOptionsSounds;
 import net.minecraft.client.gui.GuiSleepMP;
 import net.minecraft.client.gui.GuiWinGame;
 import net.minecraft.client.multiplayer.GuiConnecting;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -42,6 +45,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -53,9 +58,11 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import vaskii.ambience.Init.ItemInit;
 import vaskii.ambience.objects.items.Ocarina;
+import vaskii.ambience.render.CinematicRender;
 import vazkii.ambience.Util.Handlers.EventHandlers;
 import vazkii.ambience.Util.particles.DripWaterParticleFactory;
 import vazkii.ambience.World.Biomes.Area;
@@ -100,13 +107,15 @@ public final class SongPicker {
 	public static final String EVENT_CREDITS = "credits";
 	public static final String EVENT_GENERIC = "generic";
 
-	public static final Map<String, String[]> eventMap = new HashMap();
-	public static final Map<Biome, String[]> biomeMap = new HashMap();
-	public static final Map<String, String[]> areasMap = new HashMap();	
-	public static final Map<String, String[]> mobMap = new HashMap();	
-	public static final Map<BiomeDictionary.Type, String[]> primaryTagMap = new HashMap();
-	public static final Map<BiomeDictionary.Type, String[]> secondaryTagMap = new HashMap();	
+	public static Map<String, String[]> eventMap = new HashMap();
+	public static Map<Biome, String[]> biomeMap = new HashMap();
+	public static Map<String, String[]> areasMap = new HashMap();	
+	public static Map<String, String[]> mobMap = new HashMap();	
+	public static Map<String, Long> cinematicMap = new HashMap<String, Long>();	
+	public static Map<BiomeDictionary.Type, String[]> primaryTagMap = new HashMap();
+	public static Map<BiomeDictionary.Type, String[]> secondaryTagMap = new HashMap();	
 	//public static final List<String> speakerMap = new ArrayList<String>();
+	public static List<String> transitionsMap = new ArrayList<String>();
 	
 	public static final Random rand = new Random();
 
@@ -134,6 +143,8 @@ public final class SongPicker {
 		primaryTagMap.clear();
 		secondaryTagMap.clear();
 	}
+	
+	public static boolean GuiSoundOpened=false;
 
 	public static String[] getSongs() {
 		Minecraft mc = Minecraft.getMinecraft();
@@ -144,6 +155,17 @@ public final class SongPicker {
 		
 		if(world!=null)
 			dimension=world.provider.getDimension();		
+		
+		if (mc.currentScreen instanceof GuiScreenOptionsSounds) {
+			GuiSoundOpened=true;
+		}
+		else{
+			if(GuiSoundOpened) {
+				GuiSoundOpened=false;
+				GameSettings settings = Minecraft.getMinecraft().gameSettings;
+				EventHandlers.oldVolume=settings.getSoundLevel(SoundCategory.MASTER);
+			}
+		}
 				
 		if (mc.currentScreen instanceof GuiConnecting)
 			return getSongsForEvent(EVENT_CONNECTING);
@@ -389,6 +411,9 @@ public final class SongPicker {
 			else
 				songs = getSongsForEvent(StructureName);
 			
+
+			getTransition(world,player,StructureName,true);
+			
 			if (songs != null)
 				return songs;		
 		}
@@ -586,16 +611,20 @@ public final class SongPicker {
 									if(area.isInstantPlay())
 										EventHandlers.playInstant();
 								
+									getTransition(world,player,area.getName().toLowerCase(),false);
 									return areasMap.get(area.getName());
 								}else if(!night) {
 									if(area.isInstantPlay())
 										EventHandlers.playInstant();
 								
-									if(area.getRedstoneStrength()==0) {									
+									if(area.getRedstoneStrength()==0) {		
+										
+										getTransition(world,player,area.getName().toLowerCase(),false);
 										return areasMap.get(area.getName());	
 									}else {			
 										String[] songs= areasMap.get(area.getName()+"."+area.getRedstoneStrength());	
 										
+										getTransition(world,player,area.getName().toLowerCase(),false);
 										if(songs!=null)
 											return songs;
 										else						
@@ -789,7 +818,7 @@ public final class SongPicker {
 
 		return getSongsForEvent(EVENT_GENERIC);
 	}
-
+	
 	public static String getSongsString() {
 		return StringUtils.join(getSongs(), ",");
 	}
@@ -843,5 +872,49 @@ public final class SongPicker {
 		}
 		// ****************************************************
 		return songLenght;
+	}
+	
+public static Long removeDays(String structureName) {
+		
+		if (cinematicMap.containsKey(structureName))
+			return cinematicMap.remove(structureName);
+
+		return null;
+	}
+	
+	public static Long getDays(String structureName) {
+		
+		if (cinematicMap.containsKey(structureName))
+			return cinematicMap.get(structureName);
+
+		return null;
+	}
+	
+	private static void getTransition(World world, EntityPlayer player, String structureName, boolean playSound) {
+
+		if(AmbienceConfig.structuresCinematic)
+			if(getDays(structureName)==null) {										
+				if(transitionsMap.contains(structureName)) {
+					
+					if(!cinematicMap.containsKey(structureName) & playSound)
+					world.playSound(player, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ(),
+							ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("minecraft:block.end_portal.spawn")),
+							SoundCategory.BLOCKS, (float) 10, (float) 1);
+					
+					cinematicMap.put(structureName, world.getWorldTime() / 24000);		
+					CinematicRender.AREA_LOGO=new ResourceLocation(Reference.MOD_ID,"textures/transitions/"+structureName.toLowerCase()+".png");						
+					CinematicRender.ativated=true;
+				}
+			}
+			else 
+			{
+				Long days;		
+				long daysPassed = world.getWorldTime() / 24000;
+				days=getDays(structureName);
+				
+				if(daysPassed-days>=1) {
+					removeDays(structureName);
+				}						
+			}
 	}
 }
