@@ -222,7 +222,9 @@ public class EditAreaGUI extends GuiScreen {
 				    
 					if(entry.getKey().contains(selectedArea))
 						break;	
-					SelectedItemIndex++;
+
+					if(!entry.getKey().contains(".")) 
+						SelectedItemIndex++;
 				}
 											
 			return SelectedItemIndex;
