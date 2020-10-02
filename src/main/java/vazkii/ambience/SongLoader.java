@@ -130,7 +130,18 @@ public final class SongLoader {
 						String mobName = joinTokensExceptFirst(tokens).replaceAll("\\+", " ");
 						
 						SongPicker.mobMap.put(mobName, props.getProperty(s).split(","));
-					}else if (keyType.equals("ocarina")) {
+					}else if (keyType.equals("effect")) {
+						String event = tokens[1];
+
+						if(tokens.length>2) 							
+						{
+							SongPicker.effectMap.put(event+"."+tokens[2], props.getProperty(s).split(","));
+						}
+						else {		
+							SongPicker.effectMap.put(event, props.getProperty(s).split(","));				
+						}
+					}
+					else if (keyType.equals("ocarina")) {
 						String event = tokens[1];						
 						
 						Ocarina.songsMap.put(tokens[1], props.getProperty(s).split(","));

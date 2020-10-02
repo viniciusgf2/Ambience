@@ -13,7 +13,7 @@ issueTrackerURL="https://www.curseforg4r e.com/minecraft/mc-mods/ambience-extras
 [[mods]] 
 modId="ambience"
 #version="${file.jarVersion}"
-version="1.0.7"
+version="1.0.7.1"
 displayName="Ambience - Extras" #mandatory
 updateJSONURL="https://raw.githubusercontent.com/viniciusgf2/Ambience/master/modversion.json"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/ambience-extras"
