@@ -43,13 +43,15 @@ public final class SongLoader {
 			
 			//List transition logos file names*********************************************
 			File folder = new File(Ambience.resourcesDir + "\\textures\\transitions\\");
-			File[] listOfFiles = folder.listFiles();
-
-			for (int i = 0; i < listOfFiles.length; i++) {
-			  if (listOfFiles[i].isFile()) {
-			   // System.out.println("File " + listOfFiles[i].getName());			    
-			    SongPicker.transitionsMap.add(listOfFiles[i].getName().toLowerCase().replace(".png", ""));
-			  }
+			if(folder.exists()) {
+				File[] listOfFiles = folder.listFiles();
+	
+				for (int i = 0; i < listOfFiles.length; i++) {
+				  if (listOfFiles[i].isFile()) {
+				   // System.out.println("File " + listOfFiles[i].getName());			    
+				    SongPicker.transitionsMap.add(listOfFiles[i].getName().toLowerCase().replace(".png", ""));
+				  }
+				}
 			}
 			//***********************************************************
 			

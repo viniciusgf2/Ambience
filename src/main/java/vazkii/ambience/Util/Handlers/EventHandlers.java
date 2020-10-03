@@ -1,83 +1,51 @@
 package vazkii.ambience.Util.Handlers;
 
-import java.util.List;
 import java.util.Map;
 
-import javax.swing.text.ChangedCharSetException;
-
-import org.apache.logging.log4j.core.config.plugins.util.ResolverUtil.Test;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
-
-import com.google.common.collect.Maps;
-import com.mojang.realmsclient.gui.ChatFormatting;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.MusicTicker;
-import net.minecraft.client.audio.SoundManager;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.GuiIngameMenu;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiOptions;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiScreenOptionsSounds;
 import net.minecraft.client.gui.toasts.SystemToast;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.ParticleDrip;
 import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.client.particle.ParticleRain;
 import net.minecraft.client.particle.ParticleSplash;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.event.ClickEvent;
-import net.minecraft.util.text.event.HoverEvent;
-import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.ForgeVersion.CheckResult;
 import net.minecraftforge.common.ForgeVersion.Status;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -87,17 +55,12 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vaskii.ambience.Init.BlockInit;
 import vaskii.ambience.Init.ItemInit;
 import vaskii.ambience.network4.MyMessage4;
 import vaskii.ambience.network4.NetworkHandler4;
 import vaskii.ambience.network4.OcarinaNetworkHandler;
-import vaskii.ambience.objects.items.Horn;
 import vaskii.ambience.objects.items.Ocarina;
 import vaskii.ambience.render.CinematicRender;
 import vaskii.ambience.render.HornRender;
@@ -437,24 +400,23 @@ public class EventHandlers {
 		}
 	}
 
-	String mobName = null;
-	Boolean isHostile = false;
-
 	// Quando alguma coisa ataca o player
 	@SubscribeEvent
 	public void onEntitySetAttackTargetEvent(LivingAttackEvent event) {
 		if (event.getEntityLiving() instanceof EntityPlayer) {
-			Ambience.attacked = true;
-			attackingTimer = attackFadeTime;
-
-			EventHandlers.playInstant();
+			if(event.getSource().damageType == "mob") {
+				Ambience.attacked = true;
+				attackingTimer = attackFadeTime;
+	
+				EventHandlers.playInstant();
+			}
 		}
 	}
 
 	// FUNCIONA Quando player ataca alguma coisa
 	@SubscribeEvent
 	public void onPlayerAttackEvent(AttackEntityEvent event) {
-		mobName = event.getTarget().getName().toLowerCase();
+		String mobName = event.getTarget().getName().toLowerCase();
 
 		if (event.getTarget() instanceof EntityMob) {
 			// if (event.getTarget().isCreatureType(EnumCreatureType.MONSTER, false)) {
