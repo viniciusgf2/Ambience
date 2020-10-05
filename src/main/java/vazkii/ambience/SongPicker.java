@@ -420,7 +420,7 @@ public final class SongPicker {
 		//Events for potions
 		Collection<EffectInstance> potions= player.getActivePotionEffects();		
 		if(potions!=null && potions.size()>0) {			
-			String potionName= ((EffectInstance)potions.toArray()[0]).getEffectName().replace("effect.", "");
+			String potionName= ((EffectInstance)potions.toArray()[0]).getEffectName().replace("effect.", "").replace("minecraft.", "");
 
 			if (dimension !=0 ) {
 				 if (effectMap.containsKey(potionName+"."+ dimension))
