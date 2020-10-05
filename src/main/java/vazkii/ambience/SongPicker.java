@@ -473,7 +473,7 @@ public final class SongPicker {
 		}
 
 		Entity riding = player.getRidingEntity();
-		if (riding != null) {
+		if (riding != null) {						
 			if (riding instanceof MinecartEntity) {
 				String[] songs=null;
 				//Songs for other dimensions
@@ -526,6 +526,20 @@ public final class SongPicker {
 				if (songs != null)
 					return songs;
 			}
+			//Get songs for custom entities
+			if (riding!=null) {
+				String[] songs=null;
+				//Songs for other dimensions
+				if (dimension !=0) {
+					songs = getSongsForEvent(riding.getName().getString()+"\\"+dimension);
+					if(songs==null)
+						songs = getSongsForEvent(riding.getName().getString());
+				}
+				else
+					songs = getSongsForEvent(riding.getName().getString());
+				if (songs != null)
+					return songs;
+			}	
 		}
 
 		

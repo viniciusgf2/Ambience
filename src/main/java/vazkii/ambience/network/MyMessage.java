@@ -43,6 +43,7 @@ import vazkii.ambience.Ambience;
 import vazkii.ambience.SongPicker;
 import vazkii.ambience.Screens.SpeakerContainer;
 import vazkii.ambience.Util.WorldData;
+import vazkii.ambience.Util.Handlers.EventHandlers;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.World.Biomes.Area.Operation;
 import vazkii.ambience.blocks.AlarmTileEntity;
@@ -224,6 +225,11 @@ public class MyMessage {
 			else {
 
 				CompoundNBT EventSound = data;
+				
+				//For the Advancements
+				if(EventSound.contains("playAdvancement")) {					            
+		            EventHandlers.onAdvancement();
+				}
 				
 				//For the inside Structure Checker
 				if(EventSound.contains("StructureName")) {					            

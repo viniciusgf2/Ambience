@@ -1,7 +1,12 @@
 package vazkii.ambience.Util.Handlers;
 
 import java.awt.Color;
+import java.io.File;
+import java.util.Random;
 
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.AudioHeader;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -101,6 +106,51 @@ public class EventHandlers {
 	public EventHandlers() {		
 
 	}
+	
+	// Advancements ****************************************************************************
+	static boolean playingAdvancement=false;
+	static int adcancementTimer=0;
+	static PlayerThread thread2;
+	static String AdvancementSong="";
+	static int songLenght;
+
+	public static void onAdvancement() 
+	{
+		if (SongPicker.eventMap.containsKey("advancement") & !playingAdvancement) {
+			thread2 = new PlayerThread();
+			Random rand = new Random();
+
+			String[] songChoices = SongPicker.eventMap.get("advancement");
+			if (songChoices != null & !playingAdvancement) {
+				if (songChoices.length > 0) 
+				{
+					playingAdvancement=true;
+					AdvancementSong=songChoices[rand.nextInt(songChoices.length)];
+					getSongLenght();
+					thread2.play(AdvancementSong);	
+				}
+			}
+		}		
+	}
+	
+	private static void getSongLenght() {
+		// Obtém o tempo do som selecionado
+		File f = new File(Ambience.ambienceDir+"\\music\\", AdvancementSong + ".mp3");
+
+		if (f.isFile()) {
+			try {
+				AudioFile af = AudioFileIO.read(f);
+				AudioHeader ah = af.getAudioHeader();
+				songLenght = ah.getTrackLength();
+			} catch (Exception e) {
+
+			}
+		}else {
+			songLenght=0;
+		}
+
+	}
+	//*********************************************************************************
 	
 	//add the items to the Loot tables
 	@SubscribeEvent
@@ -202,6 +252,17 @@ public class EventHandlers {
 	public static void onTick(final ClientTickEvent event) {
 		if(Ambience.thread == null)
 			return;
+		
+		//Kills the advancement on finish
+		if(playingAdvancement) {
+			adcancementTimer++;
+			
+			if(adcancementTimer>songLenght*40) {
+				adcancementTimer=0;
+				playingAdvancement=false;
+				thread2.forceKill();
+			}
+		}
 		
 		if(event.phase == Phase.END) {			
 			String songs = SongPicker.getSongsString();

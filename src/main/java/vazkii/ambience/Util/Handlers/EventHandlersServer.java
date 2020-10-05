@@ -26,9 +26,11 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
+import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -70,6 +72,17 @@ public class EventHandlersServer {
 		attackingTimer = attackFadeTime;
 	}
 
+	@SubscribeEvent
+	public void onAdvancement(AdvancementEvent event) 
+	{
+		if(event.getPhase() == EventPriority.NORMAL) {
+			CompoundNBT nbt = new CompoundNBT();
+			nbt.putBoolean("playAdvancement", true);			
+
+			AmbiencePackageHandler.sendToClient(new MyMessage(nbt), (ServerPlayerEntity) event.getPlayer());			
+		}
+	}
+	
 	@SubscribeEvent
 	public void onServerStarting(final FMLServerStartingEvent event) {
 		CreateAreaCommand.register(event.getCommandDispatcher());
