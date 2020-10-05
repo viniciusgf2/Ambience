@@ -123,6 +123,10 @@ public class EventHandlers {
 	    {
 		       event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation("ambience:chests/abandoned_mineshaft"))).build());
 		}
+	    else if (event.getName().equals(new ResourceLocation("minecraft:chests/desert_pyramid")))
+	    {
+		       event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation("ambience:chests/desert_pyramid"))).build());
+		}
 	}
 			
 	public static void playInstant() {		

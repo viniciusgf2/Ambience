@@ -10,12 +10,12 @@
       "entries": [
         {
           "type": "item",
-          "weight": 30,
+          "weight": 70,
           "name": "ambience:ocarina"
         },
         {
           "type": "item",
-          "weight": 45,          
+          "weight": 85,          
           "name": "ambience:horn"
         }        
       ]

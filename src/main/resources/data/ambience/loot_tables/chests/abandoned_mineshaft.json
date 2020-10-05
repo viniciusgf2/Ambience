@@ -6,12 +6,12 @@
       "entries": [
         {
           "type": "item",
-          "weight": 20,
+          "weight": 70,
           "name": "ambience:ocarina"
         },
         {
           "type": "item",
-          "weight": 30,          
+          "weight": 90,          
           "name": "ambience:horn"
         }        
       ]

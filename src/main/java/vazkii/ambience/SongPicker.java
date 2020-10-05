@@ -159,7 +159,7 @@ public final class SongPicker {
 		World world = mc.world;
 		int dimension=0;
 		Ocarina = RegistryHandler.Ocarina.get();
-		
+				
 		if(world!=null)
 			dimension=world.dimension.getType().getId();	
 		
@@ -276,7 +276,7 @@ public final class SongPicker {
 			
 			return song;
 		}
-		
+				
 		BossOverlayGui bossOverlay = mc.ingameGUI.getBossOverlay();
 		Map<UUID, BossInfo> map = ObfuscationReflectionHelper.getPrivateValue(BossOverlayGui.class, bossOverlay,Ambience.OBF_MAP_BOSS_INFOS);
 		if (!map.isEmpty()) {
@@ -366,7 +366,6 @@ public final class SongPicker {
 				//**Play horde musig				
 				if (countEntities > 5) {
 					horde=true;
-					songs=null;
 					//Songs for other dimensions
 					if (dimension !=0) {
 						songs = getSongsForEvent(EVENT_HORDE+"\\"+dimension);
@@ -377,10 +376,11 @@ public final class SongPicker {
 						return songs;
 				}else {
 					horde=false;
+					
+					if (songs != null)
+						return songs;
 				}
 
-				if (songs != null)
-					return songs;
 			} catch (Exception ex) {
 				System.out.println(ex.getMessage());
 			}
@@ -974,7 +974,7 @@ public final class SongPicker {
 					if(!cinematicMap.containsKey(structureName) & playSound)
 					world.playSound(player, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ(),
 							ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("minecraft:block.end_portal.spawn")),
-							SoundCategory.BLOCKS, (float) 10, (float) 1);
+							SoundCategory.MASTER, (float) 0.5f, (float) 1);
 					
 					cinematicMap.put(structureName, world.getGameTime() / 24000);		
 					CinematicRender.AREA_LOGO=new ResourceLocation(Ambience.MODID,"textures/transitions/"+structureName.toLowerCase()+".png");						
