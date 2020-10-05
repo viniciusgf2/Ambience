@@ -12,10 +12,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderServer;
+import net.minecraftforge.event.entity.player.AdvancementEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vaskii.ambience.Init.ItemInit;
 import vaskii.ambience.network4.MyMessage4;
 import vaskii.ambience.network4.NetworkHandler4;
@@ -87,6 +91,16 @@ public class EventHandlerServer {
 		}
 	}*/
 
+	@SubscribeEvent
+	public void onAdvancement(AdvancementEvent event) 
+	{
+		if(event.getPhase() == EventPriority.NORMAL) {
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setBoolean("playAdvancement", true);
+							
+			NetworkHandler4.sendToClient(new MyMessage4(nbt), (EntityPlayerMP) event.getEntityPlayer());
+		}
+	}
 	
 	public String insideStructureName="";
 	

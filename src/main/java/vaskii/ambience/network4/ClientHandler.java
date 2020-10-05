@@ -22,6 +22,7 @@ import vaskii.ambience.objects.blocks.Speaker;
 import vaskii.ambience.objects.blocks.SpeakerTileEntity;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.SongPicker;
+import vazkii.ambience.Util.Handlers.EventHandlers;
 import vazkii.ambience.World.Biomes.Area;
 
 public class ClientHandler implements IMessageHandler<MyMessage4, IMessage> {
@@ -45,6 +46,11 @@ public class ClientHandler implements IMessageHandler<MyMessage4, IMessage> {
 		}*/
 		
 		NBTTagCompound BlockSelected = message.getToSend();
+		
+		//For the Advancements
+		if(BlockSelected.hasKey("playAdvancement")) {					            
+            EventHandlers.onAdvancement();
+		}
 		
 		//For the inside Structure Checker
 		if(BlockSelected.hasKey("StructureName")) {					            

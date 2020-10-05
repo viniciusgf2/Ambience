@@ -25,6 +25,8 @@ import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiScreenOptionsSounds;
 import net.minecraft.client.gui.GuiSleepMP;
 import net.minecraft.client.gui.GuiWinGame;
+import net.minecraft.client.gui.toasts.AdvancementToast;
+import net.minecraft.client.gui.toasts.SystemToast;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
@@ -208,7 +210,7 @@ public final class SongPicker {
 			return getSongsForEvent(EVENT_GAMEOVER);
 
 		BlockPos pos = new BlockPos(player);
-			
+						
 		/*AmbienceEventEvent event = new AmbienceEventEvent.Pre(world, pos);
 		MinecraftForge.EVENT_BUS.post(event);
 		String[] eventr = getSongsForEvent(event.event);
@@ -560,6 +562,20 @@ public final class SongPicker {
 				if (songs != null)
 					return songs;
 			}
+			//Get songs for custom entities
+			if (riding!=null) {
+				String[] songs=null;
+				//Songs for other dimensions
+				if (dimension !=0) {
+					songs = getSongsForEvent(riding.getName()+"\\"+dimension);
+					if(songs==null)
+						songs = getSongsForEvent(riding.getName());
+				}
+				else
+					songs = getSongsForEvent(riding.getName());
+				if (songs != null)
+					return songs;
+			}	
 		}
 
 		if (player.isInsideOfMaterial(Material.WATER) & !Ambience.attacked) {

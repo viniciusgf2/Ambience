@@ -1,7 +1,12 @@
 package vazkii.ambience.Util.Handlers;
 
+import java.io.File;
 import java.util.Map;
+import java.util.Random;
 
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.AudioHeader;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
@@ -10,6 +15,7 @@ import net.minecraft.block.BlockJukebox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.toasts.AdvancementToast;
 import net.minecraft.client.gui.toasts.SystemToast;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.IParticleFactory;
@@ -42,6 +48,7 @@ import net.minecraftforge.common.ForgeVersion.Status;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -55,12 +62,14 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vaskii.ambience.Init.ItemInit;
 import vaskii.ambience.network4.MyMessage4;
 import vaskii.ambience.network4.NetworkHandler4;
 import vaskii.ambience.network4.OcarinaNetworkHandler;
+import vaskii.ambience.objects.blocks.SpeakerTileEntity;
 import vaskii.ambience.objects.items.Ocarina;
 import vaskii.ambience.render.CinematicRender;
 import vaskii.ambience.render.HornRender;
@@ -172,12 +181,77 @@ public class EventHandlers {
 	boolean pressedkey = false;
 	boolean played_match = false;
 	boolean settingDay = false,settingNight = false;
+	
+	
+	// Advancements ****************************************************************************
+	static boolean playingAdvancement=false;
+	int adcancementTimer=0;
+	static PlayerThread thread2;
+	static String AdvancementSong="";
+	static int songLenght;
+
+	public static void onAdvancement() 
+	{
+		if (SongPicker.eventMap.containsKey("advancement") & !playingAdvancement) {
+			thread2 = new PlayerThread();
+			Random rand = new Random();
 			
+			String[] songChoices = SongPicker.eventMap.get("advancement");
+			if (songChoices != null & !playingAdvancement) {
+				if (songChoices.length > 0) 
+				{
+					playingAdvancement=true;
+					AdvancementSong=songChoices[rand.nextInt(songChoices.length)];
+					getSongLenght();
+					thread2.play(AdvancementSong);	
+					
+					System.out.println("playing");
+				}
+			}
+		}		
+	}
+	
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.WorldTickEvent.PlayerTickEvent event) {
 		if (currentplayer == null)
 			currentplayer = Minecraft.getMinecraft().player;		
+		
+		if(playingAdvancement) {
+			adcancementTimer++;
+			
+			int scale_time=20;
+			//If this is null you are in the single player 
+			if(Minecraft.getMinecraft().getCurrentServerData() ==null)
+				scale_time=80;
+			else
+				scale_time=20;
+			
+			if(adcancementTimer>songLenght*scale_time) {
+				adcancementTimer=0;
+				playingAdvancement=false;
+				thread2.forceKill();
+			}
+		}
 	}
+	
+	private static void getSongLenght() {
+		// Obtém o tempo do som selecionado
+		File f = new File(Ambience.ambienceDir+"\\music\\", AdvancementSong + ".mp3");
+
+		if (f.isFile()) {
+			try {
+				AudioFile af = AudioFileIO.read(f);
+				AudioHeader ah = af.getAudioHeader();
+				songLenght = ah.getTrackLength();
+			} catch (Exception e) {
+
+			}
+		}else {
+			songLenght=0;
+		}
+		
+	}
+	// ******************************************************************************************
 	
 	@SubscribeEvent
 	public void onRightClick(PlayerInteractEvent e) {
