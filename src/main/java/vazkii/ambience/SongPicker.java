@@ -336,7 +336,7 @@ public final class SongPicker {
 				//**Play horde musig				
 				if (countEntities > 5) {
 					horde=true;
-					songs=null;
+					
 					//Songs for other dimensions
 					if (dimension !=0) {
 						songs = getSongsForEvent(EVENT_HORDE+"\\"+dimension);
@@ -984,7 +984,7 @@ public static Long removeDays(String structureName) {
 					if(!cinematicMap.containsKey(structureName) & playSound)
 					world.playSound(player, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ(),
 							ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("minecraft:block.end_portal.spawn")),
-							SoundCategory.BLOCKS, (float) 10, (float) 1);
+							SoundCategory.MASTER, (float) 0.5f, (float) 1);
 					
 					cinematicMap.put(structureName, world.getWorldTime() / 24000);		
 					CinematicRender.AREA_LOGO=new ResourceLocation(Reference.MOD_ID,"textures/transitions/"+structureName.toLowerCase()+".png");						

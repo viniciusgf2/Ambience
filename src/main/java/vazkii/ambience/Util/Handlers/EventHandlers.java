@@ -403,13 +403,11 @@ public class EventHandlers {
 	// Quando alguma coisa ataca o player
 	@SubscribeEvent
 	public void onEntitySetAttackTargetEvent(LivingAttackEvent event) {
-		if (event.getEntityLiving() instanceof EntityPlayer) {
-			if(event.getSource().damageType == "mob") {
-				Ambience.attacked = true;
-				attackingTimer = attackFadeTime;
-	
-				EventHandlers.playInstant();
-			}
+		if (event.getEntityLiving() instanceof EntityPlayer) {			
+			Ambience.attacked = true;
+			attackingTimer = attackFadeTime;
+
+			EventHandlers.playInstant();			
 		}
 	}
 

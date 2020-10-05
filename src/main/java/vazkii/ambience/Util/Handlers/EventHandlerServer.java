@@ -1,26 +1,17 @@
 package vazkii.ambience.Util.Handlers;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.ChunkGeneratorHell;
-import net.minecraft.world.gen.ChunkGeneratorOverworld;
 import net.minecraft.world.gen.ChunkProviderServer;
-import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -98,8 +89,8 @@ public class EventHandlerServer {
 
 	
 	public String insideStructureName="";
-	public String StructureName="";
-	public String OldStructureName="";
+	
+	public static Map<String, String> insideStructureMap = new HashMap<String, String>();
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.WorldTickEvent.PlayerTickEvent event) {
 
@@ -115,43 +106,38 @@ public class EventHandlerServer {
 			ChunkProviderServer serverProv = (ChunkProviderServer) prov;
 			
 			if(serverProv.isInsideStructure(world2, "Fortress", pos)) {
-				StructureName="fortress";
+				updatePlayersInsideStructure(player,"fortress");
 			}
 			else if(serverProv.isInsideStructure(world2, "Stronghold", pos)) {
-				StructureName="stronghold";
+				updatePlayersInsideStructure(player,"stronghold");
 			}
 			else if(serverProv.isInsideStructure(world2, "Mansion", pos)) {
-				StructureName="mansion";
+				updatePlayersInsideStructure(player,"mansion");
 			}
 			else if(serverProv.isInsideStructure(world2, "Monument", pos)) {
-				StructureName="oceanMonument";
+				updatePlayersInsideStructure(player,"oceanMonument");
 			}
 			else if(serverProv.isInsideStructure(world2, "Mineshaft", pos)) {
-				StructureName="mineshaft";
+				updatePlayersInsideStructure(player,"mineshaft");
 			}
 			else if(serverProv.isInsideStructure(world2, "Temple", pos)) {
-				StructureName="desertTemple";
+				updatePlayersInsideStructure(player,"desertTemple");
 			}
 			else if(serverProv.isInsideStructure(world2, "Village", pos)) {
-				StructureName="village";
+				updatePlayersInsideStructure(player,"village");
 			}
 			else {
-				StructureName="";
-			}
-			
-		}
-				
-		if(!OldStructureName.equals(StructureName)) {
-		
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setString("StructureName", StructureName);			
-				
-			
-			if(!player.world.isRemote)
-			NetworkHandler4.sendToClient(new MyMessage4(nbt), (EntityPlayerMP) player);
+				//When leave the structure update the player
+				if(insideStructureMap.containsKey(player.getDisplayName().getFormattedText())) {
+					insideStructureMap.remove(player.getDisplayName().getFormattedText());
+
+					NBTTagCompound nbt = new NBTTagCompound();
+					nbt.setString("StructureName", "");							
+					NetworkHandler4.sendToClient(new MyMessage4(nbt), (EntityPlayerMP) player);					
+				}
+			}			
 		}
 
-		OldStructureName=StructureName;
 		//------------------------------------------------------------------------------------------
 		
 		
@@ -198,6 +184,17 @@ public class EventHandlerServer {
 				settingDay = false;
 				settingNight = false;
 			}
+		}
+	}
+	
+	private void updatePlayersInsideStructure(EntityPlayer player,String StructureName) {		
+		String playerName=player.getDisplayName().getFormattedText();
+		if(!insideStructureMap.containsKey(playerName)) {
+			insideStructureMap.put(playerName, StructureName);
+			
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("StructureName", StructureName);							
+			NetworkHandler4.sendToClient(new MyMessage4(nbt), (EntityPlayerMP) player);
 		}
 	}
 	
