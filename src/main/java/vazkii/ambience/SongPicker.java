@@ -29,6 +29,7 @@ import net.minecraft.client.gui.screen.OptionsSoundsScreen;
 import net.minecraft.client.gui.screen.SleepInMultiplayerScreen;
 import net.minecraft.client.gui.screen.WinGameScreen;
 import net.minecraft.client.gui.toasts.SystemToast;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.BoatEntity;
@@ -473,7 +474,7 @@ public final class SongPicker {
 		}
 
 		Entity riding = player.getRidingEntity();
-		if (riding != null) {						
+		if (riding != null) {				
 			if (riding instanceof MinecartEntity) {
 				String[] songs=null;
 				//Songs for other dimensions
@@ -526,17 +527,23 @@ public final class SongPicker {
 				if (songs != null)
 					return songs;
 			}
+			
 			//Get songs for custom entities
 			if (riding!=null) {
+								
+				String[] mobName = riding.getEntityString().split(":");								
 				String[] songs=null;
-				//Songs for other dimensions
-				if (dimension !=0) {
-					songs = getSongsForEvent(riding.getName().getString()+"\\"+dimension);
-					if(songs==null)
-						songs = getSongsForEvent(riding.getName().getString());
+				
+				if(mobName.length>0) {
+					//Songs for other dimensions
+					if (dimension !=0) {
+						songs = getSongsForEvent("riding." + mobName[1]+"\\"+dimension);
+						if(songs==null)
+							songs = getSongsForEvent("riding." + mobName[1]);
+					}
+					else
+						songs = getSongsForEvent("riding." + mobName[1]);
 				}
-				else
-					songs = getSongsForEvent(riding.getName().getString());
 				if (songs != null)
 					return songs;
 			}	
