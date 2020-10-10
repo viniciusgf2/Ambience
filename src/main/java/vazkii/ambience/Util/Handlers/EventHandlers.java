@@ -203,9 +203,7 @@ public class EventHandlers {
 					playingAdvancement=true;
 					AdvancementSong=songChoices[rand.nextInt(songChoices.length)];
 					getSongLenght();
-					thread2.play(AdvancementSong);	
-					
-					System.out.println("playing");
+					thread2.play(AdvancementSong);						
 				}
 			}
 		}		

@@ -104,7 +104,11 @@ public final class SongLoader {
 					if (keyType.equals("event")) {
 						String event = tokens[1];
 
-						SongPicker.eventMap.put(event, props.getProperty(s).split(","));
+						if(tokens.length>2) {
+							SongPicker.eventMap.put("riding."+tokens[2], props.getProperty(s).split(","));
+						}else {						
+							SongPicker.eventMap.put(event, props.getProperty(s).split(","));
+						}
 					} else if (keyType.equals("biome")) {
 						String biomeName = joinTokensExceptFirst(tokens).replaceAll("\\+", " ");
 						Biome biome = BiomeMapper.getBiome(biomeName);

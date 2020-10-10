@@ -30,6 +30,7 @@ import net.minecraft.client.gui.toasts.SystemToast;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
@@ -511,6 +512,26 @@ public final class SongPicker {
 
 		Entity riding = player.getRidingEntity();
 		if (riding != null) {
+			
+			//Get songs for custom entities
+			if (riding!=null) {
+								
+				String mobName = EntityList.getEntityString(riding).toLowerCase();
+				
+				String[] songs=null;
+				
+					//Songs for other dimensions
+					if (dimension !=0) {
+						songs = getSongsForEvent("riding." + mobName+"\\"+dimension);
+						if(songs==null)
+							songs = getSongsForEvent("riding." + mobName);
+					}
+					else
+						songs = getSongsForEvent("riding." + mobName);			
+				if (songs != null)
+					return songs;
+			}	
+			
 			if (riding instanceof EntityMinecart) {
 				String[] songs=null;
 				//Songs for other dimensions
@@ -562,20 +583,7 @@ public final class SongPicker {
 				if (songs != null)
 					return songs;
 			}
-			//Get songs for custom entities
-			if (riding!=null) {
-				String[] songs=null;
-				//Songs for other dimensions
-				if (dimension !=0) {
-					songs = getSongsForEvent(riding.getName()+"\\"+dimension);
-					if(songs==null)
-						songs = getSongsForEvent(riding.getName());
-				}
-				else
-					songs = getSongsForEvent(riding.getName());
-				if (songs != null)
-					return songs;
-			}	
+			
 		}
 
 		if (player.isInsideOfMaterial(Material.WATER) & !Ambience.attacked) {
