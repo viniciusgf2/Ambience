@@ -37,7 +37,7 @@ public class CinematicRender {
 
 					Vector4f color = new Vector4f(1, 1, 1, 1);
 
-					if(timer>300){
+					if(timer>150){
 						ativated=false;
 						timer=0;
 					}

@@ -1021,7 +1021,7 @@ public static Long removeDays(String structureName) {
 				long daysPassed = world.getWorldTime() / 24000;
 				days=getDays(structureName);
 				
-				if(daysPassed-days>=1) {
+				if(daysPassed-days>=2) {
 					removeDays(structureName);
 				}						
 			}

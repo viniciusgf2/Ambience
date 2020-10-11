@@ -290,7 +290,7 @@ public class EventHandlers {
 		Ocarina.renderFX(event, zoomCount, zoomAmount, zoomSpeed,20);		
 		
 		//Render the Transitions
-		cinematic.renderFX(event, zoomCount, zoomAmount, zoomSpeed, 20);
+		cinematic.renderFX(event, zoomCount, zoomAmount, 0.7f, 20);
 	}
 	
 	private void setCameraMode(int mode) {
