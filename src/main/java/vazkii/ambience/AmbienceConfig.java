@@ -21,6 +21,10 @@ public class AmbienceConfig {
 	@Config.Name("Fade Duration")
 	@Config.Comment("Defines the sound volume fade in/out duration [Default:25]")			
 	public static int fadeDuration = 25;
+
+	@Config.Name("Fade Duration")
+	@Config.Comment("Defines the distance in blocks between the player and hostile mobs to determine if still in combat or not [Default:16,Range:10~128]")	
+	public static int attackedDistance = 16;
 	
 	@Config.Name("Lost Focus Fade Out")
 	@Config.Comment("Fade Out Sound Volume on Game Lost Focus[Default:true]")			
@@ -32,17 +36,7 @@ public class AmbienceConfig {
 
 		@Config(category = "Ocarina", modid = Reference.MOD_ID)
 		public static class OcarinaMusics {
-			/*@Config.Name("Wings")
-			@Config.Comment("Enables compat with the Wings mod if it's present.")
-			public boolean WINGS = true;
-
-			@Config.Name("WingsFlyingTickDelay")
-			@Config.Comment({ "The sudden third-person perspective shift can be a bit jarring when flying with Wings.",
-					"Increase this number to increase the amount of ticks (20ths of a second)",
-					"you need to fly for before you automagically go into third person." })
-			@Config.RangeInt(min = 0)
-			public int wingsFlyingTickDelay = 1;*/
-
+			
 			@Config.Name("Sun's Song")
 			@Config.Comment("Enables or disables the Sun's Song Effects [Default:true]")			
 			public static Boolean sunsong_enabled = true;

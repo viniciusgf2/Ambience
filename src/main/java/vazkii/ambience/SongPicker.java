@@ -23,6 +23,7 @@ import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiScreenOptionsSounds;
+import net.minecraft.client.gui.GuiScreenWorking;
 import net.minecraft.client.gui.GuiSleepMP;
 import net.minecraft.client.gui.GuiWinGame;
 import net.minecraft.client.gui.toasts.AdvancementToast;
@@ -97,6 +98,7 @@ public final class SongPicker {
 	public static final String EVENT_UNDERGROUND = "underground";
 	public static final String EVENT_OCEANMONUMENT = "oceanMonument";
 	public static final String EVENT_DEEP_UNDEGROUND = "deepUnderground";
+	public static final String EVENT_LOADINGWORLD = "loadingWorld";
 	public static final String EVENT_HIGH_UP = "highUp";
 	public static final String EVENT_VILLAGE = "village";
 	public static final String EVENT_VILLAGE_NIGHT = "villageNight";
@@ -158,6 +160,9 @@ public final class SongPicker {
 		World world = mc.world;
 		int dimension=0;
 		Ocarina = (Ocarina) ItemInit.itemOcarina;
+
+		if (mc.currentScreen instanceof GuiScreenWorking)
+			return getSongsForEvent(EVENT_LOADINGWORLD);
 		
 		if(world!=null)
 			dimension=world.provider.getDimension();		
@@ -295,10 +300,12 @@ public final class SongPicker {
 					String[] songs = null;
 					int countEntities = 0;
 					String mobName = null;
+					
+					int combatDistance= AmbienceConfig.attackedDistance;
 								
 					List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class,
-						new AxisAlignedBB(player.posX - 16, player.posY - 16, player.posZ - 16, player.posX + 16,
-								player.posY + 16, player.posZ + 16));
+						new AxisAlignedBB(player.posX - combatDistance, player.posY - combatDistance, player.posZ - combatDistance, player.posX + combatDistance,
+								player.posY + combatDistance, player.posZ + combatDistance));
 
 				for (EntityLivingBase mob : entities) {
 					
