@@ -28,6 +28,7 @@ import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.gui.screen.OptionsSoundsScreen;
 import net.minecraft.client.gui.screen.SleepInMultiplayerScreen;
 import net.minecraft.client.gui.screen.WinGameScreen;
+import net.minecraft.client.gui.screen.WorldLoadProgressScreen;
 import net.minecraft.client.gui.toasts.SystemToast;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
@@ -103,6 +104,7 @@ public final class SongPicker {
 	public static final String EVENT_UNDERGROUND = "underground";
 	public static final String EVENT_OCEANMONUMENT = "oceanMonument";
 	public static final String EVENT_DEEP_UNDEGROUND = "deepUnderground";
+	public static final String EVENT_LOADINGWORLD = "loadingWorld";
 	public static final String EVENT_HIGH_UP = "highUp";
 	public static final String EVENT_VILLAGE = "village";
 	public static final String EVENT_VILLAGE_NIGHT = "villageNight";
@@ -161,6 +163,9 @@ public final class SongPicker {
 		int dimension=0;
 		Ocarina = RegistryHandler.Ocarina.get();
 				
+		if (mc.currentScreen instanceof WorldLoadProgressScreen)
+			return getSongsForEvent(EVENT_LOADINGWORLD);
+		
 		if(world!=null)
 			dimension=world.dimension.getType().getId();	
 		
@@ -174,7 +179,7 @@ public final class SongPicker {
 		
 		if (mc.currentScreen instanceof DisconnectedScreen)
 			return getSongsForEvent(EVENT_DISCONNECTED);
-				
+						
 		if (player == null || world == null) {
 			areaSongsLoaded = false;
 			
@@ -329,9 +334,11 @@ public final class SongPicker {
 					String[] songs = null;
 					int countEntities = 0;
 					String mobName = null;
+					
+					int combatDistance= AmbienceConfig.COMMON.attackedDistance.get();
 								
 					List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class,
-						new AxisAlignedBB(player.getPosX() - 16, player.getPosY() - 16, player.getPosZ() - 16, player.getPosX() + 16,player.getPosY() + 16, player.getPosZ() + 16));
+						new AxisAlignedBB(player.getPosX() - combatDistance, player.getPosY() - combatDistance, player.getPosZ() - combatDistance, player.getPosX() + combatDistance,player.getPosY() + combatDistance, player.getPosZ() + combatDistance));
 
 				for (LivingEntity mob : entities) {					
 					mobName = mob.getName().getString().toLowerCase();
@@ -1008,7 +1015,7 @@ public final class SongPicker {
 				long daysPassed = world.getGameTime() / 24000;
 				days=getDays(structureName);
 				
-				if(daysPassed-days>=1) {
+				if(daysPassed-days>=2) {
 					removeDays(structureName);
 				}						
 			}

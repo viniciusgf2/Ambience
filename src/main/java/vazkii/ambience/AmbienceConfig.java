@@ -31,7 +31,8 @@ public class AmbienceConfig {
 		public final BooleanValue lostFocusEnabled;
 		public final BooleanValue structuresCinematic;
 		
-		public final IntValue fadeDuration;
+		public final IntValue fadeDuration;		
+		public final IntValue attackedDistance;
 				
 		public Common(ForgeConfigSpec.Builder builder) {
 		
@@ -43,7 +44,7 @@ public class AmbienceConfig {
 							.worldRestart()
 							.define("enabled", true);*/
 			
-			fadeDuration = builder.comment("Defines the sound volume fade in/out duration [Default:25]")
+			fadeDuration = builder.comment("Defines the sound volume fade in/out duration [Default:25,Range:1~500]")
 					.worldRestart()
 					.defineInRange("Fade_Duration",25,1,500);
 			
@@ -54,6 +55,10 @@ public class AmbienceConfig {
 			structuresCinematic =builder.comment("Show a cinematic enty with a image on enter a structure[Default:true]")					
 					.worldRestart()
 					.define("Structures_Cinematic", true);
+			
+			attackedDistance = builder.comment("Defines the distance in blocks between the player and hostile mobs to determine if still in combat or not [Default:16,Range:10~128]")
+					.worldRestart()
+					.defineInRange("In_Battle_Distance",16,10,128);
 			
 			builder.comment("Ocarina Configurations")
 			   .push("Ocarina");

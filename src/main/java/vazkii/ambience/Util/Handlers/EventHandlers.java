@@ -47,10 +47,12 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.client.event.sound.SoundEvent.SoundSourceEvent;
+import net.minecraftforge.common.util.Constants.WorldEvents;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -623,7 +625,7 @@ public class EventHandlers {
 		Ocarina.renderFX(event, zoomCount, zoomAmount, zoomSpeed,20);		
 		
 		//Render the Transitions
-		cinematic.renderFX(event, zoomCount, zoomAmount, zoomSpeed, 20);
+		cinematic.renderFX(event, zoomCount, zoomAmount, 0.7f, 20);
 	}
 		
 	public static boolean show=false;
