@@ -59,8 +59,8 @@ public class Alarm extends Speaker {
 		setHarvestLevel("pickaxe", 0);
 		setHardness(0.3F);
 		setResistance(1.5F);
-		setSoundType(SoundType.GLASS);
-						
+		setSoundType(SoundType.GLASS);						
+		
 		if (isLit) {
 			setCreativeTab(null);
 			setLightLevel(1F);

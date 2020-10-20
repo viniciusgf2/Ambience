@@ -84,7 +84,7 @@ public final class SongLoader {
 				}
 			}
 			
-
+			
 			enabled = props.getProperty("enabled").equals("true");
 			Ambience.showUpdateNotification = props.getProperty("ShowUpdateNotifications").equals("true");
 				

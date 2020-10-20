@@ -97,7 +97,7 @@ public class ClientHandler implements IMessageHandler<MyMessage4, IMessage> {
 			//Para de tocar um som no cliente se não estiver recebendo sinal de redstone		
 			if (BlockSelected.getString("stop").contains("stop")) {
 					//Minecraft.getMinecraft().getSoundHandler().stopSounds();
-					Minecraft.getMinecraft().getSoundHandler().stop("ambience:"+BlockSelected.getString("selectedSound"), SoundCategory.NEUTRAL);
+					Minecraft.getMinecraft().getSoundHandler().stop("ambience:"+BlockSelected.getString("selectedSound"), SoundCategory.BLOCKS);
 			}
 			
 			

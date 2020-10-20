@@ -174,7 +174,7 @@ public class Speaker extends BlockBase implements ITileEntityProvider {
 					NBTTagCompound tagCompound = new NBTTagCompound();				
 					tagCompound.setString("selectedSound",((SpeakerTileEntity) world.getTileEntity(pos)).selectedSound); 
 					tagCompound.setString("stop","stop"); 
-					NetworkHandler4.sendToClient(new MyMessage4(tagCompound), player);	
+					NetworkHandler4.sendToAll(new MyMessage4(tagCompound));	
 				}
 			
 		}
