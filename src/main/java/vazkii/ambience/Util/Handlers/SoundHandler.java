@@ -95,25 +95,25 @@ public class SoundHandler {
 		soundEvent = new SoundEvent(location);
 		soundEvent.setRegistryName("wdrop1");
 		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
-		SOUNDS.add("wdrop1");
+		//SOUNDS.add("wdrop1");
 		
 		location = new ResourceLocation(Reference.MOD_ID, "wdrop2");
 		soundEvent = new SoundEvent(location);
 		soundEvent.setRegistryName("wdrop2");
 		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
-		SOUNDS.add("wdrop2");
+		//SOUNDS.add("wdrop2");
 		
 		location = new ResourceLocation(Reference.MOD_ID, "wdrop3");
 		soundEvent = new SoundEvent(location);
 		soundEvent.setRegistryName("wdrop3");
 		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
-		SOUNDS.add("wdrop3");
+		//SOUNDS.add("wdrop3");
 		
 		location = new ResourceLocation(Reference.MOD_ID, "wdrop4");
 		soundEvent = new SoundEvent(location);
 		soundEvent.setRegistryName("wdrop4");
 		ForgeRegistries.SOUND_EVENTS.register(soundEvent);
-		SOUNDS.add("wdrop4");
+		//SOUNDS.add("wdrop4");
 		
 		location = new ResourceLocation(Reference.MOD_ID, "horn1");
 		soundEvent = new SoundEvent(location);

@@ -30,12 +30,13 @@
 	"1.6.1": "NEW FEATURE: Added a config to control the fade in/out duration in the config file.\nNEW FEATURE: Added commands to create/list/showInfo/edit/remove areas.\nCHANGED: Now the ocarina damages only after playing a song.\nCHANGED: Now the ocarina consumes a little bit of xp when played a song\nBUGFIX: Fixed a bug on the ocarina if there isn't any song configured in the ambience.properties file\nBUGFIX: Fixed the ocarina texture UV\nBUGFIX: Sometimes the opacity for the ocarina playing effect were opaque, now its working properly.",
 	"1.7.0": "NEW FEATURE - Added cinematic transitions when entering structures or custom created regions (download the lastest version of the Resource Pack to enable it).\nNEW FEATURE - Added events for structures\nNEW FEATURE - Added an option to fade out the game volume when the window is not on focus",
 	"1.7.2": "NEW FEATURE - Added events for potions effects!\nCHANGE - The volume for the cinematic transtion is now lower.\nBUGFIX - The structure event wasn't sttoping playing if you leave the sctructure in a multiplayer game with more than 1 people playing.\nBUGFIX - The horde music was conflicting with the battle music.\nBUGFIX - The mod wasn't working if you didn't have the ambience resource pack enabled, now it's working fine without the resource pack.",
-	"1.7.3": "NEW FEATURE - Added the event.ridding.[entityname]\nNEW FEATURE - Added the event.advancements.\nNEW FEATURE - Added the event.loadingWorld.\nNEW FEATURE - Added an option to configure the distance in blocks between the player and hostile mobs to determine if still in combat or not.\nCHANGE - Reduced the time that the cinematic screen is shown on screen by half"
+	"1.7.3": "NEW FEATURE - Added the event.ridding.[entityname]\nNEW FEATURE - Added the event.advancements.\nNEW FEATURE - Added the event.loadingWorld.\nNEW FEATURE - Added an option to configure the distance in blocks between the player and hostile mobs to determine if still in combat or not.\nCHANGE - Reduced the time that the cinematic screen is shown on screen by half",
+	"1.7.4": "BUGFIX - Fixed a bug where the speaker and the alarm weren't stopping playing immediately after turnning redstone off, got exploded or broken"
    },
   "promos": {
     "1.15.2-latest": "1.0.7.3",
     "1.15.2-recommended": "1.0.7.3",
-    "1.12.2-latest": "1.7.3",
-    "1.12.2-recommended": "1.7.3"  
+    "1.12.2-latest": "1.7.4",
+    "1.12.2-recommended": "1.7.4"  
   }
 }
