@@ -22,7 +22,7 @@ public class AmbienceConfig {
 	@Config.Comment("Defines the sound volume fade in/out duration [Default:25]")			
 	public static int fadeDuration = 25;
 
-	@Config.Name("Fade Duration")
+	@Config.Name("In Battle Distance")
 	@Config.Comment("Defines the distance in blocks between the player and hostile mobs to determine if still in combat or not [Default:16,Range:10~128]")	
 	public static int attackedDistance = 16;
 	
