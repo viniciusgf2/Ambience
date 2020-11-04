@@ -99,7 +99,7 @@ public class OcarinaMessage {
 	            	Ocarina.old_key_id=-1;
 	            	Ocarina.runningCommand=false;
 	            	Ocarina.songName="";
-				}
+				}				
 			else if (data.contains("setDayTime")) {
 
 					if (player.experienceTotal >= 30) {
@@ -348,6 +348,13 @@ public class OcarinaMessage {
 					Ocarina.setDayTime=data.getBoolean("setDayTime");
 				}else if(data.contains("setWeather")) {
 					setWeather(data.getBoolean("setWeather"),Ocarina.player);
+				}
+				else if (data.contains("ocarinaBreak")) {
+					Ocarina.stoopedPlayedFadeOut = 0;
+					Ocarina.playing = false;
+					Ocarina.hasMatch=false;
+					Ocarina.delayMatch=0;
+					Ocarina.runningCommand=false;
 				}
 			}
 		});

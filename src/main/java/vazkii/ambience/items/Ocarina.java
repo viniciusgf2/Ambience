@@ -17,6 +17,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
 import net.minecraft.nbt.CompoundNBT;
@@ -99,11 +100,11 @@ public class Ocarina extends ItemBase {
 			int scale_time=1;
 			//If this is null you are in the single player 
 			if(Minecraft.getInstance().getCurrentServerData() ==null)
-				scale_time=8;
+				scale_time=1;
 			else
 				scale_time=1;
 			
-			if (delayMatch == 15*scale_time ) {
+			if (delayMatch == 15*scale_time & delayMatch!=0) {
 			//if (delayMatch == 15*20) {
 				stoopedPlayedFadeOut = getDelayStopTime();
 				//Play correct sound locally
@@ -134,7 +135,7 @@ public class Ocarina extends ItemBase {
 
 		if (stoopedPlayedFadeOut >= -1)
 			stoopedPlayedFadeOut--;
-
+		
 		if (stoopedPlayedFadeOut == 0) {
 			playing = false;
 			hasMatch = false;
@@ -238,14 +239,25 @@ public class Ocarina extends ItemBase {
 
 				//Damage the ocarina
 				ItemStack itemstack = player.getHeldItem(player.getActiveHand());
-				itemstack.damageItem(1, player, (damage) -> {
+				itemstack.damageItem(18, player, (damage) -> {					
 					damage.sendBreakAnimation(player.getActiveHand());
-
-					stoopedPlayedFadeOut = 100;
-					playing = false;
 				});
 				
+				
 				CompoundNBT nbt = new CompoundNBT();
+				if(itemstack.getDamage()==0) {
+					stoopedPlayedFadeOut = 100;
+					playing = false;
+					hasMatch=false;
+					delayMatch=0;
+					runningCommand=false;
+					
+					//Update the client that the ocarina has broken
+					nbt = new CompoundNBT();
+					nbt.putBoolean("ocarinaBreak", true);
+					OcarinaPackageHandler.sendToClient(new OcarinaMessage(nbt),(ServerPlayerEntity) player);
+				}
+				
 				switch (songName) {
 				case "sunssong":
 					if (setDayTime) {
@@ -381,7 +393,7 @@ public class Ocarina extends ItemBase {
 		
 		//If this is null you are in the single player 
 		if(Minecraft.getInstance().getCurrentServerData() ==null)
-			return stoopedPlayedFadeOut*20;
+			return stoopedPlayedFadeOut*2;
 		else
 			return stoopedPlayedFadeOut;
 	}

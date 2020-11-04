@@ -72,7 +72,7 @@ public class EventHandlersServer {
 		attackingTimer = attackFadeTime;
 	}
 
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public void onAdvancement(AdvancementEvent event) 
 	{
 		if(event.getPhase() == EventPriority.NORMAL) {
@@ -81,7 +81,7 @@ public class EventHandlersServer {
 
 			AmbiencePackageHandler.sendToClient(new MyMessage(nbt), (ServerPlayerEntity) event.getPlayer());			
 		}
-	}
+	}*/
 	
 	@SubscribeEvent
 	public void onServerStarting(final FMLServerStartingEvent event) {
