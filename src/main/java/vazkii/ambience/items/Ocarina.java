@@ -239,7 +239,7 @@ public class Ocarina extends ItemBase {
 
 				//Damage the ocarina
 				ItemStack itemstack = player.getHeldItem(player.getActiveHand());
-				itemstack.damageItem(18, player, (damage) -> {					
+				itemstack.damageItem(1, player, (damage) -> {					
 					damage.sendBreakAnimation(player.getActiveHand());
 				});
 				
