@@ -1,6 +1,7 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/ambience-extras/files",
    "1.15.2": {
+    "1.0.7.4": "BUGFIX - Fixed a bug in the Ocarina when it breaks it was causing the game to crash.",
     "1.0.7.3": ""NEW FEATURE - Added the event.ridding.[entityname]\nNEW FEATURE - Added the event.advancements.\nNEW FEATURE - Added the event.loadingWorld.\nNEW FEATURE - Added an option to configure the distance in blocks between the player and hostile mobs to determine if still in combat or not.\nCHANGE - Reduced the time that the cinematic screen is shown on screen by half",
     "1.0.7.2": "NEW FEATURE - Added events for potions effects!\nCHANGE - The volume for the cinematic transtion is now lower.\nBUGFIX - The structure event wasn't sttoping playing if you leave the sctructure in a multiplayer game with more than 1 people playing.\nBUGFIX - The horde music was conflicting with the battle music.\nBUGFIX - The mod wasn't working if you didn't have the ambience resource pack enabled, now it's working fine without the resource pack.",
     "1.0.7" : "NEW FEATURE - Added cinematic transitions when entering structures or custom created regions (download the lastest version of the Resource Pack to enable it).\nNEW FEATURE - Added events for structures\nNEW FEATURE - Added an option to fade out the game volume when the window is not on focus",
@@ -32,12 +33,13 @@
 	"1.7.2": "NEW FEATURE - Added events for potions effects!\nCHANGE - The volume for the cinematic transtion is now lower.\nBUGFIX - The structure event wasn't sttoping playing if you leave the sctructure in a multiplayer game with more than 1 people playing.\nBUGFIX - The horde music was conflicting with the battle music.\nBUGFIX - The mod wasn't working if you didn't have the ambience resource pack enabled, now it's working fine without the resource pack.",
 	"1.7.3": "NEW FEATURE - Added the event.ridding.[entityname]\nNEW FEATURE - Added the event.advancements.\nNEW FEATURE - Added the event.loadingWorld.\nNEW FEATURE - Added an option to configure the distance in blocks between the player and hostile mobs to determine if still in combat or not.\nCHANGE - Reduced the time that the cinematic screen is shown on screen by half",
 	"1.7.4": "BUGFIX - Fixed a bug where the speaker and the alarm weren't stopping playing immediately after turnning redstone off, got exploded or broken",
-	"1.7.5": "BUGFIX - Fixed a bug in the ambience configs file"
+	"1.7.5": "BUGFIX - Fixed a bug in the ambience configs file",
+	"1.7.6": "BUGFIX - Fixed a bug in the Ocarina when it breaks it was causing the game to crash."
    },
   "promos": {
-    "1.15.2-latest": "1.0.7.3",
-    "1.15.2-recommended": "1.0.7.3",
-    "1.12.2-latest": "1.7.5",
-    "1.12.2-recommended": "1.7.5"  
+    "1.15.2-latest": "1.0.7.4",
+    "1.15.2-recommended": "1.0.7.4",
+    "1.12.2-latest": "1.7.6",
+    "1.12.2-recommended": "1.7.6"  
   }
 }

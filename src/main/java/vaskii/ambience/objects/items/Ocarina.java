@@ -18,6 +18,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -66,7 +67,7 @@ public class Ocarina extends ItemBase {
 
 	public Ocarina(String Name) {
 		super(Name);
-		setMaxDamage(20);
+		setMaxDamage(21);
 	}
 	
 	@Override
@@ -190,12 +191,15 @@ public class Ocarina extends ItemBase {
 		if (ret != null)
 			return ret;
 
-		//itemstack.damageItem(1, playerIn);
-		
-		if(itemstack.getItemDamage()>=20) {		
-			stoopedPlayedFadeOut = 100;
-			itemstack.damageItem(1, playerIn);
+		//Damage the ocarina
+		if(itemstack.getItemDamage()>=21) {					
+			stoopedPlayedFadeOut = 0;
 			playing = false;
+			hasMatch=false;
+			delayMatch=0;
+			runningCommand=false;
+			itemstack.damageItem(1, playerIn);
+
 			return new ActionResult(EnumActionResult.SUCCESS, itemstack);
 		}
 
@@ -247,9 +251,28 @@ public class Ocarina extends ItemBase {
 			if (songsMap.size()>0 & countCorrect >= correctLenght & !runningCommand) {
 				old_key_id = -1;
 				key_id = -1;
-				hasMatch = true;
-
+				hasMatch = true;				
 				NBTTagCompound nbt = new NBTTagCompound();
+				
+				
+				//Damage the ocarina	
+				ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+				if(itemstack.getItemDamage()>=2) {					
+					stoopedPlayedFadeOut = 0;
+					playing = false;
+					hasMatch=false;
+					delayMatch=0;
+					runningCommand=false;
+
+					//Update the client that the ocarina has broken
+					nbt = new NBTTagCompound();
+					nbt.setBoolean("ocarinaBreak", true);
+					OcarinaNetworkHandler.sendToClient(new MyMessage4(nbt), (EntityPlayerMP) player);					
+				}
+
+				nbt = new NBTTagCompound();
+				
+
 				switch (songName) {
 				case "sunssong":
 					if (setDayTime) {

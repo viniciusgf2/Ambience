@@ -43,6 +43,13 @@ public class OcarinaClientHandler implements IMessageHandler<MyMessage4, IMessag
 		}else if(data.hasKey("setWeather")) {
 			setWeather(data.getBoolean("setWeather"),Ocarina.player);
 		}
+		else if (data.hasKey("ocarinaBreak")) {
+			Ocarina.stoopedPlayedFadeOut = 0;
+			Ocarina.playing = false;
+			Ocarina.hasMatch=false;
+			Ocarina.delayMatch=0;
+			Ocarina.runningCommand=false;
+		}
 
 		return null;
 	}
