@@ -1,20 +1,18 @@
 package vazkii.ambience.Screens;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.CheckboxButton;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.ambience.Ambience;
@@ -47,12 +45,12 @@ public class CreateAreaScreen extends ContainerScreen<GuiContainerMod> {
 		this.ySize = 200;
 
 		this.cancelBtn = new Button(this.width / 2 - 105, this.height / 4 + 120, 100, 20,
-				I18n.format("GUI.CancelButton"), (close) -> {	
+				(ITextComponent) new StringTextComponent(I18n.format("GUI.CancelButton")), (close) -> {	
 					this.close();
 				});
 
 		this.confirmBtn = new Button(this.xSize / 2 + 5, this.ySize / 4 + 120, 100, 20,
-				I18n.format("GUI.ConfirmButton"), (confirm) -> {
+				(ITextComponent) new StringTextComponent(I18n.format("GUI.ConfirmButton")), (confirm) -> {
 
 					/*if(AreaName.getText()=="" || AreaName.getText().hashCode()==0) {
 						error=true;
@@ -78,10 +76,10 @@ public class CreateAreaScreen extends ContainerScreen<GuiContainerMod> {
 	}
 
 	@Override
-	public void render(final int mouseX, final int mouseY, final float partialTicks) {
-		this.renderBackground();
-		super.render(mouseX, mouseY, partialTicks);
-		this.renderHoveredToolTip(mouseX, mouseY);
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground(matrixStack);
+		super.render(matrixStack,mouseX, mouseY, partialTicks);	
+		renderHoveredTooltip(matrixStack,mouseX, mouseY);
 
 		if (this.list == null) {
 		/*	this.AreaName = new TextFieldWidget(this.font, this.width / 2 - 80, this.height / 4 + 15, 160, 20, I18n.format("GUI.AreaNameField"));
@@ -93,8 +91,8 @@ public class CreateAreaScreen extends ContainerScreen<GuiContainerMod> {
 
 		    this.list = new ScrollListWidget(Minecraft.getInstance(),this.width,this.height, font,I18n.format("GUI.AreaNameField"));		
 
-			this.instaPlayChk = new CheckboxButton(this.width / 2 - 80, this.height / 4 + 50, 20, 20,I18n.format("GUI.InstantPlayChk"), false);
-			this.PlayatNight = new CheckboxButton(this.width / 2 - 80, this.height / 4 + 80, 20, 20,I18n.format("GUI.PlayAtNight"), false);
+			this.instaPlayChk = new CheckboxButton(this.width / 2 - 80, this.height / 4 + 50, 20, 20,(ITextComponent) new StringTextComponent(I18n.format("GUI.InstantPlayChk")), false);
+			this.PlayatNight = new CheckboxButton(this.width / 2 - 80, this.height / 4 + 80, 20, 20,(ITextComponent) new StringTextComponent(I18n.format("GUI.PlayAtNight")), false);
 		}
 
 		confirmBtn.x = this.width / 2 + 5;
@@ -115,41 +113,41 @@ public class CreateAreaScreen extends ContainerScreen<GuiContainerMod> {
 		//this.AreaName.render(mouseX, mouseY, partialTicks);
 		
 
-		this.list.render(mouseX, mouseY, partialTicks);
+		this.list.render(matrixStack,mouseX, mouseY, partialTicks);
 		
 		this.minecraft.getTextureManager().bindTexture(textureBackground2);
 		int x=(this.width - this.xSize)/2;
 		int y=(this.height - this.ySize)/2;
 
-		this.blit(x, y, 0, 0, this.xSize, this.ySize);
+		this.blit(matrixStack,x, y, 0, 0, this.xSize, this.ySize);
 
 
-		this.drawCenteredString(this.font, I18n.format("GUI.CreateArea"), this.width / 2-86, this.height / 2 -88,16777215);
+		this.drawCenteredString(matrixStack,this.font, I18n.format("GUI.CreateArea"), this.width / 2-86, this.height / 2 -88,16777215);
 		
-		this.cancelBtn.render(mouseX, mouseY, partialTicks);
-		this.confirmBtn.render(mouseX, mouseY, partialTicks);
-		this.instaPlayChk.render(mouseX, mouseY, partialTicks);
-		this.PlayatNight.render(mouseX, mouseY, partialTicks);
+		this.cancelBtn.render(matrixStack,mouseX, mouseY, partialTicks);
+		this.confirmBtn.render(matrixStack,mouseX, mouseY, partialTicks);
+		this.instaPlayChk.render(matrixStack,mouseX, mouseY, partialTicks);
+		this.PlayatNight.render(matrixStack,mouseX, mouseY, partialTicks);
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+	protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack,float partialTicks, int mouseX, int mouseY) {
 		RenderSystem.color4f(1, 1, 1, 1);
 
 		 this.minecraft.getTextureManager().bindTexture(textureBackground);
 		 int x=(this.width - this.xSize)/2;
 		 int y=(this.height - this.ySize)/2;
 
-		 this.blit(x, y, 0, 0, 256, 200);
+		 this.blit(matrixStack,x, y, 0, 0, 256, 200);
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack,int mouseX, int mouseY) {
+		super.drawGuiContainerForegroundLayer(matrixStack,mouseX, mouseY);
 
 		//this.drawCenteredString(this.font, I18n.format("GUI.CreateArea"), this.xSize / 2, this.ySize / 2 - 95,16777215);
 		if(error)
-			this.drawCenteredString(this.font,"§4"+I18n.format("GUI.CreateAreaError"), this.xSize / 2 ,	this.ySize / 2 - 54, 16777215);
+			this.drawCenteredString(matrixStack,this.font,"§4"+I18n.format("GUI.CreateAreaError"), this.xSize / 2 ,	this.ySize / 2 - 54, 16777215);
 	}
 
 	// ----------------------------

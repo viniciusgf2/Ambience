@@ -1,0 +1,42 @@
+{
+  "group": "ambience",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012",
+    "345",
+    "678"
+  ],
+  "key": {
+    "0": {
+      "tag": "minecraft:wooden_slabs"
+    },
+    "1": {
+      "item": "minecraft:black_wool"
+    },
+    "2": {
+      "tag": "minecraft:wooden_slabs"
+    },
+    "3": {
+      "tag": "minecraft:wooden_slabs"
+    },
+    "4": {
+      "item": "minecraft:jukebox"
+    },
+    "5": {
+      "tag": "minecraft:wooden_slabs"
+    },
+    "6": {
+      "tag": "minecraft:wooden_slabs"
+    },
+    "7": {
+      "item": "minecraft:redstone"
+    },
+    "8": {
+      "tag": "minecraft:wooden_slabs"
+    }
+  },
+  "result": {
+    "item": "ambience:speaker",
+    "count": 1
+  }
+}

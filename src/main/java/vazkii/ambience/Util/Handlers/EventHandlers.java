@@ -8,6 +8,7 @@ import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.AudioHeader;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.CallbackI.V;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -19,10 +20,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.toasts.SystemToast;
-import net.minecraft.client.renderer.Vector3f;
-import net.minecraft.client.renderer.Vector4f;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.settings.PointOfView;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -37,8 +38,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.TableLootEntry;
+import net.minecraft.loot.LootPool;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.InputEvent;
@@ -157,7 +157,10 @@ public class EventHandlers {
 	//add the items to the Loot tables
 	@SubscribeEvent
 	public static void onLootLoad(LootTableLoadEvent event) {
-	    if (event.getName().equals(new ResourceLocation("minecraft:chests/simple_dungeon"))) {
+	   
+	/*	LootPool.builder().addEntry(entriesBuilder)
+		
+		if (event.getName().equals(new ResourceLocation("minecraft:chests/simple_dungeon"))) {
 	       event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation("ambience:chests/simple_dungeon"))).build());
 	    }
 	    else if (event.getName().equals(new ResourceLocation("minecraft:chests/pillager_outpost"))) {
@@ -178,7 +181,7 @@ public class EventHandlers {
 	    else if (event.getName().equals(new ResourceLocation("minecraft:chests/desert_pyramid")))
 	    {
 		       event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation("ambience:chests/desert_pyramid"))).build());
-		}
+		}*/
 	}
 			
 	public static void playInstant() {		
@@ -368,11 +371,11 @@ public class EventHandlers {
 		{
 			if(cameraChanged==false) {
 				cameraChanged=true;			
-				oldCameraMode = Minecraft.getInstance().gameSettings.thirdPersonView;
+				oldCameraMode = Minecraft.getInstance().gameSettings.getPointOfView();
 				oldFOV=Minecraft.getInstance().gameSettings.fov;
 			}
 			
-			setCameraMode(2);//Enters Third Person			
+			setCameraMode(PointOfView.THIRD_PERSON_FRONT);//Enters Third Person			
 		}			
 	}
 
@@ -468,15 +471,15 @@ public class EventHandlers {
 		OcarinaPackageHandler.sendToServer(new OcarinaMessage(nbt));
 	}
 	
-	static int oldCameraMode = 0;
+	static PointOfView oldCameraMode = PointOfView.FIRST_PERSON;
 	private static float zoomCount = 70.0f;
 	public static float zoomAmount = 30.0f;
 	public static double zoomSpeed = 0.5;
 	public static double oldFOV=0;
 	public static boolean cameraChanged=false;
 	
-	private static void setCameraMode(int mode) {
-		Minecraft.getInstance().gameSettings.thirdPersonView = mode;		
+	private static void setCameraMode(PointOfView mode) {		
+		Minecraft.getInstance().gameSettings.setPointOfView(mode);	
 	}
 	
 	@SubscribeEvent
@@ -565,11 +568,11 @@ public class EventHandlers {
 			ClientWorld world=Minecraft.getInstance().world;
 				
 			if(world!=null)
-				Ambience.dimension=world.dimension.getType().getId();
+				Ambience.dimension=world.getDimensionKey().getLocation().getPath();
 			
 			if(event.getSound().getCategory() == SoundCategory.MUSIC) {
 
-				if(Ambience.dimension>=-1 & Ambience.dimension<=1 | Ambience.overideBackMusicDimension) {
+				if(Ambience.dimension == "overworld" | Ambience.overideBackMusicDimension) {
 								
 					if(event.isCancelable()) 
 						event.setCanceled(true);

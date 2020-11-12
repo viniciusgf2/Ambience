@@ -1,69 +1,30 @@
 package vazkii.ambience.items;
 
-import java.beans.EventHandler;
 import java.util.List;
-import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SoundList;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
-import vazkii.ambience.Ambience;
-import vazkii.ambience.Screens.EditAreaContainer;
-import vazkii.ambience.Screens.GuiContainerMod;
-import vazkii.ambience.Screens.SpeakerContainer;
-import vazkii.ambience.Util.Border;
-import vazkii.ambience.Util.WorldData;
-import vazkii.ambience.Util.Handlers.EventHandlers;
-import vazkii.ambience.Util.Handlers.EventHandlersServer;
-import vazkii.ambience.World.Biomes.Area;
-import vazkii.ambience.World.Biomes.Area.Operation;
-import vazkii.ambience.blocks.Speaker;
-import vazkii.ambience.network.AmbiencePackageHandler;
-import vazkii.ambience.network.MyMessage;
-import vazkii.ambience.render.HornRender;
 
 public class Horn extends ItemBase {
 
@@ -208,7 +169,7 @@ public class Horn extends ItemBase {
 
 				// the resultant vector between the two 3d coordinates is the
 				// difference of each coordinate pair			
-				Vec3d angleOfAttack = entity.getPositionVec().add(-(pos.getX() + 0.5D), -(pos.getY() - 0.8D), -(pos.getZ() + 0.5D));
+				Vector3d angleOfAttack = entity.getPositionVec().add(-(pos.getX() + 0.5D), -(pos.getY() - 0.8D), -(pos.getZ() + 0.5D));
 
 				// we use the resultant vector to determine the force to apply.
 				double xForce = angleOfAttack.x * knockbackMultiplier * reductionCoefficient;

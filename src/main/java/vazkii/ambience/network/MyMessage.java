@@ -1,7 +1,6 @@
 package vazkii.ambience.network;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -13,32 +12,17 @@ import java.util.function.Supplier;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.PropertyMap;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.scoreboard.Team;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.SongPicker;
 import vazkii.ambience.Screens.SpeakerContainer;
@@ -49,11 +33,6 @@ import vazkii.ambience.World.Biomes.Area.Operation;
 import vazkii.ambience.blocks.AlarmTileEntity;
 import vazkii.ambience.blocks.SpeakerTileEntity;
 import vazkii.ambience.items.Soundnizer;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 public class MyMessage {
 
@@ -88,10 +67,9 @@ public class MyMessage {
 			if (ctx.getDirection() == NetworkDirection.PLAY_TO_SERVER) {
 				// This is the player the packet was sent to the server from
 
-
-				
+								
 				CompoundNBT EventSound = data;
-				ServerWorld world = ctx.getSender().server.getWorld(DimensionType.getById(data.getInt("dimension")));
+				ServerWorld world = (ServerWorld) ctx.getSender().world;
 
 				//For the Juckebox event
 				if(EventSound.contains("playingJuckebox")) {					
@@ -157,7 +135,7 @@ public class MyMessage {
 				if (EventSound.getString("Name") != null & EventSound.getString("Name")!="") {
 					// The value that was sent
 					Area area = Area.DeSerialize(data);
-					world = ctx.getSender().server.getWorld(DimensionType.getById(area.getDimension()));
+					world =  (ServerWorld) ctx.getSender().world;
 
 					WorldData data = new WorldData().GetArasforWorld(world);
 					CompoundNBT updatedAreas=null;
@@ -254,7 +232,7 @@ public class MyMessage {
 							SpeakerContainer.delay = EventSound.getInt("delay");
 							SpeakerContainer.loop = EventSound.getBoolean("loop");
 							SpeakerContainer.distance = EventSound.getFloat("distance");
-							SpeakerContainer.dimension = EventSound.getInt("dimension");
+							SpeakerContainer.dimension = EventSound.getString("dimension");
 							SpeakerContainer.pos = new BlockPos(EventSound.getCompound("pos").getInt("x"),EventSound.getCompound("pos").getInt("y"), EventSound.getCompound("pos").getInt("z"));
 							SpeakerContainer.isAlarm = EventSound.getBoolean("isAlarm");
 							context.get().setPacketHandled(true);

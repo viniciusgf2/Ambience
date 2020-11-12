@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -50,18 +52,20 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biomes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.BiomeDictionary;
@@ -161,14 +165,14 @@ public final class SongPicker {
 		Minecraft mc = Minecraft.getInstance();
 		PlayerEntity player = mc.player;
 		World world = mc.world;
-		int dimension=0;
+		String dimension="";
 		Ocarina = RegistryHandler.Ocarina.get();
 				
 		if (mc.currentScreen instanceof WorldLoadProgressScreen)
 			return getSongsForEvent(EVENT_LOADINGWORLD);
 		
 		if(world!=null)
-			dimension=world.dimension.getType().getId();	
+			dimension=world.getDimensionKey().getLocation().getPath();	
 		
 		if (mc.currentScreen instanceof OptionsSoundsScreen) {
 			GameSettings settings = Minecraft.getInstance().gameSettings;
@@ -184,7 +188,7 @@ public final class SongPicker {
 		if (player == null || world == null) {
 			areaSongsLoaded = false;
 			
-			Ambience.dimension=-25412;
+			Ambience.dimension="";
 			
 			if(PlayerThread.currentSong!=null)
 			{				
@@ -291,9 +295,10 @@ public final class SongPicker {
 				BossInfo first = map.get(map.keySet().iterator().next());
 				ITextComponent comp = first.getName();
 				String type = "";
-
+				
 				if (comp instanceof StringTextComponent) {
-					type = comp.getStyle().getHoverEvent().getValue().getUnformattedComponentText();
+					//REVER
+					type = comp.getStyle().getHoverEvent().toString();//.getValue().getUnformattedComponentText();
 					type = type.substring(type.indexOf("type:\"") + 6, type.length() - 2);
 				} else if (comp instanceof TranslationTextComponent) {
 					type = ((TranslationTextComponent) comp).getKey();
@@ -357,7 +362,7 @@ public final class SongPicker {
 				
 				if (mobName != null & countEntities > 0) {
 					//Songs for other dimensions
-					if (dimension !=0) {
+					if (dimension !="") {
 						songs = getSongsForEvent(EVENT_ATTACKED+"\\"+dimension); 	
 						if(songs==null)
 							songs = getSongsForEvent(EVENT_ATTACKED);
@@ -376,7 +381,7 @@ public final class SongPicker {
 				if (countEntities > 5) {
 					horde=true;
 					//Songs for other dimensions
-					if (dimension !=0) {
+					if (dimension !="") {
 						songs = getSongsForEvent(EVENT_HORDE+"\\"+dimension);
 						if(songs==null)
 							songs = getSongsForEvent(EVENT_HORDE);
@@ -400,7 +405,7 @@ public final class SongPicker {
 		if (hp < 7) {
 			String[] songs=null;
 			//Songs for other dimensions
-			if (dimension !=0) {
+			if (dimension !="") {
 				songs = getSongsForEvent(EVENT_DYING+"\\"+dimension);
 				if(songs==null)
 					songs = getSongsForEvent(EVENT_DYING);
@@ -431,7 +436,7 @@ public final class SongPicker {
 		if(potions!=null && potions.size()>0) {			
 			String potionName= ((EffectInstance)potions.toArray()[0]).getEffectName().replace("effect.", "").replace("minecraft.", "");
 
-			if (dimension !=0 ) {
+			if (dimension !="" ) {
 				 if (effectMap.containsKey(potionName+"."+ dimension))
 						return effectMap.get(potionName+"."+ dimension);	
 
@@ -446,7 +451,7 @@ public final class SongPicker {
 		if (player.fishingBobber != null) {
 			String[] songs=null;
 			//Songs for other dimensions
-			if (dimension !=0) {
+			if (dimension !="") {
 				songs = getSongsForEvent(EVENT_FISHING+"\\"+dimension);
 				if(songs==null)
 					songs = getSongsForEvent(EVENT_FISHING);
@@ -459,7 +464,7 @@ public final class SongPicker {
 		if (headItem != null && headItem.getItem() == Item.getItemFromBlock(net.minecraft.block.Blocks.CARVED_PUMPKIN)) {
 			String[] songs=null;
 			//Songs for other dimensions
-			if (dimension !=0 ) {
+			if (dimension !="" ) {
 				songs = getSongsForEvent(EVENT_PUMPKIN_HEAD+"\\"+dimension);
 				if(songs==null)
 					songs = getSongsForEvent(EVENT_PUMPKIN_HEAD);
@@ -470,12 +475,12 @@ public final class SongPicker {
 				return songs;
 		}
 
-		if (dimension == -1) {
+		if (dimension == "the_nether") {
 			
 			String[] songs = getSongsForEvent(EVENT_IN_NETHER);
 			if (songs != null)
 				return songs;
-		} else if (dimension == 1) {
+		} else if (dimension == "the_end") {
 			String[] songs = getSongsForEvent(EVENT_IN_END);
 			if (songs != null)
 				return songs;
@@ -486,7 +491,7 @@ public final class SongPicker {
 			if (riding instanceof MinecartEntity) {
 				String[] songs=null;
 				//Songs for other dimensions
-				if (dimension !=0) {
+				if (dimension !="") {
 					songs = getSongsForEvent(EVENT_MINECART+"\\"+dimension);
 					if(songs==null)
 						songs = getSongsForEvent(EVENT_MINECART);
@@ -500,7 +505,7 @@ public final class SongPicker {
 
 				String[] songs = null;
 				//Songs for other dimensions
-				if (dimension !=0) {
+				if (dimension !="") {
 					songs= eventMap.get(EVENT_BOAT+"\\"+dimension);
 					if(songs==null)
 						songs = getSongsForEvent(EVENT_BOAT);
@@ -512,7 +517,7 @@ public final class SongPicker {
 			if (riding instanceof HorseEntity) {
 				String[] songs=null;
 				//Songs for other dimensions
-				if (dimension !=0) {
+				if (dimension !="") {
 					songs = getSongsForEvent(EVENT_HORSE+"\\"+dimension);
 					if(songs==null)
 						songs = getSongsForEvent(EVENT_HORSE);
@@ -525,7 +530,7 @@ public final class SongPicker {
 			if (riding instanceof PigEntity) {
 				String[] songs=null;
 				//Songs for other dimensions
-				if (dimension !=0) {
+				if (dimension !="") {
 					songs = getSongsForEvent(EVENT_PIG+"\\"+dimension);
 					if(songs==null)
 						songs = getSongsForEvent(EVENT_PIG);
@@ -544,7 +549,7 @@ public final class SongPicker {
 				
 				if(mobName.length>0) {
 					//Songs for other dimensions
-					if (dimension !=0) {
+					if (dimension !="") {
 						songs = getSongsForEvent("riding." + mobName[1]+"\\"+dimension);
 						if(songs==null)
 							songs = getSongsForEvent("riding." + mobName[1]);
@@ -571,7 +576,7 @@ public final class SongPicker {
 			if (underground) {
 				String[] songs=null;
 				//Songs for other dimensions
-				if (dimension !=0) {
+				if (dimension !="") {
 					songs = getSongsForEvent(EVENT_DRIPWATERINCAVE+"\\"+dimension);
 					if(songs==null)
 						songs = getSongsForEvent(EVENT_DRIPWATERINCAVE);
@@ -588,7 +593,7 @@ public final class SongPicker {
 			falling=true;
 			String[] songs=null;
 			//Songs for other dimensions
-			if (dimension !=0) {
+			if (dimension !="") {
 				songs = getSongsForEvent(EVENT_FALLING+"\\"+dimension);
 				if(songs==null)
 					songs = getSongsForEvent(EVENT_FALLING);
@@ -610,7 +615,7 @@ public final class SongPicker {
 		if (player.isElytraFlying()) {
 			String[] songs=null;
 			//Songs for other dimensions
-			if (dimension !=0) {
+			if (dimension !="") {
 				songs = getSongsForEvent(EVENT_ELYTRA+"\\"+dimension);
 				if(songs==null)
 					songs = getSongsForEvent(EVENT_ELYTRA);
@@ -624,7 +629,7 @@ public final class SongPicker {
 		if (player.isInLava()) {
 			String[] songs=null;
 			//Songs for other dimensions
-			if (dimension !=0) {
+			if (dimension !="") {
 				songs = getSongsForEvent(EVENT_LAVA+"\\"+dimension);
 				if(songs==null)
 					songs = getSongsForEvent(EVENT_LAVA);
@@ -643,7 +648,7 @@ public final class SongPicker {
 			if (Ambience.getWorldData().listAreas != null) {
 
 				for (Area area : Ambience.getWorldData().listAreas) {
-					if (area.getDimension() == player.dimension.getId()) {
+					if (area.getDimension() == player.world.getDimensionKey().getLocation().getPath()) {
 						
 						Area currentArea = Area.getPlayerStandingArea(player);												
 						if(currentArea!=null & currentArea==area) {
@@ -684,7 +689,7 @@ public final class SongPicker {
 		{								
 			String[] songs=null;
 			//Songs for other dimensions
-			if (dimension !=0) {
+			if (dimension !="") {
 				songs = getSongsForEvent(StructureName+"\\"+dimension);
 				if(songs==null)
 					songs = getSongsForEvent(StructureName);
@@ -703,7 +708,7 @@ public final class SongPicker {
 		if (player.isInWater() & !Ambience.attacked) {
 			String[] songs=null;
 			//Songs for other dimensions
-			if (dimension !=0) {
+			if (dimension !="") {
 				songs = getSongsForEvent(EVENT_UNDERWATER+"\\"+dimension);
 				if(songs==null)
 					songs = getSongsForEvent(EVENT_UNDERWATER);
@@ -714,14 +719,14 @@ public final class SongPicker {
 				return songs;
 		}
 		
-		if (world.dimension.isSurfaceWorld()) {
+		if (world.getDimensionType().OVERWORLD != null) {
 			boolean underground = !world.canSeeSky(pos);
 
 			if (underground) {
 				if (pos.getY() < 20) {
 					String[] songs=null;
 					//Songs for other dimensions
-					if (dimension !=0) {
+					if (dimension !="") {
 						songs = getSongsForEvent(EVENT_DEEP_UNDEGROUND+"\\"+dimension);
 						if(songs==null)
 							songs = getSongsForEvent(EVENT_DEEP_UNDEGROUND);
@@ -734,7 +739,7 @@ public final class SongPicker {
 				if (pos.getY() < 55) {
 					String[] songs=null;
 					//Songs for other dimensions
-					if (dimension !=0) {
+					if (dimension !="") {
 						songs = getSongsForEvent(EVENT_UNDERGROUND+"\\"+dimension);
 						if(songs==null)
 							songs = getSongsForEvent(EVENT_UNDERGROUND);
@@ -746,7 +751,7 @@ public final class SongPicker {
 				}else if (world.isRaining()) {
 					String[] songs=null;
 					//Songs for other dimensions
-					if (dimension !=0) {
+					if (dimension !="") {
 						songs = getSongsForEvent(EVENT_RAIN+"\\"+dimension);
 						if(songs==null)
 							songs = getSongsForEvent(EVENT_RAIN);
@@ -759,7 +764,7 @@ public final class SongPicker {
 			} else if (world.isRaining()) {
 				String[] songs=null;
 				//Songs for other dimensions
-				if (dimension !=0) {
+				if (dimension !="") {
 					songs = getSongsForEvent(EVENT_RAIN+"\\"+dimension);
 					if(songs==null)
 						songs = getSongsForEvent(EVENT_RAIN);
@@ -773,7 +778,7 @@ public final class SongPicker {
 			if (pos.getY() > 128) {
 				String[] songs=null;
 				//Songs for other dimensions
-				if (dimension !=0) {
+				if (dimension !="") {
 					songs = getSongsForEvent(EVENT_HIGH_UP+"\\"+dimension);
 					if(songs==null)
 						songs = getSongsForEvent(EVENT_HIGH_UP);
@@ -787,7 +792,7 @@ public final class SongPicker {
 			if (night) {
 				String[] songs=null;
 				//Songs for other dimensions
-				if (dimension !=0) {
+				if (dimension !="") {
 					songs = getSongsForEvent(EVENT_NIGHT+"\\"+dimension);
 					if(songs==null)
 						songs = getSongsForEvent(EVENT_NIGHT);
@@ -825,7 +830,7 @@ public final class SongPicker {
 			if (night) {
 				String[] songs=null;
 				//Songs for other dimensions
-				if (dimension !=0) {
+				if (dimension !="") {
 					songs = getSongsForEvent(EVENT_VILLAGE_NIGHT+"\\"+dimension);
 					if(songs==null)
 						songs = getSongsForEvent(EVENT_VILLAGE_NIGHT);
@@ -838,7 +843,7 @@ public final class SongPicker {
 
 			String[] songs=null;
 			//Songs for other dimensions
-			if (dimension !=0) {
+			if (dimension !="") {
 				songs = getSongsForEvent(EVENT_VILLAGE+"\\"+dimension);
 				if(songs==null)
 					songs = getSongsForEvent(EVENT_VILLAGE);
@@ -853,7 +858,7 @@ public final class SongPicker {
 			if (night) {
 				String[] songs=null;
 				//Songs for other dimensions
-				if (dimension !=0) {
+				if (dimension !="") {
 					songs = getSongsForEvent(EVENT_RANCH_NIGHT+"\\"+dimension);
 					if(songs==null)
 						songs = getSongsForEvent(EVENT_RANCH_NIGHT);
@@ -866,7 +871,7 @@ public final class SongPicker {
 
 			String[] songs=null;
 			//Songs for other dimensions
-			if (dimension !=0) {
+			if (dimension !="") {
 				songs = getSongsForEvent(EVENT_RANCH+"\\"+dimension);
 				if(songs==null)
 					songs = getSongsForEvent(EVENT_RANCH);
@@ -903,14 +908,17 @@ public final class SongPicker {
 			}else {
 				Ambience.overideBackMusicDimension=false;
 			}
-
-			Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(biome);
+			
+			
+			//PRESTAR ATENCAO
+			Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biome.getRegistryName()));
+						
 			for (Type t : types)
 				if (primaryTagMap.containsKey(t))
 					return primaryTagMap.get(t);
 			for (Type t : types)
 			{
-				if(dimension >=-1 & dimension<=1) {					
+				if(dimension == "overworld") {					
 					if (secondaryTagMap.containsKey(t))
 						return secondaryTagMap.get(t);					
 				}else {

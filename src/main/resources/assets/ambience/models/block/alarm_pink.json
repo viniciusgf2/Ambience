@@ -1,0 +1,109 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "ambience:blocks/alarm_glass_pink",
+		"particle": "ambience:blocks/alarm_glass_pink"
+	},
+	"elements": [
+		{
+			"from": [ 4, 0, 4 ],
+			"to": [ 12, 1, 12 ],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [ 9, 8, 9 ]
+			},
+			"faces": {
+				"north": {
+					"uv": [ 0, 0, 10, 1 ],
+					"texture": "#0"
+				},
+				"east": {
+					"uv": [ 0, 0, 10, 1 ],
+					"texture": "#0"
+				},
+				"south": {
+					"uv": [ 0, 0, 10, 1 ],
+					"texture": "#0"
+				},
+				"west": {
+					"uv": [ 0, 0, 10, 1 ],
+					"texture": "#0"
+				},
+				"up": {
+					"uv": [ 0, 0, 10, 1 ],
+					"texture": "#0"
+				},
+				"down": {
+					"uv": [ 0, 0, 10, 1 ],
+					"texture": "#0"
+				}
+			}
+		},
+		{
+			"from": [ 5, 1, 5 ],
+			"to": [ 11, 9, 11 ],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [ 9, 9, 9 ]
+			},
+			"faces": {
+				"north": {
+					"uv": [ 0, 0, 10, 13 ],
+					"texture": "#0"
+				},
+				"east": {
+					"uv": [ 0, 0, 10, 13 ],
+					"texture": "#0"
+				},
+				"south": {
+					"uv": [ 0, 0, 10, 13 ],
+					"texture": "#0"
+				},
+				"west": {
+					"uv": [ 0, 0, 10, 13 ],
+					"texture": "#0"
+				},
+				"up": {
+					"uv": [ 0, 0, 10, 11 ],
+					"texture": "#0"
+				},
+				"down": {
+					"uv": [ 0, 0, 10, 10 ],
+					"texture": "#0"
+				}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [ 0, 2.75, 0 ],
+			"scale": [ 0.58, 0.58, 0.58 ]
+		},
+		"thirdperson_lefthand": {
+			"translation": [ 0, 2.75, 0 ],
+			"scale": [ 0.58, 0.58, 0.58 ]
+		},
+		"firstperson_righthand": {
+			"translation": [ -1, 4.25, 0 ]
+		},
+		"firstperson_lefthand": {
+			"translation": [ -1, 4.25, 0 ]
+		},
+		"ground": {
+			"translation": [ 0, 4.5, 0 ]
+		},
+		"gui": {
+			"translation": [ 0, 2.75, 0 ],
+			"scale": [ 1.34, 1.34, 1.34 ]
+		},
+		"head": {
+			"translation": [ 0, 12.75, 0 ]
+		},
+		"fixed": {
+			"rotation": [ -90, 0, 0 ],
+			"translation": [ 0, -0.25, -8 ]
+		}
+	}
+}

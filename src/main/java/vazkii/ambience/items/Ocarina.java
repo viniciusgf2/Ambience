@@ -11,7 +11,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -27,7 +26,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector4f;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
@@ -57,7 +57,7 @@ public class Ocarina extends ItemBase {
 	public List<Integer> actualPressedKeys = new ArrayList<Integer>();
 	public PlayerEntity player = null;
 	public boolean hasMatch = false;
-	public BlockPos pos= new BlockPos(Vec3d.ZERO);
+	public BlockPos pos= new BlockPos(Vector3d.ZERO);
 	public String horseName="";
 	
 	public String songName = "";
@@ -419,7 +419,7 @@ public class Ocarina extends ItemBase {
 					int width = 2048;
 					int x = res.getScaledWidth() / 2;
 					int y = (int) (1 + event.getWindow().getGuiScaleFactor());
-
+					
 					Vector4f color = new Vector4f(1, 1, 0, 1);
 
 					// *******************************************************
@@ -478,10 +478,10 @@ public class Ocarina extends ItemBase {
 						RenderSystem.rotatef(-fx_rotateCount / 2, 0, 0, 10);
 						RenderSystem.scalef((1 + x2 / 7) + scaleFade, (1 + x2 / 7) + scaleFade, 1);
 						RenderSystem.color4f(color.getX(), color.getY(), color.getZ(), Utils.clamp(opacity, 0, 0.98f));
-
+						
 						// rendering
 						mc.getTextureManager().bindTexture(Ocarina_OVERLAY_FX);
-						AbstractGui.blit(-res.getScaledWidth(), (int) (-res.getScaledHeight() * 1.5f),
+						AbstractGui.blit(event.getMatrixStack(),-res.getScaledWidth(), (int) (-res.getScaledHeight() * 1.5f),
 								res.getScaledWidth() * 2, res.getScaledHeight() * 3, res.getScaledWidth() * 2,
 								res.getScaledHeight() * 3, res.getScaledWidth() * 2, res.getScaledHeight() * 3);
 
@@ -498,7 +498,7 @@ public class Ocarina extends ItemBase {
 
 						// rendering
 						mc.getTextureManager().bindTexture(Ocarina_OVERLAY_FX);
-						AbstractGui.blit(-res.getScaledWidth(), (int) (-res.getScaledHeight() * 1.5f),
+						AbstractGui.blit(event.getMatrixStack(),-res.getScaledWidth(), (int) (-res.getScaledHeight() * 1.5f),
 								res.getScaledWidth() * 2, res.getScaledHeight() * 3, res.getScaledWidth() * 2,
 								res.getScaledHeight() * 3, res.getScaledWidth() * 2, res.getScaledHeight() * 3);
 
@@ -557,9 +557,9 @@ public class Ocarina extends ItemBase {
 						int sontTextLeng= mc.fontRenderer.getStringWidth(songNameText);
 						int totalTextLeng=playedTextLeng+sontTextLeng;
 
-						mc.fontRenderer.drawStringWithShadow(s, px-(totalTextLeng/3)+res.getScaledWidth() / 2 / totalTextLeng, py2, Utils.colorToInt(opacity, 255, 255, 255));
+						mc.fontRenderer.drawStringWithShadow(event.getMatrixStack(),s, px-(totalTextLeng/3)+res.getScaledWidth() / 2 / totalTextLeng, py2, Utils.colorToInt(opacity, 255, 255, 255));
 						
-						mc.fontRenderer.drawStringWithShadow(songNameText, px-(totalTextLeng/3)+res.getScaledWidth() / 2 / totalTextLeng +playedTextLeng , py2, textColor);
+						mc.fontRenderer.drawStringWithShadow(event.getMatrixStack(),songNameText, px-(totalTextLeng/3)+res.getScaledWidth() / 2 / totalTextLeng +playedTextLeng , py2, textColor);
 						RenderSystem.color4f(1F, 1F, 1F, 1);
 						RenderSystem.popMatrix();
 						RenderSystem.disableBlend();
@@ -579,12 +579,12 @@ public class Ocarina extends ItemBase {
 	
 						// Top Overlay
 						mc.getTextureManager().bindTexture(Ocarina_OVERLAYS);
-						AbstractGui.blit(0, 0, 0, 0, width, y + (int) (py * 1.1) - 10, 256, 256);
+						AbstractGui.blit(event.getMatrixStack(),0, 0, 0, 0, width, y + (int) (py * 1.1) - 10, 256, 256);
 	
 						// Bottom Overlay
 						y = res.getScaledHeight() + 5 / (int) (1 + event.getWindow().getGuiScaleFactor());
 						mc.getTextureManager().bindTexture(Ocarina_OVERLAYS);
-						AbstractGui.blit(0, y - (int) (py * 1.1) + 10, 0, 0, width, 100, 256, 256);
+						AbstractGui.blit(event.getMatrixStack(),0, y - (int) (py * 1.1) + 10, 0, 0, width, 100, 256, 256);
 	
 						RenderSystem.color4f(1F, 1F, 1F, 1);
 						RenderSystem.popMatrix();

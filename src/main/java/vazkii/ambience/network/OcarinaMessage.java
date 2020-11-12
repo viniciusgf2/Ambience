@@ -135,22 +135,22 @@ public class OcarinaMessage {
 							boolean chuva=false;
 							if(!player.world.isRaining() & !player.world.isThundering()) {	
 								//Thunder
-								player.world.getWorldInfo().setClearWeatherTime(0);
-								player.world.getWorldInfo().setRainTime(6000);
-								player.world.getWorldInfo().setThunderTime(6000);
+								//player.world.getWorldInfo().setClearWeatherTime(0);
+								//player.world.getWorldInfo().setRainTime(6000);
+								//player.world.getWorldInfo().setThunderTime(6000);
 								player.world.getWorldInfo().setRaining(true);
-								player.world.getWorldInfo().setThundering(true);
+								//player.world.getWorldInfo().setThundering(true);
 								//player.world.setRainStrength(1);
 								chuva=false;
 															
 							}else {
 								//Clear Weather
 							//	player.world.setRainStrength(0);
-								player.world.getWorldInfo().setClearWeatherTime(6000);
-								player.world.getWorldInfo().setRainTime(0);
-								player.world.getWorldInfo().setThunderTime(0);
+								//player.world.getWorldInfo().setClearWeatherTime(6000);
+								//player.world.getWorldInfo().setRainTime(0);
+								//player.world.getWorldInfo().setThunderTime(0);
 								player.world.getWorldInfo().setRaining(false);
-								player.world.getWorldInfo().setThundering(false);	
+								//player.world.getWorldInfo().setThundering(false);	
 								
 								chuva=true;
 							}
@@ -366,22 +366,22 @@ public class OcarinaMessage {
 		if(!chuva) {	
 			//Thunder
 			//player.world.setRainStrength(1);
-			player.world.getWorldInfo().setClearWeatherTime(0);
-			player.world.getWorldInfo().setRainTime(6000);
-			player.world.getWorldInfo().setThunderTime(6000);
+			//player.world.getWorldInfo().setClearWeatherTime(0);
+			//player.world.getWorldInfo().setRainTime(6000);
+			//player.world.getWorldInfo().setThunderTime(6000);
 			player.world.getWorldInfo().setRaining(true);
-			player.world.getWorldInfo().setThundering(true);
+			//player.world.getWorldInfo().setThundering(true);
 			
 			return false;
 										
 		}else {
 			//Clear Weather
 			//player.world.setRainStrength(0);
-			player.world.getWorldInfo().setClearWeatherTime(6000);
-			player.world.getWorldInfo().setRainTime(0);
-			player.world.getWorldInfo().setThunderTime(0);
+			//player.world.getWorldInfo().setClearWeatherTime(6000);
+			//player.world.getWorldInfo().setRainTime(0);
+			//player.world.getWorldInfo().setThunderTime(0);
 			player.world.getWorldInfo().setRaining(false);
-			player.world.getWorldInfo().setThundering(false);												
+			//player.world.getWorldInfo().setThundering(false);												
 			
 			return true;
 		}

@@ -2,9 +2,7 @@ package vazkii.ambience.items;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SoundList;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
@@ -15,29 +13,23 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.Screens.EditAreaContainer;
 import vazkii.ambience.Screens.GuiContainerMod;
-import vazkii.ambience.Screens.SpeakerContainer;
 import vazkii.ambience.Util.Border;
-import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.World.Biomes.Area.Operation;
-import vazkii.ambience.blocks.Speaker;
 import vazkii.ambience.network.AmbiencePackageHandler;
 import vazkii.ambience.network.MyMessage;
 
@@ -86,8 +78,8 @@ public class Soundnizer extends ItemBase {
 											+ ((int) Position2.getY()) + "" + (" z:") + "" + ((int) Position2.getZ())),
 									(true));
 
-					Ambience.selectedArea.setPos2(new Vec3d(Position2.getX(), Position2.getY(), Position2.getZ()));
-					Ambience.selectedArea.setDimension(playerIn.dimension.getId());
+					Ambience.selectedArea.setPos2(new Vector3d(Position2.getX(), Position2.getY(), Position2.getZ()));
+					Ambience.selectedArea.setDimension(playerIn.world.getDimensionKey().getLocation().getPath());
 					Ambience.previewArea.setPos2(Ambience.selectedArea.getPos2());				
 
 				} else {
@@ -111,10 +103,10 @@ public class Soundnizer extends ItemBase {
 				Ambience.selectedArea.setName("Area1");
 	
 				if (Ambience.selectedArea.getPos1() != null)
-					Ambience.selectedArea.setPos1(new Vec3d(Ambience.selectedArea.getPos1().getX(),	Ambience.selectedArea.getPos1().getY(), Ambience.selectedArea.getPos1().getZ()));
+					Ambience.selectedArea.setPos1(new Vector3d(Ambience.selectedArea.getPos1().getX(),	Ambience.selectedArea.getPos1().getY(), Ambience.selectedArea.getPos1().getZ()));
 	
 				if(Position2!=null)
-					Ambience.selectedArea.setPos2(new Vec3d(Position2.getX(), Position2.getY(), Position2.getZ()));
+					Ambience.selectedArea.setPos2(new Vector3d(Position2.getX(), Position2.getY(), Position2.getZ()));
 				Ambience.selectedArea.setInstantPlay(false);
 				Ambience.selectedArea.setPlayAtNight(false);
 				Ambience.selectedArea.setSelectedBlock(blockName);
@@ -144,7 +136,7 @@ public class Soundnizer extends ItemBase {
 								if (Ambience.selectedArea.getPos1().x != 0 & Ambience.selectedArea.getPos1().y != 0
 										& Ambience.selectedArea.getPos1().z != 0 & Ambience.selectedArea.getPos2().x != 0
 										& Ambience.selectedArea.getPos2().y != 0 & Ambience.selectedArea.getPos2().z != 0) {
-										if (border.contains(playerIn.getPositionVector())) {
+										if (border.contains(playerIn.getPositionVec())) {
 													
 												// Create AREA Screen
 												int id = playerIn.getEntityId();
@@ -273,10 +265,10 @@ public class Soundnizer extends ItemBase {
 								+ "" + ((int) Position1.getY()) + "" + (" z:") + "" + ((int) Position1.getZ()))),
 						(true));
 				// Defines the selected area Pos 1
-				Ambience.selectedArea.setPos1(new Vec3d(Position1.getX(), Position1.getY(), Position1.getZ()));
+				Ambience.selectedArea.setPos1(new Vector3d(Position1.getX(), Position1.getY(), Position1.getZ()));
 				Ambience.previewArea.setPos1(Ambience.selectedArea.getPos1());
 				if(Ambience.selectedArea.getPos2()!=null)
-					Ambience.selectedArea.setPos2(new Vec3d(Ambience.selectedArea.getPos2().getX(),	Ambience.selectedArea.getPos2().getY(), Ambience.selectedArea.getPos2().getZ()));				
+					Ambience.selectedArea.setPos2(new Vector3d(Ambience.selectedArea.getPos2().getX(),	Ambience.selectedArea.getPos2().getY(), Ambience.selectedArea.getPos2().getZ()));				
 			
 				// envia a posição selecionada para o server
 				Ambience.selectedArea.setOperation(Operation.SELECT);

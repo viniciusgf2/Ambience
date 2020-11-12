@@ -1,7 +1,6 @@
 package vazkii.ambience.commands;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
@@ -17,12 +16,11 @@ import net.minecraft.command.arguments.BlockPosArgument;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
 import vazkii.ambience.Ambience;
-import vazkii.ambience.SongPicker;
 import vazkii.ambience.Util.WorldData;
 import vazkii.ambience.World.Biomes.Area;
 import vazkii.ambience.World.Biomes.Area.Operation;
@@ -80,8 +78,8 @@ public class UpdateAreaCommand {
 			currentArea.setName(areaName);
 			currentArea.setPlayAtNight(playAtNight);
 			currentArea.setInstantPlay(playInstant);
-			currentArea.setPos1(new Vec3d(pos1.getX(),pos1.getY(),pos1.getZ()));
-			currentArea.setPos2(new Vec3d(pos2.getX(),pos2.getY(),pos2.getZ()));
+			currentArea.setPos1(new Vector3d(pos1.getX(),pos1.getY(),pos1.getZ()));
+			currentArea.setPos2(new Vector3d(pos2.getX(),pos2.getY(),pos2.getZ()));
 		//	AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));
 			Ambience.sync = true;
 
@@ -114,8 +112,8 @@ public class UpdateAreaCommand {
 			currentArea.setName(areaName);
 			currentArea.setPlayAtNight(playAtNight);
 			currentArea.setInstantPlay(playInstant);
-			currentArea.setPos1(new Vec3d(pos1.getX(),pos1.getY(),pos1.getZ()));
-			currentArea.setPos2(new Vec3d(pos2.getX(),pos2.getY(),pos2.getZ()));
+			currentArea.setPos1(new Vector3d(pos1.getX(),pos1.getY(),pos1.getZ()));
+			currentArea.setPos2(new Vector3d(pos2.getX(),pos2.getY(),pos2.getZ()));
 			//AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));
 			Ambience.sync = true;
 			

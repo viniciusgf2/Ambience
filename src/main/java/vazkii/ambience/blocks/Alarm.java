@@ -1,9 +1,7 @@
 package vazkii.ambience.blocks;
 
-import java.awt.Dimension;
 import java.util.List;
 import java.util.function.ToIntFunction;
-import java.util.stream.Stream;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -40,9 +38,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.network.NetworkHooks;
 import vazkii.ambience.Screens.SpeakerContainer;
 import vazkii.ambience.Util.ModTileEntityTypes;
@@ -188,12 +184,12 @@ public class Alarm extends Block {
 				tagCompound.putFloat("distance",((AlarmTileEntity) worldIn.getTileEntity(pos)).distance); 
 				tagCompound.putString("openGui","open");
 				tagCompound.putInt("index", getListSelectedIndex(((AlarmTileEntity) worldIn.getTileEntity(pos)).selectedSound));
-				tagCompound.putInt("dimension",player.dimension.getId());
+				tagCompound.putString("dimension",player.world.getDimensionKey().getLocation().getPath());
 				tagCompound.putBoolean("isAlarm",true);
 								
 				SpeakerContainer.isAlarm=true;
 				SpeakerContainer.pos=pos;
-				SpeakerContainer.dimension=player.dimension.getId();
+				SpeakerContainer.dimension=player.world.getDimensionKey().getLocation().getPath();
 				
 				AmbiencePackageHandler.sendToAll(new MyMessage(tagCompound));
 									
@@ -214,7 +210,7 @@ public class Alarm extends Block {
 								((AlarmTileEntity) worldIn.getTileEntity(pos)).distance, 
 								"open",
 								getListSelectedIndex(((AlarmTileEntity) worldIn.getTileEntity(pos)).selectedSound),
-								player.dimension.getId(),
+								player.world.getDimensionKey().getLocation().getPath(),
 								true);
 					}
 				}, buf -> buf.writeInt(player.getEntityId()));

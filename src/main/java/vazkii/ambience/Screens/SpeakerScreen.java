@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 import javax.swing.Scrollable;
 
 import com.google.common.primitives.Ints;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -32,6 +33,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.ambience.Ambience;
@@ -69,14 +72,14 @@ public class SpeakerScreen extends ContainerScreen<SpeakerContainer> {
 		this.screenContainer=screenContainer;
 		this.xSize = 256;
 		this.ySize = 200;
-				
+						
 		this.cancelBtn = new Button(this.width / 2 - 105, this.height / 4 + 120, 100, 20,
-				I18n.format("GUI.CancelButton"), (close) -> {											
+				(ITextComponent) new StringTextComponent(I18n.format("GUI.CancelButton")), (close) -> {											
 					this.close();
 				});
 
 		this.confirmBtn = new Button(this.xSize / 2 + 5, this.ySize / 4 + 120, 100, 20,
-				I18n.format("GUI.ConfirmButton"), (confirm) -> {
+				(ITextComponent) new StringTextComponent(I18n.format("GUI.ConfirmButton")), (confirm) -> {
 								
 						
 					
@@ -95,7 +98,7 @@ public class SpeakerScreen extends ContainerScreen<SpeakerContainer> {
 						nbt.putInt("delay",delay);
 						nbt.putBoolean("loop",LoopCheckbox.isChecked());
 						nbt.putInt("distance",DistanceSliderVal);
-						nbt.putInt("dimension",SpeakerContainer.dimension);
+						nbt.putString("dimension",SpeakerContainer.dimension);
 						nbt.putBoolean("isAlarm",SpeakerContainer.isAlarm);
 						nbt.putBoolean("ClickedSpeakerOrAlarm", true);
 
@@ -107,20 +110,20 @@ public class SpeakerScreen extends ContainerScreen<SpeakerContainer> {
 		this.buttons.add(cancelBtn);
 		this.buttons.add(confirmBtn);		
 	}
-
+	
 	@Override
-	public void render(final int mouseX, final int mouseY, final float partialTicks) {
-		this.renderBackground();
-		super.render(mouseX, mouseY, partialTicks);
-		this.renderHoveredToolTip(mouseX, mouseY);
+	public void render(MatrixStack matrixStack, int mouseX,  int mouseY,  float partialTicks) {
+		this.renderBackground(matrixStack);
+		super.render(matrixStack, mouseX, mouseY, partialTicks);		
+		renderHoveredTooltip(matrixStack,mouseX, mouseY);
 
 		if (this.DelayInput == null) {
-			this.DelayInput = new TextFieldWidget(this.font, this.width / 2 - 80, this.height / 4 + 30, 60, 20, "0");
+			this.DelayInput = new TextFieldWidget(this.font, this.width / 2 - 80, this.height / 4 + 30, 60, 20, (ITextComponent) new StringTextComponent(I18n.format("0")));
 			DelayInput.setText(""+SpeakerContainer.delay);			
 			DelayInput.setVisible(true);
 
 			
-			this.LoopCheckbox = new CheckboxButton(this.width / 2 - 80, this.height / 4 + 80, 20, 20,"Loop", SpeakerContainer.loop);
+			this.LoopCheckbox = new CheckboxButton(this.width / 2 - 80, this.height / 4 + 80, 20, 20, (ITextComponent) new StringTextComponent(I18n.format("Loop")), SpeakerContainer.loop);
 			
 
 
@@ -130,9 +133,9 @@ public class SpeakerScreen extends ContainerScreen<SpeakerContainer> {
 		     // this.children.add(this.list);
 		     
 		     DistanceSliderVal=(int)SpeakerContainer.distance;
-		     distanceSlider=new AbstractSlider(this.width / 2 - 40,this.height / 2 + 1,180,20,SpeakerContainer.distance/10) {
+		     distanceSlider=new AbstractSlider(this.width / 2 - 40,this.height / 2 + 1,180,20,(ITextComponent) new StringTextComponent(I18n.format("GUI.Distance")),SpeakerContainer.distance/10) {
 					
-					@Override
+				/*	@Override
 					protected void updateMessage() {
 								
 					}
@@ -140,6 +143,18 @@ public class SpeakerScreen extends ContainerScreen<SpeakerContainer> {
 					@Override
 					protected void applyValue() {
 						DistanceSliderVal= (int)(this.value*10);
+					}
+*/
+					@Override
+					protected void func_230979_b_() {
+						DistanceSliderVal= (int)(this.sliderValue*10);
+						
+					}
+
+					@Override
+					protected void func_230972_a_() {
+						// TODO Auto-generated method stub
+						
 					}
 				};
 			
@@ -159,7 +174,7 @@ public class SpeakerScreen extends ContainerScreen<SpeakerContainer> {
 		this.DelayInput.x = this.width / 2 - 85;
 		this.DelayInput.y = this.height / 2 + 30;
 
-		this.list.render(mouseX, mouseY, partialTicks);
+		this.list.render(matrixStack,mouseX, mouseY, partialTicks);
 				
 		RenderSystem.color4f(1, 1, 1, 1);
 
@@ -167,37 +182,40 @@ public class SpeakerScreen extends ContainerScreen<SpeakerContainer> {
 		int x=(this.width - this.xSize)/2;
 		int y=(this.height - this.ySize)/2;
 
-		this.blit(x, y, 0, 0, this.xSize, this.ySize);
+		this.blit(matrixStack,x, y, 0, 0, this.xSize, this.ySize);
 		
-		this.DelayInput.render(mouseX, mouseY, partialTicks);
+		this.DelayInput.render(matrixStack, mouseX, mouseY, partialTicks);
 		
-		this.LoopCheckbox.render(mouseX, mouseY, partialTicks);
+		this.LoopCheckbox.render(matrixStack,mouseX, mouseY, partialTicks);
 
-		this.drawCenteredString(this.font, I18n.format("GUI.SelectSoundLbl"), this.width / 2-86, this.height / 2 -88,16777215);
-		this.drawCenteredString(this.font, "Delay:", this.width / 2-105, this.height / 2 + 35,16777215);
-		this.drawCenteredString(this.font,  I18n.format("GUI.Distance"), this.width / 2-97, this.height / 2 + 8,16777215);
-		
-		this.distanceSlider.render(mouseX, mouseY, partialTicks);
-		this.drawCenteredString(this.font, ""+ DistanceSliderVal, this.width / 2+30 ,this.height / 2 + 7,16777215);
+		this.drawCenteredString(matrixStack,this.font, I18n.format("GUI.SelectSoundLbl"), this.width / 2-86, this.height / 2 -88,16777215);
+		this.drawCenteredString(matrixStack,this.font, "Delay:", this.width / 2-105, this.height / 2 + 35,16777215);
+		this.drawCenteredString(matrixStack,this.font,  I18n.format("GUI.Distance"), this.width / 2-97, this.height / 2 + 8,16777215);
+
+
+		this.distanceSlider.render(matrixStack,mouseX, mouseY, partialTicks);
+		this.drawCenteredString(matrixStack,this.font, ""+ DistanceSliderVal, this.width / 2+30 ,this.height / 2 + 7,16777215);
 				
-		this.cancelBtn.render(mouseX, mouseY, partialTicks);
-		this.confirmBtn.render(mouseX, mouseY, partialTicks);		
+		this.cancelBtn.render(matrixStack,mouseX, mouseY, partialTicks);
+		this.confirmBtn.render(matrixStack,mouseX, mouseY, partialTicks);		
 	}
 
+	
+
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+	protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
 		RenderSystem.color4f(1, 1, 1, 1);
 
 		 this.minecraft.getTextureManager().bindTexture(textureBackground);
 		 int x=(this.width - this.xSize)/2;
 		 int y=(this.height - this.ySize)/2;
 
-		 this.blit(x, y, 0, 0, this.xSize, this.ySize);
+		 this.blit(matrixStack,x, y, 0, 0, this.xSize, this.ySize);
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		super.drawGuiContainerForegroundLayer(mouseX, mouseY);				
+	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack,int mouseX, int mouseY) {
+		super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);		
 	}
 
 	// ----------------------------

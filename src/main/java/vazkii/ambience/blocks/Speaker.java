@@ -96,15 +96,13 @@ public class Speaker extends Block {
 
 	public static Material material=Material.WOOD;
 	public static SoundType soundType=SoundType.WOOD;
-	public static int lightValue=0;
 
 	public Speaker(String color) {
 		super(Block.Properties.create(material)
 				.hardnessAndResistance(2.0f, 5.0f)
 				.sound(soundType)
 				.harvestLevel(1)
-				.harvestTool(ToolType.PICKAXE)
-				.lightValue(lightValue));
+				.harvestTool(ToolType.PICKAXE));
 								
 	}
 	
@@ -191,12 +189,12 @@ public class Speaker extends Block {
 				tagCompound.putFloat("distance",((SpeakerTileEntity) worldIn.getTileEntity(pos)).distance); 
 				tagCompound.putString("openGui","open");
 				tagCompound.putInt("index", getListSelectedIndex(((SpeakerTileEntity) worldIn.getTileEntity(pos)).selectedSound));
-				tagCompound.putInt("dimension",player.dimension.getId());
+				tagCompound.putString("dimension",player.world.getDimensionKey().getLocation().getPath());
 				tagCompound.putBoolean("isAlarm",false);
 				
 				SpeakerContainer.isAlarm =false;
 				SpeakerContainer.pos=pos;
-				SpeakerContainer.dimension=player.dimension.getId();
+				SpeakerContainer.dimension=player.world.getDimensionKey().getLocation().getPath();
 
 				AmbiencePackageHandler.sendToAll(new MyMessage(tagCompound));
 				//AmbiencePackageHandler.sendToClient(new MyMessage(tagCompound), (ServerPlayerEntity) player);;
@@ -218,7 +216,7 @@ public class Speaker extends Block {
 								((SpeakerTileEntity) worldIn.getTileEntity(pos)).distance, 
 								"open",
 								getListSelectedIndex(((SpeakerTileEntity) worldIn.getTileEntity(pos)).selectedSound),
-								player.dimension.getId(),
+								player.world.getDimensionKey().getLocation().getPath(),
 								false);
 					}
 				}, buf -> buf.writeInt(player.getEntityId()));

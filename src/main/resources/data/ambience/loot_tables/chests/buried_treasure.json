@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "weight": 65,
+          "name": "ambience:ocarina"
+        },
+        {
+          "type": "item",
+          "weight": 85,          
+          "name": "ambience:horn"
+        }        
+      ]
+    }    
+  ]
+}

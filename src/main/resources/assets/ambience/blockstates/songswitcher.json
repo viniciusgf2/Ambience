@@ -1,0 +1,33 @@
+{
+  "variants": {   
+    "direction=0,facing=north": {"model": "ambience:block/songswitcher"},
+	"direction=1,facing=north": {"model": "ambience:block/songswitcher"},
+	"direction=2,facing=north": {"model": "ambience:block/songswitcher"},
+	"direction=3,facing=north": {"model": "ambience:block/songswitcher"},
+    
+    "direction=0,facing=east": {"model": "ambience:block/songswitcher","y": 90},
+    "direction=1,facing=east": {"model": "ambience:block/songswitcher","y": 90},
+    "direction=2,facing=east": {"model": "ambience:block/songswitcher","y": 90},
+    "direction=3,facing=east": {"model": "ambience:block/songswitcher","y": 90},
+       
+    "direction=0,facing=south": {"model": "ambience:block/songswitcher","y": 180},
+    "direction=1,facing=south": {"model": "ambience:block/songswitcher","y": 180},
+    "direction=2,facing=south": {"model": "ambience:block/songswitcher","y": 180},
+    "direction=3,facing=south": {"model": "ambience:block/songswitcher","y": 180},
+   
+    "direction=0,facing=west": {"model": "ambience:block/songswitcher","y": 270},
+    "direction=1,facing=west": {"model": "ambience:block/songswitcher","y": 270},
+    "direction=2,facing=west": {"model": "ambience:block/songswitcher","y": 270},
+    "direction=3,facing=west": {"model": "ambience:block/songswitcher","y": 270},
+      
+    "direction=0,facing=up": {"model": "ambience:block/songswitcher","x": 270},
+    "direction=1,facing=up": {"model": "ambience:block/songswitcher","x": 270,"y": 90},
+    "direction=2,facing=up": {"model": "ambience:block/songswitcher","x": 270,"y": 180},
+    "direction=3,facing=up": {"model": "ambience:block/songswitcher","x": 270,"y": 270},
+    
+    "direction=0,facing=down": {"model": "ambience:block/songswitcher","x": 90,"y": 180},
+    "direction=1,facing=down": {"model": "ambience:block/songswitcher","x": 90,"y": 270},
+    "direction=2,facing=down": {"model": "ambience:block/songswitcher","x": 90,"y": 0},
+    "direction=3,facing=down": {"model": "ambience:block/songswitcher","x": 90,"y": 90}
+  }
+}

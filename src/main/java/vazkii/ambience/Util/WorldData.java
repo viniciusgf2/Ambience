@@ -145,7 +145,7 @@ public class WorldData extends WorldSavedData implements Supplier{
 			Area area = iteratorArea.next();
 			tagCompound.put("Pos", area.getPosListTag());
 			tagCompound.putString("Name", area.getName());
-			tagCompound.putInt("D",area.getDimension());
+			tagCompound.putString("D",area.getDimension());
 			tagCompound.putInt("ID",area.getID());
 			tagCompound.putBoolean("playNight", area.isPlayatNight());
 			tagCompound.putBoolean("instP", area.isInstantPlay());
@@ -170,7 +170,7 @@ public class WorldData extends WorldSavedData implements Supplier{
 			Area area = iteratorArea.next();
 			tagCompound.put("Pos", area.getPosListTag());
 			tagCompound.putString("Name", area.getName());
-			tagCompound.putInt("D",area.getDimension());
+			tagCompound.putString("D",area.getDimension());
 			tagCompound.putInt("ID",area.getID());
 			tagCompound.putBoolean("playNight",area.isPlayatNight());
 			tagCompound.putBoolean("instP",area.isInstantPlay());
@@ -199,7 +199,7 @@ public class WorldData extends WorldSavedData implements Supplier{
 		while (iterator.hasNext()) {
 			CompoundNBT areaCompound = (CompoundNBT) iterator.next();
 			Area area = new Area(areaCompound.getString("Name"));
-			area.setDimension(areaCompound.getInt("D"));
+			area.setDimension(areaCompound.getString("D"));
 			area.setID(areaCompound.getInt("ID"));
 			area.setPlayAtNight(areaCompound.getBoolean("playNight"));
 			area.setInstantPlay(areaCompound.getBoolean("instP"));

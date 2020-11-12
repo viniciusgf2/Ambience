@@ -6,6 +6,7 @@ import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.AudioHeader;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -67,8 +68,10 @@ public class SpeakerTileEntity extends TileEntity implements ITickableTileEntity
 		isOn=on; //Isso faz a luz saber que esta ligada assim que voce coloca um alarm_lit no chao entao ele apaga (talvez tirar dps se eu quiser manter luzes acessas)
 	}
 	
+	
+	
 	@Override
-	public void read(CompoundNBT nbt) {
+	public void read(BlockState state, CompoundNBT nbt) {
 		this.cooldown = nbt.getInt("cooldown");
 		this.delay = nbt.getInt("delay");
 		this.selectedSound = nbt.getString("sound");
@@ -76,8 +79,7 @@ public class SpeakerTileEntity extends TileEntity implements ITickableTileEntity
 		this.distance = nbt.getInt("distance");
 		this.color = nbt.getString("color");
 		this.isAlarm = nbt.getBoolean("isAlarm");
-		super.read(nbt);
-
+		super.read(state, nbt);
 		old_song = selectedSound;
 	}
 

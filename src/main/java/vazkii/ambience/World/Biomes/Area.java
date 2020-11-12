@@ -26,7 +26,8 @@ public class Area implements Comparator<Area>{
 	}
 
 	private Operation operation;
-	private int Dimension, ID, redstoneStrength;
+	private String Dimension;
+	private int ID, redstoneStrength;
 	private String name;
 	private boolean instantPlay = false;
 	private boolean playAtNight = false;
@@ -59,11 +60,11 @@ public class Area implements Comparator<Area>{
 		this.operation = operation;
 	}
 
-	public int getDimension() {
+	public String getDimension() {
 		return Dimension;
 	}
 
-	public void setDimension(int dimension) {
+	public void setDimension(String dimension) {
 		Dimension = dimension;
 	}
 	
@@ -198,7 +199,7 @@ public class Area implements Comparator<Area>{
 		if (Ambience.getWorldData().listAreas != null) {
 
 			for (Area area : Ambience.getWorldData().listAreas) {
-				if (area.getDimension() == player.dimension.getId()) {
+				if (area.getDimension() == player.world.getDimensionKey().getLocation().getPath()) {
 					Border border = new Border(area.getPos1(), area.getPos2());
 					if (border.p1 != null & border.p2 != null)
 						if (border.contains(player.getPositionVec())) {
@@ -305,7 +306,7 @@ public class Area implements Comparator<Area>{
 		
 		tagCompound.put("Pos", getPosListTag()); // Coordinates init and final
 		tagCompound.putString("Name", getName()); // Area Name
-		tagCompound.putInt("D", getDimension()); // Dimension
+		tagCompound.putString("D", getDimension()); // Dimension
 		tagCompound.putInt("ID", getID()); // Unique ID
 		tagCompound.putString("op", simplifyOperation()); // Operation
 		tagCompound.putBoolean("playNight", isPlayatNight()); // If should play at night over the night music or not
@@ -319,7 +320,7 @@ public class Area implements Comparator<Area>{
 	// Retorna uma área
 	public static Area DeSerialize(CompoundNBT nbt) {
 		Area area = new Area(nbt.getString("Name"));
-		area.setDimension(nbt.getInt("D"));
+		area.setDimension(nbt.getString("D"));
 		area.setID(nbt.getInt("ID"));
 		area.setPlayAtNight(nbt.getBoolean("playNight"));
 		area.setInstantPlay(nbt.getBoolean("instP"));
@@ -368,7 +369,7 @@ public class Area implements Comparator<Area>{
 			CompoundNBT areaCompound = (CompoundNBT) nbt.get("Area" + i);
 
 			Area area = new Area(areaCompound.getString("Name"));
-			area.setDimension(areaCompound.getInt("D"));
+			area.setDimension(areaCompound.getString("D"));
 			area.setID(areaCompound.getInt("ID"));
 			area.setPlayAtNight(areaCompound.getBoolean("playNight"));
 			area.setInstantPlay(areaCompound.getBoolean("instP"));

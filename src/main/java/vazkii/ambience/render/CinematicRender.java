@@ -1,22 +1,16 @@
 package vazkii.ambience.render;
 
-import java.awt.Image;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.renderer.Vector4f;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector4f;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import vazkii.ambience.Ambience;
 import vazkii.ambience.Util.Utils;
-import vazkii.ambience.items.Ocarina;
 
 public class CinematicRender {
 	public static ResourceLocation AREA_LOGO = null;//new ResourceLocation(Ambience.MODID,"textures/transitions/fortress.png");
@@ -46,7 +40,7 @@ public class CinematicRender {
 						ativated=false;
 						timer=0;
 					}
-										
+							
 					// *******************************************************
 					// FX ------------------------
 					if (ativated) {
@@ -91,7 +85,7 @@ public class CinematicRender {
 						float scale = 1.25F * (int) event.getWindow().getGuiScaleFactor() / 2.5f;
 						int px = (int) (x / scale) ;
 						mc.getTextureManager().bindTexture(AREA_LOGO);
-						AbstractGui.blit((int) (px/1.7f - imgsize), (int) (y / scale) - imgsize-45 ,
+						AbstractGui.blit(event.getMatrixStack(),(int) (px/1.7f - imgsize), (int) (y / scale) - imgsize-45 ,
 								0 , 0 , imgsize,imgsize, imgsize , imgsize);
 
 						RenderSystem.color4f(1F, 1F, 1F, 1);
@@ -112,13 +106,13 @@ public class CinematicRender {
 	
 						// Top Overlay
 						mc.getTextureManager().bindTexture(Ocarina_OVERLAYS);
-						AbstractGui.blit(0, 0, 0, 0, width, y + (int) (py * 1.1) - 10, 256, 256);
+						AbstractGui.blit(event.getMatrixStack(),0, 0, 0, 0, width, y + (int) (py * 1.1) - 10, 256, 256);
 						//AbstractGui.blit(0, 0, 0, 0, width, 10, 256, 256);
 	
 						// Bottom Overlay
 						y = res.getScaledHeight() + 5 / (int) (1 + event.getWindow().getGuiScaleFactor());
 						mc.getTextureManager().bindTexture(Ocarina_OVERLAYS);
-						AbstractGui.blit(0, y - (int) (py * 1.1) + 10, 0, 0, width, 100, 256, 256);
+						AbstractGui.blit(event.getMatrixStack(),0, y - (int) (py * 1.1) + 10, 0, 0, width, 100, 256, 256);
 	
 						RenderSystem.color4f(1F, 1F, 1F, 1);
 						RenderSystem.popMatrix();

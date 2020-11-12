@@ -11,8 +11,8 @@ import vazkii.ambience.Screens.GuiContainerMod;
 import vazkii.ambience.Screens.SpeakerContainer;
 
 public class ModContainerTypes {
-
-	public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPES = new DeferredRegister<>(ForgeRegistries.CONTAINERS, Ambience.MODID);
+	
+	public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPES = DeferredRegister.create(ForgeRegistries.CONTAINERS, Ambience.MODID);
 	
 	public static final RegistryObject<ContainerType<GuiContainerMod>> CREATEAREA_CONTAINER = CONTAINER_TYPES.register("guicontainer", () -> IForgeContainerType.create(GuiContainerMod::new));
 	

@@ -72,7 +72,7 @@ public class EventHandlersServer {
 		attackingTimer = attackFadeTime;
 	}
 
-	/*@SubscribeEvent
+	@SubscribeEvent
 	public void onAdvancement(AdvancementEvent event) 
 	{
 		if(event.getPhase() == EventPriority.NORMAL) {
@@ -81,13 +81,13 @@ public class EventHandlersServer {
 
 			AmbiencePackageHandler.sendToClient(new MyMessage(nbt), (ServerPlayerEntity) event.getPlayer());			
 		}
-	}*/
+	}
 	
 	@SubscribeEvent
 	public void onServerStarting(final FMLServerStartingEvent event) {
-		CreateAreaCommand.register(event.getCommandDispatcher());
-		DeleteAreaCommand.register(event.getCommandDispatcher());
-		UpdateAreaCommand.register(event.getCommandDispatcher());
+	//	CreateAreaCommand.register(event.getCommandDispatcher());
+//		DeleteAreaCommand.register(event.getCommandDispatcher());
+	//	UpdateAreaCommand.register(event.getCommandDispatcher());
 	}
 	
 	@SubscribeEvent
@@ -101,7 +101,7 @@ public class EventHandlersServer {
 			World world2 = player.world;	
 			AbstractChunkProvider prov = world2.getChunkProvider();
 			
-			
+		/*	
 			if (prov instanceof AbstractChunkProvider) {
 									
 				if(LocationPredicate.forFeature(Feature.NETHER_BRIDGE).test((ServerWorld) world2, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ())) {					
@@ -155,9 +155,10 @@ public class EventHandlersServer {
 						AmbiencePackageHandler.sendToClient(new MyMessage(nbt), (ServerPlayerEntity) player);
 					}
 				}			
-			}
+			}*/
 		}
 		//------------------------------------------------------------------------------------------
+	
 		
 		if (Horn.fadeOutTimer > 0)
 			Horn.fadeOutTimer--;
@@ -177,7 +178,7 @@ public class EventHandlersServer {
 			{
 				if(!settingNight) {
 					settingDay=true;
-					event.player.world.setDayTime(event.player.world.getDayTime()+10);		
+					//event.player.world.setDayTime(event.player.world.getDayTime()+10);		
 				}else {
 					Ocarina.setDayTime=false;
 					
@@ -189,7 +190,7 @@ public class EventHandlersServer {
 				
 				if(!settingDay) {
 					settingNight=true;
-					event.player.world.setDayTime(event.player.world.getDayTime()+10);
+				//	event.player.world.setDayTime(event.player.world.getDayTime()+10);
 				}
 				else {
 					Ocarina.setDayTime=false;
@@ -208,7 +209,7 @@ public class EventHandlersServer {
 	}	
 	
 	private void updatePlayersInsideStructure(PlayerEntity player,String StructureName) {		
-		String playerName=player.getDisplayName().getFormattedText();
+		String playerName=player.getDisplayName().getUnformattedComponentText();
 		if(!insideStructureMap.containsKey(playerName)) {
 			insideStructureMap.put(playerName, StructureName);
 			
@@ -339,7 +340,7 @@ public class EventHandlersServer {
 			return;
 
 		event.getRight().add(null);
-		if ((Ambience.dimension >= -1 & Ambience.dimension <= 1)
+		if ((Ambience.dimension == "overworld")
 				| PlayerThread.currentSong != "null" & EventHandlers.nextSong != "null") {
 
 			if (PlayerThread.currentSong != null) {

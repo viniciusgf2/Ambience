@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -93,13 +94,12 @@ public class ScrollListWidget extends ExtendedList<ScrollListWidget.SoundEntry> 
 	}
 
 	@Override
-	protected void renderList(int p_renderList_1_, int p_renderList_2_, int p_renderList_3_, int p_renderList_4_,
+	protected void renderList(MatrixStack matrixStack,int p_renderList_1_, int p_renderList_2_, int p_renderList_3_, int p_renderList_4_,
 			float p_renderList_5_) {
 
-		super.renderList(p_renderList_1_, p_renderList_2_, p_renderList_3_, p_renderList_4_, p_renderList_5_);
+		super.renderList(matrixStack,p_renderList_1_, p_renderList_2_, p_renderList_3_, p_renderList_4_, p_renderList_5_);
 	}
-
-	@Override
+	
 	protected void renderHoleBackground(int p_renderHoleBackground_1_, int p_renderHoleBackground_2_,
 			int p_renderHoleBackground_3_, int p_renderHoleBackground_4_) {
 
@@ -125,16 +125,16 @@ public class ScrollListWidget extends ExtendedList<ScrollListWidget.SoundEntry> 
 	}
 
 	@Override
-	protected void renderDecorations(int p_renderDecorations_1_, int p_renderDecorations_2_) {
+	protected void renderDecorations(MatrixStack matrixStack,int p_renderDecorations_1_, int p_renderDecorations_2_) {
 		// TODO Auto-generated method stub
-		super.renderDecorations(p_renderDecorations_1_, p_renderDecorations_2_);
+		super.renderDecorations(matrixStack,p_renderDecorations_1_, p_renderDecorations_2_);
 	}
 
 	private int getMaxScroll() {
 		return Math.max(0, this.getMaxPosition() - (this.y1 - this.y0 - 4));
 	}
 
-	public void render(int p_render_1_, int p_render_2_, float p_render_3_) {
+	public void render(MatrixStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
 		this.renderBackground();
 		int i = this.getScrollbarPosition();
 		int j = i + 6;
@@ -145,11 +145,11 @@ public class ScrollListWidget extends ExtendedList<ScrollListWidget.SoundEntry> 
 
 		int k = 5;
 		int l = this.y0 + 4 - (int) this.getScrollAmount();
-		if (this.renderHeader) {
-			this.renderHeader(k, l, tessellator);
+		if (this.headerHeight !=0) {
+			this.renderHeader(matrixStack,k, l, tessellator);
 		}
 
-		this.renderList(k, l, p_render_1_, p_render_2_, p_render_3_);
+		this.renderList(matrixStack,k, l, p_render_1_, p_render_2_, p_render_3_);
 		RenderSystem.disableDepthTest();
 		RenderSystem.enableBlend();
 		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
@@ -194,7 +194,7 @@ public class ScrollListWidget extends ExtendedList<ScrollListWidget.SoundEntry> 
 			tessellator.draw();
 		}
 
-		this.renderDecorations(p_render_1_, p_render_2_);
+		this.renderDecorations(matrixStack,p_render_1_, p_render_2_);
 		RenderSystem.enableTexture();
 		RenderSystem.shadeModel(7424);
 		RenderSystem.enableAlphaTest();
@@ -239,13 +239,13 @@ public class ScrollListWidget extends ExtendedList<ScrollListWidget.SoundEntry> 
 			this.font = font;
 		}
 
-		public void render(int p_render_1_, int p_render_2_, int p_render_3_, int p_render_4_, int p_render_5_,
+		public void render(MatrixStack matrixStack,int p_render_1_, int p_render_2_, int p_render_3_, int p_render_4_, int p_render_5_,
 				int p_render_6_, int p_render_7_, boolean p_render_8_, float p_render_9_) {
-			this.font.setBidiFlag(true);
-			ScrollListWidget.this.drawCenteredString(this.font, this.sound, ScrollListWidget.this.width / 2 + 20,
+			//this.font.getBidiFlag();
+			ScrollListWidget.this.drawCenteredString(matrixStack,this.font, this.sound, ScrollListWidget.this.width / 2 + 20,
 					p_render_2_ + 1, 16777215);
 
-			this.font.setBidiFlag(Minecraft.getInstance().getLanguageManager().getCurrentLanguage().isBidirectional());
+			//this.font.setBidiFlag(Minecraft.getInstance().getLanguageManager().getCurrentLanguage().isBidirectional());
 		}
 
 		public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
@@ -264,6 +264,8 @@ public class ScrollListWidget extends ExtendedList<ScrollListWidget.SoundEntry> 
 		public String getText() {
 			return sound;
 		}
+
+		
 	}
 
 }

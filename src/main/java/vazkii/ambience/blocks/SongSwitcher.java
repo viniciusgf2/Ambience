@@ -78,11 +78,11 @@ public class SongSwitcher extends Block {
 
 	public static Material material = Material.WOOD;
 	public static SoundType soundType = SoundType.WOOD;
-	public static int lightValue = 0;
+	
 
 	public SongSwitcher(String color) {
 		super(Block.Properties.create(material).hardnessAndResistance(2.0f, 5.0f).sound(soundType).harvestLevel(1)
-				.harvestTool(ToolType.PICKAXE).lightValue(lightValue));
+				.harvestTool(ToolType.PICKAXE));
 
 	}
 
@@ -173,13 +173,13 @@ public class SongSwitcher extends Block {
 				}
 			}
 		}
-	}
+	}		
 
-	@Override
+	/*@Override
 	public boolean isEmissiveRendering(BlockState block) {
 		
 		return block.getBlock().getRegistryName().getPath().contains("lit") ? true : false;
-	}
+	}*/
 
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {

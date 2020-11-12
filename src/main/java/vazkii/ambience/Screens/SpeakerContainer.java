@@ -18,7 +18,7 @@ public class SpeakerContainer extends Container {
 	public static float distance;
 	public static String openGui;
 	public static int index;
-	public static int dimension;
+	public static String dimension;
 	public static boolean isAlarm;
 
 	public SpeakerContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer extraData) {
@@ -30,7 +30,7 @@ public class SpeakerContainer extends Container {
 	}
 
 	public SpeakerContainer(int id, int delay, String selectedSound, BlockPos pos, boolean loop, float distance,
-			String openGui, int index,int dimension,boolean isAlarm) {
+			String openGui, int index,String dimension,boolean isAlarm) {
 		super(ModContainerTypes.SPEAKER_CONTAINER.get(), id);
 
 		this.id = id;

@@ -74,7 +74,7 @@ public class Ambience {
 	public static boolean instantPlaying=false;	
 	public static boolean overideBackMusicDimension=false;//Overide the custom dimensions back music if there is custom music
 	public static boolean showUpdateNotification=false;	
-	public static int dimension=-25412;
+	public static String dimension="";
 	
 	public static AmbienceEventEvent ExternalEvent= new AmbienceEventEvent();
 		

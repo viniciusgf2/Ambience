@@ -1,0 +1,45 @@
+{
+  "variants": {
+   
+   
+    "facing=up,in_wall=false,single_wall=true": { "model": "ambience:bell_floor" },
+    "facing=down,in_wall=false,single_wall=true": { "model": "ambience:bell_floor" },
+    "facing=north,in_wall=false,single_wall=true": { "model": "ambience:bell_floor" },
+    "facing=south,in_wall=false,single_wall=true": { "model": "ambience:bell_floor", "y": 180 },
+    "facing=east,in_wall=false,single_wall=true":  { "model": "ambience:bell_floor", "y": 90 },
+    "facing=west,in_wall=false,single_wall=true":  { "model": "ambience:bell_floor", "y": 270 }, 
+   
+    "facing=east,in_wall=true,single_wall=true": { "model": "ambience:bell_wall" },
+    "facing=west,in_wall=true,single_wall=true": { "model": "ambience:bell_wall", "y": 180 },
+    "facing=south,in_wall=true,single_wall=true":  { "model": "ambience:bell_wall", "y": 90 },
+    "facing=north,in_wall=true,single_wall=true":  { "model": "ambience:bell_wall", "y": 270 },
+      
+ 
+    "facing=up,in_wall=true,single_wall=true": { "model": "ambience:bell_ceiling" },    
+    "facing=down,in_wall=true,single_wall=true": { "model": "ambience:bell_ceiling" },    
+    "facing=up,in_wall=true,single_wall=false": { "model": "ambience:bell_ceiling" },    
+    "facing=down,in_wall=true,single_wall=false": { "model": "ambience:bell_ceiling" },
+   
+      
+    "facing=up,in_wall=false,single_wall=false": { "model": "ambience:bell_between_walls" },
+    "facing=down,in_wall=false,single_wall=false": { "model": "ambience:bell_between_walls" },
+    "facing=north,in_wall=false,single_wall=false": { "model": "ambience:bell_between_walls" },
+    "facing=south,in_wall=false,single_wall=false": { "model": "ambience:bell_between_walls", "y": 180 },
+    "facing=east,in_wall=false,single_wall=false":  { "model": "ambience:bell_between_walls", "y": 90 },
+    "facing=west,in_wall=false,single_wall=false":  { "model": "ambience:bell_between_walls", "y": 270 }, 
+    
+    
+    "facing=north,in_wall=true,single_wall=false": { "model": "ambience:bell_between_walls" },
+    "facing=south,in_wall=true,single_wall=false": { "model": "ambience:bell_between_walls", "y": 180 },
+    "facing=east,in_wall=true,single_wall=false":  { "model": "ambience:bell_between_walls", "y": 90 },
+    "facing=west,in_wall=true,single_wall=false":  { "model": "ambience:bell_between_walls", "y": 270 }, 
+   
+    
+
+    
+    "facing=east,attachment=double_wall": { "model": "ambience:bell_between_walls" },
+    "facing=west,attachment=double_wall": { "model": "ambience:bell_between_walls", "y": 180 },
+    "facing=north,attachment=double_wall":  { "model": "ambience:bell_between_walls", "y": 90 },
+    "facing=south,attachment=double_wall":  { "model": "ambience:bell_between_walls", "y": 270 }
+  }
+}
