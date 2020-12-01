@@ -186,7 +186,7 @@ public class SpeakerTileEntity extends TileEntity implements ITickable {
 						
 						UpdateLight(true);
 												
-						this.getWorld().playSound((EntityPlayer) null, this.pos.getX(), this.pos.getY(), this.pos.getZ(),
+						this.getWorld().playSound(null, this.pos.getX(), this.pos.getY(), this.pos.getZ(),
 								(net.minecraft.util.SoundEvent) net.minecraft.util.SoundEvent.REGISTRY
 										.getObject(new ResourceLocation("ambience:" + selectedSound)),
 								SoundCategory.BLOCKS, (float) distance, (float) 1);

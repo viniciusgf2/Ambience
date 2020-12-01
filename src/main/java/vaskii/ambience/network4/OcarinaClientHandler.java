@@ -49,6 +49,7 @@ public class OcarinaClientHandler implements IMessageHandler<MyMessage4, IMessag
 			Ocarina.hasMatch=false;
 			Ocarina.delayMatch=0;
 			Ocarina.runningCommand=false;
+			Ocarina.songName="";
 		}
 
 		return null;

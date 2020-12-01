@@ -33,4 +33,9 @@ public class Utils {
 	public static BlockPos NBTtoBlockPos(NBTTagCompound compound) {
 		return new BlockPos(compound.getDouble("x"), compound.getDouble("y"), compound.getDouble("z"));
 	}
+	
+	public static int getRandom(int min, int max) {
+		int x = (int) ((Math.random() * ((max - min) + 1)) + min);
+		return x;
+	}
 }

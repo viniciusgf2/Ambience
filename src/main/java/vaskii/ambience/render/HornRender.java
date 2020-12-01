@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import vaskii.ambience.Init.ItemInit;
 import vaskii.ambience.objects.items.Horn;
 import vazkii.ambience.Util.Utils;
 
@@ -23,7 +24,9 @@ public class HornRender {
 
 	public static void drawBoundingBox(Vec3d pos, float partial_ticks, RenderWorldLastEvent event,World worldIn, EntityPlayer playerIn) {
 		
-		if (Horn.fadeOutTimer > 0 & Horn.fadeOutTimer<300) {
+		Horn horn=(Horn) ItemInit.itemHorn;
+		
+		if (Horn.fadeOutTimer > 0 & Horn.fadeOutTimer<300 & horn.itemstack!=null) {
 						
 			GL11.glLineWidth(6);
 			GL11.glEnable(GL11.GL_LINE_SMOOTH);

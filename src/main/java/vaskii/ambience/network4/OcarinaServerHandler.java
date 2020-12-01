@@ -73,7 +73,7 @@ public class OcarinaServerHandler implements IMessageHandler<MyMessage4, IMessag
 			Ocarina.pressedKeys.clear();
         	Ocarina.old_key_id=-1;
         	Ocarina.runningCommand=false;
-        	Ocarina.songName="";
+        	//Ocarina.songName="";
 		}
 		else if(data.hasKey("setDayTime")) {
 			
@@ -89,6 +89,7 @@ public class OcarinaServerHandler implements IMessageHandler<MyMessage4, IMessag
 			//Damages the Ocarina on Play
 			ItemStack itemstack = player.getHeldItem(player.getActiveHand());
 			itemstack.damageItem(1, player);
+			breakOcarina(itemstack,Ocarina,player);
 					
 			Ocarina.songName=data.getString("songName");
 			Ocarina.hasMatch=true;
@@ -136,6 +137,7 @@ public class OcarinaServerHandler implements IMessageHandler<MyMessage4, IMessag
 			//Damages the Ocarina on Play
 			ItemStack itemstack = player.getHeldItem(player.getActiveHand());
 			itemstack.damageItem(1, player);
+			breakOcarina(itemstack,Ocarina,player);
 			
 			Ocarina.hasMatch=true;
 			Ocarina.songName=data.getString("songName");
@@ -150,6 +152,7 @@ public class OcarinaServerHandler implements IMessageHandler<MyMessage4, IMessag
 			//Damages the Ocarina on Play
 			ItemStack itemstack = player.getHeldItem(player.getActiveHand());
 			itemstack.damageItem(1, player);
+			breakOcarina(itemstack,Ocarina,player);
 			
 			if (player.experienceTotal >= 25) 
 			{
@@ -168,10 +171,12 @@ public class OcarinaServerHandler implements IMessageHandler<MyMessage4, IMessag
 			Ocarina.runningCommand = true;
 			Ocarina.pos = Utils.NBTtoBlockPos(data.getCompoundTag("pos"));
 			
+			
 			//Damages the Ocarina on Play
 			ItemStack itemstack = player.getHeldItem(player.getActiveHand());
-			itemstack.damageItem(1, player);
-			
+			itemstack.damageItem(1, player);						
+			breakOcarina(itemstack,Ocarina,player);
+						
 			BlockPos pos = Utils.NBTtoBlockPos(data.getCompoundTag("pos"));
 
 			if (AmbienceConfig.OcarinaMusics.horsesong_enabled) {
@@ -228,6 +233,7 @@ public class OcarinaServerHandler implements IMessageHandler<MyMessage4, IMessag
 			//Damages the Ocarina on Play
 			ItemStack itemstack = player.getHeldItem(player.getActiveHand());
 			itemstack.damageItem(1, player);
+			breakOcarina(itemstack,Ocarina,player);
 			
 			if (player.experienceTotal >= 25) 
 			{
@@ -246,6 +252,7 @@ public class OcarinaServerHandler implements IMessageHandler<MyMessage4, IMessag
 			//Damages the Ocarina on Play
 			ItemStack itemstack = player.getHeldItem(player.getActiveHand());
 			itemstack.damageItem(1, player);
+			breakOcarina(itemstack,Ocarina,player);
 			
 			if(AmbienceConfig.OcarinaMusics.serenadeofwater)
 			{
@@ -260,6 +267,7 @@ public class OcarinaServerHandler implements IMessageHandler<MyMessage4, IMessag
 			//Damages the Ocarina on Play
 			ItemStack itemstack = player.getHeldItem(player.getActiveHand());
 			itemstack.damageItem(1, player);
+			breakOcarina(itemstack,Ocarina,player);
 			
 			if (player.experienceTotal >= 30) {
 				decreaseExp(player,30);
@@ -272,6 +280,25 @@ public class OcarinaServerHandler implements IMessageHandler<MyMessage4, IMessag
 		}
 		
 		return null;
+	}
+	
+	private void breakOcarina(ItemStack item,Ocarina ocarina,EntityPlayerMP player ) {
+		int damage= item.getItemDamage();
+		
+		if(damage<=0) {			
+			ocarina.stoopedPlayedFadeOut = 0;
+			ocarina.playing = false;
+			ocarina.hasMatch=false;
+			ocarina.delayMatch=0;
+			ocarina.runningCommand=false;
+			ocarina.songName="";
+			
+			//Update the client that the ocarina has broken
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt = new NBTTagCompound();
+			nbt.setBoolean("ocarinaBreak", true);
+			OcarinaNetworkHandler.sendToClient(new MyMessage4(nbt), player);			
+		}
 	}
 	
 	/** Decreases player's experience properly */

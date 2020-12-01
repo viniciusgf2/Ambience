@@ -28,15 +28,19 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import vaskii.ambience.network4.MyMessage4;
 import vaskii.ambience.network4.NetworkHandler4;
+import vazkii.ambience.Util.Utils;
 
 public class Horn extends ItemBase {
+	public EntityPlayer playerMe;
 	public static int fadeOutTimer;
 	public boolean shouting=false;
 	public static EntityPlayer player;
+	public ItemStack itemstack; 
+	public boolean played=false, damageDone=false;
 	
 	public Horn(String Name) {
 		super(Name);
-		setMaxDamage(20);
+		setMaxDamage(20);		
 	}
 
 	@Override
@@ -54,9 +58,17 @@ public class Horn extends ItemBase {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
 	{
-		ItemStack itemstack = playerIn.getHeldItem(handIn);
-	
+		itemstack = playerIn.getHeldItem(handIn);
+		playerMe=playerIn;
 		if (!playerIn.capabilities.isCreativeMode) {
+
+			playerIn.setActiveHand(handIn);
+			
+			shouting = true;
+			// This timer is used to activate the horn effects (repels entities etc...)
+			fadeOutTimer = 380;
+			player = playerIn;		
+			
 			return new ActionResult(EnumActionResult.PASS, itemstack);
 		} else {
 			playerIn.setActiveHand(handIn);
@@ -75,9 +87,9 @@ public class Horn extends ItemBase {
 				System.out.println(shouting);
 			}
 */
-			itemstack.damageItem(1, playerIn);
+			//itemstack.damageItem(1, playerIn);
 
-			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
+			return new ActionResult<ItemStack>(EnumActionResult.PASS, itemstack);
 		}
 	}
 
@@ -86,9 +98,13 @@ public class Horn extends ItemBase {
 		Horn.fadeOutTimer=0;
 		shouting=false;
 		
-		/*NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setBoolean("shouting",shouting);							
-		NetworkHandler4.sendToServer(new MyMessage4(nbt));*/
+		if(worldIn.isRemote) {
+			//Send to server to damage the item	
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setBoolean("shouting",shouting);							
+			NetworkHandler4.sendToServer(new MyMessage4(nbt));
+			played=false;
+		}
 	}
 
 	public void repelEntities(World worldIn, EntityPlayer playerIn, double force) {
@@ -98,14 +114,27 @@ public class Horn extends ItemBase {
 		// Play the horn and apply some effects to the entities
 		if (shouting & worldIn.isRemote) {
 			shouting = false;
-			int rand = getRandom(1, 3);
-			worldIn.playSound(playerIn, playerIn.getPosition(),
+			int rand = Utils.getRandom(1, 3);
+			
+			
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setBoolean("shoutingSound",shouting);							
+			NetworkHandler4.sendToServer(new MyMessage4(nbt));
+			
+			/*worldIn.playSound(playerIn, playerIn.getPosition(),
 					ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("ambience:horn" + rand)),
-					SoundCategory.NEUTRAL, 10, 1);
-		}
+					SoundCategory.RECORDS, 10, 1);*/
+			
+			ItemStack itemstack = playerIn.getHeldItem(playerIn.getActiveHand());
+			itemstack.damageItem(1, playerIn);		
+			
+			played=true;
+		}		
+		
+		
 
 		// Calcs the knockback
-		if (worldIn.isRemote) {
+		if (worldIn.isRemote) {			
 			return;
 		}
 		int radius = 8;
@@ -151,10 +180,7 @@ public class Horn extends ItemBase {
 		}
 	}
 
-	public static int getRandom(int min, int max) {
-		int x = (int) ((Math.random() * ((max - min) + 1)) + min);
-		return x;
-	}
+	
 
 	@Override
 	public void addInformation(ItemStack itemstack, World world, List<String> list, ITooltipFlag flag) {

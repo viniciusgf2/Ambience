@@ -5,6 +5,7 @@ import java.io.File;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -146,6 +147,7 @@ public class Ambience {
 		Minecraft mc = Minecraft.getMinecraft();
 		MusicTicker ticker = new NilMusicTicker(mc);
 		ReflectionHelper.setPrivateValue(Minecraft.class, mc, ticker, OBF_MC_MUSIC_TICKER);		
+		
 	}	
 	
 	@EventHandler

@@ -70,6 +70,7 @@ import vaskii.ambience.network4.MyMessage4;
 import vaskii.ambience.network4.NetworkHandler4;
 import vaskii.ambience.network4.OcarinaNetworkHandler;
 import vaskii.ambience.objects.blocks.SpeakerTileEntity;
+import vaskii.ambience.objects.items.Horn;
 import vaskii.ambience.objects.items.Ocarina;
 import vaskii.ambience.render.CinematicRender;
 import vaskii.ambience.render.HornRender;
@@ -228,6 +229,35 @@ public class EventHandlers {
 				adcancementTimer=0;
 				playingAdvancement=false;
 				thread2.forceKill();
+			}
+		}
+		
+
+		Horn horn=(Horn) ItemInit.itemHorn;
+		
+		
+			
+		//Damage the Horn if the player change the item while using it
+		
+		if(horn.playerMe== event.player)
+			//System.out.println(event.player.getHeldItemMainhand().getItem() instanceof Horn);
+		
+			
+			if(horn.played & horn.damageDone) {
+		
+			
+			if(event.player.getHeldItemMainhand().getItem() instanceof Horn) {
+				
+			}else {
+				//Send to server to damage the item	
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setBoolean("shouting",false);							
+				NetworkHandler4.sendToServer(new MyMessage4(nbt));
+				
+				horn.itemstack=null;	
+				horn.played=false;
+				horn.damageDone=false;
+				
 			}
 		}
 	}
@@ -731,8 +761,8 @@ public class EventHandlers {
 				setCameraMode(2);//Enters Third Person	
 				cameraChanged=true;				
 			}
-
-		}	
+		}			
+		
 	}
 	
 	@SubscribeEvent
@@ -812,10 +842,11 @@ public class EventHandlers {
 			}
 
 		//Render the Horn sound effect
-		HornRender.drawBoundingBox(currentplayer.getPositionVector(), event.getPartialTicks(), event, currentplayer.world, currentplayer);
-		
+		if (currentplayer.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof Horn) {
+			HornRender.drawBoundingBox(currentplayer.getPositionVector(), event.getPartialTicks(), event, currentplayer.world, currentplayer);			
+		};				
 	}
-
+	
 	public static boolean show = false;
 
 	@SubscribeEvent

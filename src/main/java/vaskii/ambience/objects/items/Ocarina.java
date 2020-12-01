@@ -156,7 +156,7 @@ public class Ocarina extends ItemBase {
 			playing = false;
 			hasMatch = false;
 			runningCommand = false;
-			// Ocarina.songName="";
+			songName="";
 			delayMatch = 0;
 		}
 	}
@@ -192,7 +192,7 @@ public class Ocarina extends ItemBase {
 			return ret;
 
 		//Damage the ocarina
-		if(itemstack.getItemDamage()>=21) {					
+		/*if(itemstack.getItemDamage()>=21) {					
 			stoopedPlayedFadeOut = 0;
 			playing = false;
 			hasMatch=false;
@@ -201,7 +201,7 @@ public class Ocarina extends ItemBase {
 			itemstack.damageItem(1, playerIn);
 
 			return new ActionResult(EnumActionResult.SUCCESS, itemstack);
-		}
+		}*/
 
 		//if (playerIn.capabilities.isCreativeMode) {
 		//	return new ActionResult(EnumActionResult.PASS, itemstack);
@@ -256,19 +256,20 @@ public class Ocarina extends ItemBase {
 				
 				
 				//Damage the ocarina	
-				ItemStack itemstack = player.getHeldItem(player.getActiveHand());
-				if(itemstack.getItemDamage()>=2) {					
+				/*ItemStack itemstack = player.getHeldItem(player.getActiveHand());
+				if(itemstack.getItemDamage()>=20) {					
 					stoopedPlayedFadeOut = 0;
 					playing = false;
 					hasMatch=false;
 					delayMatch=0;
 					runningCommand=false;
 
+					
 					//Update the client that the ocarina has broken
 					nbt = new NBTTagCompound();
 					nbt.setBoolean("ocarinaBreak", true);
 					OcarinaNetworkHandler.sendToClient(new MyMessage4(nbt), (EntityPlayerMP) player);					
-				}
+				}*/
 
 				nbt = new NBTTagCompound();
 				
@@ -439,6 +440,10 @@ public class Ocarina extends ItemBase {
 					// *******************************************************
 					// FX ------------------------
 
+					
+					//System.out.println(runningCommand);
+				//	runningCommand=false;
+					
 					if (runningCommand) {
 						
 						startDelayCount++;
@@ -599,7 +604,7 @@ public class Ocarina extends ItemBase {
 						fx_rotateCount=0;
 					}
 
-					//if(playing | fx_zoomCount != 70) 
+					if(playing | fx_zoomCount != 70) 
 					{
 						y = (int) (1 + res.getScaleFactor());
 						int py = (int) Math.abs(zoomCount - 70);

@@ -2,12 +2,16 @@ package vaskii.ambience.network4;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import vaskii.ambience.Init.ItemInit;
 import vaskii.ambience.objects.blocks.Speaker;
 import vaskii.ambience.objects.blocks.SpeakerTileEntity;
@@ -19,7 +23,7 @@ import vazkii.ambience.World.Biomes.Area;
 public class MyMessageHandler4 implements IMessageHandler<MyMessage4, IMessage> {
 	// Do note that the default constructor is required, but implicitly defined in
 	// this case
-
+	
 	@Override
 	public IMessage onMessage(MyMessage4 message, MessageContext ctx) {
 		// This is the player the packet was sent to the server from
@@ -29,7 +33,24 @@ public class MyMessageHandler4 implements IMessageHandler<MyMessage4, IMessage> 
 		
 		//Sync the shounting Horn variable
 		if(EventSound.hasKey("shouting")) {	
-			((Horn)ItemInit.itemHorn).shouting=	EventSound.getBoolean("shouting");
+			//((Horn)ItemInit.itemHorn).shouting=	EventSound.getBoolean("shouting");
+			
+			Horn horn=(Horn) ItemInit.itemHorn;
+			horn.itemstack.damageItem(1, serverPlayer);
+			horn.damageDone=true;
+			
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setBoolean("shouting",true);							
+			NetworkHandler4.sendToClient(new MyMessage4(nbt), serverPlayer);
+		}
+		
+		if(EventSound.hasKey("shoutingSound")) {	
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setBoolean("shoutingSound",true);
+			nbt.setInteger("x",serverPlayer.getPosition().getX());
+			nbt.setInteger("y",serverPlayer.getPosition().getY());
+			nbt.setInteger("z",serverPlayer.getPosition().getZ());
+			NetworkHandler4.sendToAll(new MyMessage4(nbt));	
 		}
 		
 		//For the Juckebox event
