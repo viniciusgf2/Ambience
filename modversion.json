@@ -34,13 +34,14 @@
 	"1.7.3": "NEW FEATURE - Added the event.ridding.[entityname]\nNEW FEATURE - Added the event.advancements.\nNEW FEATURE - Added the event.loadingWorld.\nNEW FEATURE - Added an option to configure the distance in blocks between the player and hostile mobs to determine if still in combat or not.\nCHANGE - Reduced the time that the cinematic screen is shown on screen by half",
 	"1.7.4": "BUGFIX - Fixed a bug where the speaker and the alarm weren't stopping playing immediately after turnning redstone off, got exploded or broken",
 	"1.7.5": "BUGFIX - Fixed a bug in the ambience configs file",
-	"1.7.6": "BUGFIX - Fixed a bug in the Ocarina when it breaks it was causing the game to crash."
-	"1.7.7": "BUGFIX - Fixed a bug in the horn weren't working.\nBUGFIX - Fixed a bug in ocarina that where preventing it to recognize songs."
+	"1.7.6": "BUGFIX - Fixed a bug in the Ocarina when it breaks it was causing the game to crash.",
+	"1.7.7": "BUGFIX - Fixed a bug in the horn weren't working.\nBUGFIX - Fixed a bug in ocarina that where preventing it to recognize songs.",
+	"1.7.8": "BUGFIX - Fixed a bug in the Horn where it wasn't working properly in multiplayer".
    },
   "promos": {
     "1.15.2-latest": "1.0.7.4",
     "1.15.2-recommended": "1.0.7.4",
-    "1.12.2-latest": "1.7.6",
-    "1.12.2-recommended": "1.7.6"  
+    "1.12.2-latest": "1.7.8",
+    "1.12.2-recommended": "1.7.8"  
   }
 }
