@@ -39,7 +39,7 @@
     "1.7.5": "BUGFIX - Fixed a bug in the ambience configs file",
     "1.7.6": "BUGFIX - Fixed a bug in the Ocarina when it breaks it was causing the game to crash.",
     "1.7.7": "BUGFIX - Fixed a bug in the horn weren't working.\nBUGFIX - Fixed a bug in ocarina that where preventing it to recognize songs.",
-    "1.7.8": "BUGFIX - Fixed a bug in the Horn where it wasn't working properly in multiplayer".
+    "1.7.8": "BUGFIX - Fixed a bug in the Horn where it wasn't working properly in multiplayer"
   },
   "promos": {
     "1.16.4-latest": "1.0.0",
