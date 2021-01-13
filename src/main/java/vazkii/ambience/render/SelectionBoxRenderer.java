@@ -47,7 +47,7 @@ public class SelectionBoxRenderer {
 		Vector4f color=new Vector4f(0.4f,1,0.4f,0.05f);
 		Vector4f color2=new Vector4f(0.4f,1,0.4f,0.5f);
 		
-        drawLines(builder, posA, posB,color,color2);
+        drawLines(builder,matrix, posA, posB,color,color2);
        
    
       
@@ -120,7 +120,7 @@ public class SelectionBoxRenderer {
 		*/
 	}
 	
-	private static void drawLines( IVertexBuilder buffer, Vector3d p1, Vector3d p2,Vector4f color, Vector4f color2) 
+	private static void drawLines( IVertexBuilder buffer,Matrix4f matrix, Vector3d p1, Vector3d p2,Vector4f color, Vector4f color2) 
 	{
     	float margin=-0.01f;	
 		Border border = new Border(p1,p2);
@@ -135,127 +135,127 @@ public class SelectionBoxRenderer {
         float opacity=0.01f;
     //Bottom   
         //linhas Z Transparency
-        for(double i= border.p1.z; i< border.p2.z;i=i+opacity) {
-        	buffer.pos(border.p1.x, border.p1.y -1+ margin-sneak_fix, i).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // A
-        	buffer.pos(border.p2.x, border.p1.y -1+ margin-sneak_fix, i).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B        	
+        for(float i= (float)border.p1.z; i< border.p2.z;i=i+opacity) {
+        	buffer.pos(matrix,(float)border.p1.x, (float)border.p1.y -1+ margin-sneak_fix, i).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // A
+        	buffer.pos(matrix,(float)border.p2.x, (float)border.p1.y -1+ margin-sneak_fix, i).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B        	
       	}
         
         //linhas Z 
-        for(double i= border.p1.z; i< border.p2.z+1;i++) {
-        	buffer.pos(border.p1.x, border.p1.y -1+ margin-sneak_fix, i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // A
-        	buffer.pos(border.p2.x, border.p1.y -1+ margin-sneak_fix, i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B        	
+        for(float i= (float)border.p1.z; i< border.p2.z+1;i++) {
+        	buffer.pos(matrix,(float)border.p1.x, (float)border.p1.y -1+ margin-sneak_fix, i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // A
+        	buffer.pos(matrix,(float)border.p2.x, (float)border.p1.y -1+ margin-sneak_fix, i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B        	
       	}
         //linhas X
-        for(double i= border.p1.x-1; i< border.p2.x;i++) {
-        	buffer.pos(i+1, border.p1.y -1+ margin-sneak_fix, border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B
-            buffer.pos(i+1, border.p1.y -1+ margin-sneak_fix, border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // C
+        for(float i= (float)border.p1.x-1; i< border.p2.x;i++) {
+        	buffer.pos(matrix,i+1, (float)border.p1.y -1+ margin-sneak_fix, (float)border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B
+            buffer.pos(matrix,i+1, (float)border.p1.y -1+ margin-sneak_fix, (float)border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // C
         }
                 
     //Top
         //linhas Z Transparency
-        for(double i= border.p1.z; i< border.p2.z;i=i+opacity) {
-        	buffer.pos(border.p1.x, border.p2.y + margin-sneak_fix, i).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // A
-         	buffer.pos(border.p2.x, border.p2.y + margin-sneak_fix, i).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B          	
+        for(float i= (float)border.p1.z; i< border.p2.z;i=i+opacity) {        	        	
+        	buffer.pos(matrix,(float)border.p1.x, (float)border.p2.y + margin-sneak_fix, i).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // A
+         	buffer.pos(matrix,(float)border.p2.x, (float)border.p2.y + margin-sneak_fix, i).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B          	
       	}
         
       //linhas Z
-        for(double i= border.p1.z; i< border.p2.z+1;i++) {
-        	buffer.pos(border.p1.x, border.p2.y + margin-sneak_fix, i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // A
-         	buffer.pos(border.p2.x, border.p2.y + margin-sneak_fix, i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B          	
+        for(float i= (float)border.p1.z; i< border.p2.z+1;i++) {
+        	buffer.pos(matrix,(float)border.p1.x, (float)border.p2.y + margin-sneak_fix, (float)i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // A
+         	buffer.pos(matrix,(float)border.p2.x, (float)border.p2.y + margin-sneak_fix, i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B          	
       	}
         
         //linhas X
-        for(double i= border.p1.x; i< border.p2.x+1;i++) {
-        	buffer.pos(i, border.p2.y + margin-sneak_fix, border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B
-         	buffer.pos(i, border.p2.y + margin-sneak_fix, border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // C
+        for(float i= (float)border.p1.x; i< border.p2.x+1;i++) {
+        	buffer.pos(matrix,i, (float)border.p2.y + margin-sneak_fix, (float)border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B
+         	buffer.pos(matrix,i, (float)border.p2.y + margin-sneak_fix, (float)border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // C
     	}
         
     //Side Vertical
         //A
-       for(double i= border.p1.z; i< border.p2.z+1;i++) {          
-    	   buffer.pos(border.p1.x, border.p1.y -1+ margin-sneak_fix, i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // A
-     	   buffer.pos(border.p1.x, border.p2.y + margin-sneak_fix, i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // A        
+       for(float i= (float)border.p1.z; i< border.p2.z+1;i++) {          
+    	   buffer.pos(matrix,(float)border.p1.x, (float)border.p1.y -1+ margin-sneak_fix, i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // A
+     	   buffer.pos(matrix,(float)border.p1.x, (float)border.p2.y + margin-sneak_fix, i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // A        
         }
          
          //B
-        for(double i= border.p1.z; i< border.p2.z+1;i++) {
-        	buffer.pos(border.p2.x, border.p1.y -1+ margin-sneak_fix, i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B
-      		buffer.pos(border.p2.x, border.p2.y + margin-sneak_fix, i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B
+        for(float i= (float)border.p1.z; i< border.p2.z+1;i++) {
+        	buffer.pos(matrix,(float)border.p2.x, (float)border.p1.y -1+ margin-sneak_fix, i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B
+      		buffer.pos(matrix,(float)border.p2.x, (float)border.p2.y + margin-sneak_fix, i).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B
         }
         
         //C
-        for(double i= border.p1.x; i< border.p2.x+1;i++) {
-        	buffer.pos(i, border.p1.y -1+ margin-sneak_fix, border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // C
-     	    buffer.pos(i, border.p2.y + margin-sneak_fix, border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // C
+        for(float i= (float)border.p1.x; i< border.p2.x+1;i++) {
+        	buffer.pos(matrix,i, (float)border.p1.y -1+ margin-sneak_fix, (float)border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // C
+     	    buffer.pos(matrix,i, (float)border.p2.y + margin-sneak_fix, (float)border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // C
      	}
         
         //D
-        for(double i= border.p1.x; i< border.p2.x+1;i++) {
-            buffer.pos(i, border.p1.y -1+ margin-sneak_fix, border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // D
-    	    buffer.pos(i, border.p2.y + margin-sneak_fix, border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // D  
+        for(float i= (float)border.p1.x; i< border.p2.x+1;i++) {
+            buffer.pos(matrix,i, (float)border.p1.y -1+ margin-sneak_fix, (float)border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // D
+    	    buffer.pos(matrix,i, (float)border.p2.y + margin-sneak_fix, (float)border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // D  
     	}
         
       //Walls Grid Transparency
-	    for(double i= border.p1.y-1; i< border.p2.y;i=i+opacity) {
+	    for(float i= (float)border.p1.y-1; i< border.p2.y;i=i+opacity) {
         	// AB
-            buffer.pos(border.p1.x, i + margin-sneak_fix, border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // A
-            buffer.pos(border.p2.x, i + margin-sneak_fix, border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B
+            buffer.pos(matrix,(float)border.p1.x, i + margin-sneak_fix, (float)border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // A
+            buffer.pos(matrix,(float)border.p2.x, i + margin-sneak_fix, (float)border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B
             // BC
-            buffer.pos(border.p2.x, i + margin-sneak_fix, border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B
-            buffer.pos(border.p2.x, i + margin-sneak_fix, border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
+            buffer.pos(matrix,(float)border.p2.x, i + margin-sneak_fix, (float)border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B
+            buffer.pos(matrix,(float)border.p2.x, i + margin-sneak_fix, (float)border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
     		// CD
-            buffer.pos(border.p2.x, i + margin-sneak_fix, border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
-            buffer.pos(border.p1.x, i + margin-sneak_fix, border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // D
+            buffer.pos(matrix,(float)border.p2.x, i + margin-sneak_fix, (float)border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
+            buffer.pos(matrix,(float)border.p1.x, i + margin-sneak_fix, (float)border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // D
     	 	// DA
-            buffer.pos(border.p1.x, i + margin-sneak_fix, border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
-          	buffer.pos(border.p1.x, i + margin-sneak_fix, border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // D			
+            buffer.pos(matrix,(float)border.p1.x, i + margin-sneak_fix, (float)border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
+          	buffer.pos(matrix,(float)border.p1.x, i + margin-sneak_fix, (float)border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // D			
     	
         }
         
-	    for(double i= border.p1.y; i< border.p2.y;i++) {
+	    for(float i= (float)border.p1.y; i< border.p2.y;i++) {
         	// AB
-            buffer.pos(border.p1.x, i + margin-sneak_fix, border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // A
-            buffer.pos(border.p2.x, i + margin-sneak_fix, border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B
+            buffer.pos(matrix,(float)border.p1.x, i + margin-sneak_fix, (float)border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // A
+            buffer.pos(matrix,(float)border.p2.x, i + margin-sneak_fix, (float)border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B
             // BC
-            buffer.pos(border.p2.x, i + margin-sneak_fix, border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B
-            buffer.pos(border.p2.x, i + margin-sneak_fix, border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // C
+            buffer.pos(matrix,(float)border.p2.x, i + margin-sneak_fix, (float)border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // B
+            buffer.pos(matrix,(float)border.p2.x, i + margin-sneak_fix, (float)border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // C
     		// CD
-            buffer.pos(border.p2.x, i + margin-sneak_fix, border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // C
-            buffer.pos(border.p1.x, i + margin-sneak_fix, border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // D
+            buffer.pos(matrix,(float)border.p2.x, i + margin-sneak_fix, (float)border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // C
+            buffer.pos(matrix,(float)border.p1.x, i + margin-sneak_fix, (float)border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // D
     	 	// DA
-            buffer.pos(border.p1.x, i + margin-sneak_fix, border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // C
-          	buffer.pos(border.p1.x, i + margin-sneak_fix, border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // D			
+            buffer.pos(matrix,(float)border.p1.x, i + margin-sneak_fix, (float)border.p2.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // C
+          	buffer.pos(matrix,(float)border.p1.x, i + margin-sneak_fix, (float)border.p1.z).color(color2.getX(),color2.getY(), color2.getZ(), color2.getW()).endVertex(); // D			
     	
         }
 
 	//MAIN LINES
     //Bottom   
     	// AB
-        buffer.pos(border.p1.x, border.p1.y -1+ margin-sneak_fix, border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // A
-        buffer.pos(border.p2.x, border.p1.y -1+ margin-sneak_fix, border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B
+        buffer.pos(matrix,(float)border.p1.x, (float)border.p1.y -1+ margin-sneak_fix, (float)border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // A
+        buffer.pos(matrix,(float)border.p2.x, (float)border.p1.y -1+ margin-sneak_fix, (float)border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B
         // BC
-        buffer.pos(border.p2.x, border.p1.y -1+ margin-sneak_fix, border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B
-        buffer.pos(border.p2.x, border.p1.y -1+ margin-sneak_fix, border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
+        buffer.pos(matrix,(float)border.p2.x, (float)border.p1.y -1+ margin-sneak_fix, (float)border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B
+        buffer.pos(matrix,(float)border.p2.x, (float)border.p1.y -1+ margin-sneak_fix, (float)border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
 		// CD
-        buffer.pos(border.p2.x, border.p1.y -1+ margin-sneak_fix, border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
-        buffer.pos(border.p1.x, border.p1.y -1+ margin-sneak_fix, border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // D
+        buffer.pos(matrix,(float)border.p2.x, (float)border.p1.y -1+ margin-sneak_fix, (float)border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
+        buffer.pos(matrix,(float)border.p1.x, (float)border.p1.y -1+ margin-sneak_fix, (float)border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // D
 	 	// DA
-        buffer.pos(border.p1.x, border.p1.y -1+ margin-sneak_fix, border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
-      	buffer.pos(border.p1.x, border.p1.y -1+ margin-sneak_fix, border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // D			
+        buffer.pos(matrix,(float)border.p1.x, (float)border.p1.y -1+ margin-sneak_fix, (float)border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
+      	buffer.pos(matrix,(float)border.p1.x, (float)border.p1.y -1+ margin-sneak_fix, (float)border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // D			
 	
 	//Top	            
 	   	// AB
-      	buffer.pos(border.p1.x, border.p2.y + margin-sneak_fix, border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // A
-       	buffer.pos(border.p2.x, border.p2.y + margin-sneak_fix, border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B
+      	buffer.pos(matrix,(float)border.p1.x, (float)border.p2.y + margin-sneak_fix, (float)border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // A
+       	buffer.pos(matrix,(float)border.p2.x, (float)border.p2.y + margin-sneak_fix, (float)border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B
         // BC
-      	buffer.pos(border.p2.x, border.p2.y + margin-sneak_fix, border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B
-      	buffer.pos(border.p2.x, border.p2.y + margin-sneak_fix, border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
+      	buffer.pos(matrix,(float)border.p2.x, (float)border.p2.y + margin-sneak_fix, (float)border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // B
+      	buffer.pos(matrix,(float)border.p2.x, (float)border.p2.y + margin-sneak_fix, (float)border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
 		// CD
-  	  	buffer.pos(border.p2.x, border.p2.y + margin-sneak_fix, border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
-  	  	buffer.pos(border.p1.x, border.p2.y + margin-sneak_fix, border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // D
+  	  	buffer.pos(matrix,(float)border.p2.x, (float)border.p2.y + margin-sneak_fix, (float)border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
+  	  	buffer.pos(matrix,(float)border.p1.x, (float)border.p2.y + margin-sneak_fix, (float)border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // D
 		// DA
-  	  	buffer.pos(border.p1.x, border.p2.y + margin-sneak_fix, border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
-  	  	buffer.pos(border.p1.x, border.p2.y + margin-sneak_fix, border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // D			
+  	  	buffer.pos(matrix,(float)border.p1.x, (float)border.p2.y + margin-sneak_fix, (float)border.p2.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // C
+  	  	buffer.pos(matrix,(float)border.p1.x, (float)border.p2.y + margin-sneak_fix, (float)border.p1.z).color(color.getX(),color.getY(), color.getZ(), color.getW()).endVertex(); // D			
 		
   	  	
   	  	count+=0.1f;
@@ -268,9 +268,9 @@ public class SelectionBoxRenderer {
           float y2 = ((float) Math.sin(angle+count/2)*radius);
           GL11.glVertex2d(x2, y2);
                     
-          buffer.pos(border.p2.x+x2,
+          buffer.pos(matrix,(float)border.p2.x+x2,
         		  (float) Math.cos(i*Math.PI+(float)Math.cos(count))/8,
-        		  border.p2.z+ y2)
+        		  (float)border.p2.z+ y2)
           		  .color(
         		  clamp(color2.getX() + (float)Math.cos(count),0.5f,0.5f),
         		  clamp(color2.getY() + (float)Math.cos(count),0.5f,1),
@@ -287,7 +287,7 @@ public class SelectionBoxRenderer {
 	        float y2 = (float) Math.sin(angle+count/2)*radius;
 	        GL11.glVertex2d(x2, y2);
 	                  
-	        buffer.pos(border.p2.x+x2,(float) Math.cos(i*Math.PI+(float)Math.cos(count))/8, border.p2.z+y2).color(
+	        buffer.pos(matrix,(float)border.p2.x+x2,(float) Math.cos(i*Math.PI+(float)Math.cos(count))/8,(float) border.p2.z+y2).color(
 	      		  clamp(color2.getX() + (float)Math.cos(count),0.5f,0.5f),
 	      		  clamp(color2.getY() + (float)Math.cos(count),0.5f,1),
 	      		  clamp(color2.getZ() + (float)Math.cos(count),0.1f,0.8f), 

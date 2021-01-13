@@ -39,6 +39,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.loot.LootPool;
+import net.minecraft.loot.TableLootEntry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.InputEvent;
@@ -158,7 +159,7 @@ public class EventHandlers {
 	@SubscribeEvent
 	public static void onLootLoad(LootTableLoadEvent event) {
 	   
-	/*	LootPool.builder().addEntry(entriesBuilder)
+		//LootPool.builder().addEntry(entriesBuilder)
 		
 		if (event.getName().equals(new ResourceLocation("minecraft:chests/simple_dungeon"))) {
 	       event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation("ambience:chests/simple_dungeon"))).build());
@@ -181,7 +182,7 @@ public class EventHandlers {
 	    else if (event.getName().equals(new ResourceLocation("minecraft:chests/desert_pyramid")))
 	    {
 		       event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation("ambience:chests/desert_pyramid"))).build());
-		}*/
+		}
 	}
 			
 	public static void playInstant() {		

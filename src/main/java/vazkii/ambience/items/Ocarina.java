@@ -239,13 +239,13 @@ public class Ocarina extends ItemBase {
 
 				//Damage the ocarina
 				ItemStack itemstack = player.getHeldItem(player.getActiveHand());
-				itemstack.damageItem(1, player, (damage) -> {					
+				/*itemstack.damageItem(1, player, (damage) -> {					
 					damage.sendBreakAnimation(player.getActiveHand());
-				});
+				});*/
 				
 				
 				CompoundNBT nbt = new CompoundNBT();
-				if(itemstack.getDamage()==0) {
+				if(itemstack.getItem().getDamage(itemstack)>=19) {
 					stoopedPlayedFadeOut = 100;
 					playing = false;
 					hasMatch=false;

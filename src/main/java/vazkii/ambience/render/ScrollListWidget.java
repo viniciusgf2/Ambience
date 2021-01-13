@@ -130,7 +130,7 @@ public class ScrollListWidget extends ExtendedList<ScrollListWidget.SoundEntry> 
 		super.renderDecorations(matrixStack,p_renderDecorations_1_, p_renderDecorations_2_);
 	}
 
-	private int getMaxScroll() {
+	public int getMaxScroll() {
 		return Math.max(0, this.getMaxPosition() - (this.y1 - this.y0 - 4));
 	}
 

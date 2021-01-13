@@ -85,7 +85,10 @@ public class EventHandlersServer {
 	
 	@SubscribeEvent
 	public void onServerStarting(final FMLServerStartingEvent event) {
-	//	CreateAreaCommand.register(event.getCommandDispatcher());
+		CreateAreaCommand.register(event.getServer().getCommandManager().getDispatcher());
+		DeleteAreaCommand.register(event.getServer().getCommandManager().getDispatcher());
+		UpdateAreaCommand.register(event.getServer().getCommandManager().getDispatcher());
+		
 //		DeleteAreaCommand.register(event.getCommandDispatcher());
 	//	UpdateAreaCommand.register(event.getCommandDispatcher());
 	}
@@ -178,7 +181,12 @@ public class EventHandlersServer {
 			{
 				if(!settingNight) {
 					settingDay=true;
-					//event.player.world.setDayTime(event.player.world.getDayTime()+10);		
+					//event.player.world.setDayTime(event.player.world.getDayTime()+10);	
+					
+					 for(ServerWorld serverworld : event.player.getServer().getWorlds()) {
+				         serverworld.setDayTime(event.player.world.getDayTime()+10);
+				      }
+					
 				}else {
 					Ocarina.setDayTime=false;
 					
@@ -191,6 +199,10 @@ public class EventHandlersServer {
 				if(!settingDay) {
 					settingNight=true;
 				//	event.player.world.setDayTime(event.player.world.getDayTime()+10);
+					
+					 for(ServerWorld serverworld : event.player.getServer().getWorlds()) {
+				         serverworld.setDayTime(event.player.world.getDayTime()+10);
+				      }
 				}
 				else {
 					Ocarina.setDayTime=false;

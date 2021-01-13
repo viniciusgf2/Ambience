@@ -80,6 +80,8 @@ public class CreateAreaCommand {
 		currentArea.setName(areaName);
 		currentArea.setPlayAtNight(playAtNight);
 		currentArea.setInstantPlay(playInstant);
+		currentArea.setID(Ambience.getWorldData().listAreas.size());
+		currentArea.setDimension(player.world.getDimensionKey().getLocation().getPath());
 		currentArea.setPos1(new Vector3d(pos1.getX(),pos1.getY(),pos1.getZ()));
 		currentArea.setPos2(new Vector3d(pos2.getX(),pos2.getY(),pos2.getZ()));
 		//AmbiencePackageHandler.sendToServer(new MyMessage(currentArea.SerializeThis()));

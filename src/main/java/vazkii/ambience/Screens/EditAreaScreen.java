@@ -90,7 +90,8 @@ public class EditAreaScreen extends ContainerScreen<EditAreaContainer> {
 	@Override
 	public void render(MatrixStack matrixStack,final int mouseX, final int mouseY, final float partialTicks) {
 		this.renderBackground(matrixStack);
-		super.render(matrixStack, mouseX, mouseY, partialTicks);	
+		//super.render(matrixStack, mouseX, mouseY, partialTicks);
+		this.drawGuiContainerBackgroundLayer(matrixStack, partialTicks, mouseX, mouseY);
 		renderHoveredTooltip(matrixStack,mouseX, mouseY);
 
 		if (this.list == null) {
@@ -164,11 +165,12 @@ public class EditAreaScreen extends ContainerScreen<EditAreaContainer> {
 	// ----------------------------
 
 	private void close() {
-		this.minecraft.displayGuiScreen((Screen) null);
+		 this.minecraft.player.closeScreen();
+	      super.closeScreen();
 	}
 
 	public void onClose() {
-		this.close();
+		  super.onClose();
 	}
 
 	/*@Override

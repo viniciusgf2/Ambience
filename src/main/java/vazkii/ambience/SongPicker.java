@@ -648,7 +648,7 @@ public final class SongPicker {
 			if (Ambience.getWorldData().listAreas != null) {
 
 				for (Area area : Ambience.getWorldData().listAreas) {
-					if (area.getDimension() == player.world.getDimensionKey().getLocation().getPath()) {
+					if (area.getDimension().equals(player.world.getDimensionKey().getLocation().getPath())) {
 						
 						Area currentArea = Area.getPlayerStandingArea(player);												
 						if(currentArea!=null & currentArea==area) {

@@ -17,7 +17,7 @@ issueTrackerURL="https://www.curseforg4r e.com/minecraft/mc-mods/ambience-extras
 # The modid of the mod
 modId="ambience"
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="${file.jarVersion}"
+version="1.16.4-1.0.0"
  # A display name for the mod
 displayName="Ambience - Extras" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification <here>

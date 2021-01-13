@@ -20,6 +20,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkDirection;
@@ -65,6 +66,10 @@ public class OcarinaMessage {
 
 				PlayerEntity player=ctx.getSender();
 				
+				/*if(data.contains("setWeather")) {
+					setWeather(data.getBoolean("setWeather"),Ocarina.player);
+				}*/
+				
 				if(data.contains("actualPressedKeys")) {
 					int key_id=data.getInt("keyPressed");
 					
@@ -98,8 +103,9 @@ public class OcarinaMessage {
 	            	Ocarina.old_key_id=-1;
 	            	Ocarina.runningCommand=false;
 	            	Ocarina.songName="";
-				}				
-			else if (data.contains("setDayTime")) {
+				}	
+				
+			if (data.contains("setDayTime")) {
 
 					if (player.experienceTotal >= 30) {
 						decreaseExp(player, 30);
@@ -138,9 +144,14 @@ public class OcarinaMessage {
 								//player.world.getWorldInfo().setClearWeatherTime(0);
 								//player.world.getWorldInfo().setRainTime(6000);
 								//player.world.getWorldInfo().setThunderTime(6000);
-								player.world.getWorldInfo().setRaining(true);
+								//player.world.getWorldInfo().setRaining(true);
 								//player.world.getWorldInfo().setThundering(true);
 								//player.world.setRainStrength(1);
+								
+								 for(ServerWorld serverworld : player.world.getServer().getWorlds()) {
+							         serverworld.func_241113_a_(0, 0, false, false);
+							      }
+								
 								chuva=false;
 															
 							}else {
@@ -149,8 +160,12 @@ public class OcarinaMessage {
 								//player.world.getWorldInfo().setClearWeatherTime(6000);
 								//player.world.getWorldInfo().setRainTime(0);
 								//player.world.getWorldInfo().setThunderTime(0);
-								player.world.getWorldInfo().setRaining(false);
-								//player.world.getWorldInfo().setThundering(false);	
+								//player.world.getWorldInfo().setRaining(false);
+								//player.world.getWorldInfo().setThundering(false);
+								
+								 for(ServerWorld serverworld : player.world.getServer().getWorlds()) {
+							         serverworld.func_241113_a_(0, 6000, true, true);
+							      }
 								
 								chuva=true;
 							}
@@ -369,8 +384,14 @@ public class OcarinaMessage {
 			//player.world.getWorldInfo().setClearWeatherTime(0);
 			//player.world.getWorldInfo().setRainTime(6000);
 			//player.world.getWorldInfo().setThunderTime(6000);
-			player.world.getWorldInfo().setRaining(true);
+			//player.world.getWorldInfo().setRaining(true);
 			//player.world.getWorldInfo().setThundering(true);
+			
+
+			 for(ServerWorld serverworld : player.world.getServer().getWorlds()) {
+		         serverworld.func_241113_a_(0, 6000, true, true);
+		      }
+			
 			
 			return false;
 										
@@ -380,8 +401,12 @@ public class OcarinaMessage {
 			//player.world.getWorldInfo().setClearWeatherTime(6000);
 			//player.world.getWorldInfo().setRainTime(0);
 			//player.world.getWorldInfo().setThunderTime(0);
-			player.world.getWorldInfo().setRaining(false);
+			//player.world.getWorldInfo().setRaining(false);
 			//player.world.getWorldInfo().setThundering(false);												
+			
+			 for(ServerWorld serverworld : player.world.getServer().getWorlds()) {
+		         serverworld.func_241113_a_(0, 0, false, false);
+		      }
 			
 			return true;
 		}

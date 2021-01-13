@@ -2,49 +2,32 @@ package vazkii.ambience.Screens;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
-import javax.swing.Scrollable;
-
 import com.google.common.primitives.Ints;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.screen.LanguageScreen;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.AbstractSlider;
-import net.minecraft.client.gui.widget.OptionSlider;
-import net.minecraft.client.gui.widget.SoundSlider;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.CheckboxButton;
-import net.minecraft.client.gui.widget.list.ExtendedList;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.command.impl.SetWorldSpawnCommand;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import vazkii.ambience.Ambience;
-import vazkii.ambience.Util.Handlers.SoundHandler;
-import vazkii.ambience.World.Biomes.Area;
-import vazkii.ambience.World.Biomes.Area.Operation;
 import vazkii.ambience.network.AmbiencePackageHandler;
 import vazkii.ambience.network.MyMessage;
 import vazkii.ambience.render.ScrollListWidget;
-import vazkii.ambience.render.ScrollListWidget.SoundEntry;
 
 @OnlyIn(Dist.CLIENT)
 public class SpeakerScreen extends ContainerScreen<SpeakerContainer> {
@@ -114,37 +97,25 @@ public class SpeakerScreen extends ContainerScreen<SpeakerContainer> {
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX,  int mouseY,  float partialTicks) {
 		this.renderBackground(matrixStack);
-		super.render(matrixStack, mouseX, mouseY, partialTicks);		
+		//super.render(matrixStack, mouseX, mouseY, partialTicks);
+		this.drawGuiContainerBackgroundLayer(matrixStack, partialTicks, mouseX, mouseY);
 		renderHoveredTooltip(matrixStack,mouseX, mouseY);
 
 		if (this.DelayInput == null) {
 			this.DelayInput = new TextFieldWidget(this.font, this.width / 2 - 80, this.height / 4 + 30, 60, 20, (ITextComponent) new StringTextComponent(I18n.format("0")));
 			DelayInput.setText(""+SpeakerContainer.delay);			
 			DelayInput.setVisible(true);
-
 			
 			this.LoopCheckbox = new CheckboxButton(this.width / 2 - 80, this.height / 4 + 80, 20, 20, (ITextComponent) new StringTextComponent(I18n.format("Loop")), SpeakerContainer.loop);
 			
-
-
 		     this.list = new ScrollListWidget(Minecraft.getInstance(),this.width,this.height,screenContainer, font);				
 		   //  this.list.setSelected(SpeakerContainer.selectedSound, font);
 		    // this.list = new ScrollListWidget(Minecraft.getInstance(),this.width,this.height);
 		     // this.children.add(this.list);
 		     
 		     DistanceSliderVal=(int)SpeakerContainer.distance;
-		     distanceSlider=new AbstractSlider(this.width / 2 - 40,this.height / 2 + 1,180,20,(ITextComponent) new StringTextComponent(I18n.format("GUI.Distance")),SpeakerContainer.distance/10) {
-					
-				/*	@Override
-					protected void updateMessage() {
-								
-					}
-					
-					@Override
-					protected void applyValue() {
-						DistanceSliderVal= (int)(this.value*10);
-					}
-*/
+		     distanceSlider=new AbstractSlider(this.width / 2 - 40,this.height / 2 + 1,180,20,(ITextComponent) new StringTextComponent(I18n.format("")),SpeakerContainer.distance/10) {
+			
 					@Override
 					protected void func_230979_b_() {
 						DistanceSliderVal= (int)(this.sliderValue*10);
@@ -200,8 +171,6 @@ public class SpeakerScreen extends ContainerScreen<SpeakerContainer> {
 		this.confirmBtn.render(matrixStack,mouseX, mouseY, partialTicks);		
 	}
 
-	
-
 	@Override
 	protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
 		RenderSystem.color4f(1, 1, 1, 1);
@@ -221,11 +190,12 @@ public class SpeakerScreen extends ContainerScreen<SpeakerContainer> {
 	// ----------------------------
 
 	private void close() {
-		this.minecraft.displayGuiScreen((Screen) null);
+		 this.minecraft.player.closeScreen();
+	      super.closeScreen();
 	}
 
 	public void onClose() {
-		this.close();
+		  super.onClose();
 	}
 
 	@Override

@@ -26,7 +26,7 @@ public class Area implements Comparator<Area>{
 	}
 
 	private Operation operation;
-	private String Dimension;
+	private String Dimension = "";
 	private int ID, redstoneStrength;
 	private String name;
 	private boolean instantPlay = false;
@@ -199,7 +199,7 @@ public class Area implements Comparator<Area>{
 		if (Ambience.getWorldData().listAreas != null) {
 
 			for (Area area : Ambience.getWorldData().listAreas) {
-				if (area.getDimension() == player.world.getDimensionKey().getLocation().getPath()) {
+				if (area.getDimension().equals(player.world.getDimensionKey().getLocation().getPath())) {
 					Border border = new Border(area.getPos1(), area.getPos2());
 					if (border.p1 != null & border.p2 != null)
 						if (border.contains(player.getPositionVec())) {
