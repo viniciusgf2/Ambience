@@ -137,7 +137,7 @@ public class EventHandlers {
 	}
 	
 	private static void getSongLenght() {
-		// Obtém o tempo do som selecionado
+		// Obtï¿½m o tempo do som selecionado
 		File f = new File(Ambience.ambienceDir+"\\music\\", AdvancementSong + ".mp3");
 
 		if (f.isFile()) {
@@ -401,8 +401,10 @@ public class EventHandlers {
 			
 			if (keyBindings[1].isPressed()) {
 				//SongPicker.reset();
-				Ambience.thread.forceKill();			
-				Ambience.thread.run();
+				if (Ambience.thread != null) {
+					Ambience.thread.forceKill();
+					Ambience.thread.run();
+				}
 				SongLoader.loadFrom(Ambience.ambienceDir);
 
 				if (SongLoader.enabled)
@@ -591,7 +593,7 @@ public class EventHandlers {
 			
 	public static void changeSongTo(String song) 
 	{		
-		//para de tocar as musicas caso esteja em outra dimensão
+		//para de tocar as musicas caso esteja em outra dimensï¿½o
 		if(song=="null") {
 			Ambience.thread.playing=false;
 			Ambience.thread.setGain(0);
