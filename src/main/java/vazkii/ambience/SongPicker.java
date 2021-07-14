@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.util.*;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.world.LightType;
 import net.minecraft.world.gen.Heightmap;
 import org.apache.commons.lang3.StringUtils;
@@ -329,48 +331,52 @@ public final class SongPicker {
 		}
 
 		// Boss and Enemies Battle Musics******************
-		if (Ambience.attacked) {			
-				try {
-					String[] songs = null;
-					int countEntities = 0;
-					String mobName = null;
-					
-					int combatDistance= AmbienceConfig.COMMON.attackedDistance.get();
-								
-					List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class,
+		if (Ambience.attacked) {
+			try {
+				String[] songs = null;
+				int countEntities = 0;
+				String mobName = null;
+
+				int combatDistance= AmbienceConfig.COMMON.attackedDistance.get();
+
+				List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class,
 						new AxisAlignedBB(player.getPosX() - combatDistance, player.getPosY() - combatDistance, player.getPosZ() - combatDistance, player.getPosX() + combatDistance,player.getPosY() + combatDistance, player.getPosZ() + combatDistance));
 
-				for (LivingEntity mob : entities) {					
+				for (LivingEntity mob : entities) {
 					mobName = mob.getName().getString().toLowerCase();
-										
-					if (!(mob instanceof PlayerEntity) )	
-						if (mob.canAttack(player)) {
-						countEntities++;
-					}
-					
+
+					if (!(mob instanceof PlayerEntity) )
+						if (
+								mob.canAttack(player) &&
+								(mob.getClassification(false) == EntityClassification.MONSTER ||
+								mob instanceof IMob)
+						) {
+							countEntities++;
+						}
+
 					if (mobMap.containsKey(mobName) & countEntities>0 & !(mob instanceof PlayerEntity))
-						return mobMap.get(mobName);			
+						return mobMap.get(mobName);
 				}
-				
+
 				//****************
-				
+
 				if (mobName != null & countEntities > 0) {
 					//Songs for other dimensions
 					if (dimension !="") {
-						songs = getSongsForEvent(EVENT_ATTACKED+"\\"+dimension); 	
+						songs = getSongsForEvent(EVENT_ATTACKED+"\\"+dimension);
 						if(songs==null)
 							songs = getSongsForEvent(EVENT_ATTACKED);
 					}
 					else
 						songs = getSongsForEvent(EVENT_ATTACKED);
 				}
-				
+
 				//****************
 				//Termina a musica de ataque
 				if (mobName == null || countEntities < 1 || EventHandlersServer.attackingTimer-- < 0) {
 					Ambience.attacked = false;
 				}
-								
+
 				//**Play horde musig				
 				if (countEntities > 5) {
 					horde=true;
@@ -384,7 +390,7 @@ public final class SongPicker {
 						return songs;
 				}else {
 					horde=false;
-					
+
 					if (songs != null)
 						return songs;
 				}
@@ -393,8 +399,8 @@ public final class SongPicker {
 				System.out.println(ex.getMessage());
 			}
 		}
-		
-		
+
+
 		float hp = player.getHealth();
 		if (hp < 7) {
 			String[] songs=null;
