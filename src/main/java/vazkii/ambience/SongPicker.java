@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.*;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.world.LightType;
+import net.minecraft.world.gen.Heightmap;
 import org.apache.commons.lang3.StringUtils;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -714,43 +717,46 @@ public final class SongPicker {
 			boolean underground = !world.canSeeSky(pos);
 
 			if (underground) {
-				if (pos.getY() < 20) {
-					String[] songs=null;
-					//Songs for other dimensions
-					if (dimension !="") {
-						songs = getSongsForEvent(EVENT_DEEP_UNDEGROUND+"\\"+dimension);
-						if(songs==null)
-							songs = getSongsForEvent(EVENT_DEEP_UNDEGROUND);
+				int skyLightLevel = world.getLightFor(LightType.SKY, pos);
+				if (skyLightLevel == 0) {
+					int worldHeight = getWorldSolidHeight(world, pos);
+					if (pos.getY() < worldHeight) {
+						if (pos.getY() < world.getSeaLevel() * 0.317) {
+							String[] songs = null;
+							//Songs for other dimensions
+							if (dimension != "") {
+								songs = getSongsForEvent(EVENT_DEEP_UNDEGROUND + "\\" + dimension);
+								if (songs == null)
+									songs = getSongsForEvent(EVENT_DEEP_UNDEGROUND);
+							} else
+								songs = getSongsForEvent(EVENT_DEEP_UNDEGROUND);
+							if (songs != null)
+								return songs;
+						}
+						if (pos.getY() < world.getSeaLevel() * 0.873) {
+							String[] songs = null;
+							//Songs for other dimensions
+							if (dimension != "") {
+								songs = getSongsForEvent(EVENT_UNDERGROUND + "\\" + dimension);
+								if (songs == null)
+									songs = getSongsForEvent(EVENT_UNDERGROUND);
+							} else
+								songs = getSongsForEvent(EVENT_UNDERGROUND);
+							if (songs != null)
+								return songs;
+						} else if (world.isRaining()) {
+							String[] songs = null;
+							//Songs for other dimensions
+							if (dimension != "") {
+								songs = getSongsForEvent(EVENT_RAIN + "\\" + dimension);
+								if (songs == null)
+									songs = getSongsForEvent(EVENT_RAIN);
+							} else
+								songs = getSongsForEvent(EVENT_RAIN);
+							if (songs != null)
+								return songs;
+						}
 					}
-					else
-						songs = getSongsForEvent(EVENT_DEEP_UNDEGROUND);
-					if (songs != null)
-						return songs;
-				}
-				if (pos.getY() < 55) {
-					String[] songs=null;
-					//Songs for other dimensions
-					if (dimension !="") {
-						songs = getSongsForEvent(EVENT_UNDERGROUND+"\\"+dimension);
-						if(songs==null)
-							songs = getSongsForEvent(EVENT_UNDERGROUND);
-					}
-					else
-						songs = getSongsForEvent(EVENT_UNDERGROUND);
-					if (songs != null)
-						return songs;
-				}else if (world.isRaining()) {
-					String[] songs=null;
-					//Songs for other dimensions
-					if (dimension !="") {
-						songs = getSongsForEvent(EVENT_RAIN+"\\"+dimension);
-						if(songs==null)
-							songs = getSongsForEvent(EVENT_RAIN);
-					}
-					else
-						songs = getSongsForEvent(EVENT_RAIN);
-					if (songs != null)
-						return songs;
 				}
 			} else if (world.isRaining()) {
 				String[] songs=null;
@@ -1020,5 +1026,14 @@ public final class SongPicker {
 					removeDays(structureName);
 				}						
 			}
+	}
+
+	private static int getWorldSolidHeight(World world, BlockPos pos) {
+		for (int i = world.getHeight(); i > 0; i--) {
+			BlockPos newPos = new BlockPos(pos.getX(), i, pos.getZ());
+			BlockState state = world.getBlockState(newPos);
+			if (state.isSolid()) return i;
+		}
+		return 0;
 	}
 }
