@@ -190,8 +190,10 @@ public class EventHandlers {
 		silenceTicks = SILENCE_DURATION;
 		waitTick = 0;
 		Ambience.instantPlaying=true;
-			
-		Ambience.thread.setGain(PlayerThread.fadeGains[0]);	
+
+		if (Ambience.thread != null && PlayerThread.fadeGains != null) {
+			Ambience.thread.setGain(PlayerThread.fadeGains[0]);
+		}
 		fadeIn=false;		
 	}
 	
