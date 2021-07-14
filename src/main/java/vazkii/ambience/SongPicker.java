@@ -4,17 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.world.LightType;
+import net.minecraft.world.gen.Heightmap;
 import org.apache.commons.lang3.StringUtils;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -335,48 +331,52 @@ public final class SongPicker {
 		}
 
 		// Boss and Enemies Battle Musics******************
-		if (Ambience.attacked) {			
-				try {
-					String[] songs = null;
-					int countEntities = 0;
-					String mobName = null;
-					
-					int combatDistance= AmbienceConfig.COMMON.attackedDistance.get();
-								
-					List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class,
+		if (Ambience.attacked) {
+			try {
+				String[] songs = null;
+				int countEntities = 0;
+				String mobName = null;
+
+				int combatDistance= AmbienceConfig.COMMON.attackedDistance.get();
+
+				List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class,
 						new AxisAlignedBB(player.getPosX() - combatDistance, player.getPosY() - combatDistance, player.getPosZ() - combatDistance, player.getPosX() + combatDistance,player.getPosY() + combatDistance, player.getPosZ() + combatDistance));
 
-				for (LivingEntity mob : entities) {					
+				for (LivingEntity mob : entities) {
 					mobName = mob.getName().getString().toLowerCase();
-										
-					if (!(mob instanceof PlayerEntity) )	
-						if (mob.canAttack(player)) {
-						countEntities++;
-					}
-					
+
+					if (!(mob instanceof PlayerEntity) )
+						if (
+								mob.canAttack(player) &&
+								(mob.getClassification(false) == EntityClassification.MONSTER ||
+								mob instanceof IMob)
+						) {
+							countEntities++;
+						}
+
 					if (mobMap.containsKey(mobName) & countEntities>0 & !(mob instanceof PlayerEntity))
-						return mobMap.get(mobName);			
+						return mobMap.get(mobName);
 				}
-				
+
 				//****************
-				
+
 				if (mobName != null & countEntities > 0) {
 					//Songs for other dimensions
 					if (dimension !="") {
-						songs = getSongsForEvent(EVENT_ATTACKED+"\\"+dimension); 	
+						songs = getSongsForEvent(EVENT_ATTACKED+"\\"+dimension);
 						if(songs==null)
 							songs = getSongsForEvent(EVENT_ATTACKED);
 					}
 					else
 						songs = getSongsForEvent(EVENT_ATTACKED);
 				}
-				
+
 				//****************
 				//Termina a musica de ataque
 				if (mobName == null || countEntities < 1 || EventHandlersServer.attackingTimer-- < 0) {
 					Ambience.attacked = false;
 				}
-								
+
 				//**Play horde musig				
 				if (countEntities > 5) {
 					horde=true;
@@ -390,7 +390,7 @@ public final class SongPicker {
 						return songs;
 				}else {
 					horde=false;
-					
+
 					if (songs != null)
 						return songs;
 				}
@@ -399,8 +399,8 @@ public final class SongPicker {
 				System.out.println(ex.getMessage());
 			}
 		}
-		
-		
+
+
 		float hp = player.getHealth();
 		if (hp < 7) {
 			String[] songs=null;
@@ -723,43 +723,46 @@ public final class SongPicker {
 			boolean underground = !world.canSeeSky(pos);
 
 			if (underground) {
-				if (pos.getY() < 20) {
-					String[] songs=null;
-					//Songs for other dimensions
-					if (dimension !="") {
-						songs = getSongsForEvent(EVENT_DEEP_UNDEGROUND+"\\"+dimension);
-						if(songs==null)
-							songs = getSongsForEvent(EVENT_DEEP_UNDEGROUND);
+				int skyLightLevel = world.getLightFor(LightType.SKY, pos);
+				if (skyLightLevel == 0) {
+					int worldHeight = getWorldSolidHeight(world, pos);
+					if (pos.getY() < worldHeight) {
+						if (pos.getY() < world.getSeaLevel() * 0.317) {
+							String[] songs = null;
+							//Songs for other dimensions
+							if (dimension != "") {
+								songs = getSongsForEvent(EVENT_DEEP_UNDEGROUND + "\\" + dimension);
+								if (songs == null)
+									songs = getSongsForEvent(EVENT_DEEP_UNDEGROUND);
+							} else
+								songs = getSongsForEvent(EVENT_DEEP_UNDEGROUND);
+							if (songs != null)
+								return songs;
+						}
+						if (pos.getY() < world.getSeaLevel() * 0.873) {
+							String[] songs = null;
+							//Songs for other dimensions
+							if (dimension != "") {
+								songs = getSongsForEvent(EVENT_UNDERGROUND + "\\" + dimension);
+								if (songs == null)
+									songs = getSongsForEvent(EVENT_UNDERGROUND);
+							} else
+								songs = getSongsForEvent(EVENT_UNDERGROUND);
+							if (songs != null)
+								return songs;
+						} else if (world.isRaining()) {
+							String[] songs = null;
+							//Songs for other dimensions
+							if (dimension != "") {
+								songs = getSongsForEvent(EVENT_RAIN + "\\" + dimension);
+								if (songs == null)
+									songs = getSongsForEvent(EVENT_RAIN);
+							} else
+								songs = getSongsForEvent(EVENT_RAIN);
+							if (songs != null)
+								return songs;
+						}
 					}
-					else
-						songs = getSongsForEvent(EVENT_DEEP_UNDEGROUND);
-					if (songs != null)
-						return songs;
-				}
-				if (pos.getY() < 55) {
-					String[] songs=null;
-					//Songs for other dimensions
-					if (dimension !="") {
-						songs = getSongsForEvent(EVENT_UNDERGROUND+"\\"+dimension);
-						if(songs==null)
-							songs = getSongsForEvent(EVENT_UNDERGROUND);
-					}
-					else
-						songs = getSongsForEvent(EVENT_UNDERGROUND);
-					if (songs != null)
-						return songs;
-				}else if (world.isRaining()) {
-					String[] songs=null;
-					//Songs for other dimensions
-					if (dimension !="") {
-						songs = getSongsForEvent(EVENT_RAIN+"\\"+dimension);
-						if(songs==null)
-							songs = getSongsForEvent(EVENT_RAIN);
-					}
-					else
-						songs = getSongsForEvent(EVENT_RAIN);
-					if (songs != null)
-						return songs;
 				}
 			} else if (world.isRaining()) {
 				String[] songs=null;
@@ -911,18 +914,19 @@ public final class SongPicker {
 			
 			
 			//PRESTAR ATENCAO
-			Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biome.getRegistryName()));
-						
-			for (Type t : types)
-				if (primaryTagMap.containsKey(t))
-					return primaryTagMap.get(t);
-			for (Type t : types)
-			{
-				if(dimension == "overworld") {					
-					if (secondaryTagMap.containsKey(t))
-						return secondaryTagMap.get(t);					
-				}else {
-					return new String[] {"null"};
+			Optional<RegistryKey<Biome>> biomeKey = world.func_241828_r().getRegistry(ForgeRegistries.Keys.BIOMES).getOptionalKey(biome);
+			if (biomeKey.isPresent()) {
+				Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(biomeKey.get());
+				for (Type t : types)
+					if (primaryTagMap.containsKey(t))
+						return primaryTagMap.get(t);
+				for (Type t : types) {
+					if (dimension == "overworld") {
+						if (secondaryTagMap.containsKey(t))
+							return secondaryTagMap.get(t);
+					} else {
+						return new String[]{"null"};
+					}
 				}
 			}
 		}
@@ -1028,5 +1032,14 @@ public final class SongPicker {
 					removeDays(structureName);
 				}						
 			}
+	}
+
+	private static int getWorldSolidHeight(World world, BlockPos pos) {
+		for (int i = world.getHeight(); i > 0; i--) {
+			BlockPos newPos = new BlockPos(pos.getX(), i, pos.getZ());
+			BlockState state = world.getBlockState(newPos);
+			if (state.isSolid()) return i;
+		}
+		return 0;
 	}
 }
