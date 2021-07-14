@@ -4,16 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jaudiotagger.audio.AudioFile;
@@ -911,18 +902,19 @@ public final class SongPicker {
 			
 			
 			//PRESTAR ATENCAO
-			Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biome.getRegistryName()));
-						
-			for (Type t : types)
-				if (primaryTagMap.containsKey(t))
-					return primaryTagMap.get(t);
-			for (Type t : types)
-			{
-				if(dimension == "overworld") {					
-					if (secondaryTagMap.containsKey(t))
-						return secondaryTagMap.get(t);					
-				}else {
-					return new String[] {"null"};
+			Optional<RegistryKey<Biome>> biomeKey = world.func_241828_r().getRegistry(ForgeRegistries.Keys.BIOMES).getOptionalKey(biome);
+			if (biomeKey.isPresent()) {
+				Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(biomeKey.get());
+				for (Type t : types)
+					if (primaryTagMap.containsKey(t))
+						return primaryTagMap.get(t);
+				for (Type t : types) {
+					if (dimension == "overworld") {
+						if (secondaryTagMap.containsKey(t))
+							return secondaryTagMap.get(t);
+					} else {
+						return new String[]{"null"};
+					}
 				}
 			}
 		}
